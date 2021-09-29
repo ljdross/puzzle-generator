@@ -52,3 +52,6 @@ bpy.context.scene.phobosexportsettings.selectedOnly = False
 bpy.context.scene.export_entity_urdf = True
 bpy.ops.phobos.name_model(modelname="simple_two_cubes")
 bpy.ops.phobos.export_model(modelname='simple_two_cubes')
+
+# test
+
