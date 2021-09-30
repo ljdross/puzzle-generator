@@ -1,6 +1,17 @@
 import bpy
 from math import radians
 
+
+def create_cube(name="cube", position=(0, 0, 0)):
+	bpy.ops.mesh.primitive_cube_add(location=position)
+	cube = bpy.context.active_object
+	bpy.ops.phobos.set_phobostype(phobostype='visual')
+	bpy.ops.phobos.define_geometry(geomType='box')
+	cube.name = name
+	return cube
+
+
+
 # delete everything
 bpy.ops.object.select_all(action='SELECT')
 bpy.ops.object.delete(use_global=True)
@@ -10,19 +21,12 @@ bpy.context.scene.cursor.location[2] = 0
 
 
 # create first cube
-bpy.ops.mesh.primitive_cube_add()
-visual_cube1 = bpy.context.active_object
-bpy.ops.phobos.set_phobostype(phobostype='visual')
-bpy.ops.phobos.define_geometry(geomType='box')
-visual_cube1.name = "visual_cube1"
+visual_cube1 = create_cube("visual_cube1", (0, 0, 0))
 
 
 # create second cube
-bpy.ops.mesh.primitive_cube_add(location=(0, 0, 2))
-visual_cube2 = bpy.context.active_object
-bpy.ops.phobos.set_phobostype(phobostype='visual')
-bpy.ops.phobos.define_geometry(geomType='box')
-visual_cube2.name = "visual_cube2"
+visual_cube2 = create_cube("visual_cube2", (0, 0, 2))
+
 
 # parent-child relationship
 visual_cube2.parent = visual_cube1
@@ -52,5 +56,4 @@ bpy.context.scene.phobosexportsettings.selectedOnly = False
 bpy.context.scene.export_entity_urdf = True
 bpy.ops.phobos.name_model(modelname="simple_two_cubes")
 bpy.ops.phobos.export_model(modelname='simple_two_cubes')
-
 
