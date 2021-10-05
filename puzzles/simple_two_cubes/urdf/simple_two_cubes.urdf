@@ -14,6 +14,12 @@
           <box size="2.0 2.0 2.0"/>
         </geometry>
       </visual>
+      <collision name="collision_cube1">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="2.0 2.0 2.0"/>
+        </geometry>
+      </collision>
     </link>
 
     <link name="link1">
@@ -25,13 +31,19 @@
       <visual name="visual_cube2">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="2.0 2.0 2.0"/>
+          <box size="2.0 4.0 2.0"/>
         </geometry>
       </visual>
+      <collision name="collision_cube2">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="2.0 4.0 2.0"/>
+        </geometry>
+      </collision>
     </link>
 
     <joint name="link1" type="revolute">
-      <origin xyz="0 0 2.0" rpy="0 0 0"/>
+      <origin xyz="0 0 2.0" rpy="0 0 0.7854"/>
       <parent link="base_link"/>
       <child link="link1"/>
       <axis xyz="0 0 1.0"/>
