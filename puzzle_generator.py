@@ -45,23 +45,26 @@ def export(directory, filename):
 # delete everything
 reset()
 
+
 # create floor
 floor = create_cube(name="floor", location=(0, 0, -0.1), scale=(8, 8, 0.1))
+create_link_and_joint(floor, "base_link")
+
 # create sliders
 sliders = []
 for i in range(number_of_sliders):
 	if i % 2 == 0:
-		sliders.append(create_cube(name="visual_cube" + str(i), parent=floor, location=((i/2), (i/-2), 0.1), rotation=(radians(90), 0, 0), scale=(0.1, 0.1, 0.8)))
+		sliders.append(create_cube(name="visual_cube" + str(i), parent=floor, location=(i/2, i/-2, 0.1), rotation=(radians(90), 0, 0), scale=(0.1, 0.1, 0.8)))
 	else:
-		sliders.append(create_cube(name="visual_cube" + str(i), parent=floor, location=(((i-1)/2), (((i-1)/-2)-1), 0.1), rotation=(0, radians(90), 0), scale=(0.1, 0.1, 0.8)))
+		sliders.append(create_cube(name="visual_cube" + str(i), parent=floor, location=((i-1)/2, ((i-1)/-2)-1, 0.1), rotation=(0, radians(90), 0), scale=(0.1, 0.1, 0.8)))
 
-# create links (at origins)
-create_link_and_joint(floor, "base_link")
-for i, s in enumerate(sliders):
-	create_link_and_joint(s, "link" + str(i), joint_type='prismatic', upper=2)
+	#create link (at origin of object) and joint at child
+	create_link_and_joint(sliders[i], "link" + str(i), joint_type='prismatic', upper=1)
+
 
 # create collision objects from visual objects
 create_collision()
+
 
 # export model
 export(dir_for_output, modelname)
