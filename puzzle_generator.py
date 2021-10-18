@@ -43,6 +43,12 @@ def export(directory, filename):
     bpy.ops.phobos.name_model(modelname=filename)
     bpy.ops.phobos.export_model()
 
+def test_with_pybullet_ompl(directory, filename):
+    input = directory + "/urdf/" + filename + ".urdf"
+    if not subprocess.run(["python3", "pybullet-ompl/pybullet_ompl.py", input]).returncode:
+        print("FOUND SOLUTION!")
+    else:
+        print("DID NOT FIND SOLUTION!")
 
 
 # delete everything
@@ -72,8 +78,6 @@ create_collision()
 # export model
 export(DIR_FOR_OUTPUT, MODELNAME)
 
-input = DIR_FOR_OUTPUT + "/urdf/" + MODELNAME + ".urdf"
-if not subprocess.run(["python3", "pybullet-ompl/pybullet_ompl.py", input]).returncode:
-    print("FOUND SOLUTION!")
-else:
-    print("DID NOT FIND SOLUTION!")
+
+# test model
+test_with_pybullet_ompl(DIR_FOR_OUTPUT, MODELNAME)
