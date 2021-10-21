@@ -12,7 +12,7 @@ class World:
         self.reset()
 
         # create floor
-        self.floor = self.create_cube(name="floor", location=(0, 0, -0.1), scale=(8, 8, 0.1))
+        self.floor = self.create_cube(name="floor", location=(0, 0, -0.1), scale=(16, 16, 0.1))
         self.create_link_and_joint(self.floor, "base_link")
 
         self.sliders = []
@@ -24,7 +24,7 @@ class World:
         bpy.context.scene.cursor.rotation_euler = (0, 0, 0)
 
     def create_cube(self, name, parent=None, location=(0, 0, 0), rotation=(0, 0, 0), scale=(1, 1, 1)):
-        bpy.ops.mesh.primitive_cube_add(location=location, rotation=rotation, scale=scale)
+        bpy.ops.mesh.primitive_cube_add(location=location, rotation=rotation, scale=tuple(x/2 for x in scale))
         cube = bpy.context.active_object
         bpy.ops.phobos.set_phobostype(phobostype='visual')
         bpy.ops.phobos.define_geometry(geomType='box')
