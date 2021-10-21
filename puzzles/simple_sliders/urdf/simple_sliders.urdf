@@ -11,13 +11,13 @@
       <visual name="floor">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="16.0 16.0 0.1"/>
+          <box size="16.0 16.0 0.2"/>
         </geometry>
       </visual>
       <collision name="floor">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="16.0 16.0 0.1"/>
+          <box size="16.0 16.0 0.2"/>
         </geometry>
       </collision>
     </link>
@@ -31,13 +31,13 @@
       <visual name="visual_cube0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.1 0.1 1.8"/>
+          <box size="0.2 0.2 1.6"/>
         </geometry>
       </visual>
       <collision name="collision_cube0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.1 0.1 1.8"/>
+          <box size="0.2 0.2 1.6"/>
         </geometry>
       </collision>
     </link>
@@ -51,13 +51,13 @@
       <visual name="visual_cube1">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.1 0.1 1.8"/>
+          <box size="0.2 0.2 1.6"/>
         </geometry>
       </visual>
       <collision name="collision_cube1">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.1 0.1 1.8"/>
+          <box size="0.2 0.2 1.6"/>
         </geometry>
       </collision>
     </link>

@@ -12,7 +12,7 @@ class World:
         self.reset()
 
         # create floor
-        self.floor = self.create_cube(name="floor", location=(0, 0, -0.1), scale=(16, 16, 0.1))
+        self.floor = self.create_cube(name="floor", location=(0, 0, -0.1), scale=(16, 16, 0.2))
         self.create_link_and_joint(self.floor, "base_link")
 
         self.sliders = []
