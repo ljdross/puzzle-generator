@@ -51,9 +51,12 @@ class World:
         bpy.ops.phobos.name_model(modelname=self.name)
         bpy.ops.phobos.export_model()
 
-    def test_with_pybullet_ompl(self):
+    def test_with_pybullet_ompl(self, show_gui=True, allowed_planning_time=5.):
         input = self.directory + "/urdf/" + self.name + ".urdf"
-        if not subprocess.run(["python3", "pybullet-ompl/pybullet_ompl.py", input]).returncode:
+        start_state = str([0] * (self.number_prismatic_joints + self.number_revolute_joints))
+        goal_state = str([1] * (self.number_prismatic_joints + self.number_revolute_joints))
+        result = subprocess.run(["python3", "pybullet-ompl/pybullet_ompl.py", input, start_state, goal_state, str(show_gui), str(allowed_planning_time)]).returncode
+        if result == 0:
             print("FOUND SOLUTION!")
         else:
             print("DID NOT FIND SOLUTION!")

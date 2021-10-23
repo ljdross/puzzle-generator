@@ -1,5 +1,5 @@
-from math import radians
 import sys, os
+from math import radians
 
 DIR = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(DIR)
@@ -26,4 +26,4 @@ world.create_collision()
 world.export()
 
 # test model
-world.test_with_pybullet_ompl()
+world.test_with_pybullet_ompl(show_gui=False, allowed_planning_time=5.)

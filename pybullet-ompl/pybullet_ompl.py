@@ -2,17 +2,17 @@ import pb_ompl
 import sys
 import os
 import pybullet as pb
+from ast import literal_eval
 DIR = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(DIR)
 
-
-FILEPATH_FOR_INPUT = sys.argv[1]
-START_STATE = [0, 0]
-GOAL_STATE = [1, 1]
-SHOW_GUI = True
-PLANNER = "RRTConnect"
-ALLOWED_PLANNING_TIME = 5.
-
+# default values for optional args
+FILEPATH_FOR_INPUT = sys.argv[1] if len(sys.argv) > 1 else "/home/userone/ba/puzzle-generator/puzzles/simple_sliders/urdf/simple_sliders.urdf"
+START_STATE = literal_eval(sys.argv[2]) if len(sys.argv) > 2 else [0, 0]
+GOAL_STATE = literal_eval(sys.argv[3]) if len(sys.argv) > 3 else [1, 1]
+SHOW_GUI = literal_eval(sys.argv[4]) if len(sys.argv) > 4 else True
+ALLOWED_PLANNING_TIME = literal_eval(sys.argv[5]) if len(sys.argv) > 5 else 5.
+PLANNER = sys.argv[6] if len(sys.argv) > 6 else "RRTConnect"
 
 if SHOW_GUI:
     pb.connect(pb.GUI)
