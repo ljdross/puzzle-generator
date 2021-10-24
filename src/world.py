@@ -1,4 +1,5 @@
 import subprocess
+from math import radians
 import bpy
 
 class World:
@@ -8,10 +9,7 @@ class World:
         self.directory = directory
         self.number_prismatic_joints = number_prismatic_joints
         self.number_revolute_joints = number_revolute_joints
-
-        self.reset()
-        self.create_floor()
-
+        self.floor = None
         self.movable_objects = []
 
     def reset(self):
@@ -47,7 +45,12 @@ class World:
 
     def create_simple_sliders(self):
         """Create a very simple model that only works with prismatic joints (number_revolute_joints must equal 0)."""
-        pass # TODO: Implement
+        for i in range(self.number_prismatic_joints):
+            if i % 2 == 0:
+                self.movable_objects.append(self.create_cube(name="visual_cube" + str(i), parent=self.floor, location=(i/2, i/-2, 0.1), rotation=(radians(90), 0, 0), scale=(0.2, 0.2, 1.6)))
+            else:
+                self.movable_objects.append(self.create_cube(name="visual_cube" + str(i), parent=self.floor, location=((i-1)/2, ((i-1)/-2)-1, 0.1), rotation=(0, radians(90), 0), scale=(0.2, 0.2, 1.6)))
+            self.create_link_and_joint(self.movable_objects[i], "link" + str(i), joint_type='prismatic', upper=1)
 
     def create_collision(self):
         """Create collision objects from visual objects."""

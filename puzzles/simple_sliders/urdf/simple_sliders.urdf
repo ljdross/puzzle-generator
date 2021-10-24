@@ -62,26 +62,6 @@
       </collision>
     </link>
 
-    <link name="link2">
-      <inertial>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <mass value="0.001"/>
-        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
-      </inertial>
-      <visual name="visual_cube2">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <box size="0.2 0.2 1.6"/>
-        </geometry>
-      </visual>
-      <collision name="collision_cube2">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <box size="0.2 0.2 1.6"/>
-        </geometry>
-      </collision>
-    </link>
-
     <joint name="link0" type="prismatic">
       <origin xyz="0 0 0.1" rpy="1.5708 0 0"/>
       <parent link="base_link"/>
@@ -94,14 +74,6 @@
       <origin xyz="0 -1.0 0.1" rpy="0 1.5708 0"/>
       <parent link="base_link"/>
       <child link="link1"/>
-      <axis xyz="0 0 1.0"/>
-      <limit lower="0" upper="1.0" effort="0" velocity="0"/>
-    </joint>
-
-    <joint name="link2" type="prismatic">
-      <origin xyz="1.0 -1.0 0.1" rpy="1.5708 0 0"/>
-      <parent link="base_link"/>
-      <child link="link2"/>
       <axis xyz="0 0 1.0"/>
       <limit lower="0" upper="1.0" effort="0" velocity="0"/>
     </joint>
