@@ -4,11 +4,19 @@ DIR = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(DIR)
 from src.world import *
 
-# TODO: config dictionary for world properties
 # TODO: simple interface for Bora
 
-# set up new world
-world = World("simple_sliders", "/home/userone/ba/puzzle-generator/puzzles/simple_sliders", number_prismatic_joints=2)
+# output settings and world properties
+config = {
+    "puzzle_name": "simple_sliders",
+    "dir_for_output": "/home/userone/ba/puzzle-generator/puzzles/simple_sliders",
+    "number_prismatic_joints": 2,
+    "number_revolute_joints": 0,
+    "use_floor": True
+}
+
+# create world according to config
+world = World(config)
 world.build()
 
 # test model

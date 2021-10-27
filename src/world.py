@@ -3,13 +3,18 @@ from math import radians
 import bpy
 
 class World:
-    def __init__(self, name, directory, number_prismatic_joints=0, number_revolute_joints=0):
+    def __init__(self, config):
         """Initialize all attributes with required world properties."""
-        self.name = name
-        self.directory = directory
-        self.number_prismatic_joints = number_prismatic_joints
-        self.number_revolute_joints = number_revolute_joints
-        self.floor = None
+        self.name = config["puzzle_name"]
+        self.directory = config["dir_for_output"]
+        self.number_prismatic_joints = config["number_prismatic_joints"]
+        self.number_revolute_joints = config["number_revolute_joints"]
+        self.total_number_joints = self.number_prismatic_joints + self.number_revolute_joints
+        if config["use_floor"]:
+            self.floor_size = 16
+        else:
+            self.floor_size = 0
+        self.base_object = None
         self.movable_objects = []
 
     def reset(self):
@@ -38,18 +43,18 @@ class World:
         if joint_type is not None:
             bpy.ops.phobos.define_joint_constraints(passive=True, joint_type=joint_type, lower=lower, upper=upper)
     
-    def create_floor(self):
-        """Create a visual floor (cube) object."""
-        self.floor = self.create_cube(name="floor", location=(0, 0, -0.1), scale=(16, 16, 0.2))
-        self.create_link_and_joint(self.floor, "base_link")
+    def create_base_link(self):
+        """Create a base object to become the base link for all other links. If no physical floor is needed, set self.floor_size = 0"""
+        self.base_object = self.create_cube(name="visual_cube_base", location=(0, 0, -0.1), scale=(self.floor_size, self.floor_size, 0.2))
+        self.create_link_and_joint(self.base_object, "base_link")
 
     def create_simple_sliders(self):
         """Create a very simple model that only works with prismatic joints (number_revolute_joints must equal 0)."""
         for i in range(self.number_prismatic_joints):
             if i % 2 == 0:
-                self.movable_objects.append(self.create_cube(name="visual_cube" + str(i), parent=self.floor, location=(i/2, i/-2, 0.1), rotation=(radians(90), 0, 0), scale=(0.2, 0.2, 1.6)))
+                self.movable_objects.append(self.create_cube(name="visual_cube" + str(i), parent=self.base_object, location=(i/2, i/-2, 0.1), rotation=(radians(90), 0, 0), scale=(0.2, 0.2, 1.6)))
             else:
-                self.movable_objects.append(self.create_cube(name="visual_cube" + str(i), parent=self.floor, location=((i-1)/2, ((i-1)/-2)-1, 0.1), rotation=(0, radians(90), 0), scale=(0.2, 0.2, 1.6)))
+                self.movable_objects.append(self.create_cube(name="visual_cube" + str(i), parent=self.base_object, location=((i-1)/2, ((i-1)/-2)-1, 0.1), rotation=(0, radians(90), 0), scale=(0.2, 0.2, 1.6)))
             self.create_link_and_joint(self.movable_objects[i], "link" + str(i), joint_type='prismatic', upper=1)
 
     def create_collision(self):
@@ -68,7 +73,7 @@ class World:
     def build(self):
         """Build complete model in Blender and export to URDF."""
         self.reset()
-        self.create_floor()
+        self.create_base_link()
         self.create_simple_sliders() # TODO: implement a more sophisticated method
         self.create_collision()
         self.export()
@@ -76,8 +81,8 @@ class World:
     def test_with_pybullet_ompl(self, show_gui=True, allowed_planning_time=5.):
         """Test solvability with [pybullet_ompl](https://github.com/lyf44/pybullet_ompl) as a subprocess."""
         input = self.directory + "/urdf/" + self.name + ".urdf"
-        start_state = str([0] * (self.number_prismatic_joints + self.number_revolute_joints))
-        goal_state = str([1] * (self.number_prismatic_joints + self.number_revolute_joints))
+        start_state = str([0] * (self.total_number_joints))
+        goal_state = str([1] * (self.total_number_joints))
         result = subprocess.run(["python3", "pybullet-ompl/pybullet_ompl.py", input, start_state, goal_state, str(show_gui), str(allowed_planning_time)]).returncode
         if result == 0:
             print("FOUND SOLUTION!")
