@@ -65,10 +65,10 @@ class World:
         bpy.ops.phobos.name_model(modelname=self.name)
         bpy.ops.phobos.export_model()
 
-    def build(self, use_floor=True):
+    def build(self):
         """Build complete model in Blender and export to URDF."""
         self.reset()
-        if use_floor: self.create_floor()
+        self.create_floor()
         self.create_simple_sliders() # TODO: implement a more sophisticated method
         self.create_collision()
         self.export()
