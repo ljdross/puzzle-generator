@@ -5,6 +5,7 @@ sys.path.append(DIR)
 from src.world import *
 
 # TODO: simple interface for Bora
+# TODO: SRDF
 
 # output settings and world properties
 config = {
@@ -20,4 +21,4 @@ world = World(config)
 world.build()
 
 # test model
-world.test_with_pybullet_ompl(show_gui=False, allowed_planning_time=5.)
+world.test_with_pybullet_ompl(show_gui=True, allowed_planning_time=5.)

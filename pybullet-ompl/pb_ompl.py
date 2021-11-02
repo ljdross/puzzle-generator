@@ -217,7 +217,7 @@ class PbOMPL():
 
         # set the start and goal states;
         s = ob.State(self.space)
-        g = ob.State(self.space)
+        g = ob.State(self.space) # change to state space ###################################################################################
         for i in range(len(start)):
             s[i] = start[i]
             g[i] = goal[i]
