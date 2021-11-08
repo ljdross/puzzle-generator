@@ -12,7 +12,7 @@ from src.world import *
 config = {
     "puzzle_name": "gridworld",
     "dir_for_output": "/home/userone/ba/puzzle-generator/puzzles",
-    "number_prismatic_joints": 2,
+    "number_prismatic_joints": 4,
     "number_revolute_joints": 0,
     "use_floor": True
 }
