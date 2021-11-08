@@ -5,12 +5,13 @@ sys.path.append(DIR)
 from src.world import *
 
 # TODO: simple interface for Bora
-# TODO: SRDF
+# TODO: SRDF, Meshes
+# TODO: define goal space instead of goal state in ompl
 
 # output settings and world properties
 config = {
-    "puzzle_name": "simple_sliders",
-    "dir_for_output": "/home/userone/ba/puzzle-generator/puzzles/simple_sliders",
+    "puzzle_name": "gridworld",
+    "dir_for_output": "/home/userone/ba/puzzle-generator/puzzles",
     "number_prismatic_joints": 2,
     "number_revolute_joints": 0,
     "use_floor": True

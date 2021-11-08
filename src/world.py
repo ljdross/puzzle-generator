@@ -6,7 +6,7 @@ class World:
     def __init__(self, config):
         """Initialize all attributes with required world properties."""
         self.name = config["puzzle_name"]
-        self.directory = config["dir_for_output"]
+        self.directory = config["dir_for_output"] + "/" + config["puzzle_name"]
         self.number_prismatic_joints = config["number_prismatic_joints"]
         self.number_revolute_joints = config["number_revolute_joints"]
         self.total_number_joints = self.number_prismatic_joints + self.number_revolute_joints
@@ -16,6 +16,7 @@ class World:
             self.floor_size = 0
         self.base_object = None
         self.movable_objects = []
+        self.occupied_fields = []
 
     def reset(self):
         """Delete everything and reset position of 3D cursor."""
@@ -25,7 +26,7 @@ class World:
         bpy.context.scene.cursor.rotation_euler = (0, 0, 0)
 
     def create_cube(self, name, parent=None, location=(0, 0, 0), rotation=(0, 0, 0), scale=(1, 1, 1)):
-        """Create a visual cube object with the appropriate Phobos object properties."""
+        """Create a visual cube object with the appropriate Phobos object properties. Returns cube object."""
         bpy.ops.mesh.primitive_cube_add(location=location, rotation=rotation, scale=tuple(x/2 for x in scale))
         cube = bpy.context.active_object
         bpy.ops.phobos.set_phobostype(phobostype='visual')
@@ -62,6 +63,16 @@ class World:
                 location=((i-1)/2, ((i-1)/-2)-1, 0.1), rotation=(0, radians(90), 0), scale=(0.2, 0.2, 1.6)))
             self.create_link_and_joint(self.movable_objects[i], "link" + str(i), joint_type='prismatic', upper=1)
 
+    def create_gridworld_puzzle(self):
+        """Create movable objects to become links for the puzzle (in a grid world)."""
+        self.movable_objects.append(self.create_cube(name="visual_cube0", parent=self.base_object,
+        location=(0, 0.5, 0.4), rotation=(radians(-90), 0, 0), scale=(0.8, 0.8, 1.8)))
+        self.create_link_and_joint(self.movable_objects[0], "link0", joint_type='prismatic', upper=1)
+
+        self.movable_objects.append(self.create_cube(name="visual_cube1", parent=self.base_object,
+        location=(-0.5, 2, 0.9), rotation=(0, 0, 0), scale=(1.8, 0.1, 1.8)))
+        self.create_link_and_joint(self.movable_objects[1], "link1", joint_type='revolute', upper=radians(90))
+
     def create_collision(self):
         """Create collision objects from visual objects."""
         bpy.ops.phobos.select_model()
@@ -79,7 +90,8 @@ class World:
         """Build complete model in Blender and export to URDF."""
         self.reset()
         self.create_base_link()
-        self.create_simple_sliders() # TODO: implement a more sophisticated method
+        # self.create_simple_sliders() # TODO: implement a more sophisticated method
+        self.create_gridworld_puzzle()
         self.create_collision()
         self.export()
 
@@ -87,7 +99,8 @@ class World:
         """Test solvability with [pybullet_ompl](https://github.com/lyf44/pybullet_ompl) as a subprocess."""
         input_path = self.directory + "/urdf/" + self.name + ".urdf"
         start_state = str([0] * (self.total_number_joints))
-        goal_state = str([1] * (self.total_number_joints))
+        # goal_state = str([1] * (self.total_number_joints))
+        goal_state = str([1, radians(90)])
         result = subprocess.run(["python3", "pybullet-ompl/pybullet_ompl.py", input_path, start_state, goal_state,
         str(show_gui), str(allowed_planning_time)]).returncode
         if result == 0:
