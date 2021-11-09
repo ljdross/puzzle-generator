@@ -92,7 +92,6 @@ class World:
         if not positions:
             return 1
         
-        seed() # TODO: neccessary?? seems to create better results when seed is reset this way...
         random_pos = choice(positions)
         scale=(0.8, 0.8, 1.8)
         if random_pos == "N":
@@ -167,6 +166,7 @@ class World:
         self.revolute_joints_target = self.number_revolute_joints
         self.start_point = (0, 0)
         try_prismatic = None
+        seed()
 
         for i in range(self.total_number_joints):
             # in each iteration: try to figure out whether prismatic or revolute joint is needed
@@ -178,7 +178,6 @@ class World:
                 try_prismatic = True
             else:
                 # create either revolute or prismatic joint (random)
-                seed()
                 r = random()
                 threshold = self.prismatic_joints_target / (self.prismatic_joints_target + self.revolute_joints_target)
                 if r < threshold:
