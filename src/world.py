@@ -62,12 +62,11 @@ class World:
         """Create a very simple model that only works with prismatic joints (number_revolute_joints must equal 0)."""
         for i in range(self.number_prismatic_joints):
             if i % 2 == 0:
-                self.movable_objects.append(self.create_cube(name="visual_cube" + str(i), parent=self.base_object,
-                location=(i/2, i/-2, 0.1), rotation=(radians(90), 0, 0), scale=(0.2, 0.2, 1.6)))
+                self.new_object(location=(i/2, i/-2, 0.1), rotation=(radians(90), 0, 0), scale=(0.2, 0.2, 1.6),
+                joint_type='prismatic', upper_limit=1)
             else:
-                self.movable_objects.append(self.create_cube(name="visual_cube" + str(i), parent=self.base_object,
-                location=((i-1)/2, ((i-1)/-2)-1, 0.1), rotation=(0, radians(90), 0), scale=(0.2, 0.2, 1.6)))
-            self.create_link_and_joint(self.movable_objects[i], "link" + str(i), joint_type='prismatic', upper=1)
+                self.new_object(location=((i-1)/2, ((i-1)/-2)-1, 0.1), rotation=(0, radians(90), 0), scale=(0.2, 0.2, 1.6),
+                joint_type='prismatic', upper_limit=1)
 
     def new_object(self, location, rotation, scale, joint_type, lower_limit=0, upper_limit=0):
         i = len(self.movable_objects)
@@ -370,7 +369,7 @@ class World:
         """Build complete model in Blender and export to URDF."""
         # self.reset()
         # self.create_base_link()
-        # self.create_simple_sliders()
+        # self.create_simple_sliders() # number_revolute_joints must be 0
         result = 1
         while result != 0:
             self.reset()
@@ -379,6 +378,7 @@ class World:
             self.create_base_link()
             result = self.create_gridworld_puzzle() # TODO: something better than a discrete grid world
             attempts -= 1
+        
         self.create_collision()
         self.export()
         return 0
