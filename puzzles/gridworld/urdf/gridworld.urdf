@@ -103,7 +103,7 @@
     </link>
 
     <joint name="link0" type="prismatic">
-      <origin xyz="0.5 0 0.45" rpy="0 1.5708 0"/>
+      <origin xyz="1.0 0.5 0.45" rpy="0 1.5708 0"/>
       <parent link="base_link"/>
       <child link="link0"/>
       <axis xyz="0 0 1.0"/>
@@ -111,7 +111,7 @@
     </joint>
 
     <joint name="link1" type="revolute">
-      <origin xyz="2.0 -1.0 0.45" rpy="0 0 1.5708"/>
+      <origin xyz="2.5 -0.5 0.45" rpy="0 0 1.5708"/>
       <parent link="base_link"/>
       <child link="link1"/>
       <axis xyz="0 0 1.0"/>
@@ -119,7 +119,7 @@
     </joint>
 
     <joint name="link2" type="prismatic">
-      <origin xyz="3.0 0.5 0.45" rpy="-1.5708 0 0"/>
+      <origin xyz="3.5 1.0 0.45" rpy="-1.5708 0 0"/>
       <parent link="base_link"/>
       <child link="link2"/>
       <axis xyz="0 0 1.0"/>
@@ -127,7 +127,7 @@
     </joint>
 
     <joint name="link3" type="revolute">
-      <origin xyz="2.0 2.0 0.45" rpy="0 0 0"/>
+      <origin xyz="2.5 2.5 0.45" rpy="0 0 0"/>
       <parent link="base_link"/>
       <child link="link3"/>
       <axis xyz="0 0 1.0"/>

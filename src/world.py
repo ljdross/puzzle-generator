@@ -344,7 +344,7 @@ class World:
         """Create movable objects to become links for the puzzle (in a grid world)."""
         self.prismatic_joints_target = self.number_prismatic_joints
         self.revolute_joints_target = self.number_revolute_joints
-        self.start_point = (0, 0)
+        self.start_point = (0.5, 0.5)
         self.position_sequence = []
         self.epsilon = 0.1
         try_prismatic = None
