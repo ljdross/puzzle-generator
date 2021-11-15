@@ -12,10 +12,10 @@ from src.world import *
 config = {
     "puzzle_name": "gridworld",
     "dir_for_output": "/home/userone/ba/puzzle-generator/puzzles",
-    "number_prismatic_joints": 4,
-    "number_revolute_joints": 3,
+    "number_prismatic_joints": 2,
+    "number_revolute_joints": 2,
     "use_floor": True,
-    "seed_for_randomness": 0,       # choose None for pseudorandom
+    "seed_for_randomness": 3,       # choose None for pseudorandom
     "allow_clockwise": True         # allow both clockwise and counterclockwise rotating revolute joints
 }
 
