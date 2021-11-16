@@ -62,11 +62,11 @@ class World:
         """Create a very simple model that only works with prismatic joints (number_revolute_joints must equal 0)."""
         for i in range(self.number_prismatic_joints):
             if i % 2 == 0:
-                self.new_object(location=(i/2, i/-2, 0.1), rotation=(radians(90), 0, 0), scale=(0.2, 0.2, 1.6),
-                joint_type='prismatic', upper_limit=1)
+                self.new_object(location=(i/2, i/-2, 0.1), rotation=(radians(90), 0, 0),
+                scale=(0.2, 0.2, 1.6), joint_type='prismatic', upper_limit=1)
             else:
-                self.new_object(location=((i-1)/2, ((i-1)/-2)-1, 0.1), rotation=(0, radians(90), 0), scale=(0.2, 0.2, 1.6),
-                joint_type='prismatic', upper_limit=1)
+                self.new_object(location=((i-1)/2, ((i-1)/-2)-1, 0.1), rotation=(0, radians(90), 0),
+                scale=(0.2, 0.2, 1.6), joint_type='prismatic', upper_limit=1)
 
     def new_object(self, location, rotation, scale, joint_type, lower_limit=0, upper_limit=0):
         i = len(self.movable_objects)
@@ -148,25 +148,29 @@ class World:
         positions = []
         sp = self.start_point
         of = self.occupied_fields
-        if self.tuple_add(sp, (0, 1)) not in of and self.tuple_add(sp, (0, 2)) not in of and self.tuple_add(sp, (1, 1)) not in of and self.tuple_add(sp, (-1, 1)) not in of:
+        if (self.tuple_add(sp, (0, 1)) not in of and self.tuple_add(sp, (0, 2)) not in of
+        and self.tuple_add(sp, (1, 1)) not in of and self.tuple_add(sp, (-1, 1)) not in of):
             # North
             if self.tuple_add(sp, (-1, 2)) not in of and self.tuple_add(sp, (1, 0)) not in of:
                 positions.append("N_counterclockwise")
             if self.tuple_add(sp, (1, 2)) not in of and self.tuple_add(sp, (-1, 0)) not in of and allow_clockwise:
                 positions.append("N_clockwise")
-        if self.tuple_add(sp, (1, 0)) not in of and self.tuple_add(sp, (2, 0)) not in of and self.tuple_add(sp, (1, 1)) not in of and self.tuple_add(sp, (1, -1)) not in of:
+        if (self.tuple_add(sp, (1, 0)) not in of and self.tuple_add(sp, (2, 0)) not in of
+        and self.tuple_add(sp, (1, 1)) not in of and self.tuple_add(sp, (1, -1)) not in of):
             # East
             if self.tuple_add(sp, (2, 1)) not in of and self.tuple_add(sp, (0, -1)) not in of:
                 positions.append("E_counterclockwise")
             if self.tuple_add(sp, (0, 1)) not in of and self.tuple_add(sp, (2, -1)) not in of and allow_clockwise:
                 positions.append("E_clockwise")
-        if self.tuple_add(sp, (0, -1)) not in of and self.tuple_add(sp, (0, -2)) not in of and self.tuple_add(sp, (-1, -1)) not in of and self.tuple_add(sp, (1, -1)) not in of:
+        if (self.tuple_add(sp, (0, -1)) not in of and self.tuple_add(sp, (0, -2)) not in of
+        and self.tuple_add(sp, (-1, -1)) not in of and self.tuple_add(sp, (1, -1)) not in of):
             # South
             if self.tuple_add(sp, (-1, 0)) not in of and self.tuple_add(sp, (1, -2)) not in of:
                 positions.append("S_counterclockwise")
             if self.tuple_add(sp, (1, 0)) not in of and self.tuple_add(sp, (-1, -2)) not in of and allow_clockwise:
                 positions.append("S_clockwise")
-        if self.tuple_add(sp, (-1, 0)) not in of and self.tuple_add(sp, (-2, 0)) not in of and self.tuple_add(sp, (-1, 1)) not in of and self.tuple_add(sp, (-1, -1)) not in of:
+        if (self.tuple_add(sp, (-1, 0)) not in of and self.tuple_add(sp, (-2, 0)) not in of
+        and self.tuple_add(sp, (-1, 1)) not in of and self.tuple_add(sp, (-1, -1)) not in of):
             # West
             if self.tuple_add(sp, (0, 1)) not in of and self.tuple_add(sp, (-2, -1)) not in of:
                 positions.append("W_counterclockwise")
@@ -347,7 +351,7 @@ class World:
         self.start_point = (0.5, 0.5)
         self.position_sequence = []
         self.epsilon = 0.1
-        try_prismatic = None
+        try_prismatic = False
         if self.seed is not None:
             seed(self.seed)
         else:
@@ -364,7 +368,8 @@ class World:
             else:
                 # create either revolute or prismatic joint (random)
                 r = random()
-                threshold = self.prismatic_joints_target / (self.prismatic_joints_target + self.revolute_joints_target)
+                threshold = self.prismatic_joints_target / (self.prismatic_joints_target
+                + self.revolute_joints_target)
                 if r < threshold:
                     # create prismatic joint
                     try_prismatic = True
