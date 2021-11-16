@@ -19,6 +19,8 @@ class World:
             self.floor_size = 0
         self.seed = config["seed_for_randomness"]
         self.allow_clockwise = config["allow_clockwise"]
+        self.export_entity_srdf = config["export_entity_srdf"]
+        self.export_mesh_dae = config["export_mesh_dae"]
         self.base_object = None
         self.movable_objects = []
         self.occupied_fields = []
@@ -395,6 +397,8 @@ class World:
         bpy.context.scene.phobosexportsettings.path = self.directory
         bpy.context.scene.phobosexportsettings.selectedOnly = False
         bpy.context.scene.export_entity_urdf = True
+        bpy.context.scene.export_entity_srdf = self.export_entity_srdf
+        bpy.context.scene.export_mesh_dae = self.export_mesh_dae
         bpy.ops.phobos.name_model(modelname=self.name)
         bpy.ops.phobos.export_model()
 

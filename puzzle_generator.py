@@ -16,7 +16,9 @@ config = {
     "number_revolute_joints": 2,
     "use_floor": True,
     "seed_for_randomness": 3,       # choose None for pseudorandom
-    "allow_clockwise": True         # allow both clockwise and counterclockwise rotating revolute joints
+    "allow_clockwise": True,        # allow both clockwise and counterclockwise rotating revolute joints
+    "export_entity_srdf": True,
+    "export_mesh_dae": False
 }
 
 # create world according to config
