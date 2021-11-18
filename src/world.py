@@ -5,6 +5,7 @@ import subprocess
 from math import radians
 import bpy
 
+
 class World:
     def __init__(self, config):
         """Initialize all attributes with required world properties."""
@@ -52,7 +53,7 @@ class World:
         parent_link=True, parent_objects=True, nameformat=name)
         if joint_type is not None:
             bpy.ops.phobos.define_joint_constraints(passive=True, joint_type=joint_type, lower=lower, upper=upper)
-    
+
     def create_base_link(self):
         """Create a base object to become the base link for all other links.
         If no physical floor is needed, set self.floor_size = 0"""
@@ -80,7 +81,7 @@ class World:
             self.goal_state.append(upper_limit)
         else:
             self.goal_state.append(lower_limit)
-    
+
     def tuple_add(self, a, b):
         return tuple(map(lambda x, y: x + y, a, b))
 
@@ -100,7 +101,7 @@ class World:
         if not positions:
             self.start_points.insert(0, sp)
             return 1
-        
+
         random_pos = choice(positions)
         self.position_sequence.append(random_pos)
         scale = (1 - self.epsilon, 1 - self.epsilon, 2 - self.epsilon)
@@ -182,7 +183,7 @@ class World:
         if not positions:
             self.start_points.insert(0, sp)
             return 1
-        
+
         random_pos = choice(positions)
         self.position_sequence.append(random_pos)
         scale = (3 - self.epsilon, 1 - self.epsilon, 1 - self.epsilon)
@@ -387,7 +388,7 @@ class World:
                 result = self.new_prismatic_joint()
 
         return result
-    
+
     def create_gridworld_puzzle(self):
         """Create movable objects to become links for the puzzle (in a grid world)."""
         self.prismatic_joints_target = self.number_prismatic_joints
@@ -397,7 +398,7 @@ class World:
         self.occupied_fields = self.start_points.copy()
         self.position_sequence = []
         self.epsilon = 0.1
-        try_prismatic = False
+        try_prismatic: bool
         if self.seed is not None:
             seed(self.seed)
         else:
@@ -422,7 +423,7 @@ class World:
                 else:
                     # create revolute joint
                     try_prismatic = False
-            
+
             # now we know whether we want a prismatic or revolute joint
             # try to create the desired joint
             result = self.new_joint(try_prismatic)
@@ -459,7 +460,7 @@ class World:
             self.create_base_link()
             result = self.create_gridworld_puzzle() # TODO: something better than a discrete grid world
             attempts -= 1
-        
+
         self.create_collision()
         self.export()
         return 0
