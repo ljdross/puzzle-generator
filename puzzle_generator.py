@@ -14,7 +14,7 @@ config = {
     "dir_for_output": "/home/userone/ba/puzzle-generator/puzzles",
     "number_prismatic_joints": 2,
     "number_revolute_joints": 3,
-    "degree_of_branching": 2,       # should not be higher than number_revolute_joints
+    "branching_factor_target": 2,   # should not be higher than number_revolute_joints
     "use_floor": True,
     "seed_for_randomness": 0,       # choose None for pseudorandom
     "allow_clockwise": True,        # allow both clockwise and counterclockwise rotating revolute joints

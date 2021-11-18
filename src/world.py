@@ -13,7 +13,7 @@ class World:
         self.number_prismatic_joints = config["number_prismatic_joints"]
         self.number_revolute_joints = config["number_revolute_joints"]
         self.total_number_joints = self.number_prismatic_joints + self.number_revolute_joints
-        self.degree_of_branching = config["degree_of_branching"]
+        self.branching_factor = config["branching_factor_target"]
         if config["use_floor"]:
             self.floor_size = 16
         else:
@@ -392,7 +392,7 @@ class World:
         """Create movable objects to become links for the puzzle (in a grid world)."""
         self.prismatic_joints_target = self.number_prismatic_joints
         self.revolute_joints_target = self.number_revolute_joints
-        self.branching_target = self.degree_of_branching
+        self.branching_target = self.branching_factor
         self.start_points = [(0.5, 0.5)]
         self.occupied_fields = self.start_points.copy()
         self.position_sequence = []
