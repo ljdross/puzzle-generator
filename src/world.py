@@ -1,7 +1,7 @@
 from random import seed
 from random import random
 from random import choice
-import subprocess
+from subprocess import run
 from math import radians
 import bpy
 
@@ -470,7 +470,7 @@ class World:
         input_path = self.directory + "/urdf/" + self.name + ".urdf"
         start_state = str([0] * (self.total_number_joints))
         goal_state = str(self.goal_state)
-        result = subprocess.run(["python3", "pybullet-ompl/pybullet_ompl.py", input_path, start_state, goal_state,
+        result = run(["python3", "pybullet-ompl/pybullet_ompl.py", input_path, start_state, goal_state,
         str(show_gui), str(allowed_planning_time)]).returncode
         if result == 0:
             print("FOUND SOLUTION!")
