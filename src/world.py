@@ -18,10 +18,7 @@ class World:
             self.branching_factor = config["branching_factor_target"]
             self.seed = config["seed_for_randomness"]
             self.allow_clockwise = config["allow_clockwise"]
-        if config["use_floor"]:
-            self.floor_size = 16
-        else:
-            self.floor_size = 0
+        self.floor_size = config["floor_size"]
         self.export_entity_srdf = config["export_entity_srdf"]
         self.export_mesh_dae = config["export_mesh_dae"]
         self.base_object = None

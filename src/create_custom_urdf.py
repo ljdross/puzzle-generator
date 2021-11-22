@@ -11,7 +11,7 @@ config = {
     "puzzle_name": "my_custom_urdf",
     "dir_for_output": "/home/userone/ba/puzzle-generator/puzzles",
     "custom_urdf": True,
-    "use_floor": False,
+    "floor_size": 0,
     "export_entity_srdf": True,
     "export_mesh_dae": False
 }

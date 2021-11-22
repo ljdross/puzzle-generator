@@ -16,7 +16,7 @@ config = {
     "number_prismatic_joints": 2,
     "number_revolute_joints": 3,
     "branching_factor_target": 2,   # should not be higher than number_revolute_joints
-    "use_floor": True,
+    "floor_size": 16,
     "seed_for_randomness": 0,       # choose None for pseudorandom
     "allow_clockwise": True,        # allow both clockwise and counterclockwise rotating revolute joints
     "export_entity_srdf": True,
