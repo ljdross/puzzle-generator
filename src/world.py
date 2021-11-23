@@ -462,11 +462,11 @@ class World:
         return 0
 
     def build_simple_sliders(self):
-        """Build complete model in Blender and export to URDF."""
+        """Build complete model in Blender and export to URDF. Create only prismatic joints."""
         self.start_state = [0] * (self.number_prismatic_joints)
         self.reset()
         self.create_base_link()
-        self.create_simple_sliders() # number_revolute_joints must be 0
+        self.create_simple_sliders()
         self.create_collision()
         self.export()
         return 0
