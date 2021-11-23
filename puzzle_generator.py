@@ -4,7 +4,6 @@ DIR = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(DIR)
 from src.world import *
 
-# TODO: simple interface for Bora
 # TODO: define phobos material (color)
 # TODO: define goal space instead of goal state in ompl
 
@@ -25,7 +24,7 @@ config = {
 
 # create world according to config
 world = World(config)
-world.build()
+world.build_gridworld()
 
 # test model
 world.test_with_pybullet_ompl(show_gui=True, allowed_planning_time=5.)

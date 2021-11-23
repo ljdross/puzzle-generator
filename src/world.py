@@ -18,12 +18,13 @@ class World:
             self.branching_factor = config["branching_factor_target"]
             self.seed = config["seed_for_randomness"]
             self.allow_clockwise = config["allow_clockwise"]
+            self.start_state = [0] * (self.total_number_joints)
+            self.goal_state = []
         self.floor_size = config["floor_size"]
         self.export_entity_srdf = config["export_entity_srdf"]
         self.export_mesh_dae = config["export_mesh_dae"]
         self.base_object = None
         self.movable_objects = []
-        self.goal_state = []
 
     def reset(self):
         """Delete everything and reset position of 3D cursor."""
@@ -445,11 +446,8 @@ class World:
         bpy.ops.phobos.name_model(modelname=self.name)
         bpy.ops.phobos.export_model()
 
-    def build(self, attempts=10):
+    def build_gridworld(self, attempts=10):
         """Build complete model in Blender and export to URDF."""
-        # self.reset()
-        # self.create_base_link()
-        # self.create_simple_sliders() # number_revolute_joints must be 0
         result = 1
         while result != 0:
             self.reset()
@@ -463,10 +461,20 @@ class World:
         self.export()
         return 0
 
+    def build_simple_sliders(self):
+        """Build complete model in Blender and export to URDF."""
+        self.start_state = [0] * (self.number_prismatic_joints)
+        self.reset()
+        self.create_base_link()
+        self.create_simple_sliders() # number_revolute_joints must be 0
+        self.create_collision()
+        self.export()
+        return 0
+
     def test_with_pybullet_ompl(self, show_gui=True, allowed_planning_time=5.):
         """Test solvability with [pybullet_ompl](https://github.com/lyf44/pybullet_ompl) as a subprocess."""
         input_path = self.directory + "/urdf/" + self.name + ".urdf"
-        start_state = str([0] * (self.total_number_joints))
+        start_state = str(self.start_state)
         goal_state = str(self.goal_state)
         result = run(["python3", "pybullet-ompl/pybullet_ompl.py", input_path, start_state, goal_state,
         str(show_gui), str(allowed_planning_time)]).returncode
