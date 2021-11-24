@@ -27,4 +27,4 @@ world = World(config)
 world.build_gridworld()
 
 # test model
-world.test_with_pybullet_ompl(show_gui=True, allowed_planning_time=5.)
+world.test_with_pybullet_ompl(allowed_planning_time=5., show_gui=True)

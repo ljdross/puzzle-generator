@@ -16,10 +16,14 @@ class World:
             self.number_revolute_joints = config["number_revolute_joints"]
             self.total_number_joints = self.number_prismatic_joints + self.number_revolute_joints
             self.branching_factor = config["branching_factor_target"]
-            self.seed = config["seed_for_randomness"]
+            seed(config["seed_for_randomness"])
             self.allow_clockwise = config["allow_clockwise"]
-            self.start_state = [0] * (self.total_number_joints)
+            self.start_state = []
             self.goal_state = []
+            self.prismatic_joints_target = self.number_prismatic_joints
+            self.revolute_joints_target = self.number_revolute_joints
+            self.branching_target = self.branching_factor
+        self.start_points = [(0, 0)]
         self.floor_size = config["floor_size"]
         self.export_entity_srdf = config["export_entity_srdf"]
         self.export_mesh_dae = config["export_mesh_dae"]
@@ -390,18 +394,11 @@ class World:
 
     def create_gridworld_puzzle(self):
         """Create movable objects to become links for the puzzle (in a grid world)."""
-        self.prismatic_joints_target = self.number_prismatic_joints
-        self.revolute_joints_target = self.number_revolute_joints
-        self.branching_target = self.branching_factor
         self.start_points = [(0.5, 0.5)]
         self.occupied_fields = self.start_points.copy()
         self.position_sequence = []
         self.epsilon = 0.1
         try_prismatic: bool
-        if self.seed is not None:
-            seed(self.seed)
-        else:
-            seed()
 
         for i in range(self.total_number_joints):
             # in each iteration: try to figure out whether prismatic or revolute joint is needed
@@ -427,10 +424,35 @@ class World:
             # try to create the desired joint
             result = self.new_joint(try_prismatic)
             if result != 0:
+                print("ATTEMPT TO CREATE A SEQUENCE FAILED: " + str(self.position_sequence))
+                # clean up
+                self.goal_state = []
+                self.prismatic_joints_target = self.number_prismatic_joints
+                self.revolute_joints_target = self.number_revolute_joints
+                self.branching_target = self.branching_factor
+                self.start_points = [(0, 0)]
+                self.movable_objects = []
                 return result
         print("SUCCESSFULLY CREATED THE FOLLOWING SEQUENCE: " + str(self.position_sequence))
         return 0
 
+    def sample_joint(self, attempts=100):
+        planning_time = 1
+        for i in range(attempts):
+            # STUB needs code
+            result = self.test_with_pybullet_ompl(planning_time)
+            if result == 0:
+                return 0
+            planning_time *= 2
+        return 1
+
+    def sample_world(self, attempts=100):
+        for i in range(self.total_number_joints):
+            result = self.sample_joint(attempts)
+            if result != 0:
+                return result
+        return 0
+    
     def create_collision(self):
         """Create collision objects from visual objects."""
         bpy.ops.phobos.select_model()
@@ -446,8 +468,9 @@ class World:
         bpy.ops.phobos.name_model(modelname=self.name)
         bpy.ops.phobos.export_model()
 
-    def build_gridworld(self, attempts=10):
+    def build_gridworld(self, attempts=100):
         """Build complete model in Blender and export to URDF."""
+        self.start_state = [0] * (self.total_number_joints)
         result = 1
         while result != 0:
             self.reset()
@@ -471,7 +494,20 @@ class World:
         self.export()
         return 0
 
-    def test_with_pybullet_ompl(self, show_gui=True, allowed_planning_time=5.):
+    def build_sampleworld(self, attempts=100):
+        """Build complete model in Blender and export to URDF. Sample random positions for joints."""
+        self.reset()
+        self.create_base_link()
+        result = self.sample_world(attempts)
+        if result == 0:
+            self.create_collision()
+            self.export()
+            return 0
+        else:
+            self.reset()
+            return result
+
+    def test_with_pybullet_ompl(self, allowed_planning_time=5., show_gui=False):
         """Test solvability with [pybullet_ompl](https://github.com/lyf44/pybullet_ompl) as a subprocess."""
         input_path = self.directory + "/urdf/" + self.name + ".urdf"
         start_state = str(self.start_state)
@@ -482,3 +518,4 @@ class World:
             print("FOUND SOLUTION!")
         else:
             print("DID NOT FIND SOLUTION!")
+        return result
