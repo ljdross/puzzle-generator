@@ -9,7 +9,7 @@ from src.world import *
 
 # output settings and world properties
 config = {
-    "puzzle_name": "gridworld",
+    "puzzle_name": "sampleworld",
     "dir_for_output": "/home/userone/ba/puzzle-generator/puzzles",
     "custom_urdf": False,
     "number_prismatic_joints": 2,
@@ -24,7 +24,7 @@ config = {
 
 # create world according to config
 world = World(config)
-world.build_gridworld()
+world.build_sampleworld()
 
 # test model
 world.test_with_pybullet_ompl(allowed_planning_time=5., show_gui=True)

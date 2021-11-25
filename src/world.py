@@ -18,12 +18,14 @@ class World:
             self.branching_factor = config["branching_factor_target"]
             seed(config["seed_for_randomness"])
             self.allow_clockwise = config["allow_clockwise"]
-            self.start_state = []
-            self.goal_state = []
             self.prismatic_joints_target = self.number_prismatic_joints
             self.revolute_joints_target = self.number_revolute_joints
             self.branching_target = self.branching_factor
-        self.start_points = [(0, 0)]
+            self.start_points = [(0, 0)]
+            self.start_point = (0, 0)
+        self.goal_state_adjustment = 0.01
+        self.start_state = []
+        self.goal_state = []
         self.floor_size = config["floor_size"]
         self.export_entity_srdf = config["export_entity_srdf"]
         self.export_mesh_dae = config["export_mesh_dae"]
@@ -81,9 +83,9 @@ class World:
         self.create_link_and_joint(self.movable_objects[i], "link" + str(i), joint_type=joint_type,
         lower=lower_limit, upper=upper_limit)
         if upper_limit != 0:
-            self.goal_state.append(upper_limit)
+            self.goal_state.append(upper_limit - self.goal_state_adjustment)
         else:
-            self.goal_state.append(lower_limit)
+            self.goal_state.append(lower_limit + self.goal_state_adjustment)
 
     def tuple_add(self, a, b):
         return tuple(map(lambda x, y: x + y, a, b))
@@ -410,10 +412,9 @@ class World:
                 try_prismatic = True
             else:
                 # create either revolute or prismatic joint (random)
-                r = random()
                 threshold = self.prismatic_joints_target / (self.prismatic_joints_target
                 + self.revolute_joints_target)
-                if r < threshold:
+                if random() < threshold:
                     # create prismatic joint
                     try_prismatic = True
                 else:
@@ -436,26 +437,68 @@ class World:
         print("SUCCESSFULLY CREATED THE FOLLOWING SEQUENCE: " + str(self.position_sequence))
         return 0
 
-    def sample_joint(self, attempts=100):
-        planning_time = 1
+    def remove_last_object(self):
+        bpy.ops.object.select_all(action='DESELECT')
+        i = str(len(self.movable_objects) - 1)
+        bpy.data.objects['collision_cube' + i].select_set(True)
+        bpy.data.objects['visual_cube' + i].select_set(True)
+        bpy.data.objects['link' + i].select_set(True)
+        bpy.ops.object.delete()
+        self.movable_objects.pop()
+        self.goal_state.pop()
+
+    def sample_joint(self, attempts=30, planning_time=5.):
+        self.start_state.append(0)
+        offset = (0, 0)
+        threshold = self.prismatic_joints_target / (self.prismatic_joints_target + self.revolute_joints_target)
+        is_prismatic: bool
         for i in range(attempts):
-            # STUB needs code
+            new_point = self.tuple_add(self.start_point, offset)
+            rot = random() * 360
+            if random() < threshold:
+                # create prismatic joint
+                self.new_object((new_point[0], new_point[1], 0.5), (radians(-90), 0, radians(rot)), (1, 1, 2),
+                'prismatic', 0, 1)
+                is_prismatic = True
+            else:
+                # create revolute joint
+                # TODO: also make clockwise possible
+                limit = random() * 90 + 90
+                self.new_object((new_point[0], new_point[1], 0.5), (0, 0, radians(rot)), (3, 1, 1),
+                'revolute', 0, radians(limit))
+                is_prismatic = False
+            self.create_collision(self.movable_objects[-1])
+            self.export()
             result = self.test_with_pybullet_ompl(planning_time)
+            offset = (random() * 5 - 2.5, random() * 5 - 2.5)
             if result == 0:
+                self.start_point = self.tuple_add(new_point, offset)
+                if is_prismatic:
+                    self.prismatic_joints_target -= 1
+                else:
+                    self.revolute_joints_target -= 1
                 return 0
-            planning_time *= 2
+            self.remove_last_object()
+
         return 1
 
-    def sample_world(self, attempts=100):
+    def sample_world(self, attempts=30):
+        planning_time = 0.25
+        self.create_collision()
         for i in range(self.total_number_joints):
-            result = self.sample_joint(attempts)
+            result = self.sample_joint(attempts, planning_time)
             if result != 0:
                 return result
+            planning_time *= 2
         return 0
     
-    def create_collision(self):
+    def create_collision(self, obj=None):
         """Create collision objects from visual objects."""
-        bpy.ops.phobos.select_model()
+        if obj:
+            bpy.ops.object.select_all(action='DESELECT')
+            obj.select_set(True)
+        else:
+            bpy.ops.phobos.select_model()
         bpy.ops.phobos.create_collision_objects()
 
     def export(self):
@@ -468,7 +511,7 @@ class World:
         bpy.ops.phobos.name_model(modelname=self.name)
         bpy.ops.phobos.export_model()
 
-    def build_gridworld(self, attempts=100):
+    def build_gridworld(self, attempts=30):
         """Build complete model in Blender and export to URDF."""
         self.start_state = [0] * (self.total_number_joints)
         result = 1
@@ -494,14 +537,12 @@ class World:
         self.export()
         return 0
 
-    def build_sampleworld(self, attempts=100):
+    def build_sampleworld(self, attempts=30):
         """Build complete model in Blender and export to URDF. Sample random positions for joints."""
         self.reset()
         self.create_base_link()
         result = self.sample_world(attempts)
         if result == 0:
-            self.create_collision()
-            self.export()
             return 0
         else:
             self.reset()
