@@ -51,13 +51,13 @@
       <visual name="visual_cube1">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="1.0 1.0 2.0"/>
+          <box size="3.0 1.0 1.0"/>
         </geometry>
       </visual>
       <collision name="collision_cube1">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="1.0 1.0 2.0"/>
+          <box size="3.0 1.0 1.0"/>
         </geometry>
       </collision>
     </link>
@@ -71,13 +71,13 @@
       <visual name="visual_cube2">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="3.0 1.0 1.0"/>
+          <box size="1.0 1.0 2.0"/>
         </geometry>
       </visual>
       <collision name="collision_cube2">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="3.0 1.0 1.0"/>
+          <box size="1.0 1.0 2.0"/>
         </geometry>
       </collision>
     </link>
@@ -130,32 +130,32 @@
       <limit lower="0" upper="2.23143" effort="0" velocity="0"/>
     </joint>
 
-    <joint name="link1" type="prismatic">
-      <origin xyz="-2.10514 0.09608 0.5" rpy="-1.5708 0 -0.42202"/>
+    <joint name="link1" type="revolute">
+      <origin xyz="-2.75846 -1.50998 0.5" rpy="0 0 -2.43302"/>
       <parent link="base_link"/>
       <child link="link1"/>
+      <axis xyz="0 0 1.0"/>
+      <limit lower="0" upper="2.31933" effort="0" velocity="0"/>
+    </joint>
+
+    <joint name="link2" type="prismatic">
+      <origin xyz="-2.81847 1.89345 0.5" rpy="-1.5708 0 -2.8865"/>
+      <parent link="base_link"/>
+      <child link="link2"/>
       <axis xyz="0 0 1.0"/>
       <limit lower="0" upper="1.0" effort="0" velocity="0"/>
     </joint>
 
-    <joint name="link2" type="revolute">
-      <origin xyz="-0.56079 3.01274 0.5" rpy="0 0 -0.48141"/>
-      <parent link="base_link"/>
-      <child link="link2"/>
-      <axis xyz="0 0 1.0"/>
-      <limit lower="0" upper="2.98164" effort="0" velocity="0"/>
-    </joint>
-
     <joint name="link3" type="revolute">
-      <origin xyz="3.11277 4.96317 0.5" rpy="0 0 -0.65949"/>
+      <origin xyz="-0.99083 3.25291 0.5" rpy="0 0 -0.52187"/>
       <parent link="base_link"/>
       <child link="link3"/>
       <axis xyz="0 0 1.0"/>
-      <limit lower="0" upper="3.06268" effort="0" velocity="0"/>
+      <limit lower="0" upper="1.70019" effort="0" velocity="0"/>
     </joint>
 
     <joint name="link4" type="prismatic">
-      <origin xyz="5.59595 6.18261 0.5" rpy="-1.5708 0 0.51756"/>
+      <origin xyz="1.62317 3.35612 0.5" rpy="-1.5708 0 -2.00692"/>
       <parent link="base_link"/>
       <child link="link4"/>
       <axis xyz="0 0 1.0"/>

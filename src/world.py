@@ -548,13 +548,14 @@ class World:
             self.reset()
             return result
 
-    def test_with_pybullet_ompl(self, allowed_planning_time=5., show_gui=False):
+    def test_with_pybullet_ompl(self, allowed_planning_time=5., show_gui=False, have_exact_solution=True,
+                                planner="RRTConnect"):
         """Test solvability with [pybullet_ompl](https://github.com/lyf44/pybullet_ompl) as a subprocess."""
         input_path = self.directory + "/urdf/" + self.name + ".urdf"
         start_state = str(self.start_state)
         goal_state = str(self.goal_state)
         result = run(["python3", "pybullet-ompl/pybullet_ompl.py", input_path, start_state, goal_state,
-        str(show_gui), str(allowed_planning_time)]).returncode
+        str(show_gui), str(allowed_planning_time), str(have_exact_solution), planner]).returncode
         if result == 0:
             print("FOUND SOLUTION!")
         else:

@@ -12,7 +12,8 @@ START_STATE = literal_eval(sys.argv[2]) if len(sys.argv) > 2 else [0, 0]
 GOAL_STATE = literal_eval(sys.argv[3]) if len(sys.argv) > 3 else [1, 1]
 SHOW_GUI = literal_eval(sys.argv[4]) if len(sys.argv) > 4 else True
 ALLOWED_PLANNING_TIME = literal_eval(sys.argv[5]) if len(sys.argv) > 5 else 5.
-PLANNER = sys.argv[6] if len(sys.argv) > 6 else "RRTConnect"
+HAVE_EXACT_SOLUTION = literal_eval(sys.argv[6]) if len(sys.argv) > 6 else True
+PLANNER = sys.argv[7] if len(sys.argv) > 7 else "RRTConnect"
 
 if SHOW_GUI:
     pb.connect(pb.GUI)
@@ -31,6 +32,12 @@ pb_ompl_interface.set_planner(PLANNER)
 
 robot.set_state(START_STATE)
 found_solution, path = pb_ompl_interface.plan(GOAL_STATE, ALLOWED_PLANNING_TIME)
+
+# pb_ompl_interface.is_state_valid()
+# pb_ompl_interface.ss.
+
+if HAVE_EXACT_SOLUTION:
+    found_solution = pb_ompl_interface.ss.haveExactSolutionPath()
 # print("PATH FOUND: " + str(found_solution))
 if found_solution and SHOW_GUI:
     pb_ompl_interface.execute(path)
