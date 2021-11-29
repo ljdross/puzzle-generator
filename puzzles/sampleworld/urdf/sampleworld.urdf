@@ -31,13 +31,13 @@
       <visual name="visual_cube0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="3.0 1.0 1.0"/>
+          <box size="1.0 1.0 2.0"/>
         </geometry>
       </visual>
       <collision name="collision_cube0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="3.0 1.0 1.0"/>
+          <box size="1.0 1.0 2.0"/>
         </geometry>
       </collision>
     </link>
@@ -71,95 +71,39 @@
       <visual name="visual_cube2">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="1.0 1.0 2.0"/>
+          <box size="3.0 1.0 1.0"/>
         </geometry>
       </visual>
       <collision name="collision_cube2">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="1.0 1.0 2.0"/>
-        </geometry>
-      </collision>
-    </link>
-
-    <link name="link3">
-      <inertial>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <mass value="0.001"/>
-        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
-      </inertial>
-      <visual name="visual_cube3">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <box size="3.0 1.0 1.0"/>
-        </geometry>
-      </visual>
-      <collision name="collision_cube3">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
           <box size="3.0 1.0 1.0"/>
         </geometry>
       </collision>
     </link>
 
-    <link name="link4">
-      <inertial>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <mass value="0.001"/>
-        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
-      </inertial>
-      <visual name="visual_cube4">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <box size="1.0 1.0 2.0"/>
-        </geometry>
-      </visual>
-      <collision name="collision_cube4">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <box size="1.0 1.0 2.0"/>
-        </geometry>
-      </collision>
-    </link>
-
-    <joint name="link0" type="revolute">
-      <origin xyz="0 0 0.5" rpy="0 0 -0.97753"/>
+    <joint name="link0" type="prismatic">
+      <origin xyz="0 0 0.5" rpy="-1.5708 0 2.64253"/>
       <parent link="base_link"/>
       <child link="link0"/>
       <axis xyz="0 0 1.0"/>
-      <limit lower="0" upper="2.23143" effort="0" velocity="0"/>
+      <limit lower="0" upper="2.02255" effort="0" velocity="0"/>
     </joint>
 
     <joint name="link1" type="revolute">
-      <origin xyz="-2.75846 -1.50998 0.5" rpy="0 0 -2.43302"/>
+      <origin xyz="0.02182 -2.76373 0.5" rpy="0 0 -1.68642"/>
       <parent link="base_link"/>
       <child link="link1"/>
       <axis xyz="0 0 1.0"/>
-      <limit lower="0" upper="2.31933" effort="0" velocity="0"/>
+      <limit lower="0" upper="2.8855" effort="0" velocity="0"/>
     </joint>
 
-    <joint name="link2" type="prismatic">
-      <origin xyz="-2.81847 1.89345 0.5" rpy="-1.5708 0 -2.8865"/>
+    <joint name="link2" type="revolute">
+      <origin xyz="2.09437 -3.70985 0.5" rpy="0 0 2.57551"/>
       <parent link="base_link"/>
       <child link="link2"/>
       <axis xyz="0 0 1.0"/>
-      <limit lower="0" upper="1.0" effort="0" velocity="0"/>
-    </joint>
-
-    <joint name="link3" type="revolute">
-      <origin xyz="-0.99083 3.25291 0.5" rpy="0 0 -0.52187"/>
-      <parent link="base_link"/>
-      <child link="link3"/>
-      <axis xyz="0 0 1.0"/>
-      <limit lower="0" upper="1.70019" effort="0" velocity="0"/>
-    </joint>
-
-    <joint name="link4" type="prismatic">
-      <origin xyz="1.62317 3.35612 0.5" rpy="-1.5708 0 -2.00692"/>
-      <parent link="base_link"/>
-      <child link="link4"/>
-      <axis xyz="0 0 1.0"/>
-      <limit lower="0" upper="1.0" effort="0" velocity="0"/>
+      <limit lower="0" upper="1.59781" effort="0" velocity="0"/>
     </joint>
 
   </robot>

@@ -82,10 +82,12 @@ class World:
         location=location, rotation=rotation, scale=scale))
         self.create_link_and_joint(self.movable_objects[i], "link" + str(i), joint_type=joint_type,
         lower=lower_limit, upper=upper_limit)
-        if upper_limit != 0:
+        if upper_limit > self.goal_state_adjustment:
             self.goal_state.append(upper_limit - self.goal_state_adjustment)
-        else:
+        elif lower_limit < -self.goal_state_adjustment:
             self.goal_state.append(lower_limit + self.goal_state_adjustment)
+        else:
+            self.goal_state.append(0)
 
     def tuple_add(self, a, b):
         return tuple(map(lambda x, y: x + y, a, b))
@@ -447,47 +449,101 @@ class World:
         self.movable_objects.pop()
         self.goal_state.pop()
 
-    def sample_joint(self, attempts=30, planning_time=5.):
+    def set_limit_of_last_object(self, limit, is_prismatic):
+        bpy.ops.object.select_all(action='DESELECT')
+        bpy.data.objects['link' + str(len(self.movable_objects) - 1)].select_set(True)
+        if is_prismatic:
+            bpy.context.object.pose.bones["Bone"].constraints["Limit Location"].max_y = limit
+        else:
+            if limit < 0:
+                bpy.context.object.pose.bones["Bone"].constraints["Limit Rotation"].min_x = limit
+            else:
+                bpy.context.object.pose.bones["Bone"].constraints["Limit Rotation"].max_x = limit
+        self.export()
+        if limit > self.goal_state_adjustment:
+            self.goal_state[-1] = limit - self.goal_state_adjustment
+        elif limit < -self.goal_state_adjustment:
+            self.goal_state[-1] = limit + self.goal_state_adjustment
+        else:
+            self.goal_state[-1] = 0
+
+    def sample_joint(self, attempts=50, planning_time=5.):
         self.start_state.append(0)
+        first_joint = True if len(self.movable_objects) == 0 else False
         offset = (0, 0)
         threshold = self.prismatic_joints_target / (self.prismatic_joints_target + self.revolute_joints_target)
         is_prismatic: bool
         for i in range(attempts):
             new_point = self.tuple_add(self.start_point, offset)
+            offset = (random() * 6 - 3, random() * 6 - 3)
             rot = random() * 360
             if random() < threshold:
-                # create prismatic joint
+                # create immovable (joint limit = 0) prismatic joint
                 self.new_object((new_point[0], new_point[1], 0.5), (radians(-90), 0, radians(rot)), (1, 1, 2),
-                'prismatic', 0, 1)
+                'prismatic')
                 is_prismatic = True
             else:
-                # create revolute joint
-                # TODO: also make clockwise possible
-                limit = random() * 90 + 90
+                # create immovable (joint limit = 0) revolute joint
                 self.new_object((new_point[0], new_point[1], 0.5), (0, 0, radians(rot)), (3, 1, 1),
-                'revolute', 0, radians(limit))
+                'revolute')
                 is_prismatic = False
             self.create_collision(self.movable_objects[-1])
             self.export()
-            result = self.test_with_pybullet_ompl(planning_time)
-            offset = (random() * 5 - 2.5, random() * 5 - 2.5)
+            if first_joint:
+                result = 1
+            else:
+                self.start_state.pop()  # TODO: refactor this
+                self.goal_state.pop()
+                result = self.test_with_pybullet_ompl(planning_time)
+                self.start_state.append(0)
+                self.goal_state.append(0)
             if result == 0:
-                self.start_point = self.tuple_add(new_point, offset)
+                # can be solved with the immovable joint
+                # we do not want that
+                # this new joint should block the previous joint
+                self.remove_last_object()
+                continue
+            else:
+                # the new (immovable) joint successfully blocks the previously solvable puzzle
+                # now make it movable
                 if is_prismatic:
-                    self.prismatic_joints_target -= 1
+                    self.set_limit_of_last_object(random() * 2 + 1, is_prismatic)
                 else:
-                    self.revolute_joints_target -= 1
-                return 0
-            self.remove_last_object()
+                    limit = random() * 180 - 90
+                    if limit > 0:
+                        limit += 90
+                    else:
+                        limit -= 90
+                    self.set_limit_of_last_object(radians(limit), is_prismatic)
+
+                # and check solvability again
+                if first_joint:
+                    result = 0
+                else:
+                    result = self.test_with_pybullet_ompl(planning_time)
+                if result == 0:
+                    self.start_point = new_point
+                    if is_prismatic:
+                        self.prismatic_joints_target -= 1
+                    else:
+                        self.revolute_joints_target -= 1
+                    return 0
+                else:
+                    self.remove_last_object()
 
         return 1
 
-    def sample_world(self, attempts=30):
-        planning_time = 0.25
+    def sample_world(self, attempts=50):
+        planning_time = 1
         self.create_collision()
         for i in range(self.total_number_joints):
             result = self.sample_joint(attempts, planning_time)
             if result != 0:
+                print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+                print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+                print("could not sample link" + str(i) + " after " + str(attempts) + " attempts")
+                print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+                print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
                 return result
             planning_time *= 2
         return 0
@@ -511,7 +567,7 @@ class World:
         bpy.ops.phobos.name_model(modelname=self.name)
         bpy.ops.phobos.export_model()
 
-    def build_gridworld(self, attempts=30):
+    def build_gridworld(self, attempts=50):
         """Build complete model in Blender and export to URDF."""
         self.start_state = [0] * (self.total_number_joints)
         result = 1
@@ -537,7 +593,7 @@ class World:
         self.export()
         return 0
 
-    def build_sampleworld(self, attempts=30):
+    def build_sampleworld(self, attempts=50):
         """Build complete model in Blender and export to URDF. Sample random positions for joints."""
         self.reset()
         self.create_base_link()
@@ -553,7 +609,9 @@ class World:
         """Test solvability with [pybullet_ompl](https://github.com/lyf44/pybullet_ompl) as a subprocess."""
         input_path = self.directory + "/urdf/" + self.name + ".urdf"
         start_state = str(self.start_state)
+        print("self.start_state = " + start_state)
         goal_state = str(self.goal_state)
+        print("self.goal_state = " + goal_state)
         result = run(["python3", "pybullet-ompl/pybullet_ompl.py", input_path, start_state, goal_state,
         str(show_gui), str(allowed_planning_time), str(have_exact_solution), planner]).returncode
         if result == 0:
