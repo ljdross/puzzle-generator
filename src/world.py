@@ -32,6 +32,15 @@ class World:
         self.base_object = None
         self.movable_objects = []
 
+        self.lavender = bpy.data.materials.new("RGB")
+        self.lavender.diffuse_color = (0.8, 0.8, 1, 1)
+        self.red = bpy.data.materials.new("RGB")
+        self.red.diffuse_color = (1, 0, 0, 1)
+        self.green = bpy.data.materials.new("RGB")
+        self.green.diffuse_color = (0, 1, 0, 1)
+        self.white = bpy.data.materials.new("RGB")
+        self.white.diffuse_color = (1, 1, 1, 1)
+
     def reset(self):
         """Delete everything and reset position of 3D cursor."""
         bpy.ops.object.select_all(action='SELECT')
@@ -39,14 +48,15 @@ class World:
         bpy.context.scene.cursor.location = (0, 0, 0)
         bpy.context.scene.cursor.rotation_euler = (0, 0, 0)
 
-    def create_cube(self, name, parent=None, location=(0, 0, 0), rotation=(0, 0, 0), scale=(1, 1, 1)):
+    def create_cube(self, name, parent=None, location=(0, 0, 0), rotation=(0, 0, 0), scale=(1, 1, 1), material=None):
         """Create a visual cube object with the appropriate Phobos object properties. Returns cube object."""
         bpy.ops.mesh.primitive_cube_add(location=location, rotation=rotation, scale=tuple(x/2 for x in scale))
         cube = bpy.context.active_object
+        cube.active_material = material if material else self.white
         bpy.ops.phobos.set_phobostype(phobostype='visual')
         bpy.ops.phobos.define_geometry(geomType='box')
         cube.name = name
-        if parent is not None:
+        if parent:
             cube.parent = parent
         return cube
 
@@ -56,14 +66,14 @@ class World:
         obj.select_set(True)
         bpy.ops.phobos.create_links(location='selected objects', size=8,
         parent_link=True, parent_objects=True, nameformat=name)
-        if joint_type is not None:
+        if joint_type:
             bpy.ops.phobos.define_joint_constraints(passive=True, joint_type=joint_type, lower=lower, upper=upper)
 
     def create_base_link(self):
         """Create a base object to become the base link for all other links.
         If no physical floor is needed, set self.floor_size = 0"""
         self.base_object = self.create_cube(name="visual_cube_base",
-        location=(0, 0, -0.1), scale=(self.floor_size, self.floor_size, 0.2))
+        location=(0, 0, -0.1), scale=(self.floor_size, self.floor_size, 0.2), material=self.lavender)
         self.create_link_and_joint(self.base_object, "base_link")
 
     def create_simple_sliders(self):
@@ -76,12 +86,12 @@ class World:
                 self.new_object(location=((i-1)/2, ((i-1)/-2)-1, 0.1), rotation=(0, radians(90), 0),
                 scale=(0.2, 0.2, 1.6), joint_type='prismatic', upper_limit=1)
 
-    def new_object(self, location, rotation, scale, joint_type, lower_limit=0, upper_limit=0):
+    def new_object(self, location, rotation, scale, joint_type, lower_limit=0, upper_limit=0, material=None):
         i = len(self.movable_objects)
-        self.movable_objects.append(self.create_cube(name="visual_cube" + str(i), parent=self.base_object,
-        location=location, rotation=rotation, scale=scale))
-        self.create_link_and_joint(self.movable_objects[i], "link" + str(i), joint_type=joint_type,
-        lower=lower_limit, upper=upper_limit)
+        cube = self.create_cube(name="visual_cube" + str(i), parent=self.base_object, location=location,
+                                rotation=rotation, scale=scale, material=material)
+        self.movable_objects.append(cube)
+        self.create_link_and_joint(cube, "link" + str(i), joint_type=joint_type, lower=lower_limit, upper=upper_limit)
         if upper_limit > self.goal_state_adjustment:
             self.goal_state.append(upper_limit - self.goal_state_adjustment)
         elif lower_limit < -self.goal_state_adjustment:
@@ -449,9 +459,7 @@ class World:
         self.movable_objects.pop()
         self.goal_state.pop()
 
-    def set_limit_of_last_object(self, limit, is_prismatic):
-        bpy.ops.object.select_all(action='DESELECT')
-        bpy.data.objects['link' + str(len(self.movable_objects) - 1)].select_set(True)
+    def set_limit_of_active_object(self, limit, is_prismatic):
         if is_prismatic:
             bpy.context.object.pose.bones["Bone"].constraints["Limit Location"].max_y = limit
         else:
@@ -480,12 +488,12 @@ class World:
             if random() < threshold:
                 # create immovable (joint limit = 0) prismatic joint
                 self.new_object((new_point[0], new_point[1], 0.5), (radians(-90), 0, radians(rot)), (1, 1, 2),
-                'prismatic')
+                'prismatic', 0, 0, self.red)
                 is_prismatic = True
             else:
                 # create immovable (joint limit = 0) revolute joint
                 self.new_object((new_point[0], new_point[1], 0.5), (0, 0, radians(rot)), (3, 1, 1),
-                'revolute')
+                'revolute', 0, 0, self.green)
                 is_prismatic = False
             self.create_collision(self.movable_objects[-1])
             self.export()
@@ -507,14 +515,14 @@ class World:
                 # the new (immovable) joint successfully blocks the previously solvable puzzle
                 # now make it movable
                 if is_prismatic:
-                    self.set_limit_of_last_object(random() * 2 + 1, is_prismatic)
+                    self.set_limit_of_active_object(random() * 2 + 1, is_prismatic)
                 else:
                     limit = random() * 180 - 90
                     if limit > 0:
                         limit += 90
                     else:
                         limit -= 90
-                    self.set_limit_of_last_object(radians(limit), is_prismatic)
+                    self.set_limit_of_active_object(radians(limit), is_prismatic)
 
                 # and check solvability again
                 if first_joint:

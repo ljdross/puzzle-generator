@@ -13,6 +13,7 @@
         <geometry>
           <box size="16.0 16.0 0.2"/>
         </geometry>
+        <material name="RGB"/>
       </visual>
       <collision name="collision_cube_base">
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -33,6 +34,7 @@
         <geometry>
           <box size="1.0 1.0 2.0"/>
         </geometry>
+        <material name="RGB.001"/>
       </visual>
       <collision name="collision_cube0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -53,6 +55,7 @@
         <geometry>
           <box size="3.0 1.0 1.0"/>
         </geometry>
+        <material name="RGB.002"/>
       </visual>
       <collision name="collision_cube1">
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -73,6 +76,7 @@
         <geometry>
           <box size="3.0 1.0 1.0"/>
         </geometry>
+        <material name="RGB.002"/>
       </visual>
       <collision name="collision_cube2">
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -105,5 +109,17 @@
       <axis xyz="0 0 1.0"/>
       <limit lower="0" upper="1.59781" effort="0" velocity="0"/>
     </joint>
+
+    <material name="RGB">
+      <color rgba="0.8 0.8 1.0 1.0"/>
+    </material>
+
+    <material name="RGB.001">
+      <color rgba="1.0 0 0 1.0"/>
+    </material>
+
+    <material name="RGB.002">
+      <color rgba="0 1.0 0 1.0"/>
+    </material>
 
   </robot>

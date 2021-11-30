@@ -4,7 +4,6 @@ DIR = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(DIR)
 from src.world import *
 
-# TODO: define phobos material (color)
 # TODO: define goal space instead of goal state in ompl
 
 # output settings and world properties
