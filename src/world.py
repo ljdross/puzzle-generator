@@ -577,14 +577,14 @@ class World:
 
     def build_gridworld(self, attempts=50):
         """Build complete model in Blender and export to URDF."""
-        self.start_state = [0] * (self.total_number_joints)
+        self.start_state = [0] * self.total_number_joints
         result = 1
         while result != 0:
             self.reset()
             if attempts <= 0:
                 return result
             self.create_base_link()
-            result = self.create_gridworld_puzzle() # TODO: something better than a discrete grid world
+            result = self.create_gridworld_puzzle()
             attempts -= 1
 
         self.create_collision()
@@ -593,7 +593,7 @@ class World:
 
     def build_simple_sliders(self):
         """Build complete model in Blender and export to URDF. Create only prismatic joints."""
-        self.start_state = [0] * (self.number_prismatic_joints)
+        self.start_state = [0] * self.number_prismatic_joints
         self.reset()
         self.create_base_link()
         self.create_simple_sliders()

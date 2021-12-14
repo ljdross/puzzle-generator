@@ -3,7 +3,7 @@ from math import radians
 
 DIR = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(DIR)
-from world import *
+from src.world import *
 
 
 # output settings (ADJUST AS NEEDED)
