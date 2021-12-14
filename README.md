@@ -14,10 +14,10 @@ There are two possible scripts that you can run. You can either create a custom 
 
 
 ### Create a custom URDF
-Adjust the script ```src/create_custom_urdf.py``` to your requirements and run it with:
+Adjust the script ```create_custom_urdf.py``` to your requirements and run it with:
 
 ```bash
-./blender-2.93 --background --python src/create_custom_urdf.py
+./blender-2.93 --background --python create_custom_urdf.py
 ```
 
 ### Create a puzzle
