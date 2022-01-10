@@ -23,7 +23,7 @@ class World:
             self.branching_target = self.branching_factor
             self.start_points = [(0, 0)]
             self.start_point = (0, 0)
-        self.goal_state_adjustment = 0.01
+        self.goal_state_adjustment = 0.0001
         self.start_state = []
         self.goal_state = []
         self.floor_size = config["floor_size"]

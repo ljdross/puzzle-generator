@@ -217,13 +217,26 @@ class PbOMPL():
 
         # set the start and goal states;
         s = ob.State(self.space)
-        g = ob.State(self.space) # change to state space ###################################################################################
+        g = ob.State(self.space)
         for i in range(len(start)):
             s[i] = start[i]
             g[i] = goal[i]
+        goal_state_space = ob.RealVectorStateSpace(self.robot.num_dim)  # or use PbStateSpace(self.robot.num_dim)
+        bounds = self.space.getBounds()
+        # print(bounds.low[0])
+        # print(bounds.high[0])
+        bounds.setLow(0, goal[0])       # keep joint bounds for goal space, except for bounds[0]
+        bounds.setHigh(0, goal[0])
+        # print("bounds[0] for goal space:")
+        # print(bounds.low[0])
+        # print(bounds.high[0])
+        goal_state_space.setBounds(bounds)
+        goal_space = ob.GoalSpace(self.si)
+        goal_space.setSpace(goal_state_space)
 
-        self.ss.setStartAndGoalStates(s, g)
-        # self.ss.setGoal()
+        # self.ss.setStartAndGoalStates(s, g)
+        self.ss.setStartState(s)
+        self.ss.setGoal(goal_space)     # use goal SPACE instead of goal STATE
 
         # attempt to solve the problem within allowed planning time
         solved = self.ss.solve(allowed_time)
