@@ -77,7 +77,7 @@ class World:
                                             material=self.lavender)
         self.create_link_and_joint(self.base_object, "base_link")
 
-    def create_simple_sliders(self):
+    def create_simple_sliders_puzzle(self):
         """Create a very simple model that only works with prismatic joints (number_revolute_joints must equal 0)."""
         for i in range(self.number_prismatic_joints):
             if i % 2 == 0:
@@ -88,6 +88,11 @@ class World:
                                 scale=(0.2, 0.2, 1.6), joint_type='prismatic', upper_limit=1)
 
     def new_object(self, location, rotation, scale, joint_type, lower_limit=0, upper_limit=0, material=None):
+        if not material:
+            if joint_type == 'prismatic':
+                material = self.red
+            elif joint_type == 'revolute':
+                material = self.green
         i = len(self.movable_objects)
         cube = self.create_cube(name="visual_cube" + str(i), parent=self.base_object, location=location,
                                 rotation=rotation, scale=scale, material=material)
@@ -411,7 +416,7 @@ class World:
     def create_gridworld_puzzle(self):
         """Create movable objects to become links for the puzzle (in a grid world)."""
         self.start_points = [(0.5, 0.5)]
-        self.occupied_fields = self.start_points.copy()
+        self.occupied_fields = self.start_points.copy()   # TODO: make local & put needed functions inside this function
         self.position_sequence = []
         self.epsilon = 0.1
         try_prismatic: bool
@@ -490,12 +495,12 @@ class World:
             if random() < threshold:
                 # create immovable (joint limit = 0) prismatic joint
                 self.new_object((new_point[0], new_point[1], 0.5), (radians(-90), 0, radians(rot)), (1, 1, 2),
-                                'prismatic', 0, 0, self.red)
+                                'prismatic', 0, 0)
                 is_prismatic = True
             else:
                 # create immovable (joint limit = 0) revolute joint
                 self.new_object((new_point[0], new_point[1], 0.5), (0, 0, radians(rot)), (3, 1, 1),
-                                'revolute', 0, 0, self.green)
+                                'revolute', 0, 0)
                 is_prismatic = False
             self.create_collision(self.movable_objects[-1])
             self.export()
@@ -543,7 +548,7 @@ class World:
 
         return 1
 
-    def sample_world(self, attempts=50):
+    def create_sampleworld_puzzle(self, attempts=50):
         planning_time = 1
         self.create_collision()
         for i in range(self.total_number_joints):
@@ -593,12 +598,12 @@ class World:
         self.export()
         return 0
 
-    def build_simple_sliders(self):
+    def build_simple_sliders_world(self):
         """Build complete model in Blender and export to URDF. Create only prismatic joints."""
         self.start_state = [0] * self.number_prismatic_joints
         self.reset()
         self.create_base_link()
-        self.create_simple_sliders()
+        self.create_simple_sliders_puzzle()
         self.create_collision()
         self.export()
         return 0
@@ -607,7 +612,7 @@ class World:
         """Build complete model in Blender and export to URDF. Sample random positions for joints."""
         self.reset()
         self.create_base_link()
-        result = self.sample_world(attempts)
+        result = self.create_sampleworld_puzzle(attempts)
         if result == 0:
             return 0
         else:
