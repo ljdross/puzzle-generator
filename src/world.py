@@ -23,7 +23,7 @@ class World:
             self.branching_target = self.branching_factor
             self.start_points = [(0, 0)]
             self.start_point = (0, 0)
-        self.goal_state_adjustment = 0.0001
+        self.goal_state_adjustment = 0.0001     # TODO: refactor this into test_with_pybullet_ompl()
         self.start_state = []
         self.goal_state = []
         self.floor_size = config["floor_size"]
@@ -65,7 +65,7 @@ class World:
         bpy.ops.object.select_all(action='DESELECT')
         obj.select_set(True)
         bpy.ops.phobos.create_links(location='selected objects', size=8,
-        parent_link=True, parent_objects=True, nameformat=name)
+                                    parent_link=True, parent_objects=True, nameformat=name)
         if joint_type:
             bpy.ops.phobos.define_joint_constraints(passive=True, joint_type=joint_type, lower=lower, upper=upper)
 
@@ -73,18 +73,19 @@ class World:
         """Create a base object to become the base link for all other links.
         If no physical floor is needed, set self.floor_size = 0"""
         self.base_object = self.create_cube(name="visual_cube_base",
-        location=(0, 0, -0.1), scale=(self.floor_size, self.floor_size, 0.2), material=self.lavender)
+                                            location=(0, 0, -0.1), scale=(self.floor_size, self.floor_size, 0.2),
+                                            material=self.lavender)
         self.create_link_and_joint(self.base_object, "base_link")
 
     def create_simple_sliders(self):
         """Create a very simple model that only works with prismatic joints (number_revolute_joints must equal 0)."""
         for i in range(self.number_prismatic_joints):
             if i % 2 == 0:
-                self.new_object(location=(i/2, i/-2, 0.1), rotation=(radians(90), 0, 0),
-                scale=(0.2, 0.2, 1.6), joint_type='prismatic', upper_limit=1)
+                self.new_object(location=(i / 2, i / -2, 0.1), rotation=(radians(90), 0, 0),
+                                scale=(0.2, 0.2, 1.6), joint_type='prismatic', upper_limit=1)
             else:
-                self.new_object(location=((i-1)/2, ((i-1)/-2)-1, 0.1), rotation=(0, radians(90), 0),
-                scale=(0.2, 0.2, 1.6), joint_type='prismatic', upper_limit=1)
+                self.new_object(location=((i - 1) / 2, ((i - 1) / -2) - 1, 0.1), rotation=(0, radians(90), 0),
+                                scale=(0.2, 0.2, 1.6), joint_type='prismatic', upper_limit=1)
 
     def new_object(self, location, rotation, scale, joint_type, lower_limit=0, upper_limit=0, material=None):
         i = len(self.movable_objects)
@@ -99,7 +100,8 @@ class World:
         else:
             self.goal_state.append(0)
 
-    def tuple_add(self, a, b):
+    @staticmethod
+    def tuple_add(a: tuple, b: tuple) -> tuple:
         return tuple(map(lambda x, y: x + y, a, b))
 
     def new_prismatic_joint(self):
@@ -170,28 +172,28 @@ class World:
         sp = self.start_points.pop(0)
         of = self.occupied_fields
         if (self.tuple_add(sp, (0, 1)) not in of and self.tuple_add(sp, (0, 2)) not in of
-        and self.tuple_add(sp, (1, 1)) not in of and self.tuple_add(sp, (-1, 1)) not in of):
+                and self.tuple_add(sp, (1, 1)) not in of and self.tuple_add(sp, (-1, 1)) not in of):
             # North
             if self.tuple_add(sp, (-1, 2)) not in of and self.tuple_add(sp, (1, 0)) not in of:
                 positions.append("N_counterclockwise")
             if self.tuple_add(sp, (1, 2)) not in of and self.tuple_add(sp, (-1, 0)) not in of and allow_clockwise:
                 positions.append("N_clockwise")
         if (self.tuple_add(sp, (1, 0)) not in of and self.tuple_add(sp, (2, 0)) not in of
-        and self.tuple_add(sp, (1, 1)) not in of and self.tuple_add(sp, (1, -1)) not in of):
+                and self.tuple_add(sp, (1, 1)) not in of and self.tuple_add(sp, (1, -1)) not in of):
             # East
             if self.tuple_add(sp, (2, 1)) not in of and self.tuple_add(sp, (0, -1)) not in of:
                 positions.append("E_counterclockwise")
             if self.tuple_add(sp, (0, 1)) not in of and self.tuple_add(sp, (2, -1)) not in of and allow_clockwise:
                 positions.append("E_clockwise")
         if (self.tuple_add(sp, (0, -1)) not in of and self.tuple_add(sp, (0, -2)) not in of
-        and self.tuple_add(sp, (-1, -1)) not in of and self.tuple_add(sp, (1, -1)) not in of):
+                and self.tuple_add(sp, (-1, -1)) not in of and self.tuple_add(sp, (1, -1)) not in of):
             # South
             if self.tuple_add(sp, (-1, 0)) not in of and self.tuple_add(sp, (1, -2)) not in of:
                 positions.append("S_counterclockwise")
             if self.tuple_add(sp, (1, 0)) not in of and self.tuple_add(sp, (-1, -2)) not in of and allow_clockwise:
                 positions.append("S_clockwise")
         if (self.tuple_add(sp, (-1, 0)) not in of and self.tuple_add(sp, (-2, 0)) not in of
-        and self.tuple_add(sp, (-1, 1)) not in of and self.tuple_add(sp, (-1, -1)) not in of):
+                and self.tuple_add(sp, (-1, 1)) not in of and self.tuple_add(sp, (-1, -1)) not in of):
             # West
             if self.tuple_add(sp, (0, 1)) not in of and self.tuple_add(sp, (-2, -1)) not in of:
                 positions.append("W_counterclockwise")
@@ -425,7 +427,7 @@ class World:
             else:
                 # create either revolute or prismatic joint (random)
                 threshold = self.prismatic_joints_target / (self.prismatic_joints_target
-                + self.revolute_joints_target)
+                                                            + self.revolute_joints_target)
                 if random() < threshold:
                     # create prismatic joint
                     try_prismatic = True
@@ -488,12 +490,12 @@ class World:
             if random() < threshold:
                 # create immovable (joint limit = 0) prismatic joint
                 self.new_object((new_point[0], new_point[1], 0.5), (radians(-90), 0, radians(rot)), (1, 1, 2),
-                'prismatic', 0, 0, self.red)
+                                'prismatic', 0, 0, self.red)
                 is_prismatic = True
             else:
                 # create immovable (joint limit = 0) revolute joint
                 self.new_object((new_point[0], new_point[1], 0.5), (0, 0, radians(rot)), (3, 1, 1),
-                'revolute', 0, 0, self.green)
+                                'revolute', 0, 0, self.green)
                 is_prismatic = False
             self.create_collision(self.movable_objects[-1])
             self.export()
@@ -555,7 +557,7 @@ class World:
                 return result
             planning_time *= 2
         return 0
-    
+
     def create_collision(self, obj=None):
         """Create collision objects from visual objects."""
         if obj:
@@ -621,7 +623,7 @@ class World:
         goal_state = str(self.goal_state)
         print("self.goal_state = " + goal_state)
         result = run(["python3", "pybullet-ompl/pybullet_ompl.py", input_path, start_state, goal_state,
-        str(show_gui), str(allowed_planning_time), str(have_exact_solution), planner]).returncode
+                      str(show_gui), str(allowed_planning_time), str(have_exact_solution), planner]).returncode
         if result == 0:
             print("FOUND SOLUTION!")
         else:
