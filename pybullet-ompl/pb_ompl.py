@@ -220,17 +220,18 @@ class PbOMPL():
         g = ob.State(self.space)
         for i in range(len(start)):
             s[i] = start[i]
-            g[i] = goal[i]
+            # g[i] = goal[i]
 
         # the following modifications will use a goal SPACE instead of a goal STATE
-        # the goal space is defined such that it allows any position of the joints within their limits,
-        # except for joint0 with needs to be moved to its limit (as defined in goal[0])
         goal_state_space = ob.RealVectorStateSpace(self.robot.num_dim)  # or use PbStateSpace(self.robot.num_dim)
         bounds = self.space.getBounds()     # does not work with ob.RealVectorBounds(self.robot.num_dim) somehow
         # print(bounds.low[0])
         # print(bounds.high[0])
-        bounds.setLow(0, goal[0])       # keep joint bounds for goal space, except for bounds[0]
-        bounds.setHigh(0, goal[0])
+        for i, goal_tmp in enumerate(goal):
+            bounds.setLow(i, goal_tmp[0])
+            bounds.setHigh(i, goal_tmp[1])
+        # bounds.setLow(0, goal[0][1])       # keep joint bounds for goal space, except for bounds[0]
+        # bounds.setHigh(0, goal[0][1])
         # print("bounds[0] for goal space:")
         # print(bounds.low[0])
         # print(bounds.high[0])

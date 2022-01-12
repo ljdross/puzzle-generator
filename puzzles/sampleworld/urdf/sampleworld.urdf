@@ -11,14 +11,14 @@
       <visual name="visual_cube_base">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="16.0 16.0 0.2"/>
+          <box size="32.0 32.0 0.2"/>
         </geometry>
         <material name="RGB"/>
       </visual>
       <collision name="collision_cube_base">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="16.0 16.0 0.2"/>
+          <box size="32.0 32.0 0.2"/>
         </geometry>
       </collision>
     </link>

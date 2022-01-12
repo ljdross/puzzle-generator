@@ -23,9 +23,9 @@ class World:
             self.branching_target = self.branching_factor
             self.start_points = [(0, 0)]
             self.start_point = (0, 0)
-        self.goal_state_adjustment = 0.0001     # TODO: refactor this into test_with_pybullet_ompl()
+        self.goal_adjustment = 0.0001
         self.start_state = []
-        self.goal_state = []
+        self.goal_space = []
         self.floor_size = config["floor_size"]
         self.export_entity_srdf = config["export_entity_srdf"]
         self.export_mesh_dae = config["export_mesh_dae"]
@@ -98,12 +98,12 @@ class World:
                                 rotation=rotation, scale=scale, material=material)
         self.movable_objects.append(cube)
         self.create_link_and_joint(cube, "link" + str(i), joint_type=joint_type, lower=lower_limit, upper=upper_limit)
-        if upper_limit > self.goal_state_adjustment:
-            self.goal_state.append(upper_limit - self.goal_state_adjustment)
-        elif lower_limit < -self.goal_state_adjustment:
-            self.goal_state.append(lower_limit + self.goal_state_adjustment)
-        else:
-            self.goal_state.append(0)
+        if abs(lower_limit - upper_limit) > 2 * self.goal_adjustment:
+            if lower_limit:
+                lower_limit += self.goal_adjustment
+            if upper_limit:
+                upper_limit -= self.goal_adjustment
+        self.goal_space.append((lower_limit, upper_limit))
 
     @staticmethod
     def tuple_add(a: tuple, b: tuple) -> tuple:
@@ -446,7 +446,7 @@ class World:
             if result != 0:
                 print("ATTEMPT TO CREATE A SEQUENCE FAILED: " + str(self.position_sequence))
                 # clean up
-                self.goal_state = []
+                self.goal_space = []
                 self.prismatic_joints_target = self.number_prismatic_joints
                 self.revolute_joints_target = self.number_revolute_joints
                 self.branching_target = self.branching_factor
@@ -464,9 +464,14 @@ class World:
         bpy.data.objects['link' + i].select_set(True)
         bpy.ops.object.delete()
         self.movable_objects.pop()
-        self.goal_state.pop()
+        self.goal_space.pop()
 
     def set_limit_of_active_object(self, limit, is_prismatic):
+        """
+        If limit is negative, lower limit will be set and upper limit will be 0.
+        Otherwise, upper limit will be set and lower limit will be 0.
+        Modifies self.goal_space and applies self.goal_adjustment.
+        """
         if is_prismatic:
             bpy.context.object.pose.bones["Bone"].constraints["Limit Location"].max_y = limit
         else:
@@ -475,12 +480,12 @@ class World:
             else:
                 bpy.context.object.pose.bones["Bone"].constraints["Limit Rotation"].max_x = limit
         self.export()
-        if limit > self.goal_state_adjustment:
-            self.goal_state[-1] = limit - self.goal_state_adjustment
-        elif limit < -self.goal_state_adjustment:
-            self.goal_state[-1] = limit + self.goal_state_adjustment
+        if limit > self.goal_adjustment:
+            self.goal_space[-1] = (0, limit - self.goal_adjustment)
+        elif limit < -self.goal_adjustment:
+            self.goal_space[-1] = (limit + self.goal_adjustment, 0)
         else:
-            self.goal_state[-1] = 0
+            self.goal_space[-1] = (0, 0)
 
     def sample_joint(self, attempts=50, planning_time=5.):
         self.start_state.append(0)
@@ -508,10 +513,10 @@ class World:
                 result = 1
             else:
                 self.start_state.pop()  # TODO: refactor this
-                self.goal_state.pop()
+                self.goal_space.pop()
                 result = self.test_with_pybullet_ompl(planning_time)
                 self.start_state.append(0)
-                self.goal_state.append(0)
+                self.goal_space.append((0, 0))
             if result == 0:
                 # can be solved with the immovable joint
                 # we do not want that
@@ -533,6 +538,12 @@ class World:
 
                 # and check solvability again
                 if first_joint:
+                    # the goal is to move link0 to a specific location
+                    # so this dimension in the goal space must be narrowed
+                    if self.goal_space[0][0] == 0:
+                        self.goal_space[0] = (self.goal_space[0][1], self.goal_space[0][1])
+                    else:
+                        self.goal_space[0] = (self.goal_space[0][0], self.goal_space[0][0])
                     result = 0
                 else:
                     result = self.test_with_pybullet_ompl(planning_time)
@@ -625,8 +636,8 @@ class World:
         input_path = self.directory + "/urdf/" + self.name + ".urdf"
         start_state = str(self.start_state)
         print("self.start_state = " + start_state)
-        goal_state = str(self.goal_state)
-        print("self.goal_state = " + goal_state)
+        goal_state = str(self.goal_space)
+        print("self.goal_space = " + goal_state)
         result = run(["python3", "pybullet-ompl/pybullet_ompl.py", input_path, start_state, goal_state,
                       str(show_gui), str(allowed_planning_time), str(have_exact_solution), planner]).returncode
         if result == 0:
