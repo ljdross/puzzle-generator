@@ -4,6 +4,11 @@ from random import choice
 from subprocess import run
 from math import radians
 import bpy
+import os
+import sys
+DIR = os.path.dirname(os.path.realpath(__file__))
+sys.path.append(DIR)
+import color
 
 
 class World:
@@ -32,15 +37,6 @@ class World:
         self.base_object = None
         self.movable_objects = []
 
-        self.lavender = bpy.data.materials.new("RGB")
-        self.lavender.diffuse_color = (0.8, 0.8, 1, 1)
-        self.red = bpy.data.materials.new("RGB")
-        self.red.diffuse_color = (1, 0, 0, 1)
-        self.green = bpy.data.materials.new("RGB")
-        self.green.diffuse_color = (0, 1, 0, 1)
-        self.white = bpy.data.materials.new("RGB")
-        self.white.diffuse_color = (1, 1, 1, 1)
-
     def reset(self):
         """Delete everything and reset position of 3D cursor."""
         bpy.ops.object.select_all(action='SELECT')
@@ -52,7 +48,7 @@ class World:
         """Create a visual cube object with the appropriate Phobos object properties. Returns cube object."""
         bpy.ops.mesh.primitive_cube_add(location=location, rotation=rotation, scale=tuple(x/2 for x in scale))
         cube = bpy.context.active_object
-        cube.active_material = material if material else self.white
+        cube.active_material = material if material else color.WHITE
         bpy.ops.phobos.set_phobostype(phobostype='visual')
         bpy.ops.phobos.define_geometry(geomType='box')
         cube.name = name
@@ -74,7 +70,7 @@ class World:
         If no physical floor is needed, set self.floor_size = 0"""
         self.base_object = self.create_cube(name="visual_cube_base",
                                             location=(0, 0, -0.1), scale=(self.floor_size, self.floor_size, 0.2),
-                                            material=self.lavender)
+                                            material=color.LAVENDER)
         self.create_link_and_joint(self.base_object, "base_link")
 
     def create_simple_sliders_puzzle(self):
@@ -90,9 +86,9 @@ class World:
     def new_object(self, location, rotation, scale, joint_type, lower_limit=0, upper_limit=0, material=None):
         if not material:
             if joint_type == 'prismatic':
-                material = self.red
+                material = color.RED
             elif joint_type == 'revolute':
-                material = self.green
+                material = color.GREEN
         i = len(self.movable_objects)
         cube = self.create_cube(name="visual_cube" + str(i), parent=self.base_object, location=location,
                                 rotation=rotation, scale=scale, material=material)

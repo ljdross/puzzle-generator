@@ -34,7 +34,7 @@
         <geometry>
           <box size="1.0 1.0 4.0"/>
         </geometry>
-        <material name="RGB.003"/>
+        <material name="RGB.001"/>
       </visual>
       <collision name="collision_cube0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -55,7 +55,7 @@
         <geometry>
           <box size="2.0 0.2 4.0"/>
         </geometry>
-        <material name="RGB.003"/>
+        <material name="RGB.002"/>
       </visual>
       <collision name="collision_cube1">
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -85,8 +85,12 @@
       <color rgba="0.8 0.8 1.0 1.0"/>
     </material>
 
-    <material name="RGB.003">
-      <color rgba="1.0 1.0 1.0 1.0"/>
+    <material name="RGB.001">
+      <color rgba="1.0 0 0 1.0"/>
+    </material>
+
+    <material name="RGB.002">
+      <color rgba="0 1.0 0 1.0"/>
     </material>
 
   </robot>

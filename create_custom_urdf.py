@@ -1,6 +1,6 @@
-import sys, os
 from math import radians
-
+import os
+import sys
 DIR = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(DIR)
 from src.world import *
