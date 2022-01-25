@@ -465,9 +465,9 @@ class World:
 
     def set_limit_of_active_object_and_add_to_goal_space(self, limit, is_prismatic):
         """
-        If limit is negative, lower limit will be set and upper limit will be 0.
+        If limit is negative (for revolute joints), lower limit will be set and upper limit will be 0.
         Otherwise, upper limit will be set and lower limit will be 0.
-        Modifies self.goal_space and applies self.goal_adjustment.
+        Appends to self.goal_space and applies self.goal_adjustment.
         """
         if is_prismatic:
             bpy.context.object.pose.bones["Bone"].constraints["Limit Location"].max_y = limit
@@ -485,14 +485,11 @@ class World:
             self.goal_space.append((0, 0))
 
     def sample_joint(self, attempts=50, planning_time=5.):
-        # TODO: maybe the first joint should be placed already before calling this function, to simplify it
-        first_joint = True if len(self.movable_objects) == 0 else False
-        offset = (0, 0)
         threshold = self.prismatic_joints_target / (self.prismatic_joints_target + self.revolute_joints_target)
         is_prismatic: bool
         for i in range(attempts):
-            new_point = self.tuple_add(self.start_point, offset)  # TODO: if not first_joint for i = 0 useless
             offset = (random() * 6 - 3, random() * 6 - 3)
+            new_point = self.tuple_add(self.start_point, offset)
             rot = random() * 360
             if random() < threshold:
                 # create immovable prismatic joint (joint limits = 0)
@@ -506,10 +503,7 @@ class World:
                 is_prismatic = False
             self.create_collision(self.movable_objects[-1])
             self.export()
-            if first_joint:
-                result = 1
-            else:
-                result = self.test_with_pybullet_ompl(planning_time)
+            result = self.test_with_pybullet_ompl(planning_time)
             if result == 0:
                 # can be solved with the immovable joint
                 # we do not want that
@@ -531,17 +525,7 @@ class World:
                 self.start_state.append(0)
 
                 # and check solvability again
-                if first_joint:
-                    # if this is the first joint, we do not need to check solvability
-                    # but the goal is to move link0 to a specific location
-                    # so this dimension in the goal space must be narrowed
-                    if self.goal_space[0][0] == 0:
-                        self.goal_space[0] = (self.goal_space[0][1], self.goal_space[0][1])
-                    else:
-                        self.goal_space[0] = (self.goal_space[0][0], self.goal_space[0][0])
-                    result = 0
-                else:
-                    result = self.test_with_pybullet_ompl(planning_time)
+                result = self.test_with_pybullet_ompl(planning_time)
                 if result == 0:
                     self.start_point = new_point
                     if is_prismatic:
@@ -556,10 +540,42 @@ class World:
 
         return 1
 
+    def sample_first_joint(self):
+        self.start_state.append(0)
+        threshold = self.prismatic_joints_target / (self.prismatic_joints_target + self.revolute_joints_target)
+        rot = random() * 360
+        # since this is the first joint, we do not need to check solvability
+        # but the goal is to move link0 to a specific location
+        # so this dimension in the goal space must be narrowed
+        if random() < threshold:
+            # create prismatic joint
+            limit = random() * 2 + 1
+            self.goal_space.append((limit - self.goal_adjustment, limit - self.goal_adjustment))
+            self.new_object((self.start_point[0], self.start_point[1], 0.5), (radians(-90), 0, radians(rot)), (1, 1, 2),
+                            'prismatic', lower_limit=0, upper_limit=limit, add_to_goal_space=False)
+            self.prismatic_joints_target -= 1
+        else:
+            # create revolute joint
+            limit = random() * 180 - 90
+            if limit > 0:
+                limit += 90
+                limit = radians(limit)
+                self.goal_space.append((limit - self.goal_adjustment, limit - self.goal_adjustment))
+                self.new_object((self.start_point[0], self.start_point[1], 0.5), (0, 0, radians(rot)), (3, 1, 1),
+                                'revolute', lower_limit=0, upper_limit=limit, add_to_goal_space=False)
+            else:
+                limit -= 90
+                limit = radians(limit)
+                self.goal_space.append((limit + self.goal_adjustment, limit + self.goal_adjustment))
+                self.new_object((self.start_point[0], self.start_point[1], 0.5), (0, 0, radians(rot)), (3, 1, 1),
+                                'revolute', lower_limit=limit, upper_limit=0, add_to_goal_space=False)
+            self.revolute_joints_target -= 1
+
     def create_sampleworld_puzzle(self, attempts=50):
         planning_time = 1
+        self.sample_first_joint()
         self.create_collision()
-        for i in range(self.total_number_joints):
+        for i in range(1, self.total_number_joints):
             result = self.sample_joint(attempts, planning_time)
             if result != 0:
                 print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")

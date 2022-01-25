@@ -32,14 +32,14 @@
       <visual name="visual_cube0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="1.0 1.0 2.0"/>
+          <box size="3.0 1.0 1.0"/>
         </geometry>
-        <material name="RGB.001"/>
+        <material name="RGB.002"/>
       </visual>
       <collision name="collision_cube0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="1.0 1.0 2.0"/>
+          <box size="3.0 1.0 1.0"/>
         </geometry>
       </collision>
     </link>
@@ -74,40 +74,40 @@
       <visual name="visual_cube2">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="3.0 1.0 1.0"/>
+          <box size="1.0 1.0 2.0"/>
         </geometry>
-        <material name="RGB.002"/>
+        <material name="RGB.001"/>
       </visual>
       <collision name="collision_cube2">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="3.0 1.0 1.0"/>
+          <box size="1.0 1.0 2.0"/>
         </geometry>
       </collision>
     </link>
 
-    <joint name="link0" type="prismatic">
-      <origin xyz="0 0 0.5" rpy="-1.5708 0 2.64253"/>
+    <joint name="link0" type="revolute">
+      <origin xyz="0 0 0.5" rpy="0 0 -0.97753"/>
       <parent link="base_link"/>
       <child link="link0"/>
       <axis xyz="0 0 1.0"/>
-      <limit lower="0" upper="2.02255" effort="0" velocity="0"/>
+      <limit lower="-1.82033" upper="0" effort="0" velocity="0"/>
     </joint>
 
     <joint name="link1" type="revolute">
-      <origin xyz="-2.39635 -2.12185 0.5" rpy="0 0 -2.92672"/>
+      <origin xyz="-2.51733 -1.07967 0.5" rpy="0 0 -3.0917"/>
       <parent link="base_link"/>
       <child link="link1"/>
       <axis xyz="0 0 1.0"/>
-      <limit lower="-3.05772" upper="0" effort="0" velocity="0"/>
+      <limit lower="-2.79898" upper="0" effort="0" velocity="0"/>
     </joint>
 
-    <joint name="link2" type="revolute">
-      <origin xyz="-5.15238 -1.03587 0.5" rpy="0 0 0.26392"/>
+    <joint name="link2" type="prismatic">
+      <origin xyz="-0.44686 -2.62146 0.5" rpy="-1.5708 0 -1.6871"/>
       <parent link="base_link"/>
       <child link="link2"/>
       <axis xyz="0 0 1.0"/>
-      <limit lower="0" upper="2.20328" effort="0" velocity="0"/>
+      <limit lower="0" upper="1.44092" effort="0" velocity="0"/>
     </joint>
 
     <material name="RGB">
