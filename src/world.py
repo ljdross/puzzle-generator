@@ -590,11 +590,9 @@ class World:
         for i in range(1, self.total_number_joints):
             result = self.sample_joint(attempts, planning_time)
             if result != 0:
-                print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-                print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-                print("could not sample link" + str(i) + " after " + str(attempts) + " attempts")
-                print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-                print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+                print("\U000026D4 \U000026D4 \U000026D4 \U000026D4 \U000026D4 \U000026D4 \U000026D4 \U000026D4 ")
+                print("Could not sample link" + str(i) + " after " + str(attempts) + " attempts!")
+                print("\U000026D4 \U000026D4 \U000026D4 \U000026D4 \U000026D4 \U000026D4 \U000026D4 \U000026D4 ")
                 return result
             planning_time *= 2
         return 0
@@ -656,7 +654,7 @@ class World:
             return result
 
     def test_with_pybullet_ompl(self, allowed_planning_time=5., show_gui=False, have_exact_solution=True,
-                                planner="RRTConnect"):
+                                planner="RRTConnect", verbose=False):
         """Test solvability with [pybullet_ompl](https://github.com/lyf44/pybullet_ompl) as a subprocess."""
         input_path = self.directory + "/urdf/" + self.name + ".urdf"
         start_state = str(self.start_state)
@@ -665,8 +663,9 @@ class World:
         print("self.goal_space = " + goal_state)
         result = run(["python3", "pybullet-ompl/pybullet_ompl.py", input_path, start_state, goal_state,
                       str(show_gui), str(allowed_planning_time), str(have_exact_solution), planner]).returncode
-        if result == 0:
-            print("FOUND SOLUTION!")
-        else:
-            print("DID NOT FIND SOLUTION!")
+        if verbose:
+            if result == 0:
+                print("FOUND SOLUTION!")
+            else:
+                print("DID NOT FIND SOLUTION!")
         return result
