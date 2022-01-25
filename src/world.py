@@ -83,7 +83,7 @@ class World:
                 self.new_object(location=((i - 1) / 2, ((i - 1) / -2) - 1, 0.1), rotation=(0, radians(90), 0),
                                 scale=(0.2, 0.2, 1.6), joint_type='prismatic', upper_limit=1)
 
-    def new_object(self, location, rotation, scale, joint_type, lower_limit=0, upper_limit=0, material=None):
+    def new_object(self, location, rotation, scale, joint_type, lower_limit=0, upper_limit=0, material=None, add_to_goal_space=True):
         if not material:
             if joint_type == 'prismatic':
                 material = color.RED
@@ -94,12 +94,13 @@ class World:
                                 rotation=rotation, scale=scale, material=material)
         self.movable_objects.append(cube)
         self.create_link_and_joint(cube, "link" + str(i), joint_type=joint_type, lower=lower_limit, upper=upper_limit)
-        if abs(lower_limit - upper_limit) > 2 * self.goal_adjustment:
-            if lower_limit:
-                lower_limit += self.goal_adjustment
-            if upper_limit:
-                upper_limit -= self.goal_adjustment
-        self.goal_space.append((lower_limit, upper_limit))
+        if add_to_goal_space:
+            if abs(lower_limit - upper_limit) > 2 * self.goal_adjustment:
+                if lower_limit:
+                    lower_limit += self.goal_adjustment
+                if upper_limit:
+                    upper_limit -= self.goal_adjustment
+            self.goal_space.append((lower_limit, upper_limit))
 
     @staticmethod
     def tuple_add(a: tuple, b: tuple) -> tuple:
@@ -460,9 +461,8 @@ class World:
         bpy.data.objects['link' + i].select_set(True)
         bpy.ops.object.delete()
         self.movable_objects.pop()
-        self.goal_space.pop()
 
-    def set_limit_of_active_object(self, limit, is_prismatic):
+    def set_limit_of_active_object_and_add_to_goal_space(self, limit, is_prismatic):
         """
         If limit is negative, lower limit will be set and upper limit will be 0.
         Otherwise, upper limit will be set and lower limit will be 0.
@@ -477,42 +477,38 @@ class World:
                 bpy.context.object.pose.bones["Bone"].constraints["Limit Rotation"].max_x = limit
         self.export()
         if limit > self.goal_adjustment:
-            self.goal_space[-1] = (0, limit - self.goal_adjustment)
+            self.goal_space.append((0, limit - self.goal_adjustment))
         elif limit < -self.goal_adjustment:
-            self.goal_space[-1] = (limit + self.goal_adjustment, 0)
+            self.goal_space.append((limit + self.goal_adjustment, 0))
         else:
-            self.goal_space[-1] = (0, 0)
+            self.goal_space.append((0, 0))
 
     def sample_joint(self, attempts=50, planning_time=5.):
-        self.start_state.append(0)
+        # TODO: maybe the first joint should be placed already before calling this function, to simplify it
         first_joint = True if len(self.movable_objects) == 0 else False
         offset = (0, 0)
         threshold = self.prismatic_joints_target / (self.prismatic_joints_target + self.revolute_joints_target)
         is_prismatic: bool
         for i in range(attempts):
-            new_point = self.tuple_add(self.start_point, offset)
+            new_point = self.tuple_add(self.start_point, offset)  # TODO: if not first_joint for i = 0 useless
             offset = (random() * 6 - 3, random() * 6 - 3)
             rot = random() * 360
             if random() < threshold:
                 # create immovable (joint limit = 0) prismatic joint
                 self.new_object((new_point[0], new_point[1], 0.5), (radians(-90), 0, radians(rot)), (1, 1, 2),
-                                'prismatic', 0, 0)
+                                'prismatic', 0, 0, add_to_goal_space=False)
                 is_prismatic = True
             else:
                 # create immovable (joint limit = 0) revolute joint
                 self.new_object((new_point[0], new_point[1], 0.5), (0, 0, radians(rot)), (3, 1, 1),
-                                'revolute', 0, 0)
+                                'revolute', 0, 0, add_to_goal_space=False)
                 is_prismatic = False
             self.create_collision(self.movable_objects[-1])
             self.export()
             if first_joint:
                 result = 1
             else:
-                self.start_state.pop()  # TODO: refactor this
-                self.goal_space.pop()
                 result = self.test_with_pybullet_ompl(planning_time)
-                self.start_state.append(0)
-                self.goal_space.append((0, 0))
             if result == 0:
                 # can be solved with the immovable joint
                 # we do not want that
@@ -523,18 +519,20 @@ class World:
                 # the new (immovable) joint successfully blocks the previously solvable puzzle
                 # now make it movable
                 if is_prismatic:
-                    self.set_limit_of_active_object(random() * 2 + 1, is_prismatic)
+                    self.set_limit_of_active_object_and_add_to_goal_space(random() * 2 + 1, is_prismatic)
                 else:
                     limit = random() * 180 - 90
                     if limit > 0:
                         limit += 90
                     else:
                         limit -= 90
-                    self.set_limit_of_active_object(radians(limit), is_prismatic)
+                    self.set_limit_of_active_object_and_add_to_goal_space(radians(limit), is_prismatic)
+                self.start_state.append(0)
 
                 # and check solvability again
                 if first_joint:
-                    # the goal is to move link0 to a specific location
+                    # if this is the first joint, we do not need to check solvability
+                    # but the goal is to move link0 to a specific location
                     # so this dimension in the goal space must be narrowed
                     if self.goal_space[0][0] == 0:
                         self.goal_space[0] = (self.goal_space[0][1], self.goal_space[0][1])
@@ -551,6 +549,8 @@ class World:
                         self.revolute_joints_target -= 1
                     return 0
                 else:
+                    self.start_state.pop()
+                    self.goal_space.pop()
                     self.remove_last_object()
 
         return 1
