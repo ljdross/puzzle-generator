@@ -28,6 +28,8 @@ class World:
             self.branching_target = self.branching_factor
             self.start_points = [(0, 0)]
             self.start_point = (0, 0)
+            self.upper_limit_prismatic=(1, 3)
+            self.upper_limit_revolute=(90, 180)
         self.goal_adjustment = 0.0001
         self.start_state = []
         self.goal_space = []
@@ -484,9 +486,9 @@ class World:
         else:
             self.goal_space.append((0, 0))
 
-    def sample_joint(self, attempts=50, planning_time=5.):
+    def sample_joint(self, attempts=50, planning_time=5., area_size=3):
         """
-        Assume that the first joint as been placed already.
+        Assume that the first link+joint as been placed already.
         Try to place a new link+joint at a random position within in a continuous interval so that the puzzle
         1. is UNsolvable if the new link+joint can NOT be moved
         2. is SOLVABLE if the new link+joint CAN be moved
@@ -494,7 +496,7 @@ class World:
         threshold = self.prismatic_joints_target / (self.prismatic_joints_target + self.revolute_joints_target)
         is_prismatic: bool
         for i in range(attempts):
-            offset = (random() * 6 - 3, random() * 6 - 3)
+            offset = (random() * area_size * 2 - area_size, random() * area_size * 2 - area_size)
             new_point = self.tuple_add(self.start_point, offset)
             rot = random() * 360
             if random() < threshold:
@@ -520,13 +522,16 @@ class World:
                 # the new (immovable) joint successfully blocks the previously solvable puzzle
                 # now make it movable
                 if is_prismatic:
-                    self.set_limit_of_active_object_and_add_to_goal_space(random() * 2 + 1, is_prismatic)
+                    diff = self.upper_limit_prismatic[1] - self.upper_limit_prismatic[0]
+                    limit = random() * diff + self.upper_limit_prismatic[0]
+                    self.set_limit_of_active_object_and_add_to_goal_space(limit, is_prismatic)
                 else:
-                    limit = random() * 180 - 90
+                    diff = self.upper_limit_revolute[1] - self.upper_limit_revolute[0]
+                    limit = random() * diff * 2 - diff
                     if limit > 0:
-                        limit += 90
+                        limit += self.upper_limit_revolute[0]
                     else:
-                        limit -= 90
+                        limit -= self.upper_limit_revolute[0]
                     self.set_limit_of_active_object_and_add_to_goal_space(radians(limit), is_prismatic)
                 self.start_state.append(0)
 
