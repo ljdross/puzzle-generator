@@ -28,7 +28,7 @@ class World:
             self.branching_target = self.branching_factor
             self.start_points = [(0, 0)]
             self.start_point = (0, 0)
-            self.upper_limit_prismatic=(1, 3)
+            self.upper_limit_prismatic=(1, 3)  # interval for the random upper limit, the lower limit is always 0
             self.upper_limit_revolute=(90, 180)
         self.goal_adjustment = 0.0001
         self.start_state = []
@@ -486,6 +486,23 @@ class World:
         else:
             self.goal_space.append((0, 0))
 
+    def get_random_limit(self, is_prismatic):
+        """
+        Return a random limit within the interval upper_limit_prismatic or upper_limit_revolute respectively.
+        If not prismatic there is a 50 % chance that the limit will be negative.
+        """
+        if is_prismatic:
+            diff = self.upper_limit_prismatic[1] - self.upper_limit_prismatic[0]
+            return random() * diff + self.upper_limit_prismatic[0]
+        else:
+            diff = self.upper_limit_revolute[1] - self.upper_limit_revolute[0]
+            limit = random() * diff * 2 - diff
+            if limit > 0:
+                limit += self.upper_limit_revolute[0]
+            else:
+                limit -= self.upper_limit_revolute[0]
+            return radians(limit)
+
     def sample_joint(self, attempts=50, planning_time=5., area_size=3):
         """
         Assume that the first link+joint as been placed already.
@@ -521,18 +538,8 @@ class World:
             else:
                 # the new (immovable) joint successfully blocks the previously solvable puzzle
                 # now make it movable
-                if is_prismatic:
-                    diff = self.upper_limit_prismatic[1] - self.upper_limit_prismatic[0]
-                    limit = random() * diff + self.upper_limit_prismatic[0]
-                    self.set_limit_of_active_object_and_add_to_goal_space(limit, is_prismatic)
-                else:
-                    diff = self.upper_limit_revolute[1] - self.upper_limit_revolute[0]
-                    limit = random() * diff * 2 - diff
-                    if limit > 0:
-                        limit += self.upper_limit_revolute[0]
-                    else:
-                        limit -= self.upper_limit_revolute[0]
-                    self.set_limit_of_active_object_and_add_to_goal_space(radians(limit), is_prismatic)
+                limit = self.get_random_limit(is_prismatic)
+                self.set_limit_of_active_object_and_add_to_goal_space(limit, is_prismatic)
                 self.start_state.append(0)
 
                 # and check solvability again
@@ -563,23 +570,19 @@ class World:
         # so this dimension in the goal space must be narrowed
         if random() < threshold:
             # create prismatic joint
-            limit = random() * 2 + 1
+            limit = self.get_random_limit(True)
             self.goal_space.append((limit - self.goal_adjustment, limit - self.goal_adjustment))
             self.new_object((self.start_point[0], self.start_point[1], 0.5), (radians(-90), 0, radians(rot)), (1, 1, 2),
                             'prismatic', lower_limit=0, upper_limit=limit, add_to_goal_space=False)
             self.prismatic_joints_target -= 1
         else:
             # create revolute joint
-            limit = random() * 180 - 90
+            limit = self.get_random_limit(False)
             if limit > 0:
-                limit += 90
-                limit = radians(limit)
                 self.goal_space.append((limit - self.goal_adjustment, limit - self.goal_adjustment))
                 self.new_object((self.start_point[0], self.start_point[1], 0.5), (0, 0, radians(rot)), (3, 1, 1),
                                 'revolute', lower_limit=0, upper_limit=limit, add_to_goal_space=False)
             else:
-                limit -= 90
-                limit = radians(limit)
                 self.goal_space.append((limit + self.goal_adjustment, limit + self.goal_adjustment))
                 self.new_object((self.start_point[0], self.start_point[1], 0.5), (0, 0, radians(rot)), (3, 1, 1),
                                 'revolute', lower_limit=limit, upper_limit=0, add_to_goal_space=False)
