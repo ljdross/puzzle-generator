@@ -485,6 +485,12 @@ class World:
             self.goal_space.append((0, 0))
 
     def sample_joint(self, attempts=50, planning_time=5.):
+        """
+        Assume that the first link+joint as been placed already.
+        Try to place a new link+joint at a random position within in a continuous interval so that the puzzle
+        1. is UNsolvable if the new link+joint can NOT be moved
+        2. is SOLVABLE if the new link+joint CAN be moved
+        """
         threshold = self.prismatic_joints_target / (self.prismatic_joints_target + self.revolute_joints_target)
         is_prismatic: bool
         for i in range(attempts):
@@ -541,6 +547,9 @@ class World:
         return 1
 
     def sample_first_joint(self):
+        """
+        Place the first link+joint at start_point
+        """
         self.start_state.append(0)
         threshold = self.prismatic_joints_target / (self.prismatic_joints_target + self.revolute_joints_target)
         rot = random() * 360
@@ -572,6 +581,9 @@ class World:
             self.revolute_joints_target -= 1
 
     def create_sampleworld_puzzle(self, attempts=50):
+        """
+        Sample links with joints interatively
+        """
         planning_time = 1
         self.sample_first_joint()
         self.create_collision()
