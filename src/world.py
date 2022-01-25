@@ -83,7 +83,8 @@ class World:
                 self.new_object(location=((i - 1) / 2, ((i - 1) / -2) - 1, 0.1), rotation=(0, radians(90), 0),
                                 scale=(0.2, 0.2, 1.6), joint_type='prismatic', upper_limit=1)
 
-    def new_object(self, location, rotation, scale, joint_type, lower_limit=0, upper_limit=0, material=None, add_to_goal_space=True):
+    def new_object(self, location, rotation, scale, joint_type, lower_limit=0, upper_limit=0, material=None,
+                   add_to_goal_space=True):
         if not material:
             if joint_type == 'prismatic':
                 material = color.RED
@@ -494,14 +495,14 @@ class World:
             offset = (random() * 6 - 3, random() * 6 - 3)
             rot = random() * 360
             if random() < threshold:
-                # create immovable (joint limit = 0) prismatic joint
+                # create immovable prismatic joint (joint limits = 0)
                 self.new_object((new_point[0], new_point[1], 0.5), (radians(-90), 0, radians(rot)), (1, 1, 2),
-                                'prismatic', 0, 0, add_to_goal_space=False)
+                                'prismatic', lower_limit=0, upper_limit=0, add_to_goal_space=False)
                 is_prismatic = True
             else:
-                # create immovable (joint limit = 0) revolute joint
+                # create immovable revolute joint (joint limits = 0)
                 self.new_object((new_point[0], new_point[1], 0.5), (0, 0, radians(rot)), (3, 1, 1),
-                                'revolute', 0, 0, add_to_goal_space=False)
+                                'revolute', lower_limit=0, upper_limit=0, add_to_goal_space=False)
                 is_prismatic = False
             self.create_collision(self.movable_objects[-1])
             self.export()
