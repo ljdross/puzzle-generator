@@ -486,7 +486,7 @@ class World:
 
     def sample_joint(self, attempts=50, planning_time=5.):
         """
-        Assume that the first link+joint as been placed already.
+        Assume that the first joint as been placed already.
         Try to place a new link+joint at a random position within in a continuous interval so that the puzzle
         1. is UNsolvable if the new link+joint can NOT be moved
         2. is SOLVABLE if the new link+joint CAN be moved
