@@ -596,10 +596,14 @@ class World:
             result = self.sample_joint(attempts, planning_time)
             if result != 0:
                 print("\U000026D4 \U000026D4 \U000026D4 \U000026D4 \U000026D4 \U000026D4 \U000026D4 \U000026D4 ")
-                print("Could not sample link" + str(i) + " after " + str(attempts) + " attempts!")
+                print("Could NOT sample link" + str(i), "after", attempts, "attempts!")
                 print("\U000026D4 \U000026D4 \U000026D4 \U000026D4 \U000026D4 \U000026D4 \U000026D4 \U000026D4 ")
                 return result
+            print("Successfully sampled link" + str(i), "\U000026F3 \U000026F3 \U000026F3 \U000026F3 ")
             planning_time *= 2
+        print("\U000026F3 \U000026F3 \U000026F3 \U000026F3 \U000026F3 \U000026F3 \U000026F3 \U000026F3 ")
+        print("SUCCESS! Sampled", self.total_number_joints, "links!")
+        print("\U000026F3 \U000026F3 \U000026F3 \U000026F3 \U000026F3 \U000026F3 \U000026F3 \U000026F3 ")
         return 0
 
     def create_collision(self, obj=None):
