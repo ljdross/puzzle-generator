@@ -29,8 +29,10 @@ class World:
             self.branching_target = self.branching_factor
             self.start_points = [(0, 0)]
             self.start_point = (0, 0)
-            self.upper_limit_prismatic=(1, 3)  # interval for the random upper limit, the lower limit is always 0
-            self.upper_limit_revolute=(90, 180)
+            self.upper_limit_prismatic = (2, 4)  # interval for the random upper limit, the lower limit is always 0
+            self.upper_limit_revolute = (90, 180)
+            self.prismatic_length = 2
+            self.revolute_length = 3
         self.goal_adjustment = 0.0001
         self.start_state = []
         self.goal_space = []
@@ -80,10 +82,10 @@ class World:
         """Create a very simple model that only works with prismatic joints (number_revolute_joints must equal 0)."""
         for i in range(self.number_prismatic_joints):
             if i % 2 == 0:
-                self.new_object(location=(i / 2, i / -2, 0.1), rotation=(radians(90), 0, 0),
+                self.new_object(location=(i / 2, i / -2, 0.1), rotation=(calc.RAD90, 0, 0),
                                 scale=(0.2, 0.2, 1.6), joint_type='prismatic', upper_limit=1)
             else:
-                self.new_object(location=((i - 1) / 2, ((i - 1) / -2) - 1, 0.1), rotation=(0, radians(90), 0),
+                self.new_object(location=((i - 1) / 2, ((i - 1) / -2) - 1, 0.1), rotation=(0, calc.RAD90, 0),
                                 scale=(0.2, 0.2, 1.6), joint_type='prismatic', upper_limit=1)
 
     def new_object(self, location, rotation, scale, joint_type, lower_limit=0, upper_limit=0, material=None,
@@ -129,7 +131,7 @@ class World:
         if random_pos == "N":
             # add new prismatic joint at this position
             loc = (sp[0], sp[1] + 0.5, scale[0] / 2)
-            rot = (radians(-90), 0, 0)
+            rot = (-calc.RAD90, 0, 0)
             self.new_object(location=loc, rotation=rot, scale=scale, joint_type='prismatic', upper_limit=1)
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (0, 1)))
@@ -138,7 +140,7 @@ class World:
         elif random_pos == "E":
             # add new prismatic joint at this position
             loc = (sp[0] + 0.5, sp[1], scale[0] / 2)
-            rot = (0, radians(90), 0)
+            rot = (0, calc.RAD90, 0)
             self.new_object(location=loc, rotation=rot, scale=scale, joint_type='prismatic', upper_limit=1)
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (1, 0)))
@@ -147,7 +149,7 @@ class World:
         elif random_pos == "S":
             # add new prismatic joint at this position
             loc = (sp[0], sp[1] - 0.5, scale[0] / 2)
-            rot = (radians(90), 0, 0)
+            rot = (calc.RAD90, 0, 0)
             self.new_object(location=loc, rotation=rot, scale=scale, joint_type='prismatic', upper_limit=1)
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (0, -1)))
@@ -156,7 +158,7 @@ class World:
         elif random_pos == "W":
             # add new prismatic joint at this position
             loc = (sp[0] - 0.5, sp[1], scale[0] / 2)
-            rot = (0, radians(-90), 0)
+            rot = (0, -calc.RAD90, 0)
             self.new_object(location=loc, rotation=rot, scale=scale, joint_type='prismatic', upper_limit=1)
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (-1, 0)))
@@ -211,8 +213,8 @@ class World:
         if random_pos == "N_counterclockwise":
             # add new revolute joint at this position
             loc = (sp[0], sp[1] + 1, scale[2] / 2)
-            rot = (0, 0, radians(90))
-            self.new_object(location=loc, rotation=rot, scale=scale, joint_type='revolute', upper_limit=radians(90))
+            rot = (0, 0, calc.RAD90)
+            self.new_object(location=loc, rotation=rot, scale=scale, joint_type='revolute', upper_limit=calc.RAD90)
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (0, 1)))
             self.occupied_fields.append(calc.tuple_add(sp, (0, 2)))
@@ -233,8 +235,8 @@ class World:
         elif random_pos == "N_clockwise":
             # add new revolute joint at this position
             loc = (sp[0], sp[1] + 1, scale[2] / 2)
-            rot = (0, 0, radians(90))
-            self.new_object(location=loc, rotation=rot, scale=scale, joint_type='revolute', lower_limit=radians(-90))
+            rot = (0, 0, calc.RAD90)
+            self.new_object(location=loc, rotation=rot, scale=scale, joint_type='revolute', lower_limit=-calc.RAD90)
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (0, 1)))
             self.occupied_fields.append(calc.tuple_add(sp, (0, 2)))
@@ -256,7 +258,7 @@ class World:
             # add new revolute joint at this position
             loc = (sp[0] + 1, sp[1], scale[2] / 2)
             rot = (0, 0, 0)
-            self.new_object(location=loc, rotation=rot, scale=scale, joint_type='revolute', upper_limit=radians(90))
+            self.new_object(location=loc, rotation=rot, scale=scale, joint_type='revolute', upper_limit=calc.RAD90)
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (1, 0)))
             self.occupied_fields.append(calc.tuple_add(sp, (2, 0)))
@@ -278,7 +280,7 @@ class World:
             # add new revolute joint at this position
             loc = (sp[0] + 1, sp[1], scale[2] / 2)
             rot = (0, 0, 0)
-            self.new_object(location=loc, rotation=rot, scale=scale, joint_type='revolute', lower_limit=radians(-90))
+            self.new_object(location=loc, rotation=rot, scale=scale, joint_type='revolute', lower_limit=-calc.RAD90)
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (1, 0)))
             self.occupied_fields.append(calc.tuple_add(sp, (2, 0)))
@@ -299,8 +301,8 @@ class World:
         elif random_pos == "S_counterclockwise":
             # add new revolute joint at this position
             loc = (sp[0], sp[1] - 1, scale[2] / 2)
-            rot = (0, 0, radians(90))
-            self.new_object(location=loc, rotation=rot, scale=scale, joint_type='revolute', upper_limit=radians(90))
+            rot = (0, 0, calc.RAD90)
+            self.new_object(location=loc, rotation=rot, scale=scale, joint_type='revolute', upper_limit=calc.RAD90)
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (0, -1)))
             self.occupied_fields.append(calc.tuple_add(sp, (0, -2)))
@@ -321,8 +323,8 @@ class World:
         elif random_pos == "S_clockwise":
             # add new revolute joint at this position
             loc = (sp[0], sp[1] - 1, scale[2] / 2)
-            rot = (0, 0, radians(90))
-            self.new_object(location=loc, rotation=rot, scale=scale, joint_type='revolute', lower_limit=radians(-90))
+            rot = (0, 0, calc.RAD90)
+            self.new_object(location=loc, rotation=rot, scale=scale, joint_type='revolute', lower_limit=-calc.RAD90)
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (0, -1)))
             self.occupied_fields.append(calc.tuple_add(sp, (0, -2)))
@@ -344,7 +346,7 @@ class World:
             # add new revolute joint at this position
             loc = (sp[0] - 1, sp[1], scale[2] / 2)
             rot = (0, 0, 0)
-            self.new_object(location=loc, rotation=rot, scale=scale, joint_type='revolute', upper_limit=radians(90))
+            self.new_object(location=loc, rotation=rot, scale=scale, joint_type='revolute', upper_limit=calc.RAD90)
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (-1, 0)))
             self.occupied_fields.append(calc.tuple_add(sp, (-2, 0)))
@@ -366,7 +368,7 @@ class World:
             # add new revolute joint at this position
             loc = (sp[0] - 1, sp[1], scale[2] / 2)
             rot = (0, 0, 0)
-            self.new_object(location=loc, rotation=rot, scale=scale, joint_type='revolute', lower_limit=radians(-90))
+            self.new_object(location=loc, rotation=rot, scale=scale, joint_type='revolute', lower_limit=-calc.RAD90)
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (-1, 0)))
             self.occupied_fields.append(calc.tuple_add(sp, (-2, 0)))
@@ -500,7 +502,18 @@ class World:
                 limit -= self.upper_limit_revolute[0]
             return radians(limit)
 
-    def sample_joint(self, attempts=50, planning_time=5., area_size=3):
+    def calculate_next_start_point(self, is_prismatic, pos, rotation, limit):
+        """
+        Calculate the center of the sampling area for the next joint to maximize the chance of blocking the previous
+        joint.
+        """
+        if is_prismatic:
+            link_oriented = calc.rotate((0, self.prismatic_length / 2 + limit / 2), rotation)
+        else:
+            link_oriented = calc.rotate((self.revolute_length, 0), rotation + calc.RAD90)
+        return calc.tuple_add(pos, link_oriented)
+
+    def sample_joint(self, attempts, planning_time, first_test_advantage=1.5, area_size=3):
         """
         Assume that the first link+joint as been placed already.
         Try to place a new link+joint at a random position within in a continuous interval so that the puzzle
@@ -510,22 +523,22 @@ class World:
         threshold = self.prismatic_joints_target / (self.prismatic_joints_target + self.revolute_joints_target)
         is_prismatic: bool
         for i in range(attempts):
-            offset = (random() * area_size * 2 - area_size, random() * area_size * 2 - area_size)
+            offset = (random() * area_size - area_size / 2, random() * area_size - area_size / 2)
             new_point = calc.tuple_add(self.start_point, offset)
-            rotation = random() * 360
+            rotation = radians(random() * 360)
             if random() < threshold:
                 # create immovable prismatic joint (joint limits = 0)
-                self.new_object((new_point[0], new_point[1], 0.5), (radians(-90), 0, radians(rotation)), (1, 1, 2),
+                self.new_object((new_point[0], new_point[1], 0.5), (-calc.RAD90, 0, rotation), (1, 1, self.prismatic_length),
                                 'prismatic', lower_limit=0, upper_limit=0, add_to_goal_space=False)
                 is_prismatic = True
             else:
                 # create immovable revolute joint (joint limits = 0)
-                self.new_object((new_point[0], new_point[1], 0.5), (0, 0, radians(rotation)), (3, 1, 1),
+                self.new_object((new_point[0], new_point[1], 0.5), (0, 0, rotation), (self.revolute_length, 1, 1),
                                 'revolute', lower_limit=0, upper_limit=0, add_to_goal_space=False)
                 is_prismatic = False
             self.create_collision(self.movable_objects[-1])
             self.export()
-            result = self.test_with_pybullet_ompl(planning_time)
+            result = self.test_with_pybullet_ompl(planning_time * first_test_advantage)
             if result == 0:
                 # can be solved with the immovable joint
                 # we do not want that
@@ -542,7 +555,7 @@ class World:
                 # and check solvability again
                 result = self.test_with_pybullet_ompl(planning_time)
                 if result == 0:
-                    self.start_point = new_point
+                    self.start_point = self.calculate_next_start_point(is_prismatic, new_point, rotation, limit)
                     if is_prismatic:
                         self.prismatic_joints_target -= 1
                     else:
@@ -561,7 +574,7 @@ class World:
         """
         self.start_state.append(0)
         threshold = self.prismatic_joints_target / (self.prismatic_joints_target + self.revolute_joints_target)
-        rot = random() * 360
+        rot = radians(random() * 360)
         # since this is the first joint, we do not need to check solvability
         # but the goal is to move link0 to a specific location
         # so this dimension in the goal space must be narrowed
@@ -569,41 +582,42 @@ class World:
             # create prismatic joint
             limit = self.get_random_limit(True)
             self.goal_space.append((limit - self.goal_adjustment, limit - self.goal_adjustment))
-            self.new_object((self.start_point[0], self.start_point[1], 0.5), (radians(-90), 0, radians(rot)), (1, 1, 2),
+            self.new_object((self.start_point[0], self.start_point[1], 0.5), (-calc.RAD90, 0, rot), (1, 1, self.prismatic_length),
                             'prismatic', lower_limit=0, upper_limit=limit, add_to_goal_space=False)
             self.prismatic_joints_target -= 1
+            self.start_point = self.calculate_next_start_point(True, self.start_point, rot, limit)
         else:
             # create revolute joint
             limit = self.get_random_limit(False)
             if limit > 0:
                 self.goal_space.append((limit - self.goal_adjustment, limit - self.goal_adjustment))
-                self.new_object((self.start_point[0], self.start_point[1], 0.5), (0, 0, radians(rot)), (3, 1, 1),
+                self.new_object((self.start_point[0], self.start_point[1], 0.5), (0, 0, rot), (self.revolute_length, 1, 1),
                                 'revolute', lower_limit=0, upper_limit=limit, add_to_goal_space=False)
             else:
                 self.goal_space.append((limit + self.goal_adjustment, limit + self.goal_adjustment))
-                self.new_object((self.start_point[0], self.start_point[1], 0.5), (0, 0, radians(rot)), (3, 1, 1),
+                self.new_object((self.start_point[0], self.start_point[1], 0.5), (0, 0, rot), (self.revolute_length, 1, 1),
                                 'revolute', lower_limit=limit, upper_limit=0, add_to_goal_space=False)
             self.revolute_joints_target -= 1
+            self.start_point = self.calculate_next_start_point(False, self.start_point, rot, limit)
 
-    def create_sampleworld_puzzle(self, attempts=50):
+    def create_sampleworld_puzzle(self, attempts=50, planning_time=0.1, planning_time_multiplier=2):
         """
         Sample links with joints interatively
         """
-        planning_time = 1
         self.sample_first_joint()
         self.create_collision()
         for i in range(1, self.total_number_joints):
             result = self.sample_joint(attempts, planning_time)
             if result != 0:
-                print("\U000026D4 \U000026D4 \U000026D4 \U000026D4 \U000026D4 \U000026D4 \U000026D4 \U000026D4 ")
+                print("\U000026D4 " * 64)
                 print("Could NOT sample link" + str(i), "after", attempts, "attempts!")
-                print("\U000026D4 \U000026D4 \U000026D4 \U000026D4 \U000026D4 \U000026D4 \U000026D4 \U000026D4 ")
+                print("\U000026D4 " * 64)
                 return result
-            print("Successfully sampled link" + str(i), "\U000026F3 \U000026F3 \U000026F3 \U000026F3 ")
-            planning_time *= 2
-        print("\U000026F3 \U000026F3 \U000026F3 \U000026F3 \U000026F3 \U000026F3 \U000026F3 \U000026F3 ")
+            print("Successfully sampled link" + str(i), "\U000026F3 " * i)
+            planning_time *= planning_time_multiplier
+        print("\U000026F3 " * 32)
         print("SUCCESS! Sampled", self.total_number_joints, "links!")
-        print("\U000026F3 \U000026F3 \U000026F3 \U000026F3 \U000026F3 \U000026F3 \U000026F3 \U000026F3 ")
+        print("\U000026F3 " * 32)
         return 0
 
     def create_collision(self, obj=None):

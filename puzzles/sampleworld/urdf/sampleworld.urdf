@@ -95,19 +95,19 @@
     </joint>
 
     <joint name="link1" type="revolute">
-      <origin xyz="-2.51733 -1.07967 0.5" rpy="0 0 -3.0917"/>
+      <origin xyz="1.89729 1.60702 0.5" rpy="0 0 -2.61769"/>
       <parent link="base_link"/>
       <child link="link1"/>
       <axis xyz="0 0 1.0"/>
-      <limit lower="-2.79898" upper="0" effort="0" velocity="0"/>
+      <limit lower="0" upper="1.58552" effort="0" velocity="0"/>
     </joint>
 
     <joint name="link2" type="prismatic">
-      <origin xyz="-0.44686 -2.62146 0.5" rpy="-1.5708 0 -1.6871"/>
+      <origin xyz="2.7436 -0.22319 0.5" rpy="-1.5708 0 -2.39786"/>
       <parent link="base_link"/>
       <child link="link2"/>
       <axis xyz="0 0 1.0"/>
-      <limit lower="0" upper="1.44092" effort="0" velocity="0"/>
+      <limit lower="0" upper="3.81949" effort="0" velocity="0"/>
     </joint>
 
     <material name="green">
