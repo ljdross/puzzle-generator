@@ -7,6 +7,10 @@ RAD360 = radians(90)
 
 
 def tuple_add(a: tuple, b: tuple) -> tuple:
+    """
+    Return the result of the addition of two tuples.
+    Source: https://stackoverflow.com/questions/497885/python-element-wise-tuple-operations-like-sum
+    """
     return tuple(map(lambda x, y: x + y, a, b))
 
 
