@@ -2,7 +2,6 @@ from random import seed
 from random import random
 from random import choice
 from subprocess import run
-from math import radians
 import bpy
 import os
 import sys
@@ -30,7 +29,7 @@ class World:
             self.start_points = [(0, 0)]
             self.start_point = (0, 0)
             self.upper_limit_prismatic = (2, 4)  # interval for the random upper limit, the lower limit is always 0
-            self.upper_limit_revolute = (90, 180)
+            self.upper_limit_revolute = (calc.RAD90, calc.RAD180)
             self.prismatic_length = 2
             self.revolute_length = 3
         self.goal_adjustment = 0.0001
@@ -500,7 +499,7 @@ class World:
                 limit += self.upper_limit_revolute[0]
             else:
                 limit -= self.upper_limit_revolute[0]
-            return radians(limit)
+            return limit
 
     def calculate_next_start_point(self, is_prismatic, pos, rotation, limit):
         """
@@ -525,7 +524,7 @@ class World:
         for i in range(attempts):
             offset = (random() * area_size - area_size / 2, random() * area_size - area_size / 2)
             new_point = calc.tuple_add(self.start_point, offset)
-            rotation = radians(random() * 360)
+            rotation = random() * calc.RAD360
             if random() < threshold:
                 # create immovable prismatic joint (joint limits = 0)
                 self.new_object((new_point[0], new_point[1], 0.5), (-calc.RAD90, 0, rotation), (1, 1, self.prismatic_length),
@@ -574,7 +573,7 @@ class World:
         """
         self.start_state.append(0)
         threshold = self.prismatic_joints_target / (self.prismatic_joints_target + self.revolute_joints_target)
-        rot = radians(random() * 360)
+        rotation = random() * calc.RAD360
         # since this is the first joint, we do not need to check solvability
         # but the goal is to move link0 to a specific location
         # so this dimension in the goal space must be narrowed
@@ -582,23 +581,23 @@ class World:
             # create prismatic joint
             limit = self.get_random_limit(True)
             self.goal_space.append((limit - self.goal_adjustment, limit - self.goal_adjustment))
-            self.new_object((self.start_point[0], self.start_point[1], 0.5), (-calc.RAD90, 0, rot), (1, 1, self.prismatic_length),
+            self.new_object((self.start_point[0], self.start_point[1], 0.5), (-calc.RAD90, 0, rotation), (1, 1, self.prismatic_length),
                             'prismatic', lower_limit=0, upper_limit=limit, add_to_goal_space=False)
             self.prismatic_joints_target -= 1
-            self.start_point = self.calculate_next_start_point(True, self.start_point, rot, limit)
+            self.start_point = self.calculate_next_start_point(True, self.start_point, rotation, limit)
         else:
             # create revolute joint
             limit = self.get_random_limit(False)
             if limit > 0:
                 self.goal_space.append((limit - self.goal_adjustment, limit - self.goal_adjustment))
-                self.new_object((self.start_point[0], self.start_point[1], 0.5), (0, 0, rot), (self.revolute_length, 1, 1),
+                self.new_object((self.start_point[0], self.start_point[1], 0.5), (0, 0, rotation), (self.revolute_length, 1, 1),
                                 'revolute', lower_limit=0, upper_limit=limit, add_to_goal_space=False)
             else:
                 self.goal_space.append((limit + self.goal_adjustment, limit + self.goal_adjustment))
-                self.new_object((self.start_point[0], self.start_point[1], 0.5), (0, 0, rot), (self.revolute_length, 1, 1),
+                self.new_object((self.start_point[0], self.start_point[1], 0.5), (0, 0, rotation), (self.revolute_length, 1, 1),
                                 'revolute', lower_limit=limit, upper_limit=0, add_to_goal_space=False)
             self.revolute_joints_target -= 1
-            self.start_point = self.calculate_next_start_point(False, self.start_point, rot, limit)
+            self.start_point = self.calculate_next_start_point(False, self.start_point, rotation, limit)
 
     def create_sampleworld_puzzle(self, attempts=50, planning_time=0.1, planning_time_multiplier=2):
         """

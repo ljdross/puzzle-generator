@@ -1,9 +1,10 @@
 from math import radians, cos, sin
 
 
+RAD45 = radians(45)
 RAD90 = radians(90)
-RAD180 = radians(90)
-RAD360 = radians(90)
+RAD180 = radians(180)
+RAD360 = radians(360)
 
 
 def tuple_add(a: tuple, b: tuple) -> tuple:
