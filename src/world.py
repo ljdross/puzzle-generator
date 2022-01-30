@@ -1,6 +1,4 @@
-from random import seed
-from random import random
-from random import choice
+from random import seed, random, choice
 from subprocess import run
 import bpy
 import os
