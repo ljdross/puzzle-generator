@@ -3,6 +3,7 @@ import sys
 DIR = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(DIR)
 from src.world import World
+from src.sampling import SimpleSliders
 
 
 # output settings and world properties
