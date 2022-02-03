@@ -269,3 +269,11 @@ class ContinuousSpaceSampler(PuzzleSampler):
             return 0
         else:
             return result
+
+
+class Lockbox2017Sampler(PuzzleSampler):
+    def __init__(self, config, world: World):
+        super().__init__(config, world)
+
+    def build(self):
+        raise NotImplementedError
