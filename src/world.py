@@ -41,6 +41,7 @@ class World:
 
     def reset(self):
         """Delete everything and reset position of 3D cursor."""
+        self.movable_objects = []
         bpy.ops.object.select_all(action='SELECT')
         bpy.ops.object.delete(use_global=True)
         bpy.context.scene.cursor.location = (0, 0, 0)
@@ -475,6 +476,8 @@ class World:
             else:
                 bpy.context.object.pose.bones["Bone"].constraints["Limit Rotation"].max_x = limit
         self.export()
+
+        # TODO: remove the following and change name of this function
         if limit > self.goal_adjustment:
             self.goal_space.append((0, limit - self.goal_adjustment))
         elif limit < -self.goal_adjustment:
