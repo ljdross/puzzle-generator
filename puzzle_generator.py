@@ -2,7 +2,7 @@ import os
 import sys
 DIR = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(DIR)
-from src.world import World
+from src.world import BlenderWorld
 from src.sampling import SimpleSlidersSampler, ContinuousSpaceSampler, GridWorldSampler
 from src.solvability_testing import test_urdf
 
@@ -22,7 +22,7 @@ config = {
 }
 
 # create world according to config
-world = World(config)
+world = BlenderWorld(config)
 
 sampler = SimpleSlidersSampler(config, world)
 sampler.build()

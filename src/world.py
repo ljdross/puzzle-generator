@@ -6,7 +6,7 @@ sys.path.append(DIR)
 import color
 
 
-class World:
+class BlenderWorld:
     def __init__(self, config):
         """Initialize all attributes with required world properties."""
         self.name = config["puzzle_name"]

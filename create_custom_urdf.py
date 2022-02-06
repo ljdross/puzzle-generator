@@ -2,7 +2,7 @@ import os
 import sys
 DIR = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(DIR)
-from src.world import World
+from src.world import BlenderWorld
 from src import calc
 
 
@@ -17,7 +17,7 @@ config = {
 }
 
 # create world
-world = World(config)
+world = BlenderWorld(config)
 world.reset()
 world.create_base_link()
 

@@ -3,13 +3,13 @@ import os
 import sys
 DIR = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(DIR)
-from world import World
+from world import BlenderWorld
 from solvability_testing import test_urdf
 import calc
 
 
 class PuzzleSampler:
-    def __init__(self, config, world: World):
+    def __init__(self, config, world: BlenderWorld):
         self.world = world
         self.number_prismatic_joints = config["number_prismatic_joints"]
         self.number_revolute_joints = config["number_revolute_joints"]
@@ -22,8 +22,6 @@ class PuzzleSampler:
         self.branching_target = self.branching_factor
         self.start_points = [(0, 0)]
         self.start_point = (0, 0)
-        self.upper_limit_prismatic = (2, 4)  # interval for the random upper limit, the lower limit is always 0
-        self.upper_limit_revolute = (calc.RAD90, calc.RAD180)
         self.prismatic_length = 2
         self.revolute_length = 3
         self.goal_adjustment = 0.0001
@@ -59,15 +57,15 @@ class PuzzleSampler:
 
         self.goal_space.append((lower_limit, upper_limit))
 
-    def make_lower_and_upper_limit(self, distance):
-        if distance < 0:
-            return distance, 0
+    def return_lower_and_upper_limit(self, span):
+        if span < 0:
+            return span, 0
         else:
-            return 0, distance
+            return 0, span
 
 
 class SimpleSlidersSampler(PuzzleSampler):
-    def __init__(self, config, world: World):
+    def __init__(self, config, world: BlenderWorld):
         super().__init__(config, world)
 
     def _create_simple_sliders_puzzle(self):
@@ -93,15 +91,17 @@ class SimpleSlidersSampler(PuzzleSampler):
 
 
 class ContinuousSpaceSampler(PuzzleSampler):
-    def __init__(self, config, world: World):
+    def __init__(self, config, world: BlenderWorld):
         super().__init__(config, world)
         self.attempts = 50
         self.planning_time = 0.1
         self.next_joint_time_multiplier = 2
         self.first_test_time_multiplier = 1.5
         self.area_size = 3
+        self.upper_limit_prismatic = (2, 4)  # interval for the random upper limit, the lower limit is always 0
+        self.upper_limit_revolute = (calc.RAD90, calc.RAD180)  # same here
 
-    def _get_random_limit_distance(self, is_prismatic):
+    def _get_random_limit_span(self, is_prismatic):
         """
         Return a random limit within the interval upper_limit_prismatic or upper_limit_revolute respectively.
         If not prismatic the return value will be in radians and there is a 50 % chance that it will be negative.
@@ -141,23 +141,23 @@ class ContinuousSpaceSampler(PuzzleSampler):
         # so this dimension in the goal space must be narrowed
         if random() < threshold:
             # create prismatic joint
-            limit_distance = self._get_random_limit_distance(True)
+            limit_span = self._get_random_limit_span(True)
             self.world.new_object((self.start_point[0], self.start_point[1], 0.5), (-calc.RAD90, 0, rotation), (1, 1, self.prismatic_length),
-                            'prismatic', lower_limit=0, upper_limit=limit_distance)
+                            'prismatic', lower_limit=0, upper_limit=limit_span)
             self.prismatic_joints_target -= 1
-            self.start_point = self._calculate_next_start_point(True, self.start_point, rotation, limit_distance)
+            self.start_point = self._calculate_next_start_point(True, self.start_point, rotation, limit_span)
         else:
             # create revolute joint
-            limit_distance = self._get_random_limit_distance(False)
-            if limit_distance > 0:
+            limit_span = self._get_random_limit_span(False)
+            if limit_span > 0:
                 self.world.new_object((self.start_point[0], self.start_point[1], 0.5), (0, 0, rotation), (self.revolute_length, 1, 1),
-                                'revolute', lower_limit=0, upper_limit=limit_distance)
+                                'revolute', lower_limit=0, upper_limit=limit_span)
             else:
                 self.world.new_object((self.start_point[0], self.start_point[1], 0.5), (0, 0, rotation), (self.revolute_length, 1, 1),
-                                'revolute', lower_limit=limit_distance, upper_limit=0)
+                                'revolute', lower_limit=limit_span, upper_limit=0)
             self.revolute_joints_target -= 1
-            self.start_point = self._calculate_next_start_point(False, self.start_point, rotation, limit_distance)
-        self.goal_space_append((limit_distance, limit_distance))
+            self.start_point = self._calculate_next_start_point(False, self.start_point, rotation, limit_span)
+        self.goal_space_append((limit_span, limit_span))
 
     def _sample_next_joint(self):
         """
@@ -195,16 +195,16 @@ class ContinuousSpaceSampler(PuzzleSampler):
             else:
                 # the new (immovable) joint successfully blocks the previously solvable puzzle
                 # now make it movable
-                limit_distance = self._get_random_limit_distance(is_prismatic)
-                self.world.set_limit_of_active_object(limit_distance, is_prismatic)
-                limits_tuple = self.make_lower_and_upper_limit(limit_distance)
+                limit_span = self._get_random_limit_span(is_prismatic)
+                self.world.set_limit_of_active_object(limit_span, is_prismatic)
+                limits_tuple = self.return_lower_and_upper_limit(limit_span)
                 self.goal_space_append(limits_tuple)
                 self.start_state.append(0)
 
                 # and check solvability again
                 result = test_urdf(self.world.urdf_path, self.start_state, self.goal_space, self.planning_time)
                 if result == 0:
-                    self.start_point = self._calculate_next_start_point(is_prismatic, new_point, rotation, limit_distance)
+                    self.start_point = self._calculate_next_start_point(is_prismatic, new_point, rotation, limit_span)
                     if is_prismatic:
                         self.prismatic_joints_target -= 1
                     else:
@@ -249,7 +249,7 @@ class ContinuousSpaceSampler(PuzzleSampler):
 
 
 class GridWorldSampler(PuzzleSampler):
-    def __init__(self, config, world: World):
+    def __init__(self, config, world: BlenderWorld):
         super().__init__(config, world)
         self.attempts = 50
         self.start_points = [(0.5, 0.5)]
@@ -619,7 +619,7 @@ class GridWorldSampler(PuzzleSampler):
 
 
 class Lockbox2017Sampler(PuzzleSampler):
-    def __init__(self, config, world: World):
+    def __init__(self, config, world: BlenderWorld):
         super().__init__(config, world)
 
     def build(self):
