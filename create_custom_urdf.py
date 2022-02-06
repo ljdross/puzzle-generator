@@ -1,10 +1,10 @@
 import os
 import sys
+
 DIR = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(DIR)
 from src.world import BlenderWorld
 from src import calc
-
 
 # output settings (ADJUST AS NEEDED)
 config = {
@@ -21,7 +21,6 @@ world = BlenderWorld(config)
 world.reset()
 world.create_base_link()
 
-
 # add custom objects (ADJUST AS NEEDED)
 world.new_object((0, 5, 2), (0, 0, 0), (2, 0.2, 4), 'revolute', -calc.RAD45, calc.RAD45)
 
@@ -34,8 +33,6 @@ world.new_object((joint_end_point[0], joint_end_point[1], 0.1), (0, 0, 0), (0.2,
 joint_end_point = calc.rotate(joint_end_point, angle_rad)
 world.new_object((joint_end_point[0], joint_end_point[1], 0.1), (0, 0, angle_rad), (0.2, 0.2, 0.2), 'prismatic', 0, 0)
 
-
 # export
 world.create_collision()
 world.export()
-

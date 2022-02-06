@@ -1,6 +1,7 @@
 import bpy
 import os
 import sys
+
 DIR = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(DIR)
 import color
@@ -28,7 +29,7 @@ class BlenderWorld:
 
     def create_cube(self, name, parent=None, location=(0, 0, 0), rotation=(0, 0, 0), scale=(1, 1, 1), material=None):
         """Create a visual cube object with the appropriate Phobos object properties. Returns cube object."""
-        bpy.ops.mesh.primitive_cube_add(location=location, rotation=rotation, scale=tuple(x/2 for x in scale))
+        bpy.ops.mesh.primitive_cube_add(location=location, rotation=rotation, scale=tuple(x / 2 for x in scale))
         cube = bpy.context.active_object
         cube.active_material = material if material else color.WHITE
         bpy.ops.phobos.set_phobostype(phobostype='visual')
@@ -42,17 +43,16 @@ class BlenderWorld:
         """Create link (at origin of object). Also create joint at child if joint_type is specified."""
         bpy.ops.object.select_all(action='DESELECT')
         obj.select_set(True)
-        bpy.ops.phobos.create_links(location='selected objects', size=8,
-                                    parent_link=True, parent_objects=True, nameformat=name)
+        bpy.ops.phobos.create_links(location='selected objects', size=8, parent_link=True, parent_objects=True,
+                                    nameformat=name)
         if joint_type:
             bpy.ops.phobos.define_joint_constraints(passive=True, joint_type=joint_type, lower=lower, upper=upper)
 
     def create_base_link(self):
         """Create a base object to become the base link for all other links.
         If no physical floor is needed, set self.floor_size = 0"""
-        self.base_object = self.create_cube(name="visual_cube_base",
-                                            location=(0, 0, -0.1), scale=(self.floor_size, self.floor_size, 0.2),
-                                            material=color.LAVENDER)
+        self.base_object = self.create_cube(name="visual_cube_base", location=(0, 0, -0.1),
+                                            scale=(self.floor_size, self.floor_size, 0.2), material=color.LAVENDER)
         self.create_link_and_joint(self.base_object, "base_link")
 
     def new_object(self, location, rotation, scale, joint_type, lower_limit=0, upper_limit=0, material=None):

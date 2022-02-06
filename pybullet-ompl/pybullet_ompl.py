@@ -3,6 +3,7 @@ import sys
 import os
 import pybullet as pb
 from ast import literal_eval
+
 DIR = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(DIR)
 
@@ -28,7 +29,7 @@ if SHOW_GUI:
 else:
     pb.connect(pb.DIRECT)
 
-pb.setTimeStep(1./60.)
+pb.setTimeStep(1. / 60.)
 
 # load robot
 robot_id = pb.loadURDF(FILEPATH_FOR_INPUT, (0, 0, 0), useFixedBase=1)
