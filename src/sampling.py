@@ -11,8 +11,6 @@ import calc
 class PuzzleSampler:
     def __init__(self, config, world: World):
         self.world = world
-        self.name = config["puzzle_name"]
-        self.directory = config["dir_for_output"] + "/" + config["puzzle_name"]
         self.number_prismatic_joints = config["number_prismatic_joints"]
         self.number_revolute_joints = config["number_revolute_joints"]
         self.total_number_joints = self.number_prismatic_joints + self.number_revolute_joints
@@ -31,11 +29,6 @@ class PuzzleSampler:
         self.goal_adjustment = 0.0001
         self.start_state = []
         self.goal_space = []
-        # self.floor_size = config["floor_size"]
-        # self.export_entity_srdf = config["export_entity_srdf"]
-        # self.export_mesh_dae = config["export_mesh_dae"]
-        # self.base_object = None
-        # self.movable_objects = []
 
     def build(self):
         raise NotImplementedError
@@ -150,7 +143,7 @@ class ContinuousSpaceSampler(PuzzleSampler):
             # create prismatic joint
             limit_distance = self._get_random_limit_distance(True)
             self.world.new_object((self.start_point[0], self.start_point[1], 0.5), (-calc.RAD90, 0, rotation), (1, 1, self.prismatic_length),
-                            'prismatic', lower_limit=0, upper_limit=limit_distance, add_to_goal_space=False)
+                            'prismatic', lower_limit=0, upper_limit=limit_distance)
             self.prismatic_joints_target -= 1
             self.start_point = self._calculate_next_start_point(True, self.start_point, rotation, limit_distance)
         else:
@@ -158,10 +151,10 @@ class ContinuousSpaceSampler(PuzzleSampler):
             limit_distance = self._get_random_limit_distance(False)
             if limit_distance > 0:
                 self.world.new_object((self.start_point[0], self.start_point[1], 0.5), (0, 0, rotation), (self.revolute_length, 1, 1),
-                                'revolute', lower_limit=0, upper_limit=limit_distance, add_to_goal_space=False)
+                                'revolute', lower_limit=0, upper_limit=limit_distance)
             else:
                 self.world.new_object((self.start_point[0], self.start_point[1], 0.5), (0, 0, rotation), (self.revolute_length, 1, 1),
-                                'revolute', lower_limit=limit_distance, upper_limit=0, add_to_goal_space=False)
+                                'revolute', lower_limit=limit_distance, upper_limit=0)
             self.revolute_joints_target -= 1
             self.start_point = self._calculate_next_start_point(False, self.start_point, rotation, limit_distance)
         self.goal_space_append((limit_distance, limit_distance))
@@ -182,12 +175,12 @@ class ContinuousSpaceSampler(PuzzleSampler):
             if random() < threshold:
                 # create immovable prismatic joint (joint limits = 0)
                 self.world.new_object((new_point[0], new_point[1], 0.5), (-calc.RAD90, 0, rotation), (1, 1, self.prismatic_length),
-                                'prismatic', lower_limit=0, upper_limit=0, add_to_goal_space=False)
+                                'prismatic', lower_limit=0, upper_limit=0)
                 is_prismatic = True
             else:
                 # create immovable revolute joint (joint limits = 0)
                 self.world.new_object((new_point[0], new_point[1], 0.5), (0, 0, rotation), (self.revolute_length, 1, 1),
-                                'revolute', lower_limit=0, upper_limit=0, add_to_goal_space=False)
+                                'revolute', lower_limit=0, upper_limit=0)
                 is_prismatic = False
             self.world.create_collision(self.world.movable_objects[-1])
             self.world.export()
@@ -203,7 +196,7 @@ class ContinuousSpaceSampler(PuzzleSampler):
                 # the new (immovable) joint successfully blocks the previously solvable puzzle
                 # now make it movable
                 limit_distance = self._get_random_limit_distance(is_prismatic)
-                self.world.set_limit_of_active_object_and_add_to_goal_space(limit_distance, is_prismatic)
+                self.world.set_limit_of_active_object(limit_distance, is_prismatic)
                 limits_tuple = self.make_lower_and_upper_limit(limit_distance)
                 self.goal_space_append(limits_tuple)
                 self.start_state.append(0)
