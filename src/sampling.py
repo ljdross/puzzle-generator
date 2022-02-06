@@ -1,10 +1,10 @@
 from random import seed, random, choice
-from subprocess import run
 import os
 import sys
 DIR = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(DIR)
 from world import World
+from solvability_testing import test_urdf
 import calc
 
 
@@ -71,23 +71,6 @@ class PuzzleSampler:
             return distance, 0
         else:
             return 0, distance
-
-    def test_with_pybullet_ompl(self, allowed_planning_time=5., show_gui=False, have_exact_solution=True,
-                                planner="RRTConnect", verbose=False):
-        """Test solvability with [pybullet_ompl](https://github.com/lyf44/pybullet_ompl) as a subprocess."""
-        input_path = self.directory + "/urdf/" + self.name + ".urdf"
-        start_state = str(self.start_state)
-        print("self.start_state = " + start_state)
-        goal_state = str(self.goal_space)
-        print("self.goal_space = " + goal_state)
-        result = run(["python3", "pybullet-ompl/pybullet_ompl.py", input_path, start_state, goal_state,
-                      str(show_gui), str(allowed_planning_time), str(have_exact_solution), planner]).returncode
-        if verbose:
-            if result == 0:
-                print("FOUND SOLUTION!")
-            else:
-                print("DID NOT FIND SOLUTION!")
-        return result
 
 
 class SimpleSlidersSampler(PuzzleSampler):
@@ -208,7 +191,8 @@ class ContinuousSpaceSampler(PuzzleSampler):
                 is_prismatic = False
             self.world.create_collision(self.world.movable_objects[-1])
             self.world.export()
-            result = self.test_with_pybullet_ompl(self.planning_time * self.first_test_time_multiplier)
+            result = test_urdf(self.world.urdf_path, self.start_state, self.goal_space,
+                               self.planning_time * self.first_test_time_multiplier)
             if result == 0:
                 # can be solved with the immovable joint
                 # we do not want that
@@ -225,7 +209,7 @@ class ContinuousSpaceSampler(PuzzleSampler):
                 self.start_state.append(0)
 
                 # and check solvability again
-                result = self.test_with_pybullet_ompl(self.planning_time)
+                result = test_urdf(self.world.urdf_path, self.start_state, self.goal_space, self.planning_time)
                 if result == 0:
                     self.start_point = self._calculate_next_start_point(is_prismatic, new_point, rotation, limit_distance)
                     if is_prismatic:

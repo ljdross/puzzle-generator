@@ -1,5 +1,4 @@
 from random import seed, random, choice
-from subprocess import run
 import bpy
 import os
 import sys
@@ -14,6 +13,7 @@ class World:
         """Initialize all attributes with required world properties."""
         self.name = config["puzzle_name"]
         self.directory = config["dir_for_output"] + "/" + config["puzzle_name"]
+        self.urdf_path = self.directory + "/urdf/" + self.name + ".urdf"
         if not config["custom_urdf"]:
             self.number_prismatic_joints = config["number_prismatic_joints"]
             self.number_revolute_joints = config["number_revolute_joints"]
@@ -675,20 +675,3 @@ class World:
         else:
             self.reset()
             return result
-
-    def test_with_pybullet_ompl(self, allowed_planning_time=5., show_gui=False, have_exact_solution=True,
-                                planner="RRTConnect", verbose=False):
-        """Test solvability with [pybullet_ompl](https://github.com/lyf44/pybullet_ompl) as a subprocess."""
-        input_path = self.directory + "/urdf/" + self.name + ".urdf"
-        start_state = str(self.start_state)
-        print("self.start_state = " + start_state)
-        goal_state = str(self.goal_space)
-        print("self.goal_space = " + goal_state)
-        result = run(["python3", "pybullet-ompl/pybullet_ompl.py", input_path, start_state, goal_state,
-                      str(show_gui), str(allowed_planning_time), str(have_exact_solution), planner]).returncode
-        if verbose:
-            if result == 0:
-                print("FOUND SOLUTION!")
-            else:
-                print("DID NOT FIND SOLUTION!")
-        return result
