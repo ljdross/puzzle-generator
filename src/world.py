@@ -413,7 +413,7 @@ class World:
     def create_gridworld_puzzle(self):
         """Create movable objects to become links for the puzzle (in a grid world)."""
         self.start_points = [(0.5, 0.5)]
-        self.occupied_fields = self.start_points.copy()   # TODO: make local & put needed functions inside this function
+        self.occupied_fields = self.start_points.copy()
         self.position_sequence = []
         self.epsilon = 0.1
         try_prismatic: bool
