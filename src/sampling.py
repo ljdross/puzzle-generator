@@ -12,13 +12,13 @@ import calc
 class PuzzleSampler:
     def __init__(self, config, world: BlenderWorld):
         self.world = world
+        self.floor_size = config["floor_size"]
         self.number_prismatic_joints = config["number_prismatic_joints"]
         self.number_revolute_joints = config["number_revolute_joints"]
         self.total_number_joints = self.number_prismatic_joints + self.number_revolute_joints
         self.branching_factor = config["branching_factor_target"]
-        self.floor_size = config["floor_size"]
+        self.attempts = config["attempts"]
         seed(config["seed_for_randomness"])
-        self.allow_clockwise = config["allow_clockwise"]
         self.prismatic_joints_target = self.number_prismatic_joints
         self.revolute_joints_target = self.number_revolute_joints
         self.branching_target = self.branching_factor
@@ -69,9 +69,13 @@ class PuzzleSampler:
 class SimpleSlidersSampler(PuzzleSampler):
     def __init__(self, config, world: BlenderWorld):
         super().__init__(config, world)
+        world.update_name("simple_sliders")
 
     def _create_simple_sliders_puzzle(self):
-        """Create a very simple model that only works with prismatic joints (number_revolute_joints must equal 0)."""
+        """
+        Create a very simple model that only works with prismatic joints
+        (ignore number_revolute_joints and branching_factor).
+        """
         for i in range(self.number_prismatic_joints):
             if i % 2 == 0:
                 self.world.new_object(location=(i / 2, i / -2, 0.1), rotation=(calc.RAD90, 0, 0),
@@ -95,7 +99,7 @@ class SimpleSlidersSampler(PuzzleSampler):
 class ContinuousSpaceSampler(PuzzleSampler):
     def __init__(self, config, world: BlenderWorld):
         super().__init__(config, world)
-        self.attempts = 50
+        world.update_name("sampleworld")
         self.planning_time = 0.1
         self.next_joint_time_multiplier = 2
         self.first_test_time_multiplier = 1.5
@@ -253,12 +257,12 @@ class ContinuousSpaceSampler(PuzzleSampler):
 class GridWorldSampler(PuzzleSampler):
     def __init__(self, config, world: BlenderWorld):
         super().__init__(config, world)
-        self.attempts = 50
+        world.update_name("gridworld")
+        self.allow_clockwise = config["allow_clockwise"]
         self.start_points = [(0.5, 0.5)]
         self.occupied_fields = self.start_points.copy()
         self.position_sequence = []
         self.epsilon = 0.1
-        self.allow_clockwise = True
 
     def _new_prismatic_joint(self):
         # check available positions for prismatic joint

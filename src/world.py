@@ -10,13 +10,22 @@ import color
 class BlenderWorld:
     def __init__(self, config):
         """Initialize all attributes with required world properties."""
-        self.name = config["puzzle_name"]
-        self.directory = config["dir_for_output"] + "/" + config["puzzle_name"]
+        if "puzzle_name" in config:
+            self.name = config["puzzle_name"]
+        else:
+            self.name = "default_name"
+        self._dir_for_output = config["dir_for_output"]
+        self.directory = self._dir_for_output + "/" + self.name
         self.urdf_path = self.directory + "/urdf/" + self.name + ".urdf"
         self.export_entity_srdf = config["export_entity_srdf"]
         self.export_mesh_dae = config["export_mesh_dae"]
         self.base_object = None
         self.movable_objects = []
+
+    def update_name(self, new_name="new_default_name"):
+        self.name = new_name
+        self.directory = self._dir_for_output + "/" + self.name
+        self.urdf_path = self.directory + "/urdf/" + self.name + ".urdf"
 
     def reset(self):
         """Delete everything and reset position of 3D cursor."""

@@ -8,32 +8,41 @@ from src.sampling import SimpleSlidersSampler, ContinuousSpaceSampler, GridWorld
 from src.solvability_testing import test_urdf
 
 # output settings and world properties
-config = {
-    "puzzle_name": "sampleworld",
+world_config = {
     "dir_for_output": "/home/userone/ba/puzzle-generator/puzzles",
+    "export_entity_srdf": True,
+    "export_mesh_dae": False,
+}
+
+sampler_config = {
+    # this part of the config is always required
+    "floor_size": 32,
     "number_prismatic_joints": 1,
     "number_revolute_joints": 2,
     "branching_factor_target": 2,  # should not be higher than number_revolute_joints
-    "floor_size": 32,
+    "attempts": 50,
     "seed_for_randomness": 0,  # choose None for pseudorandom
+
+    # this part is only required for GridWorldSampler
     "allow_clockwise": True,  # allow both clockwise and counterclockwise rotating revolute joints
-    "export_entity_srdf": True,
-    "export_mesh_dae": False
+
+    # this part is only required for ContinuousSpaceSampler
+
+    # this part is only required for ...
+
 }
 
-# create world according to config
-world = BlenderWorld(config)
+# set up world according to world_config
+world = BlenderWorld(world_config)
 
-sampler = SimpleSlidersSampler(config, world)
+sampler = SimpleSlidersSampler(sampler_config, world)
 sampler.build()
 test_urdf(world.urdf_path, sampler.start_state, sampler.goal_space, show_gui=True)
 
-sampler = GridWorldSampler(config, world)
+sampler = GridWorldSampler(sampler_config, world)
 sampler.build()
 test_urdf(world.urdf_path, sampler.start_state, sampler.goal_space, show_gui=True)
 
-sampler = ContinuousSpaceSampler(config, world)
+sampler = ContinuousSpaceSampler(sampler_config, world)
 sampler.build()
-
-# test solvability
 test_urdf(world.urdf_path, sampler.start_state, sampler.goal_space, show_gui=True)
