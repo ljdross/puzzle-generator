@@ -86,6 +86,27 @@
       </collision>
     </link>
 
+    <link name="link3">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_cube3">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="1.0 1.0 2.0"/>
+        </geometry>
+        <material name="red"/>
+      </visual>
+      <collision name="collision_cube3">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="1.0 1.0 2.0"/>
+        </geometry>
+      </collision>
+    </link>
+
     <joint name="link0" type="revolute">
       <origin xyz="0 0 0.5" rpy="0 0 -0.97753"/>
       <parent link="base_link"/>
@@ -108,6 +129,14 @@
       <child link="link2"/>
       <axis xyz="0 0 1.0"/>
       <limit lower="0" upper="3.81949" effort="0" velocity="0"/>
+    </joint>
+
+    <joint name="link3" type="prismatic">
+      <origin xyz="3.51572 -2.56209 0.5" rpy="-1.5708 0 -2.44487"/>
+      <parent link="base_link"/>
+      <child link="link3"/>
+      <axis xyz="0 0 1.0"/>
+      <limit lower="0" upper="3.93321" effort="0" velocity="0"/>
     </joint>
 
     <material name="green">
