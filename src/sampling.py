@@ -481,8 +481,8 @@ class ContinuousSpaceSampler(PuzzleSampler):
         self.planning_time_multiplier = config["planning_time_multiplier"]
         self.first_test_time_multiplier = config["first_test_time_multiplier"]
         self.area_size = config["area_size"]
-        self.upper_limit_prismatic = config["upper_limit_prismatic"]  # interval for the random upper limit, the lower limit is always 0
-        self.upper_limit_revolute = config["upper_limit_revolute"]  # same here
+        self.upper_limit_prismatic = config["upper_limit_prismatic"]
+        self.upper_limit_revolute = config["upper_limit_revolute"]
 
     def _get_random_limit_span(self, is_prismatic):
         """

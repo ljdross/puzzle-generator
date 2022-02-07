@@ -30,11 +30,14 @@ sampler_config = {
 
     # this part is only required for ContinuousSpaceSampler
     "start_planning_time": 0.1,
-    "planning_time_multiplier": 2.,
-    "first_test_time_multiplier": 1.5,
+    "planning_time_multiplier": 2.,  # apply for sampling of next link+joint after successfully sampling one link+joint
+    "first_test_time_multiplier": 1.5,  # during the first test the link+joint is immovable and the puzzle must be
+                                        # unsolvable. to make sure that it is really UNsolvable, we must provide more
+                                        # planning time than in the second test (where we just check solvability)
     "area_size": 3,
-    "upper_limit_prismatic": (2, 4),
-    "upper_limit_revolute": (calc.RAD90, calc.RAD180),
+    "upper_limit_prismatic": (2, 4),  # random upper limit will be within this interval, lower limit is always 0
+    "upper_limit_revolute": (calc.RAD90, calc.RAD180),  # same here (but there is a 50 % chance for the joint to be
+                                                        # clockwise)
 
     # this part is only required for ...
 
