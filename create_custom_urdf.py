@@ -10,8 +10,6 @@ from src import calc
 config = {
     "puzzle_name": "my_custom_urdf",
     "dir_for_output": "/home/userone/ba/puzzle-generator/puzzles",
-    "custom_urdf": True,
-    "floor_size": 0,
     "export_entity_srdf": True,
     "export_mesh_dae": False
 }
