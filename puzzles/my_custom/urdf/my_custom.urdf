@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!-- created with Phobos 1.0.1 "Capricious Choutengan" -->
-  <robot name="sampleworld">
+  <robot name="my_custom">
 
     <link name="base_link">
       <inertial>
@@ -11,14 +11,14 @@
       <visual name="visual_cube_base">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="32.0 32.0 0.2"/>
+          <box size="0 0 0.2"/>
         </geometry>
         <material name="lavender"/>
       </visual>
       <collision name="collision_cube_base">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="32.0 32.0 0.2"/>
+          <box size="0 0 0.2"/>
         </geometry>
       </collision>
     </link>
@@ -32,14 +32,14 @@
       <visual name="visual_cube0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="3.0 1.0 1.0"/>
+          <box size="2.0 0.2 4.0"/>
         </geometry>
         <material name="green"/>
       </visual>
       <collision name="collision_cube0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="3.0 1.0 1.0"/>
+          <box size="2.0 0.2 4.0"/>
         </geometry>
       </collision>
     </link>
@@ -53,14 +53,14 @@
       <visual name="visual_cube1">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="3.0 1.0 1.0"/>
+          <box size="1.0 1.0 4.0"/>
         </geometry>
-        <material name="green"/>
+        <material name="red"/>
       </visual>
       <collision name="collision_cube1">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="3.0 1.0 1.0"/>
+          <box size="1.0 1.0 4.0"/>
         </geometry>
       </collision>
     </link>
@@ -74,14 +74,14 @@
       <visual name="visual_cube2">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="1.0 1.0 2.0"/>
+          <box size="0.2 0.2 0.2"/>
         </geometry>
         <material name="red"/>
       </visual>
       <collision name="collision_cube2">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="1.0 1.0 2.0"/>
+          <box size="0.2 0.2 0.2"/>
         </geometry>
       </collision>
     </link>
@@ -95,48 +95,48 @@
       <visual name="visual_cube3">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="1.0 1.0 2.0"/>
+          <box size="0.2 0.2 0.2"/>
         </geometry>
         <material name="red"/>
       </visual>
       <collision name="collision_cube3">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="1.0 1.0 2.0"/>
+          <box size="0.2 0.2 0.2"/>
         </geometry>
       </collision>
     </link>
 
     <joint name="link0" type="revolute">
-      <origin xyz="0 0 0.5" rpy="0 0 -0.97753"/>
+      <origin xyz="0 5.0 2.0" rpy="0 0 0"/>
       <parent link="base_link"/>
       <child link="link0"/>
       <axis xyz="0 0 1.0"/>
-      <limit lower="-1.82033" upper="0" effort="0" velocity="0"/>
+      <limit lower="-0.7854" upper="0.7854" effort="0" velocity="0"/>
     </joint>
 
-    <joint name="link1" type="revolute">
-      <origin xyz="1.89729 1.60702 0.5" rpy="0 0 -2.61769"/>
+    <joint name="link1" type="prismatic">
+      <origin xyz="0 0 0.5" rpy="-1.5708 0 0.7854"/>
       <parent link="base_link"/>
       <child link="link1"/>
       <axis xyz="0 0 1.0"/>
-      <limit lower="0" upper="1.58552" effort="0" velocity="0"/>
+      <limit lower="0" upper="2.0" effort="0" velocity="0"/>
     </joint>
 
     <joint name="link2" type="prismatic">
-      <origin xyz="2.7436 -0.22319 0.5" rpy="-1.5708 0 -2.39786"/>
+      <origin xyz="0 4.0 0.1" rpy="0 0 0"/>
       <parent link="base_link"/>
       <child link="link2"/>
       <axis xyz="0 0 1.0"/>
-      <limit lower="0" upper="3.81949" effort="0" velocity="0"/>
+      <limit lower="0" upper="0" effort="0" velocity="0"/>
     </joint>
 
     <joint name="link3" type="prismatic">
-      <origin xyz="3.51572 -2.56209 0.5" rpy="-1.5708 0 -2.44487"/>
+      <origin xyz="-2.82843 2.82843 0.1" rpy="0 0 0.7854"/>
       <parent link="base_link"/>
       <child link="link3"/>
       <axis xyz="0 0 1.0"/>
-      <limit lower="0" upper="3.93321" effort="0" velocity="0"/>
+      <limit lower="0" upper="0" effort="0" velocity="0"/>
     </joint>
 
     <material name="green">

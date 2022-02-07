@@ -8,7 +8,7 @@ from src import calc
 
 # output settings (ADJUST AS NEEDED)
 config = {
-    "puzzle_name": "my_custom_urdf",
+    "puzzle_name": "my_custom",
     "dir_for_output": "/home/userone/ba/puzzle-generator/puzzles",
     "export_entity_srdf": True,
     "export_mesh_dae": False

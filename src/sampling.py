@@ -98,7 +98,7 @@ class SimpleSlidersSampler(PuzzleSampler):
 class GridWorldSampler(PuzzleSampler):
     def __init__(self, config, world: BlenderWorld):
         super().__init__(config, world)
-        world.update_name("gridworld")
+        world.update_name("grid_world")
         self.allow_clockwise = config["allow_clockwise"]
         self.epsilon = config["epsilon"]
         self.start_points = [(0.5, 0.5)]
@@ -476,7 +476,7 @@ class GridWorldSampler(PuzzleSampler):
 class ContinuousSpaceSampler(PuzzleSampler):
     def __init__(self, config, world: BlenderWorld):
         super().__init__(config, world)
-        world.update_name("sampleworld")
+        world.update_name("continuous_space")
         self.planning_time = config["start_planning_time"]
         self.planning_time_multiplier = config["planning_time_multiplier"]
         self.first_test_time_multiplier = config["first_test_time_multiplier"]
