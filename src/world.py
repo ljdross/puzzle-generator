@@ -13,7 +13,6 @@ class BlenderWorld:
         self.name = config["puzzle_name"]
         self.directory = config["dir_for_output"] + "/" + config["puzzle_name"]
         self.urdf_path = self.directory + "/urdf/" + self.name + ".urdf"
-        self.floor_size = config["floor_size"]
         self.export_entity_srdf = config["export_entity_srdf"]
         self.export_mesh_dae = config["export_mesh_dae"]
         self.base_object = None
@@ -48,11 +47,11 @@ class BlenderWorld:
         if joint_type:
             bpy.ops.phobos.define_joint_constraints(passive=True, joint_type=joint_type, lower=lower, upper=upper)
 
-    def create_base_link(self):
+    def create_base_link(self, floor_size=0):
         """Create a base object to become the base link for all other links.
-        If no physical floor is needed, set self.floor_size = 0"""
+        If no physical floor is needed, use default floor_size=0"""
         self.base_object = self.create_cube(name="visual_cube_base", location=(0, 0, -0.1),
-                                            scale=(self.floor_size, self.floor_size, 0.2), material=color.LAVENDER)
+                                            scale=(floor_size, floor_size, 0.2), material=color.LAVENDER)
         self.create_link_and_joint(self.base_object, "base_link")
 
     def new_object(self, location, rotation, scale, joint_type, lower_limit=0, upper_limit=0, material=None):

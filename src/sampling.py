@@ -16,6 +16,7 @@ class PuzzleSampler:
         self.number_revolute_joints = config["number_revolute_joints"]
         self.total_number_joints = self.number_prismatic_joints + self.number_revolute_joints
         self.branching_factor = config["branching_factor_target"]
+        self.floor_size = config["floor_size"]
         seed(config["seed_for_randomness"])
         self.allow_clockwise = config["allow_clockwise"]
         self.prismatic_joints_target = self.number_prismatic_joints
@@ -84,7 +85,7 @@ class SimpleSlidersSampler(PuzzleSampler):
         """Build complete model in Blender and export to URDF. Create only prismatic joints."""
         self.start_state = [0] * self.number_prismatic_joints
         self.world.reset()
-        self.world.create_base_link()
+        self.world.create_base_link(self.floor_size)
         self._create_simple_sliders_puzzle()
         self.world.create_collision()
         self.world.export()
@@ -241,7 +242,7 @@ class ContinuousSpaceSampler(PuzzleSampler):
     def build(self):
         """Build complete model in Blender and export to URDF. Sample random positions for joints."""
         self.world.reset()
-        self.world.create_base_link()
+        self.world.create_base_link(self.floor_size)
         result = self._create_continuous_space_puzzle()
         if result == 0:
             return 0
@@ -257,6 +258,7 @@ class GridWorldSampler(PuzzleSampler):
         self.occupied_fields = self.start_points.copy()
         self.position_sequence = []
         self.epsilon = 0.1
+        self.allow_clockwise = True
 
     def _new_prismatic_joint(self):
         # check available positions for prismatic joint
@@ -320,7 +322,7 @@ class GridWorldSampler(PuzzleSampler):
 
         return 0
 
-    def _new_revolute_joint(self, allow_clockwise=True):
+    def _new_revolute_joint(self):
         # check available positions for revolute joint
         positions = []
         sp = self.start_points.pop(0)
@@ -330,28 +332,28 @@ class GridWorldSampler(PuzzleSampler):
             # North
             if calc.tuple_add(sp, (-1, 2)) not in of and calc.tuple_add(sp, (1, 0)) not in of:
                 positions.append("N_counterclockwise")
-            if calc.tuple_add(sp, (1, 2)) not in of and calc.tuple_add(sp, (-1, 0)) not in of and allow_clockwise:
+            if calc.tuple_add(sp, (1, 2)) not in of and calc.tuple_add(sp, (-1, 0)) not in of and self.allow_clockwise:
                 positions.append("N_clockwise")
         if (calc.tuple_add(sp, (1, 0)) not in of and calc.tuple_add(sp, (2, 0)) not in of
                 and calc.tuple_add(sp, (1, 1)) not in of and calc.tuple_add(sp, (1, -1)) not in of):
             # East
             if calc.tuple_add(sp, (2, 1)) not in of and calc.tuple_add(sp, (0, -1)) not in of:
                 positions.append("E_counterclockwise")
-            if calc.tuple_add(sp, (0, 1)) not in of and calc.tuple_add(sp, (2, -1)) not in of and allow_clockwise:
+            if calc.tuple_add(sp, (0, 1)) not in of and calc.tuple_add(sp, (2, -1)) not in of and self.allow_clockwise:
                 positions.append("E_clockwise")
         if (calc.tuple_add(sp, (0, -1)) not in of and calc.tuple_add(sp, (0, -2)) not in of
                 and calc.tuple_add(sp, (-1, -1)) not in of and calc.tuple_add(sp, (1, -1)) not in of):
             # South
             if calc.tuple_add(sp, (-1, 0)) not in of and calc.tuple_add(sp, (1, -2)) not in of:
                 positions.append("S_counterclockwise")
-            if calc.tuple_add(sp, (1, 0)) not in of and calc.tuple_add(sp, (-1, -2)) not in of and allow_clockwise:
+            if calc.tuple_add(sp, (1, 0)) not in of and calc.tuple_add(sp, (-1, -2)) not in of and self.allow_clockwise:
                 positions.append("S_clockwise")
         if (calc.tuple_add(sp, (-1, 0)) not in of and calc.tuple_add(sp, (-2, 0)) not in of
                 and calc.tuple_add(sp, (-1, 1)) not in of and calc.tuple_add(sp, (-1, -1)) not in of):
             # West
             if calc.tuple_add(sp, (0, 1)) not in of and calc.tuple_add(sp, (-2, -1)) not in of:
                 positions.append("W_counterclockwise")
-            if calc.tuple_add(sp, (-2, 1)) not in of and calc.tuple_add(sp, (0, -1)) not in of and allow_clockwise:
+            if calc.tuple_add(sp, (-2, 1)) not in of and calc.tuple_add(sp, (0, -1)) not in of and self.allow_clockwise:
                 positions.append("W_clockwise")
         if not positions:
             self.start_points.insert(0, sp)
@@ -558,11 +560,11 @@ class GridWorldSampler(PuzzleSampler):
             if result != 0 and self.revolute_joints_target != 0:
                 # if creating a prismatic joint failed and revolute joints are still needed,
                 # try creating a revolute joint
-                result = self._new_revolute_joint(self.allow_clockwise)
+                result = self._new_revolute_joint()
 
         else:
             # try creating a revolute joint
-            result = self._new_revolute_joint(self.allow_clockwise)
+            result = self._new_revolute_joint()
             if result != 0 and self.prismatic_joints_target != 0:
                 # if creating a revolute joint failed and prismatic joints are still needed,
                 # try creating a prismatic joint
@@ -617,7 +619,7 @@ class GridWorldSampler(PuzzleSampler):
             self.world.reset()
             if self.attempts <= 0:
                 return result
-            self.world.create_base_link()
+            self.world.create_base_link(self.floor_size)
             result = self._create_grid_world_puzzle()
             self.attempts -= 1
 
