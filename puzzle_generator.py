@@ -6,6 +6,7 @@ sys.path.append(DIR)
 from src.world import BlenderWorld
 from src.sampling import SimpleSlidersSampler, ContinuousSpaceSampler, GridWorldSampler
 from src.solvability_testing import test_urdf
+from src import calc
 
 # output settings and world properties
 world_config = {
@@ -25,8 +26,15 @@ sampler_config = {
 
     # this part is only required for GridWorldSampler
     "allow_clockwise": True,  # allow both clockwise and counterclockwise rotating revolute joints
+    "epsilon": 0.1,  # reduce the edge length of every box by epsilon
 
     # this part is only required for ContinuousSpaceSampler
+    "start_planning_time": 0.1,
+    "planning_time_multiplier": 2.,
+    "first_test_time_multiplier": 1.5,
+    "area_size": 3,
+    "upper_limit_prismatic": (2, 4),
+    "upper_limit_revolute": (calc.RAD90, calc.RAD180),
 
     # this part is only required for ...
 
