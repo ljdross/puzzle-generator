@@ -20,7 +20,8 @@ class BlenderWorld:
         self.export_entity_srdf = config["export_entity_srdf"]
         self.export_mesh_dae = config["export_mesh_dae"]
         self.base_object = None
-        self.movable_objects = []
+        self.movable_visual_objects = []
+        self.contains_mesh = False
 
     def update_name(self, new_name="new_default_name"):
         self.name = new_name
@@ -29,29 +30,42 @@ class BlenderWorld:
 
     def reset(self):
         """Delete everything and reset position of 3D cursor."""
-        self.movable_objects = []
+        self.movable_visual_objects = []
         bpy.ops.object.select_all(action='SELECT')
         bpy.ops.object.delete(use_global=True)
         bpy.context.scene.cursor.location = (0, 0, 0)
         bpy.context.scene.cursor.rotation_euler = (0, 0, 0)
 
-    def create_cube(self, name, parent=None, location=(0, 0, 0), rotation=(0, 0, 0), scale=(1, 1, 1), material=None):
-        """Create a visual cube object with the appropriate Phobos object properties. Returns cube object."""
-        bpy.ops.mesh.primitive_cube_add(location=location, rotation=rotation, scale=tuple(x / 2 for x in scale))
-        cube = bpy.context.active_object
-        cube.active_material = material if material else color.WHITE
+    def create_visual(self, name, parent=None, location=(0, 0, 0), rotation=(0, 0, 0), scale=(1, 1, 1), material=None,
+                      mesh=""):
+        """Create a visual object with the appropriate Phobos object properties. Returns the object."""
+        if mesh:
+            self.contains_mesh = True
+            bpy.ops.wm.collada_import(filepath=mesh)
+            # bpy.ops.import_mesh.stl(filepath=mesh)
+            visual = bpy.context.active_object
+            visual.location = location
+            visual.rotation_euler = rotation
+            visual.scale = tuple(x / 2 for x in scale)
+        else:
+            bpy.ops.mesh.primitive_cube_add(location=location, rotation=rotation, scale=tuple(x / 2 for x in scale))
+            visual = bpy.context.active_object
+        visual.active_material = material if material else color.WHITE
         bpy.ops.phobos.set_phobostype(phobostype='visual')
-        bpy.ops.phobos.define_geometry(geomType='box')
-        cube.name = name
+        if mesh:
+            bpy.ops.phobos.define_geometry(geomType='mesh')
+        else:
+            bpy.ops.phobos.define_geometry(geomType='box')
+        visual.name = name
         if parent:
-            cube.parent = parent
-        return cube
+            visual.parent = parent
+        return visual
 
     def create_link_and_joint(self, obj, name, joint_type=None, lower=0, upper=0):
         """Create link (at origin of object). Also create joint at child if joint_type is specified."""
         bpy.ops.object.select_all(action='DESELECT')
         obj.select_set(True)
-        bpy.ops.phobos.create_links(location='selected objects', size=8, parent_link=True, parent_objects=True,
+        bpy.ops.phobos.create_links(location='selected objects', size=10, parent_link=True, parent_objects=True,
                                     nameformat=name)
         if joint_type:
             bpy.ops.phobos.define_joint_constraints(passive=True, joint_type=joint_type, lower=lower, upper=upper)
@@ -59,30 +73,37 @@ class BlenderWorld:
     def create_base_link(self, floor_size=0):
         """Create a base object to become the base link for all other links.
         If no physical floor is needed, use default floor_size=0"""
-        self.base_object = self.create_cube(name="visual_cube_base", location=(0, 0, -0.1),
-                                            scale=(floor_size, floor_size, 0.2), material=color.LAVENDER)
+        self.base_object = self.create_visual(name="visual_cube_base", location=(0, 0, -0.1),
+                                              scale=(floor_size, floor_size, 0.2), material=color.LAVENDER)
         self.create_link_and_joint(self.base_object, "base_link")
+        if floor_size != 0:
+            pass
+            # TODO: collision
 
-    def new_object(self, location, rotation, scale, joint_type, lower_limit=0, upper_limit=0, material=None):
+    def new_object(self, location, rotation, scale, joint_type, lower_limit=0, upper_limit=0, material=None,
+                   mesh_filepath=""):
         if not material:
             if joint_type == 'prismatic':
                 material = color.RED
             elif joint_type == 'revolute':
                 material = color.GREEN
-        i = len(self.movable_objects)
-        cube = self.create_cube(name="visual_cube" + str(i), parent=self.base_object, location=location,
-                                rotation=rotation, scale=scale, material=material)
-        self.movable_objects.append(cube)
-        self.create_link_and_joint(cube, "link" + str(i), joint_type=joint_type, lower=lower_limit, upper=upper_limit)
+        name = "visual_mesh" if mesh_filepath else "visual_cube"
+        i = len(self.movable_visual_objects)
+        visual = self.create_visual(name=name + str(i), parent=self.base_object, location=location,
+                                    rotation=rotation, scale=scale, material=material, mesh=mesh_filepath)
+        self.movable_visual_objects.append(visual)
+        self.create_link_and_joint(visual, "link" + str(i), joint_type=joint_type, lower=lower_limit, upper=upper_limit)
+        # TODO: collision
+        return visual
 
     def remove_last_object(self):
         bpy.ops.object.select_all(action='DESELECT')
-        i = str(len(self.movable_objects) - 1)
+        i = str(len(self.movable_visual_objects) - 1)
         bpy.data.objects['collision_cube' + i].select_set(True)
         bpy.data.objects['visual_cube' + i].select_set(True)
         bpy.data.objects['link' + i].select_set(True)
         bpy.ops.object.delete()
-        self.movable_objects.pop()
+        self.movable_visual_objects.pop()
 
     def set_limit_of_active_object(self, limit, is_prismatic):
         """
@@ -99,14 +120,14 @@ class BlenderWorld:
                 bpy.context.object.pose.bones["Bone"].constraints["Limit Rotation"].max_x = limit
         self.export()
 
-    def create_collision(self, obj=None):
+    def create_collision(self, visual_obj=None, shape='box'):
         """Create collision objects from visual objects."""
-        if obj:
+        if visual_obj:
             bpy.ops.object.select_all(action='DESELECT')
-            obj.select_set(True)
+            visual_obj.select_set(True)
         else:
             bpy.ops.phobos.select_model()
-        bpy.ops.phobos.create_collision_objects()
+        bpy.ops.phobos.create_collision_objects(property_colltype=shape)
 
     def export(self):
         """Export model to URDF."""
@@ -117,3 +138,17 @@ class BlenderWorld:
         bpy.context.scene.export_mesh_dae = self.export_mesh_dae
         bpy.ops.phobos.name_model(modelname=self.name)
         bpy.ops.phobos.export_model()
+        if self.contains_mesh:
+            self.fix_filepaths_in_urdf()
+
+    def fix_filepaths_in_urdf(self):
+        """
+        Fix the bad filepaths created by phobos.
+        Source:
+        https://stackoverflow.com/questions/43875243/find-and-replace-specific-text-within-an-attribute-in-xml-using-python
+        """
+        with open(self.urdf_path, 'r') as f:
+            res = f.read().replace('<mesh filename="..', '<mesh filename="file://' + self.directory)
+
+        with open(self.urdf_path, 'w') as f:
+            f.write(res)

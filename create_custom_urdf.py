@@ -17,7 +17,7 @@ config = {
 # create world
 world = BlenderWorld(config)
 world.reset()
-world.create_base_link()
+world.create_base_link(32)
 
 # add custom objects (ADJUST AS NEEDED)
 world.new_object((0, 5, 2), (0, 0, 0), (2, 0.2, 4), 'revolute', -calc.RAD45, calc.RAD45)
@@ -33,4 +33,9 @@ world.new_object((joint_end_point[0], joint_end_point[1], 0.1), (0, 0, angle_rad
 
 # export
 world.create_collision()
+
+sd = world.new_object((0, -5, 0.5), (0, 0, 0), (1, 1, 1), 'revolute', -calc.RAD45, calc.RAD45,
+                      mesh_filepath="/home/userone/ba/blend_files/slot_disc.dae")
+world.create_collision(sd, 'mesh')
+
 world.export()

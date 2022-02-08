@@ -565,7 +565,7 @@ class ContinuousSpaceSampler(PuzzleSampler):
                 self.world.new_object((new_point[0], new_point[1], 0.5), (0, 0, rotation), (self.revolute_length, 1, 1),
                                       'revolute', lower_limit=0, upper_limit=0)
                 is_prismatic = False
-            self.world.create_collision(self.world.movable_objects[-1])
+            self.world.create_collision(self.world.movable_visual_objects[-1])
             self.world.export()
             result = test_urdf(self.world.urdf_path, self.start_state, self.goal_space,
                                self.planning_time * self.first_test_time_multiplier)

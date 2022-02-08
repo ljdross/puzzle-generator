@@ -31,14 +31,14 @@
       <visual name="visual_Torus">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/sampleworld/meshes/stl/Torus.002.stl" scale="1.0 1.0 1.0"/>
+          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/continuous_space/meshes/stl/Torus.002.stl" scale="1.0 1.0 1.0"/>
         </geometry>
         <material name="Material.002"/>
       </visual>
       <collision name="collision_Torus">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/sampleworld/meshes/stl/Torus.003.stl" scale="1.0 1.0 1.0"/>
+          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/continuous_space/meshes/stl/Torus.003.stl" scale="1.0 1.0 1.0"/>
         </geometry>
       </collision>
     </link>
