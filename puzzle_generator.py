@@ -13,6 +13,8 @@ world_config = {
     "dir_for_output": "/home/userone/ba/puzzle-generator/puzzles",
     "export_entity_srdf": True,
     "export_mesh_dae": False,
+    "export_mesh_stl": True,
+    "output_mesh_type": 'stl',
 }
 
 sampler_config = {

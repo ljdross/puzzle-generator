@@ -19,6 +19,8 @@ class BlenderWorld:
         self.urdf_path = self.directory + "/urdf/" + self.name + ".urdf"
         self.export_entity_srdf = config["export_entity_srdf"]
         self.export_mesh_dae = config["export_mesh_dae"]
+        self.export_mesh_stl = config["export_mesh_stl"]
+        self.output_mesh_type = config["output_mesh_type"]
         self.base_object = None
         self.movable_visual_objects = []
         self.contains_mesh = False
@@ -37,12 +39,20 @@ class BlenderWorld:
         bpy.context.scene.cursor.rotation_euler = (0, 0, 0)
 
     def create_visual(self, name, parent=None, location=(0, 0, 0), rotation=(0, 0, 0), scale=(1, 1, 1), material=None,
-                      mesh=""):
+                      mesh="", object_name=""):
         """Create a visual object with the appropriate Phobos object properties. Returns the object."""
         if mesh:
             self.contains_mesh = True
-            bpy.ops.wm.collada_import(filepath=mesh)
-            # bpy.ops.import_mesh.stl(filepath=mesh)
+
+            inner_path = 'Object'
+            bpy.ops.wm.append(filepath=os.path.join(mesh, inner_path, object_name),
+                              directory=os.path.join(mesh, inner_path), filename=object_name)
+            # Source:
+            # https://b3d.interplanety.org/en/how-to-append-an-object-from-another-blend-file-to-the-scene-using-the-blender-python-api/
+
+            bpy.ops.object.select_all(action='DESELECT')
+            bpy.data.objects['slot_disc'].select_set(True)
+            bpy.context.view_layer.objects.active = bpy.context.selected_objects[0]
             visual = bpy.context.active_object
             visual.location = location
             visual.rotation_euler = rotation
@@ -81,7 +91,7 @@ class BlenderWorld:
             # TODO: collision
 
     def new_object(self, location, rotation, scale, joint_type, lower_limit=0, upper_limit=0, material=None,
-                   mesh_filepath=""):
+                   mesh_filepath="", object_name=""):
         if not material:
             if joint_type == 'prismatic':
                 material = color.RED
@@ -90,7 +100,8 @@ class BlenderWorld:
         name = "visual_mesh" if mesh_filepath else "visual_cube"
         i = len(self.movable_visual_objects)
         visual = self.create_visual(name=name + str(i), parent=self.base_object, location=location,
-                                    rotation=rotation, scale=scale, material=material, mesh=mesh_filepath)
+                                    rotation=rotation, scale=scale, material=material, mesh=mesh_filepath,
+                                    object_name=object_name)
         self.movable_visual_objects.append(visual)
         self.create_link_and_joint(visual, "link" + str(i), joint_type=joint_type, lower=lower_limit, upper=upper_limit)
         # TODO: collision
@@ -136,6 +147,8 @@ class BlenderWorld:
         bpy.context.scene.export_entity_urdf = True
         bpy.context.scene.export_entity_srdf = self.export_entity_srdf
         bpy.context.scene.export_mesh_dae = self.export_mesh_dae
+        bpy.context.scene.export_mesh_stl = self.export_mesh_stl
+        bpy.context.scene.phobosexportsettings.outputMeshtype = self.output_mesh_type
         bpy.ops.phobos.name_model(modelname=self.name)
         bpy.ops.phobos.export_model()
         if self.contains_mesh:
