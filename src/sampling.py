@@ -669,13 +669,13 @@ class Lockbox2017Sampler(PuzzleSampler):
         self.world.reset()
         self.world.create_base_link(self.floor_size)
 
-        self.world.new_object((3, 0, 0.6), (-calc.RAD90, 0, calc.RAD90), (0.1, 1, 3.4), 'prismatic', 0, 1)
+        self.world.new_object((3, 0, 0.5), (-calc.RAD90, 0, calc.RAD90), (0.1, 1, 3.4), 'prismatic', 0, 1)
         self.goal_space_append((1, 1))
         # self.goal_space.append(1)
 
         self.world.create_collision()
 
-        obj = self.world.new_object((0, 0, 0.6), (0, 0, 0), (1, 1, 1), 'revolute', -calc.RAD360, calc.RAD360,
+        obj = self.world.new_object((0, 0, 0.5), (0, 0, 0), (1, 1, 1), 'revolute', -calc.RAD360, calc.RAD360,
                                     mesh_filepath="/home/userone/ba/puzzle-generator/input-meshes/slot_disc.blend",
                                     object_name="slot_disc")
         self.world.create_collision(obj, 'mesh')
