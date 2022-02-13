@@ -4,7 +4,7 @@ import sys
 DIR = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(DIR)
 from src.world import BlenderWorld
-from src.sampling import SimpleSlidersSampler, ContinuousSpaceSampler, GridWorldSampler
+from src.sampling import SimpleSlidersSampler, ContinuousSpaceSampler, GridWorldSampler, Lockbox2017Sampler
 from src.solvability_testing import test_urdf
 from src import calc
 
@@ -41,7 +41,7 @@ sampler_config = {
     "upper_limit_revolute": (calc.RAD90, calc.RAD180),  # same here (but there is a 50 % chance for the joint to be
                                                         # clockwise)
 
-    # this part is only required for ...
+    # this part is only required for Lockbox2017Sampler
 
 }
 
@@ -59,3 +59,8 @@ test_urdf(world.urdf_path, sampler.start_state, sampler.goal_space, show_gui=Tru
 sampler = ContinuousSpaceSampler(sampler_config, world)
 sampler.build()
 test_urdf(world.urdf_path, sampler.start_state, sampler.goal_space, show_gui=True)
+
+sampler = Lockbox2017Sampler(sampler_config, world)
+sampler.build()
+test_urdf(world.urdf_path, sampler.start_state, sampler.goal_space, show_gui=True, planner="RRT",
+          have_exact_solution=False, verbose=True)

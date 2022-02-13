@@ -37,12 +37,16 @@ class PuzzleSampler:
             print("goal_space_append(): INPUT TUPLE LENGTH IS NOT 2")
         lower_limit = limits[0]
         upper_limit = limits[1]
+        if type(lower_limit) == int and type(upper_limit) == int:
+            self.goal_space.append((lower_limit, upper_limit))
+            return
         if abs(upper_limit - lower_limit) > 2 * self.goal_adjustment:
-            if lower_limit != 0:
+            if type(lower_limit) != int:
                 lower_limit += self.goal_adjustment
-            if upper_limit != 0:
+            if type(upper_limit) != int:
                 upper_limit -= self.goal_adjustment
         else:
+            # if lower and upper limit are close to each other (e.g. the same), move both of them closer to 0
             if lower_limit > self.goal_adjustment:
                 lower_limit -= self.goal_adjustment
             elif lower_limit < -self.goal_adjustment:
@@ -57,6 +61,18 @@ class PuzzleSampler:
                 upper_limit = 0
 
         self.goal_space.append((lower_limit, upper_limit))
+
+    def goal_space_narrow(self, dimension: int):
+        if len(self.goal_space) > dimension:
+            lower = self.goal_space[dimension][0]
+            upper = self.goal_space[dimension][1]
+            if abs(lower) > abs(upper):
+                self.goal_space[dimension] = (lower, lower)
+            else:
+                self.goal_space[dimension] = (upper, upper)
+        else:
+            print("goal_space_narrow(dimension): goal_space has only", len(self.goal_space), "dimensions. dimension",
+                  dimension, "is not available (starting indexing of dimensions with 0!)")
 
     def return_lower_and_upper_limit(self, span):
         if span < 0:
@@ -82,7 +98,8 @@ class SimpleSlidersSampler(PuzzleSampler):
             else:
                 self.world.new_object(location=((i - 1) / 2, ((i - 1) / -2) - 1, 0.1), rotation=(0, calc.RAD90, 0),
                                       scale=(0.2, 0.2, 1.6), joint_type='prismatic', upper_limit=1)
-            self.goal_space_append((0, 1))
+            self.goal_space.append((0, 1))
+        self.goal_space_narrow(dimension=0)
 
     def build(self):
         """Build complete model in Blender and export to URDF. Create only prismatic joints."""
@@ -162,7 +179,8 @@ class GridWorldSampler(PuzzleSampler):
             self.occupied_fields.append(calc.tuple_add(sp, (-2, 0)))
             self.start_points.append(calc.tuple_add(sp, (-2, 0)))
 
-        # update target counter
+        # update goal_space target counter
+        self.goal_space.append((0, 1))
         self.prismatic_joints_target -= 1
 
         return 0
@@ -213,6 +231,7 @@ class GridWorldSampler(PuzzleSampler):
             rot = (0, 0, calc.RAD90)
             self.world.new_object(location=loc, rotation=rot, scale=scale, joint_type='revolute',
                                   upper_limit=calc.RAD90)
+            self.goal_space_append((0, calc.RAD90))
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (0, 1)))
             self.occupied_fields.append(calc.tuple_add(sp, (0, 2)))
@@ -236,6 +255,7 @@ class GridWorldSampler(PuzzleSampler):
             rot = (0, 0, calc.RAD90)
             self.world.new_object(location=loc, rotation=rot, scale=scale, joint_type='revolute',
                                   lower_limit=-calc.RAD90)
+            self.goal_space_append((-calc.RAD90, 0))
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (0, 1)))
             self.occupied_fields.append(calc.tuple_add(sp, (0, 2)))
@@ -259,6 +279,7 @@ class GridWorldSampler(PuzzleSampler):
             rot = (0, 0, 0)
             self.world.new_object(location=loc, rotation=rot, scale=scale, joint_type='revolute',
                                   upper_limit=calc.RAD90)
+            self.goal_space_append((0, calc.RAD90))
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (1, 0)))
             self.occupied_fields.append(calc.tuple_add(sp, (2, 0)))
@@ -282,6 +303,7 @@ class GridWorldSampler(PuzzleSampler):
             rot = (0, 0, 0)
             self.world.new_object(location=loc, rotation=rot, scale=scale, joint_type='revolute',
                                   lower_limit=-calc.RAD90)
+            self.goal_space_append((-calc.RAD90, 0))
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (1, 0)))
             self.occupied_fields.append(calc.tuple_add(sp, (2, 0)))
@@ -305,6 +327,7 @@ class GridWorldSampler(PuzzleSampler):
             rot = (0, 0, calc.RAD90)
             self.world.new_object(location=loc, rotation=rot, scale=scale, joint_type='revolute',
                                   upper_limit=calc.RAD90)
+            self.goal_space_append((0, calc.RAD90))
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (0, -1)))
             self.occupied_fields.append(calc.tuple_add(sp, (0, -2)))
@@ -328,6 +351,7 @@ class GridWorldSampler(PuzzleSampler):
             rot = (0, 0, calc.RAD90)
             self.world.new_object(location=loc, rotation=rot, scale=scale, joint_type='revolute',
                                   lower_limit=-calc.RAD90)
+            self.goal_space_append((-calc.RAD90, 0))
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (0, -1)))
             self.occupied_fields.append(calc.tuple_add(sp, (0, -2)))
@@ -351,6 +375,7 @@ class GridWorldSampler(PuzzleSampler):
             rot = (0, 0, 0)
             self.world.new_object(location=loc, rotation=rot, scale=scale, joint_type='revolute',
                                   upper_limit=calc.RAD90)
+            self.goal_space_append((0, calc.RAD90))
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (-1, 0)))
             self.occupied_fields.append(calc.tuple_add(sp, (-2, 0)))
@@ -374,6 +399,7 @@ class GridWorldSampler(PuzzleSampler):
             rot = (0, 0, 0)
             self.world.new_object(location=loc, rotation=rot, scale=scale, joint_type='revolute',
                                   lower_limit=-calc.RAD90)
+            self.goal_space_append((-calc.RAD90, 0))
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (-1, 0)))
             self.occupied_fields.append(calc.tuple_add(sp, (-2, 0)))
@@ -454,6 +480,8 @@ class GridWorldSampler(PuzzleSampler):
                 self.movable_objects = []
                 return result
         print("SUCCESSFULLY CREATED THE FOLLOWING SEQUENCE: " + str(self.position_sequence))
+        self.goal_space_narrow(dimension=0)
+
         return 0
 
     def build(self):
@@ -634,6 +662,26 @@ class ContinuousSpaceSampler(PuzzleSampler):
 class Lockbox2017Sampler(PuzzleSampler):
     def __init__(self, config, world: BlenderWorld):
         super().__init__(config, world)
+        world.update_name("lockbox2017")
+        self.mesh1 = "/home/userone/ba/puzzle-generator/input-meshes/slot_disc.blend"
 
     def build(self):
-        raise NotImplementedError
+        self.world.reset()
+        self.world.create_base_link(self.floor_size)
+
+        self.world.new_object((3, 0, 0.6), (-calc.RAD90, 0, calc.RAD90), (0.1, 1, 3.4), 'prismatic', 0, 1)
+        self.goal_space_append((1, 1))
+        # self.goal_space.append(1)
+
+        self.world.create_collision()
+
+        obj = self.world.new_object((0, 0, 0.6), (0, 0, 0), (1, 1, 1), 'revolute', -calc.RAD360, calc.RAD360,
+                                    mesh_filepath="/home/userone/ba/puzzle-generator/input-meshes/slot_disc.blend",
+                                    object_name="slot_disc")
+        self.world.create_collision(obj, 'mesh')
+        self.goal_space_append((-calc.RAD180, calc.RAD180))
+        # self.goal_space.append(0)
+
+        self.start_state = [0] * 2
+
+        self.world.export()
