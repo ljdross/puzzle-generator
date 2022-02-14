@@ -48,19 +48,18 @@ sampler_config = {
 # set up world according to world_config
 world = BlenderWorld(world_config)
 
-sampler = SimpleSlidersSampler(sampler_config, world)
-sampler.build()
-test_urdf(world.urdf_path, sampler.start_state, sampler.goal_space, show_gui=True)
-
-sampler = GridWorldSampler(sampler_config, world)
-sampler.build()
-test_urdf(world.urdf_path, sampler.start_state, sampler.goal_space, show_gui=True)
-
-sampler = ContinuousSpaceSampler(sampler_config, world)
-sampler.build()
-test_urdf(world.urdf_path, sampler.start_state, sampler.goal_space, show_gui=True)
+# sampler = SimpleSlidersSampler(sampler_config, world)
+# sampler.build()
+# test_urdf(world.urdf_path, sampler.start_state, sampler.goal_space, show_gui=True)
+#
+# sampler = GridWorldSampler(sampler_config, world)
+# sampler.build()
+# test_urdf(world.urdf_path, sampler.start_state, sampler.goal_space, show_gui=True)
+#
+# sampler = ContinuousSpaceSampler(sampler_config, world)
+# sampler.build()
+# test_urdf(world.urdf_path, sampler.start_state, sampler.goal_space, show_gui=True)
 
 sampler = Lockbox2017Sampler(sampler_config, world)
 sampler.build()
-test_urdf(world.urdf_path, sampler.start_state, sampler.goal_space, show_gui=True, planner="RRT",
-          have_exact_solution=False, verbose=True)
+test_urdf(world.urdf_path, sampler.start_state, sampler.goal_space, show_gui=True, verbose=True)

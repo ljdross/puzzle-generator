@@ -164,7 +164,8 @@ class BlenderWorld:
         https://stackoverflow.com/questions/43875243/find-and-replace-specific-text-within-an-attribute-in-xml-using-python
         """
         with open(self.urdf_path, 'r') as f:
-            res = f.read().replace('<mesh filename="..', '<mesh filename="file://' + self.directory)
+            res = f.read().replace('<mesh filename="..', '<mesh filename="file://' + self.directory).replace(
+                '<collision name="collision_mesh', '<collision concave="yes" name="collision_mesh')
 
         with open(self.urdf_path, 'w') as f:
             f.write(res)

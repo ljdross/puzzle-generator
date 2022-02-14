@@ -32,14 +32,14 @@
       <visual name="visual_cube0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.1 1.0 3.4"/>
+          <box size="0.8 1.0 3.4"/>
         </geometry>
         <material name="red"/>
       </visual>
       <collision name="collision_cube0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.1 1.0 3.4"/>
+          <box size="0.8 1.0 3.4"/>
         </geometry>
       </collision>
     </link>
@@ -53,12 +53,12 @@
       <visual name="visual_mesh1">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/lockbox2017/meshes/stl/slot_disc.stl" scale="0.5 0.5 0.5"/>
+          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/lockbox2017/meshes/stl/slot_disc.stl" scale="2.0 2.0 0.5"/>
         </geometry>
         <material name="green"/>
       </visual>
-      <collision name="collision_mesh1">
-        <origin xyz="-0.00897 0 0" rpy="0 0 0"/>
+      <collision concave="yes" name="collision_mesh1">
+        <origin xyz="-0.03587 0 0" rpy="0 0 0"/>
         <geometry>
           <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/lockbox2017/meshes/stl/slot_disc.001.stl" scale="1.0 1.0 1.0"/>
         </geometry>
@@ -66,11 +66,11 @@
     </link>
 
     <joint name="link0" type="prismatic">
-      <origin xyz="3.0 0 0.6" rpy="-1.5708 0 1.5708"/>
+      <origin xyz="2.0 0 0.6" rpy="-1.5708 0 -1.5708"/>
       <parent link="base_link"/>
       <child link="link0"/>
       <axis xyz="0 0 1.0"/>
-      <limit lower="0" upper="1.0" effort="0" velocity="0"/>
+      <limit lower="0" upper="2.0" effort="0" velocity="0"/>
     </joint>
 
     <joint name="link1" type="revolute">
@@ -78,7 +78,7 @@
       <parent link="base_link"/>
       <child link="link1"/>
       <axis xyz="0 0 1.0"/>
-      <limit lower="-6.28319" upper="6.28319" effort="0" velocity="0"/>
+      <limit lower="-3.14159" upper="3.14159" effort="0" velocity="0"/>
     </joint>
 
     <material name="green">
