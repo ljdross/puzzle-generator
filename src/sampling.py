@@ -668,18 +668,33 @@ class Lockbox2017Sampler(PuzzleSampler):
     def build(self):
         self.world.reset()
         self.world.create_base_link(self.floor_size)
-
-        self.world.new_object((2, 0, 0.5), (-calc.RAD90, 0, -calc.RAD90), (0.8, 1, 3.4), 'prismatic', 0, 2)
-        self.goal_space_append((0, 2))
-
         self.world.create_collision()
 
-        obj = self.world.new_object((0, 0, 0.5), (0, 0, 0), (4, 4, 1), 'revolute', -calc.RAD180, calc.RAD180,
+        obj = self.world.new_object((-6, -1, 0.5), (0, 0, 0), (3.6, 0.8, 1), 'revolute', 0, calc.RAD90)
+        self.world.create_collision(obj)
+        self.start_state.append(0)
+        self.goal_space_append((calc.RAD90, calc.RAD90))
+
+        obj = self.world.new_object((-4, 0, 0.5), (-calc.RAD90, 0, -calc.RAD90), (0.8, 1, 3.6), 'prismatic', 0, 2)
+        self.world.create_collision(obj)
+        self.start_state.append(0)
+        self.goal_space_append((0, 2))
+
+        obj = self.world.new_object((0, 0, 0.5), (0, 0, calc.RAD90), (4, 4, 1), 'revolute', -calc.RAD180, calc.RAD180,
                                     mesh_filepath="/home/userone/ba/puzzle-generator/input-meshes/slot_disc.blend",
                                     object_name="slot_disc")
         self.world.create_collision(obj, 'mesh')
-        self.goal_space_append((calc.RAD90, calc.RAD90))
+        self.start_state.append(0)
+        self.goal_space_append((-calc.RAD180, calc.RAD180))
 
-        self.start_state = [0] * 2
+        obj = self.world.new_object((0, 2, 0.5), (-calc.RAD90, 0, 0), (0.8, 1, 3.6), 'prismatic', 0, 2)
+        self.world.create_collision(obj)
+        self.start_state.append(0)
+        self.goal_space_append((0, 2))
+
+        obj = self.world.new_object((-1, 5, 0.5), (0, 0, 0), (3.6, 0.8, 1), 'revolute', 0, calc.RAD90)
+        self.world.create_collision(obj)
+        self.start_state.append(0)
+        self.goal_space_append((0, calc.RAD90))
 
         self.world.export()
