@@ -78,7 +78,7 @@
         </geometry>
         <material name="green"/>
       </visual>
-      <collision name="collision_mesh2">
+      <collision concave="yes" name="collision_mesh2">
         <origin xyz="-0.03587 0 0" rpy="0 0 0"/>
         <geometry>
           <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/my_custom/meshes/stl/slot_disc.001.stl" scale="1.0 1.0 1.0"/>
@@ -87,7 +87,7 @@
     </link>
 
     <joint name="link0" type="revolute">
-      <origin xyz="0 5.0 2.0" rpy="0 0 0"/>
+      <origin xyz="0 5.0 2.1" rpy="0 0 0"/>
       <parent link="base_link"/>
       <child link="link0"/>
       <axis xyz="0 0 1.0"/>
@@ -95,7 +95,7 @@
     </joint>
 
     <joint name="link1" type="prismatic">
-      <origin xyz="0 0 0.5" rpy="-1.5708 0 0.7854"/>
+      <origin xyz="0 0 0.6" rpy="-1.5708 0 0.7854"/>
       <parent link="base_link"/>
       <child link="link1"/>
       <axis xyz="0 0 1.0"/>
@@ -103,7 +103,7 @@
     </joint>
 
     <joint name="link2" type="revolute">
-      <origin xyz="0 -5.0 0.5" rpy="0 0 0"/>
+      <origin xyz="0 -5.0 0.6" rpy="0 0 0"/>
       <parent link="base_link"/>
       <child link="link2"/>
       <axis xyz="0 0 1.0"/>

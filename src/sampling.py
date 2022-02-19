@@ -107,7 +107,6 @@ class SimpleSlidersSampler(PuzzleSampler):
         self.world.reset()
         self.world.create_base_link(self.floor_size)
         self._create_simple_sliders_puzzle()
-        self.world.create_collision()
         self.world.export()
         return 0
 
@@ -496,7 +495,6 @@ class GridWorldSampler(PuzzleSampler):
             result = self._create_grid_world_puzzle()
             self.attempts -= 1
 
-        self.world.create_collision()
         self.world.export()
         return 0
 
@@ -593,7 +591,6 @@ class ContinuousSpaceSampler(PuzzleSampler):
                 self.world.new_object((new_point[0], new_point[1], 0.5), (0, 0, rotation), (self.revolute_length, 1, 1),
                                       'revolute', lower_limit=0, upper_limit=0)
                 is_prismatic = False
-            self.world.create_collision(self.world.movable_visual_objects[-1])
             self.world.export()
             result = test_urdf(self.world.urdf_path, self.start_state, self.goal_space,
                                self.planning_time * self.first_test_time_multiplier)
@@ -633,7 +630,6 @@ class ContinuousSpaceSampler(PuzzleSampler):
         Sample links with joints iteratively
         """
         self._sample_first_joint()
-        self.world.create_collision()
         for i in range(1, self.total_number_joints):
             result = self._sample_next_joint()
             if result != 0:
@@ -668,32 +664,26 @@ class Lockbox2017Sampler(PuzzleSampler):
     def build(self):
         self.world.reset()
         self.world.create_base_link(self.floor_size)
-        self.world.create_collision()
 
         obj = self.world.new_object((-6, -1, 0.5), (0, 0, 0), (3.6, 0.8, 1), 'revolute', 0, calc.RAD90)
-        self.world.create_collision(obj)
         self.start_state.append(0)
         self.goal_space_append((calc.RAD90, calc.RAD90))
 
         obj = self.world.new_object((-4, 0, 0.5), (-calc.RAD90, 0, -calc.RAD90), (0.8, 1, 3.6), 'prismatic', 0, 2)
-        self.world.create_collision(obj)
         self.start_state.append(0)
         self.goal_space_append((0, 2))
 
         obj = self.world.new_object((0, 0, 0.5), (0, 0, calc.RAD90), (4, 4, 1), 'revolute', -calc.RAD180, calc.RAD180,
                                     mesh_filepath="/home/userone/ba/puzzle-generator/input-meshes/slot_disc.blend",
                                     object_name="slot_disc")
-        self.world.create_collision(obj, 'mesh')
         self.start_state.append(0)
         self.goal_space_append((-calc.RAD180, calc.RAD180))
 
         obj = self.world.new_object((0, 2, 0.5), (-calc.RAD90, 0, 0), (0.8, 1, 3.6), 'prismatic', 0, 2)
-        self.world.create_collision(obj)
         self.start_state.append(0)
         self.goal_space_append((0, 2))
 
         obj = self.world.new_object((-1, 5, 0.5), (0, 0, 0), (3.6, 0.8, 1), 'revolute', 0, calc.RAD90)
-        self.world.create_collision(obj)
         self.start_state.append(0)
         self.goal_space_append((0, calc.RAD90))
 

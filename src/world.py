@@ -89,8 +89,7 @@ class BlenderWorld:
                                               scale=(floor_size, floor_size, thickness), material=color.LAVENDER)
         self.create_link_and_joint(self.base_object, "base_link")
         if floor_size != 0:
-            pass
-            # TODO: collision
+            self.create_collision(self.base_object)
 
     def new_object(self, location, rotation, scale, joint_type, lower_limit=0, upper_limit=0, material=None,
                    mesh_filepath="", object_name=""):
@@ -107,7 +106,7 @@ class BlenderWorld:
                                     object_name=object_name)
         self.movable_visual_objects.append(visual)
         self.create_link_and_joint(visual, "link" + str(i), joint_type=joint_type, lower=lower_limit, upper=upper_limit)
-        # TODO: collision
+        self.create_collision(visual, 'mesh' if mesh_filepath else 'box')
         return visual
 
     def remove_last_object(self):
