@@ -74,7 +74,7 @@
       <visual name="visual_mesh2">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/my_custom/meshes/stl/slot_disc.stl" scale="2.0 2.0 0.5"/>
+          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/my_custom/meshes/stl/slot_disc.stl" scale="1.0 1.0 1.0"/>
         </geometry>
         <material name="green"/>
       </visual>

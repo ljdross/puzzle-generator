@@ -40,7 +40,7 @@ class BlenderWorld:
         bpy.context.scene.cursor.rotation_euler = (0, 0, 0)
 
     def create_visual(self, name, parent=None, location=(0, 0, 0), rotation=(0, 0, 0), scale=(1, 1, 1), material=None,
-                      mesh="", object_name=""):
+                      mesh="", object_name="", is_cylinder=False):
         """Create a visual object with the appropriate Phobos object properties. Returns the object."""
         if mesh:
             self.contains_mesh = True
@@ -59,6 +59,9 @@ class BlenderWorld:
             visual.rotation_euler = rotation
             visual.scale = tuple(x / 2 for x in scale)
             bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
+        elif is_cylinder:
+            bpy.ops.mesh.primitive_cylinder_add(location=location, rotation=rotation, scale=tuple(x / 2 for x in scale))
+            visual = bpy.context.active_object
         else:
             bpy.ops.mesh.primitive_cube_add(location=location, rotation=rotation, scale=tuple(x / 2 for x in scale))
             visual = bpy.context.active_object
@@ -66,6 +69,8 @@ class BlenderWorld:
         bpy.ops.phobos.set_phobostype(phobostype='visual')
         if mesh:
             bpy.ops.phobos.define_geometry(geomType='mesh')
+        elif is_cylinder:
+            bpy.ops.phobos.define_geometry(geomType='cylinder')
         else:
             bpy.ops.phobos.define_geometry(geomType='box')
         visual.name = name
