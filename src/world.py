@@ -52,12 +52,13 @@ class BlenderWorld:
             # https://b3d.interplanety.org/en/how-to-append-an-object-from-another-blend-file-to-the-scene-using-the-blender-python-api/
 
             bpy.ops.object.select_all(action='DESELECT')
-            bpy.data.objects['slot_disc'].select_set(True)
+            bpy.data.objects[object_name].select_set(True)
             bpy.context.view_layer.objects.active = bpy.context.selected_objects[0]
             visual = bpy.context.active_object
             visual.location = location
             visual.rotation_euler = rotation
             visual.scale = tuple(x / 2 for x in scale)
+            bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
         else:
             bpy.ops.mesh.primitive_cube_add(location=location, rotation=rotation, scale=tuple(x / 2 for x in scale))
             visual = bpy.context.active_object
