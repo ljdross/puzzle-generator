@@ -475,8 +475,8 @@ class GridWorldSampler(PuzzleSampler):
                 self.prismatic_joints_target = self.number_prismatic_joints
                 self.revolute_joints_target = self.number_revolute_joints
                 self.branching_target = self.branching_factor
-                self.start_points = [(0, 0)]
-                self.movable_objects = []
+                self.start_points = [(0.5, 0.5)]
+                self.world.movable_visual_objects = []
                 return result
         print("SUCCESSFULLY CREATED THE FOLLOWING SEQUENCE: " + str(self.position_sequence))
         self.goal_space_narrow(dimension=0)

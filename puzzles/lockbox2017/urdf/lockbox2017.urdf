@@ -23,20 +23,20 @@
       </collision>
     </link>
 
-    <link name="link0">
+    <link name="link_0">
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="0.001"/>
         <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
       </inertial>
-      <visual name="visual_cube0">
+      <visual name="visual_cube_0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="3.6 0.8 1.0"/>
         </geometry>
         <material name="green"/>
       </visual>
-      <collision name="collision_cube0">
+      <collision name="collision_cube_0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="3.6 0.8 1.0"/>
@@ -44,20 +44,20 @@
       </collision>
     </link>
 
-    <link name="link1">
+    <link name="link_1">
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="0.001"/>
         <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
       </inertial>
-      <visual name="visual_cube1">
+      <visual name="visual_cube_1">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="0.8 1.0 3.6"/>
         </geometry>
         <material name="red"/>
       </visual>
-      <collision name="collision_cube1">
+      <collision name="collision_cube_1">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="0.8 1.0 3.6"/>
@@ -65,20 +65,20 @@
       </collision>
     </link>
 
-    <link name="link2">
+    <link name="link_2">
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="0.001"/>
         <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
       </inertial>
-      <visual name="visual_mesh2">
+      <visual name="visual_mesh_2">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/lockbox2017/meshes/stl/slot_disc.stl" scale="1.0 1.0 1.0"/>
         </geometry>
-        <material name="green"/>
+        <material name="red"/>
       </visual>
-      <collision concave="yes" name="collision_mesh2">
+      <collision concave="yes" name="collision_mesh_2">
         <origin xyz="-0.03587 0 0" rpy="0 0 0"/>
         <geometry>
           <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/lockbox2017/meshes/stl/slot_disc.001.stl" scale="1.0 1.0 1.0"/>
@@ -86,20 +86,20 @@
       </collision>
     </link>
 
-    <link name="link3">
+    <link name="link_3">
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="0.001"/>
         <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
       </inertial>
-      <visual name="visual_cube3">
+      <visual name="visual_cube_3">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="0.8 1.0 3.6"/>
         </geometry>
         <material name="red"/>
       </visual>
-      <collision name="collision_cube3">
+      <collision name="collision_cube_3">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="0.8 1.0 3.6"/>
@@ -107,20 +107,20 @@
       </collision>
     </link>
 
-    <link name="link4">
+    <link name="link_4">
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="0.001"/>
         <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
       </inertial>
-      <visual name="visual_cube4">
+      <visual name="visual_cube_4">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="3.6 0.8 1.0"/>
         </geometry>
-        <material name="green"/>
+        <material name="red"/>
       </visual>
-      <collision name="collision_cube4">
+      <collision name="collision_cube_4">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="3.6 0.8 1.0"/>
@@ -128,42 +128,42 @@
       </collision>
     </link>
 
-    <joint name="link0" type="revolute">
+    <joint name="link_0" type="revolute">
       <origin xyz="-6.0 -1.0 0.6" rpy="0 0 0"/>
       <parent link="base_link"/>
-      <child link="link0"/>
+      <child link="link_0"/>
       <axis xyz="0 0 1.0"/>
       <limit lower="0" upper="1.5708" effort="0" velocity="0"/>
     </joint>
 
-    <joint name="link1" type="prismatic">
+    <joint name="link_1" type="prismatic">
       <origin xyz="-4.0 0 0.6" rpy="-1.5708 0 -1.5708"/>
       <parent link="base_link"/>
-      <child link="link1"/>
+      <child link="link_1"/>
       <axis xyz="0 0 1.0"/>
       <limit lower="0" upper="2.0" effort="0" velocity="0"/>
     </joint>
 
-    <joint name="link2" type="revolute">
+    <joint name="link_2" type="revolute">
       <origin xyz="0 0 0.6" rpy="0 0 1.5708"/>
       <parent link="base_link"/>
-      <child link="link2"/>
+      <child link="link_2"/>
       <axis xyz="0 0 1.0"/>
       <limit lower="-3.14159" upper="3.14159" effort="0" velocity="0"/>
     </joint>
 
-    <joint name="link3" type="prismatic">
+    <joint name="link_3" type="prismatic">
       <origin xyz="0 2.0 0.6" rpy="-1.5708 0 0"/>
       <parent link="base_link"/>
-      <child link="link3"/>
+      <child link="link_3"/>
       <axis xyz="0 0 1.0"/>
       <limit lower="0" upper="2.0" effort="0" velocity="0"/>
     </joint>
 
-    <joint name="link4" type="revolute">
+    <joint name="link_4" type="revolute">
       <origin xyz="-1.0 5.0 0.6" rpy="0 0 0"/>
       <parent link="base_link"/>
-      <child link="link4"/>
+      <child link="link_4"/>
       <axis xyz="0 0 1.0"/>
       <limit lower="0" upper="1.5708" effort="0" velocity="0"/>
     </joint>

@@ -103,12 +103,13 @@ class BlenderWorld:
 
     def new_link(self, location, rotation, scale, joint_type, lower_limit=0, upper_limit=0, material=None,
                  mesh_filepath="", object_name="", is_cylinder=False, child_visuals=None, name=""):
+        i = len(self.movable_visual_objects)
         if not material:
-            if joint_type == 'prismatic':
-                material = color.RED
-            elif joint_type == 'revolute':
+            if i == 0:
                 material = color.GREEN
-        i = str(len(self.movable_visual_objects))
+            else:
+                material = color.RED
+        i = str(i)
         name = name + "_" + i if name else i
         visual = self.create_visual(location=(location[0], location[1], location[2] + self.floor_thickness / 2),
                                     rotation=rotation, scale=scale, material=material, name=name,
@@ -117,6 +118,7 @@ class BlenderWorld:
         self.movable_visual_objects.append(visual)
         for idx, child_visual in enumerate((child_visuals or [])):
             child_visual.name += "_" + i + "." + str(idx)
+            child_visual.active_material = material
             child_visual.parent = visual
             self.create_collision(child_visual)
         self.create_link_and_joint(visual, name=name, joint_type=joint_type, lower=lower_limit, upper=upper_limit)

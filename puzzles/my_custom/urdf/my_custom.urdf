@@ -34,7 +34,7 @@
         <geometry>
           <box size="2.0 1.0 2.0"/>
         </geometry>
-        <material name="white"/>
+        <material name="green"/>
       </visual>
       <visual name="visual_cylinder_0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -89,7 +89,7 @@
         <geometry>
           <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/my_custom/meshes/stl/slot_disc.stl" scale="1.0 1.0 1.0"/>
         </geometry>
-        <material name="green"/>
+        <material name="red"/>
       </visual>
       <collision concave="yes" name="collision_mesh_2">
         <origin xyz="-0.03587 0 0" rpy="0 0 0"/>
@@ -133,10 +133,6 @@
 
     <material name="red">
       <color rgba="1.0 0 0 1.0"/>
-    </material>
-
-    <material name="white">
-      <color rgba="1.0 1.0 1.0 1.0"/>
     </material>
 
   </robot>
