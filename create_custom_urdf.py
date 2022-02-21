@@ -22,7 +22,12 @@ world.reset()
 world.create_base_link(32)
 
 # add custom objects (ADJUST AS NEEDED)
-door = world.new_object((0, 5, 2), (0, 0, 0), (2, 0.2, 4), 'revolute', -calc.RAD45, calc.RAD45)
+# create child visuals first
+child_visuals = []
+child_visuals.append(world.create_visual('panel', (1, 0, 0), (0, 0, 0), (2, 1, 2)))
+# then create the parent visual with joint properties and provide list of child visuals
+door = world.new_object((0, 5, 1), (0, 0, 0), (1, 1, 2), 'revolute', -calc.RAD45, calc.RAD45, is_cylinder=True,
+                        child_visuals=child_visuals)
 
 upper_limit = 2
 length = 4
@@ -38,7 +43,5 @@ world.new_object((0, 0, 0.5), (-calc.RAD90, 0, angle_rad), (1, 1, length), 'pris
 sd = world.new_object((0, -5, 0.5), (0, 0, 0), (4, 4, 1), 'revolute', -calc.RAD45, calc.RAD45,
                       mesh_filepath="/home/userone/ba/puzzle-generator/input-meshes/slot_disc.blend",
                       object_name="slot_disc")
-
-# world.create_visual('blub', door, (-1, 0, 0), (0, 0, 0), (0.25, 0.25, 4), is_cylinder=True)
 
 world.export()

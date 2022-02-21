@@ -39,7 +39,7 @@ class BlenderWorld:
         bpy.context.scene.cursor.location = (0, 0, 0)
         bpy.context.scene.cursor.rotation_euler = (0, 0, 0)
 
-    def create_visual(self, name, parent=None, location=(0, 0, 0), rotation=(0, 0, 0), scale=(1, 1, 1), material=None,
+    def create_visual(self, name, location=(0, 0, 0), rotation=(0, 0, 0), scale=(1, 1, 1), material=None, parent=None,
                       mesh="", object_name="", is_cylinder=False):
         """Create a visual object with the appropriate Phobos object properties. Returns the object."""
         if mesh:
@@ -98,7 +98,7 @@ class BlenderWorld:
             self.create_collision(self.base_object)
 
     def new_object(self, location, rotation, scale, joint_type, lower_limit=0, upper_limit=0, material=None,
-                   mesh_filepath="", object_name="", is_cylinder=False):
+                   mesh_filepath="", object_name="", is_cylinder=False, child_visuals=None):
         if not material:
             if joint_type == 'prismatic':
                 material = color.RED
@@ -110,19 +110,18 @@ class BlenderWorld:
             name = "visual_cylinder"
         else:
             name = "visual_cube"
-        i = len(self.movable_visual_objects)
-        visual = self.create_visual(name=name + str(i), parent=self.base_object,
+        i = str(len(self.movable_visual_objects))
+        visual = self.create_visual(name=name + i,
                                     location=(location[0], location[1], location[2] + self.floor_thickness / 2),
-                                    rotation=rotation, scale=scale, material=material, mesh=mesh_filepath,
-                                    object_name=object_name, is_cylinder=is_cylinder)
+                                    rotation=rotation, scale=scale, material=material, parent=self.base_object,
+                                    mesh=mesh_filepath, object_name=object_name, is_cylinder=is_cylinder)
         self.movable_visual_objects.append(visual)
-        self.create_link_and_joint(visual, "link" + str(i), joint_type=joint_type, lower=lower_limit, upper=upper_limit)
-        if mesh_filepath:
-            self.create_collision(visual, 'mesh')
-        elif is_cylinder:
-            self.create_collision(visual, 'cylinder')
-        else:
-            self.create_collision(visual)
+        # child_visuals = [] if not child_visuals else child_visuals
+        for child_visual in (child_visuals or []):
+            child_visual.parent = visual
+            self.create_collision(child_visual)
+        self.create_link_and_joint(visual, "link" + i, joint_type=joint_type, lower=lower_limit, upper=upper_limit)
+        self.create_collision(visual)
         return visual
 
     def remove_last_object(self):
@@ -149,13 +148,14 @@ class BlenderWorld:
                 bpy.context.object.pose.bones["Bone"].constraints["Limit Rotation"].max_x = limit
         self.export()
 
-    def create_collision(self, visual_obj=None, shape='box'):
+    def create_collision(self, visual_obj=None):
         """Create collision objects from visual objects."""
         if visual_obj:
             bpy.ops.object.select_all(action='DESELECT')
             visual_obj.select_set(True)
         else:
             bpy.ops.phobos.select_model()
+        shape =  bpy.data.objects[visual_obj.name]['geometry/type']
         bpy.ops.phobos.create_collision_objects(property_colltype=shape)
 
     def export(self):
