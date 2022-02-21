@@ -98,21 +98,31 @@ class BlenderWorld:
             self.create_collision(self.base_object)
 
     def new_object(self, location, rotation, scale, joint_type, lower_limit=0, upper_limit=0, material=None,
-                   mesh_filepath="", object_name=""):
+                   mesh_filepath="", object_name="", is_cylinder=False):
         if not material:
             if joint_type == 'prismatic':
                 material = color.RED
             elif joint_type == 'revolute':
                 material = color.GREEN
-        name = "visual_mesh" if mesh_filepath else "visual_cube"
+        if mesh_filepath:
+            name = "visual_mesh"
+        elif is_cylinder:
+            name = "visual_cylinder"
+        else:
+            name = "visual_cube"
         i = len(self.movable_visual_objects)
         visual = self.create_visual(name=name + str(i), parent=self.base_object,
                                     location=(location[0], location[1], location[2] + self.floor_thickness / 2),
                                     rotation=rotation, scale=scale, material=material, mesh=mesh_filepath,
-                                    object_name=object_name)
+                                    object_name=object_name, is_cylinder=is_cylinder)
         self.movable_visual_objects.append(visual)
         self.create_link_and_joint(visual, "link" + str(i), joint_type=joint_type, lower=lower_limit, upper=upper_limit)
-        self.create_collision(visual, 'mesh' if mesh_filepath else 'box')
+        if mesh_filepath:
+            self.create_collision(visual, 'mesh')
+        elif is_cylinder:
+            self.create_collision(visual, 'cylinder')
+        else:
+            self.create_collision(visual)
         return visual
 
     def remove_last_object(self):
