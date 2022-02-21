@@ -115,7 +115,6 @@ class BlenderWorld:
                                     rotation=rotation, scale=scale, material=material, name=name,
                                     parent=self.base_object, mesh=mesh_filepath, object_name=object_name,
                                     is_cylinder=is_cylinder)
-        self.movable_visual_objects.append(visual)
         for idx, child_visual in enumerate((child_visuals or [])):
             child_visual.name += "_" + i + "." + str(idx)
             child_visual.active_material = material
@@ -123,14 +122,13 @@ class BlenderWorld:
             self.create_collision(child_visual)
         self.create_link_and_joint(visual, name=name, joint_type=joint_type, lower=lower_limit, upper=upper_limit)
         self.create_collision(visual)
+        self.movable_visual_objects.append(visual.parent)
         return visual
 
     def remove_last_object(self):
-        bpy.ops.object.select_all(action='DESELECT')
-        i = str(len(self.movable_visual_objects) - 1)
-        bpy.data.objects['collision_cube' + i].select_set(True)
-        bpy.data.objects['visual_cube' + i].select_set(True)
-        bpy.data.objects['link' + i].select_set(True)
+        bpy.context.view_layer.objects.active = self.movable_visual_objects[-1]
+        bpy.ops.object.select_grouped(extend=False, type='CHILDREN_RECURSIVE')
+        self.movable_visual_objects[-1].select_set(True)
         bpy.ops.object.delete()
         self.movable_visual_objects.pop()
 
