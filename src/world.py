@@ -23,7 +23,7 @@ class BlenderWorld:
         self.output_mesh_type = config["output_mesh_type"]
         self.base_object = None
         self.floor_thickness = 0
-        self.movable_visual_objects = []
+        self.movable_links = []
         self.contains_mesh = False
 
     def update_name(self, new_name="new_default_name"):
@@ -33,7 +33,7 @@ class BlenderWorld:
 
     def reset(self):
         """Delete everything and reset position of 3D cursor."""
-        self.movable_visual_objects = []
+        self.movable_links = []
         bpy.ops.object.select_all(action='SELECT')
         bpy.ops.object.delete(use_global=True)
         bpy.context.scene.cursor.location = (0, 0, 0)
@@ -103,7 +103,7 @@ class BlenderWorld:
 
     def new_link(self, location, rotation, scale, joint_type, lower_limit=0, upper_limit=0, material=None,
                  mesh_filepath="", object_name="", is_cylinder=False, child_visuals=None, name=""):
-        i = len(self.movable_visual_objects)
+        i = len(self.movable_links)
         if not material:
             if i == 0:
                 material = color.GREEN
@@ -122,15 +122,15 @@ class BlenderWorld:
             self.create_collision(child_visual)
         self.create_link_and_joint(visual, name=name, joint_type=joint_type, lower=lower_limit, upper=upper_limit)
         self.create_collision(visual)
-        self.movable_visual_objects.append(visual.parent)
+        self.movable_links.append(visual.parent)
         return visual
 
     def remove_last_object(self):
-        bpy.context.view_layer.objects.active = self.movable_visual_objects[-1]
+        bpy.context.view_layer.objects.active = self.movable_links[-1]
         bpy.ops.object.select_grouped(extend=False, type='CHILDREN_RECURSIVE')
-        self.movable_visual_objects[-1].select_set(True)
+        self.movable_links[-1].select_set(True)
         bpy.ops.object.delete()
-        self.movable_visual_objects.pop()
+        self.movable_links.pop()
 
     def set_limit_of_active_object(self, limit, is_prismatic):
         """
