@@ -93,11 +93,11 @@ class SimpleSlidersSampler(PuzzleSampler):
         """
         for i in range(self.number_prismatic_joints):
             if i % 2 == 0:
-                self.world.new_object(location=(i / 2, i / -2, 0.1), rotation=(calc.RAD90, 0, 0),
-                                      scale=(0.2, 0.2, 1.6), joint_type='prismatic', upper_limit=1)
+                self.world.new_link(location=(i / 2, i / -2, 0.1), rotation=(calc.RAD90, 0, 0),
+                                    scale=(0.2, 0.2, 1.6), joint_type='prismatic', upper_limit=1)
             else:
-                self.world.new_object(location=((i - 1) / 2, ((i - 1) / -2) - 1, 0.1), rotation=(0, calc.RAD90, 0),
-                                      scale=(0.2, 0.2, 1.6), joint_type='prismatic', upper_limit=1)
+                self.world.new_link(location=((i - 1) / 2, ((i - 1) / -2) - 1, 0.1), rotation=(0, calc.RAD90, 0),
+                                    scale=(0.2, 0.2, 1.6), joint_type='prismatic', upper_limit=1)
             self.goal_space.append((0, 1))
         self.goal_space_narrow(dimension=0)
 
@@ -145,7 +145,7 @@ class GridWorldSampler(PuzzleSampler):
             # add new prismatic joint at this position
             loc = (sp[0], sp[1] + 0.5, scale[0] / 2)
             rot = (-calc.RAD90, 0, 0)
-            self.world.new_object(location=loc, rotation=rot, scale=scale, joint_type='prismatic', upper_limit=1)
+            self.world.new_link(location=loc, rotation=rot, scale=scale, joint_type='prismatic', upper_limit=1)
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (0, 1)))
             self.occupied_fields.append(calc.tuple_add(sp, (0, 2)))
@@ -154,7 +154,7 @@ class GridWorldSampler(PuzzleSampler):
             # add new prismatic joint at this position
             loc = (sp[0] + 0.5, sp[1], scale[0] / 2)
             rot = (0, calc.RAD90, 0)
-            self.world.new_object(location=loc, rotation=rot, scale=scale, joint_type='prismatic', upper_limit=1)
+            self.world.new_link(location=loc, rotation=rot, scale=scale, joint_type='prismatic', upper_limit=1)
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (1, 0)))
             self.occupied_fields.append(calc.tuple_add(sp, (2, 0)))
@@ -163,7 +163,7 @@ class GridWorldSampler(PuzzleSampler):
             # add new prismatic joint at this position
             loc = (sp[0], sp[1] - 0.5, scale[0] / 2)
             rot = (calc.RAD90, 0, 0)
-            self.world.new_object(location=loc, rotation=rot, scale=scale, joint_type='prismatic', upper_limit=1)
+            self.world.new_link(location=loc, rotation=rot, scale=scale, joint_type='prismatic', upper_limit=1)
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (0, -1)))
             self.occupied_fields.append(calc.tuple_add(sp, (0, -2)))
@@ -172,7 +172,7 @@ class GridWorldSampler(PuzzleSampler):
             # add new prismatic joint at this position
             loc = (sp[0] - 0.5, sp[1], scale[0] / 2)
             rot = (0, -calc.RAD90, 0)
-            self.world.new_object(location=loc, rotation=rot, scale=scale, joint_type='prismatic', upper_limit=1)
+            self.world.new_link(location=loc, rotation=rot, scale=scale, joint_type='prismatic', upper_limit=1)
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (-1, 0)))
             self.occupied_fields.append(calc.tuple_add(sp, (-2, 0)))
@@ -228,8 +228,8 @@ class GridWorldSampler(PuzzleSampler):
             # add new revolute joint at this position
             loc = (sp[0], sp[1] + 1, scale[2] / 2)
             rot = (0, 0, calc.RAD90)
-            self.world.new_object(location=loc, rotation=rot, scale=scale, joint_type='revolute',
-                                  upper_limit=calc.RAD90)
+            self.world.new_link(location=loc, rotation=rot, scale=scale, joint_type='revolute',
+                                upper_limit=calc.RAD90)
             self.goal_space_append((0, calc.RAD90))
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (0, 1)))
@@ -252,8 +252,8 @@ class GridWorldSampler(PuzzleSampler):
             # add new revolute joint at this position
             loc = (sp[0], sp[1] + 1, scale[2] / 2)
             rot = (0, 0, calc.RAD90)
-            self.world.new_object(location=loc, rotation=rot, scale=scale, joint_type='revolute',
-                                  lower_limit=-calc.RAD90)
+            self.world.new_link(location=loc, rotation=rot, scale=scale, joint_type='revolute',
+                                lower_limit=-calc.RAD90)
             self.goal_space_append((-calc.RAD90, 0))
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (0, 1)))
@@ -276,8 +276,8 @@ class GridWorldSampler(PuzzleSampler):
             # add new revolute joint at this position
             loc = (sp[0] + 1, sp[1], scale[2] / 2)
             rot = (0, 0, 0)
-            self.world.new_object(location=loc, rotation=rot, scale=scale, joint_type='revolute',
-                                  upper_limit=calc.RAD90)
+            self.world.new_link(location=loc, rotation=rot, scale=scale, joint_type='revolute',
+                                upper_limit=calc.RAD90)
             self.goal_space_append((0, calc.RAD90))
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (1, 0)))
@@ -300,8 +300,8 @@ class GridWorldSampler(PuzzleSampler):
             # add new revolute joint at this position
             loc = (sp[0] + 1, sp[1], scale[2] / 2)
             rot = (0, 0, 0)
-            self.world.new_object(location=loc, rotation=rot, scale=scale, joint_type='revolute',
-                                  lower_limit=-calc.RAD90)
+            self.world.new_link(location=loc, rotation=rot, scale=scale, joint_type='revolute',
+                                lower_limit=-calc.RAD90)
             self.goal_space_append((-calc.RAD90, 0))
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (1, 0)))
@@ -324,8 +324,8 @@ class GridWorldSampler(PuzzleSampler):
             # add new revolute joint at this position
             loc = (sp[0], sp[1] - 1, scale[2] / 2)
             rot = (0, 0, calc.RAD90)
-            self.world.new_object(location=loc, rotation=rot, scale=scale, joint_type='revolute',
-                                  upper_limit=calc.RAD90)
+            self.world.new_link(location=loc, rotation=rot, scale=scale, joint_type='revolute',
+                                upper_limit=calc.RAD90)
             self.goal_space_append((0, calc.RAD90))
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (0, -1)))
@@ -348,8 +348,8 @@ class GridWorldSampler(PuzzleSampler):
             # add new revolute joint at this position
             loc = (sp[0], sp[1] - 1, scale[2] / 2)
             rot = (0, 0, calc.RAD90)
-            self.world.new_object(location=loc, rotation=rot, scale=scale, joint_type='revolute',
-                                  lower_limit=-calc.RAD90)
+            self.world.new_link(location=loc, rotation=rot, scale=scale, joint_type='revolute',
+                                lower_limit=-calc.RAD90)
             self.goal_space_append((-calc.RAD90, 0))
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (0, -1)))
@@ -372,8 +372,8 @@ class GridWorldSampler(PuzzleSampler):
             # add new revolute joint at this position
             loc = (sp[0] - 1, sp[1], scale[2] / 2)
             rot = (0, 0, 0)
-            self.world.new_object(location=loc, rotation=rot, scale=scale, joint_type='revolute',
-                                  upper_limit=calc.RAD90)
+            self.world.new_link(location=loc, rotation=rot, scale=scale, joint_type='revolute',
+                                upper_limit=calc.RAD90)
             self.goal_space_append((0, calc.RAD90))
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (-1, 0)))
@@ -396,8 +396,8 @@ class GridWorldSampler(PuzzleSampler):
             # add new revolute joint at this position
             loc = (sp[0] - 1, sp[1], scale[2] / 2)
             rot = (0, 0, 0)
-            self.world.new_object(location=loc, rotation=rot, scale=scale, joint_type='revolute',
-                                  lower_limit=-calc.RAD90)
+            self.world.new_link(location=loc, rotation=rot, scale=scale, joint_type='revolute',
+                                lower_limit=-calc.RAD90)
             self.goal_space_append((-calc.RAD90, 0))
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (-1, 0)))
@@ -551,19 +551,19 @@ class ContinuousSpaceSampler(PuzzleSampler):
         if random() < threshold:
             # create prismatic joint
             limit_span = self._get_random_limit_span(True)
-            self.world.new_object((self.start_point[0], self.start_point[1], 0.5), (-calc.RAD90, 0, rotation),
-                                  (1, 1, self.prismatic_length), 'prismatic', lower_limit=0, upper_limit=limit_span)
+            self.world.new_link((self.start_point[0], self.start_point[1], 0.5), (-calc.RAD90, 0, rotation),
+                                (1, 1, self.prismatic_length), 'prismatic', lower_limit=0, upper_limit=limit_span)
             self.prismatic_joints_target -= 1
             self.start_point = self._calculate_next_start_point(True, self.start_point, rotation, limit_span)
         else:
             # create revolute joint
             limit_span = self._get_random_limit_span(False)
             if limit_span > 0:
-                self.world.new_object((self.start_point[0], self.start_point[1], 0.5), (0, 0, rotation),
-                                      (self.revolute_length, 1, 1), 'revolute', lower_limit=0, upper_limit=limit_span)
+                self.world.new_link((self.start_point[0], self.start_point[1], 0.5), (0, 0, rotation),
+                                    (self.revolute_length, 1, 1), 'revolute', lower_limit=0, upper_limit=limit_span)
             else:
-                self.world.new_object((self.start_point[0], self.start_point[1], 0.5), (0, 0, rotation),
-                                      (self.revolute_length, 1, 1), 'revolute', lower_limit=limit_span, upper_limit=0)
+                self.world.new_link((self.start_point[0], self.start_point[1], 0.5), (0, 0, rotation),
+                                    (self.revolute_length, 1, 1), 'revolute', lower_limit=limit_span, upper_limit=0)
             self.revolute_joints_target -= 1
             self.start_point = self._calculate_next_start_point(False, self.start_point, rotation, limit_span)
         self.goal_space_append((limit_span, limit_span))
@@ -583,12 +583,12 @@ class ContinuousSpaceSampler(PuzzleSampler):
             rotation = random() * calc.RAD360
             if random() < threshold:
                 # create immovable prismatic joint (joint limits = 0)
-                self.world.new_object((new_point[0], new_point[1], 0.5), (-calc.RAD90, 0, rotation),
-                                      (1, 1, self.prismatic_length), 'prismatic', lower_limit=0, upper_limit=0)
+                self.world.new_link((new_point[0], new_point[1], 0.5), (-calc.RAD90, 0, rotation),
+                                    (1, 1, self.prismatic_length), 'prismatic', lower_limit=0, upper_limit=0)
                 is_prismatic = True
             else:
                 # create immovable revolute joint (joint limits = 0)
-                self.world.new_object((new_point[0], new_point[1], 0.5), (0, 0, rotation), (self.revolute_length, 1, 1),
+                self.world.new_link((new_point[0], new_point[1], 0.5), (0, 0, rotation), (self.revolute_length, 1, 1),
                                       'revolute', lower_limit=0, upper_limit=0)
                 is_prismatic = False
             self.world.export()
@@ -665,25 +665,25 @@ class Lockbox2017Sampler(PuzzleSampler):
         self.world.reset()
         self.world.create_base_link(self.floor_size)
 
-        obj = self.world.new_object((-6, -1, 0.5), (0, 0, 0), (3.6, 0.8, 1), 'revolute', 0, calc.RAD90)
+        obj = self.world.new_link((-6, -1, 0.5), (0, 0, 0), (3.6, 0.8, 1), 'revolute', 0, calc.RAD90)
         self.start_state.append(0)
         self.goal_space_append((calc.RAD90, calc.RAD90))
 
-        obj = self.world.new_object((-4, 0, 0.5), (-calc.RAD90, 0, -calc.RAD90), (0.8, 1, 3.6), 'prismatic', 0, 2)
+        obj = self.world.new_link((-4, 0, 0.5), (-calc.RAD90, 0, -calc.RAD90), (0.8, 1, 3.6), 'prismatic', 0, 2)
         self.start_state.append(0)
         self.goal_space_append((0, 2))
 
-        obj = self.world.new_object((0, 0, 0.5), (0, 0, calc.RAD90), (4, 4, 1), 'revolute', -calc.RAD180, calc.RAD180,
-                                    mesh_filepath="/home/userone/ba/puzzle-generator/input-meshes/slot_disc.blend",
-                                    object_name="slot_disc")
+        obj = self.world.new_link((0, 0, 0.5), (0, 0, calc.RAD90), (4, 4, 1), 'revolute', -calc.RAD180, calc.RAD180,
+                                  mesh_filepath="/home/userone/ba/puzzle-generator/input-meshes/slot_disc.blend",
+                                  object_name="slot_disc")
         self.start_state.append(0)
         self.goal_space_append((-calc.RAD180, calc.RAD180))
 
-        obj = self.world.new_object((0, 2, 0.5), (-calc.RAD90, 0, 0), (0.8, 1, 3.6), 'prismatic', 0, 2)
+        obj = self.world.new_link((0, 2, 0.5), (-calc.RAD90, 0, 0), (0.8, 1, 3.6), 'prismatic', 0, 2)
         self.start_state.append(0)
         self.goal_space_append((0, 2))
 
-        obj = self.world.new_object((-1, 5, 0.5), (0, 0, 0), (3.6, 0.8, 1), 'revolute', 0, calc.RAD90)
+        obj = self.world.new_link((-1, 5, 0.5), (0, 0, 0), (3.6, 0.8, 1), 'revolute', 0, calc.RAD90)
         self.start_state.append(0)
         self.goal_space_append((0, calc.RAD90))
 

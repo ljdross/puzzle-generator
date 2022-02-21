@@ -101,8 +101,8 @@ class BlenderWorld:
         if floor_size != 0:
             self.create_collision(self.base_object)
 
-    def new_object(self, location, rotation, scale, joint_type, lower_limit=0, upper_limit=0, material=None,
-                   mesh_filepath="", object_name="", is_cylinder=False, child_visuals=None, name=""):
+    def new_link(self, location, rotation, scale, joint_type, lower_limit=0, upper_limit=0, material=None,
+                 mesh_filepath="", object_name="", is_cylinder=False, child_visuals=None, name=""):
         if not material:
             if joint_type == 'prismatic':
                 material = color.RED
