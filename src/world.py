@@ -39,8 +39,8 @@ class BlenderWorld:
         bpy.context.scene.cursor.location = (0, 0, 0)
         bpy.context.scene.cursor.rotation_euler = (0, 0, 0)
 
-    def create_visual(self, name, location=(0, 0, 0), rotation=(0, 0, 0), scale=(1, 1, 1), material=None, parent=None,
-                      mesh="", object_name="", is_cylinder=False):
+    def create_visual(self, location=(0, 0, 0), rotation=(0, 0, 0), scale=(1, 1, 1), material=None, name="",
+                      parent=None, mesh="", object_name="", is_cylinder=False):
         """Create a visual object with the appropriate Phobos object properties. Returns the object."""
         if mesh:
             self.contains_mesh = True
@@ -67,21 +67,25 @@ class BlenderWorld:
             visual = bpy.context.active_object
         visual.active_material = material if material else color.WHITE
         bpy.ops.phobos.set_phobostype(phobostype='visual')
+        name = "_" + name if name else ""
         if mesh:
             bpy.ops.phobos.define_geometry(geomType='mesh')
+            visual.name = "visual_mesh" + name
         elif is_cylinder:
             bpy.ops.phobos.define_geometry(geomType='cylinder')
+            visual.name = "visual_cylinder" + name
         else:
             bpy.ops.phobos.define_geometry(geomType='box')
-        visual.name = name
+            visual.name = "visual_cube" + name
         if parent:
             visual.parent = parent
         return visual
 
-    def create_link_and_joint(self, obj, name, joint_type=None, lower=0, upper=0):
+    def create_link_and_joint(self, obj, name="", joint_type=None, lower=0, upper=0):
         """Create link (at origin of object). Also create joint at child if joint_type is specified."""
         bpy.ops.object.select_all(action='DESELECT')
         obj.select_set(True)
+        name = name if name == "base_link" else "link_" + name
         bpy.ops.phobos.create_links(location='selected objects', size=10, parent_link=True, parent_objects=True,
                                     nameformat=name)
         if joint_type:
@@ -91,36 +95,31 @@ class BlenderWorld:
         """Create a base object to become the base link for all other links.
         If no physical floor is needed, use default floor_size=0"""
         self.floor_thickness = thickness
-        self.base_object = self.create_visual(name="visual_cube_base", location=(0, 0, 0),
-                                              scale=(floor_size, floor_size, thickness), material=color.LAVENDER)
+        self.base_object = self.create_visual(scale=(floor_size, floor_size, thickness), material=color.LAVENDER,
+                                              name="base")
         self.create_link_and_joint(self.base_object, "base_link")
         if floor_size != 0:
             self.create_collision(self.base_object)
 
     def new_object(self, location, rotation, scale, joint_type, lower_limit=0, upper_limit=0, material=None,
-                   mesh_filepath="", object_name="", is_cylinder=False, child_visuals=None):
+                   mesh_filepath="", object_name="", is_cylinder=False, child_visuals=None, name=""):
         if not material:
             if joint_type == 'prismatic':
                 material = color.RED
             elif joint_type == 'revolute':
                 material = color.GREEN
-        if mesh_filepath:
-            name = "visual_mesh"
-        elif is_cylinder:
-            name = "visual_cylinder"
-        else:
-            name = "visual_cube"
         i = str(len(self.movable_visual_objects))
-        visual = self.create_visual(name=name + i,
-                                    location=(location[0], location[1], location[2] + self.floor_thickness / 2),
-                                    rotation=rotation, scale=scale, material=material, parent=self.base_object,
-                                    mesh=mesh_filepath, object_name=object_name, is_cylinder=is_cylinder)
+        name = name + "_" + i if name else i
+        visual = self.create_visual(location=(location[0], location[1], location[2] + self.floor_thickness / 2),
+                                    rotation=rotation, scale=scale, material=material, name=name,
+                                    parent=self.base_object, mesh=mesh_filepath, object_name=object_name,
+                                    is_cylinder=is_cylinder)
         self.movable_visual_objects.append(visual)
-        # child_visuals = [] if not child_visuals else child_visuals
-        for child_visual in (child_visuals or []):
+        for idx, child_visual in enumerate((child_visuals or [])):
+            child_visual.name += "_" + i + "." + str(idx)
             child_visual.parent = visual
             self.create_collision(child_visual)
-        self.create_link_and_joint(visual, "link" + i, joint_type=joint_type, lower=lower_limit, upper=upper_limit)
+        self.create_link_and_joint(visual, name=name, joint_type=joint_type, lower=lower_limit, upper=upper_limit)
         self.create_collision(visual)
         return visual
 

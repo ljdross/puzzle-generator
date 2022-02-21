@@ -24,7 +24,7 @@ world.create_base_link(32)
 # add custom objects (ADJUST AS NEEDED)
 # create child visuals first
 child_visuals = []
-child_visuals.append(world.create_visual('panel', (1, 0, 0), (0, 0, 0), (2, 1, 2)))
+child_visuals.append(world.create_visual((1, 0, 0), (0, 0, 0), (2, 1, 2)))
 # then create the parent visual with joint properties and provide list of child visuals
 door = world.new_object((0, 5, 1), (0, 0, 0), (1, 1, 2), 'revolute', -calc.RAD45, calc.RAD45, is_cylinder=True,
                         child_visuals=child_visuals)
