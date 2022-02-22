@@ -5,6 +5,7 @@ import sys
 DIR = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(DIR)
 import color
+import calc
 
 
 class BlenderWorld:
@@ -101,15 +102,16 @@ class BlenderWorld:
         if floor_size != 0:
             self.create_collision(self.base_object)
 
+    def determine_link_color(self):
+        if len(self.movable_links) == 0:
+            return color.GREEN
+        else:
+            return color.RED
+
     def new_link(self, location, rotation, scale, joint_type, lower_limit=0, upper_limit=0, material=None,
                  mesh_filepath="", object_name="", is_cylinder=False, child_visuals=None, name=""):
-        i = len(self.movable_links)
-        if not material:
-            if i == 0:
-                material = color.GREEN
-            else:
-                material = color.RED
-        i = str(i)
+        material = material if material else self.determine_link_color()
+        i = str(len(self.movable_links))
         name = name + "_" + i if name else i
         visual = self.create_visual(location=(location[0], location[1], location[2] + self.floor_thickness / 2),
                                     rotation=rotation, scale=scale, material=material, name=name,
@@ -124,6 +126,15 @@ class BlenderWorld:
         self.create_collision(visual)
         self.movable_links.append(visual.parent)
         return visual
+
+    def new_door(self, location=(0, 0, 1), rotation=(0, 0, 0), scale=(2, 0.2, 2), lower_limit=0, upper_limit=calc.RAD90,
+                 cylinder_diameter=0.4, cylinder_material=color.GRAY, panel_material=None, child_visuals=None, name=""):
+        panel_material = panel_material if panel_material else self.determine_link_color()
+        panel = self.create_visual((scale[0] / 2, 0, 0), (0, 0, 0), scale, panel_material, "door")
+        door = self.new_link(location, rotation, (cylinder_diameter, cylinder_diameter, scale[2]), 'revolute',
+                             lower_limit, upper_limit, cylinder_material, is_cylinder=True, child_visuals=[panel],
+                             name="door")
+        return door
 
     def remove_last_object(self):
         bpy.context.view_layer.objects.active = self.movable_links[-1]
