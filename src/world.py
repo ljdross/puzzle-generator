@@ -65,7 +65,7 @@ class BlenderWorld:
         else:
             bpy.ops.mesh.primitive_cube_add(location=location, rotation=rotation, scale=tuple(x / 2 for x in scale))
             visual = bpy.context.active_object
-        visual.active_material = material if material else color.WHITE
+        visual.active_material = material if material else visual.active_material
         bpy.ops.phobos.set_phobostype(phobostype='visual')
         name = "_" + name if name else ""
         if mesh:
@@ -117,7 +117,7 @@ class BlenderWorld:
                                     is_cylinder=is_cylinder)
         for idx, child_visual in enumerate((child_visuals or [])):
             child_visual.name += "_" + i + "." + str(idx)
-            child_visual.active_material = material
+            child_visual.active_material = child_visual.active_material if child_visual.active_material else material
             child_visual.parent = visual
             self.create_collision(child_visual)
         self.create_link_and_joint(visual, name=name, joint_type=joint_type, lower=lower_limit, upper=upper_limit)
