@@ -30,7 +30,7 @@ else:
     pb.connect(pb.DIRECT)
 
 # load robot
-robot_id = pb.loadURDF(FILEPATH_FOR_INPUT, (0, 0, 0), useFixedBase=1)
+robot_id = pb.loadURDF(FILEPATH_FOR_INPUT, (0, 0, 0), useFixedBase=1, flags=pb.URDF_USE_SELF_COLLISION)
 robot = pb_ompl.PbOMPLRobot(robot_id)
 
 # setup pb_ompl
