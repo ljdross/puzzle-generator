@@ -10,6 +10,8 @@
 
     <passive_joint name="link_door_3"/>
 
+    <passive_joint name="link_door_4"/>
+
     <link_sphere_approximation link="base_link">
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
@@ -27,6 +29,10 @@
     </link_sphere_approximation>
 
     <link_sphere_approximation link="link_door_3">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_door_4">
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
 

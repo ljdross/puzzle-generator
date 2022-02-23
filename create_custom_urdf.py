@@ -45,5 +45,6 @@ sd = world.new_link((0, -5, 0.5), (0, 0, 0), (4, 4, 1), 'revolute', -calc.RAD45,
                     object_name="slot_disc")
 
 d2 = world.new_door((4, 4, 2), (0, 0, 0), (2, 0.2, 4))
+d3 = world.new_door((4, -4, 2), (0, 0, 0), (2, 0.2, 4), top_handle=True)
 
 world.export()
