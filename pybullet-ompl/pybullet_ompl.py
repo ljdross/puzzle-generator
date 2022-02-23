@@ -45,7 +45,7 @@ found_solution, path = pb_ompl_interface.plan(GOAL_SPACE, ALLOWED_PLANNING_TIME)
 
 if HAVE_EXACT_SOLUTION:
     found_solution = pb_ompl_interface.ss.haveExactSolutionPath()
-# print("PATH FOUND: " + str(found_solution))
+# print("PATH FOUND:", path)
 if found_solution and SHOW_GUI:
     pb_ompl_interface.execute(path)
 
