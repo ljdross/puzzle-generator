@@ -665,25 +665,24 @@ class Lockbox2017Sampler(PuzzleSampler):
         self.world.reset()
         self.world.create_base_link(self.floor_size)
 
-        obj = self.world.new_link((-6, -1, 0.5), (0, 0, 0), (3.6, 0.8, 1), 'revolute', 0, calc.RAD90)
+        self.world.new_door((-6, -1, 0.5), (0, 0, 0), (2, 0.2, 2))
         self.start_state.append(0)
         self.goal_space_append((calc.RAD90, calc.RAD90))
 
-        obj = self.world.new_link((-4, 0, 0.5), (-calc.RAD90, 0, -calc.RAD90), (0.8, 1, 3.6), 'prismatic', 0, 2)
+        self.world.new_link((-4, 0, 0.5), (-calc.RAD90, 0, -calc.RAD90), (0.8, 1, 3.6), 'prismatic', 0, 2)
         self.start_state.append(0)
         self.goal_space_append((0, 2))
 
-        obj = self.world.new_link((0, 0, 0.5), (0, 0, calc.RAD90), (4, 4, 1), 'revolute', -calc.RAD180, calc.RAD180,
-                                  mesh_filepath="/home/userone/ba/puzzle-generator/input-meshes/slot_disc.blend",
-                                  object_name="slot_disc")
+        self.world.new_link((0, 0, 0.5), (0, 0, calc.RAD90), (4, 4, 1), 'revolute', 0, calc.RAD90,
+                                  mesh_filepath=self.mesh1, object_name="slot_disc")
         self.start_state.append(0)
-        self.goal_space_append((-calc.RAD180, calc.RAD180))
+        self.goal_space_append((0, calc.RAD90))
 
-        obj = self.world.new_link((0, 2, 0.5), (-calc.RAD90, 0, 0), (0.8, 1, 3.6), 'prismatic', 0, 2)
+        self.world.new_link((0, 2, 0.5), (-calc.RAD90, 0, 0), (0.8, 1, 3.6), 'prismatic', 0, 2)
         self.start_state.append(0)
         self.goal_space_append((0, 2))
 
-        obj = self.world.new_link((-1, 5, 0.5), (0, 0, 0), (3.6, 0.8, 1), 'revolute', 0, calc.RAD90)
+        self.world.new_door((-2, 4, 1), (0, 0, 0), (4, 0.2, 2))
         self.start_state.append(0)
         self.goal_space_append((0, calc.RAD90))
 
