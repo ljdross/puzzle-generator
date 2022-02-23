@@ -131,12 +131,15 @@ class BlenderWorld:
                  cylinder_diameter=0.4, cylinder_material=color.GRAY, panel_material=None, child_visuals=None,
                  name="door"):
         panel_material = panel_material if panel_material else self.determine_link_color()
+        child_visuals = child_visuals if child_visuals else []
         panel = self.create_visual((scale[0] / 2, 0, 0), (0, 0, 0), scale, panel_material, name + "_panel")
+        child_visuals.append(panel)
         handle = self.create_visual((scale[0] * 0.8, scale[1] / 2 + 0.1, 0), (0, 0, 0), (0.2, 0.2, 0.2),
                                     panel_material, name + "_handle")
+        child_visuals.append(handle)
         door = self.new_link(location, rotation, (cylinder_diameter, cylinder_diameter, scale[2]), 'revolute',
                              lower_limit, upper_limit, cylinder_material, is_cylinder=True,
-                             child_visuals=[panel, handle], name=name)
+                             child_visuals=child_visuals, name=name)
         return door
 
     def remove_last_object(self):
