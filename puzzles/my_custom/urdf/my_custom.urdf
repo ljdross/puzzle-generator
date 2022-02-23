@@ -105,8 +105,15 @@
         <mass value="0.001"/>
         <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
       </inertial>
-      <visual name="visual_cube_door_handle_3">
+      <visual name="visual_cube_door_handle1_3">
         <origin xyz="1.6 0.2 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.2 0.2 0.2"/>
+        </geometry>
+        <material name="red"/>
+      </visual>
+      <visual name="visual_cube_door_handle2_3">
+        <origin xyz="1.6 -0.2 0" rpy="0 0 0"/>
         <geometry>
           <box size="0.2 0.2 0.2"/>
         </geometry>
@@ -126,8 +133,14 @@
         </geometry>
         <material name="gray"/>
       </visual>
-      <collision name="collision_cube_door_handle_3">
+      <collision name="collision_cube_door_handle1_3">
         <origin xyz="1.6 0.2 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.2 0.2 0.2"/>
+        </geometry>
+      </collision>
+      <collision name="collision_cube_door_handle2_3">
+        <origin xyz="1.6 -0.2 0" rpy="0 0 0"/>
         <geometry>
           <box size="0.2 0.2 0.2"/>
         </geometry>

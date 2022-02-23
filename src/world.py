@@ -134,9 +134,12 @@ class BlenderWorld:
         child_visuals = child_visuals if child_visuals else []
         panel = self.create_visual((scale[0] / 2, 0, 0), (0, 0, 0), scale, panel_material, name + "_panel")
         child_visuals.append(panel)
-        handle = self.create_visual((scale[0] * 0.8, scale[1] / 2 + 0.1, 0), (0, 0, 0), (0.2, 0.2, 0.2),
-                                    panel_material, name + "_handle")
-        child_visuals.append(handle)
+        handle1 = self.create_visual((scale[0] * 0.8, scale[1] / 2 + 0.1, 0), (0, 0, 0), (0.2, 0.2, 0.2),
+                                    panel_material, name + "_handle1")
+        child_visuals.append(handle1)
+        handle2 = self.create_visual((scale[0] * 0.8, -scale[1] / 2 - 0.1, 0), (0, 0, 0), (0.2, 0.2, 0.2),
+                                    panel_material, name + "_handle2")
+        child_visuals.append(handle2)
         door = self.new_link(location, rotation, (cylinder_diameter, cylinder_diameter, scale[2]), 'revolute',
                              lower_limit, upper_limit, cylinder_material, is_cylinder=True,
                              child_visuals=child_visuals, name=name)
