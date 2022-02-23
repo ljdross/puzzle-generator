@@ -117,8 +117,8 @@ class BlenderWorld:
                                     rotation=rotation, scale=scale, material=material, name=name,
                                     parent=self.base_object, mesh=mesh_filepath, object_name=object_name,
                                     is_cylinder=is_cylinder)
-        for idx, child_visual in enumerate((child_visuals or [])):
-            child_visual.name += "_" + i + "." + str(idx)
+        for child_visual in (child_visuals or []):
+            child_visual.name += "_" + i
             child_visual.active_material = child_visual.active_material if child_visual.active_material else material
             child_visual.parent = visual
             self.create_collision(child_visual)
@@ -128,12 +128,15 @@ class BlenderWorld:
         return visual
 
     def new_door(self, location=(0, 0, 1), rotation=(0, 0, 0), scale=(2, 0.2, 2), lower_limit=0, upper_limit=calc.RAD90,
-                 cylinder_diameter=0.4, cylinder_material=color.GRAY, panel_material=None, child_visuals=None, name=""):
+                 cylinder_diameter=0.4, cylinder_material=color.GRAY, panel_material=None, child_visuals=None,
+                 name="door"):
         panel_material = panel_material if panel_material else self.determine_link_color()
-        panel = self.create_visual((scale[0] / 2, 0, 0), (0, 0, 0), scale, panel_material, "door")
+        panel = self.create_visual((scale[0] / 2, 0, 0), (0, 0, 0), scale, panel_material, name + "_panel")
+        handle = self.create_visual((scale[0] * 0.8, scale[1] / 2 + 0.1, 0), (0, 0, 0), (0.2, 0.2, 0.2),
+                                    panel_material, name + "_handle")
         door = self.new_link(location, rotation, (cylinder_diameter, cylinder_diameter, scale[2]), 'revolute',
-                             lower_limit, upper_limit, cylinder_material, is_cylinder=True, child_visuals=[panel],
-                             name="door")
+                             lower_limit, upper_limit, cylinder_material, is_cylinder=True,
+                             child_visuals=[panel, handle], name=name)
         return door
 
     def remove_last_object(self):
