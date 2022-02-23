@@ -29,8 +29,6 @@ if SHOW_GUI:
 else:
     pb.connect(pb.DIRECT)
 
-pb.setTimeStep(1. / 60.)
-
 # load robot
 robot_id = pb.loadURDF(FILEPATH_FOR_INPUT, (0, 0, 0), useFixedBase=1)
 robot = pb_ompl.PbOMPLRobot(robot_id)
