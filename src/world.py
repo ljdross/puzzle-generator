@@ -128,8 +128,9 @@ class BlenderWorld:
         return visual
 
     def new_door(self, location=(0, 0, 1), rotation=(0, 0, 0), scale=(2, 0.2, 2), lower_limit=0, upper_limit=calc.RAD90,
-                 cylinder_diameter=0.4, cylinder_material=color.GRAY, panel_material=None, child_visuals=None,
-                 name="door", top_handle=False):
+                 cylinder_diameter=0.4, cylinder_material=None, panel_material=None, child_visuals=None,
+                 name="door", top_handle=True):
+        cylinder_material = cylinder_material if cylinder_material else self.determine_link_color()
         panel_material = panel_material if panel_material else self.determine_link_color()
         child_visuals = child_visuals if child_visuals else []
         panel = self.create_visual((scale[0] / 2, 0, 0), (0, 0, 0), scale, panel_material, name + "_panel")
