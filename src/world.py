@@ -109,46 +109,38 @@ class BlenderWorld:
             return color.RED
 
     def new_link(self, location, rotation, scale, joint_type, lower_limit=0, upper_limit=0, material=None,
-                 mesh_filepath="", object_name="", is_cylinder=False, child_visuals=None, name=""):
+                 mesh_filepath="", object_name="", is_cylinder=False, name="", parent=None):
         material = material if material else self.determine_link_color()
+        if not parent:
+            parent = self.base_object
+            location = (location[0], location[1], location[2] + self.floor_thickness / 2)
         i = str(len(self.movable_links))
         name = name + "_" + i if name else i
-        visual = self.create_visual(location=(location[0], location[1], location[2] + self.floor_thickness / 2),
+        visual = self.create_visual(location=location,
                                     rotation=rotation, scale=scale, material=material, name=name,
-                                    parent=self.base_object, mesh=mesh_filepath, object_name=object_name,
-                                    is_cylinder=is_cylinder)
-        for child_visual in (child_visuals or []):
-            child_visual.name += "_" + i
-            child_visual.active_material = child_visual.active_material if child_visual.active_material else material
-            child_visual.parent = visual
-            self.create_collision(child_visual)
+                                    parent=parent, mesh=mesh_filepath, object_name=object_name, is_cylinder=is_cylinder)
         self.create_link_and_joint(visual, name=name, joint_type=joint_type, lower=lower_limit, upper=upper_limit)
         self.create_collision(visual)
-        self.movable_links.append(visual.parent)
+        if joint_type != 'fixed':
+            self.movable_links.append(visual.parent)
         return visual
 
     def new_door(self, location=(0, 0, 1), rotation=(0, 0, 0), scale=(2, 0.2, 2), lower_limit=0, upper_limit=calc.RAD90,
-                 cylinder_diameter=0.4, cylinder_material=None, panel_material=None, child_visuals=None,
-                 name="door", top_handle=True):
-        cylinder_material = cylinder_material if cylinder_material else self.determine_link_color()
+                 cylinder_diameter=0.4, cylinder_material=color.GRAY, panel_material=None, name="door",
+                 top_handle=True):
         panel_material = panel_material if panel_material else self.determine_link_color()
-        child_visuals = child_visuals if child_visuals else []
-        panel = self.create_visual((scale[0] / 2, 0, 0), (0, 0, 0), scale, panel_material, name + "_panel")
-        child_visuals.append(panel)
-        if top_handle:
-            handle = self.create_visual((scale[0] * 0.75, 0, scale[2] / 2 + 0.1), (0, 0, 0), (0.2, 0.05, 0.2),
-                                        panel_material, name + "_handle")
-            child_visuals.append(handle)
-        else:
-            handle1 = self.create_visual((scale[0] * 0.75, scale[1] / 2 + 0.1, 0), (0, 0, 0), (0.05, 0.2, 0.2),
-                                        panel_material, name + "_handle1")
-            child_visuals.append(handle1)
-            handle2 = self.create_visual((scale[0] * 0.75, -scale[1] / 2 - 0.1, 0), (0, 0, 0), (0.05, 0.2, 0.2),
-                                        panel_material, name + "_handle2")
-            child_visuals.append(handle2)
         door = self.new_link(location, rotation, (cylinder_diameter, cylinder_diameter, scale[2]), 'revolute',
-                             lower_limit, upper_limit, cylinder_material, is_cylinder=True,
-                             child_visuals=child_visuals, name=name)
+                             lower_limit, upper_limit, cylinder_material, is_cylinder=True, name=name)
+        self.new_link((scale[0] / 2, 0, 0), (0, 0, 0), scale, 'fixed', material=panel_material, name=name + "_panel",
+                      parent=door)
+        if top_handle:
+            self.new_link((scale[0] * 0.75, 0, scale[2] / 2 + 0.1), (0, 0, 0), (0.2, 0.05, 0.2), 'fixed',
+                          material=color.YELLOW, name=name + "_handle", parent=door)
+        else:
+            self.new_link((scale[0] * 0.75, scale[1] / 2 + 0.1, 0), (0, 0, 0), (0.05, 0.2, 0.2), 'fixed',
+                          material=color.YELLOW, name=name + "_handle1", parent=door)
+            self.new_link((scale[0] * 0.75, -scale[1] / 2 - 0.1, 0), (0, 0, 0), (0.05, 0.2, 0.2), 'fixed',
+                          material=color.YELLOW, name=name + "_handle2", parent=door)
         return door
 
     def remove_last_object(self):

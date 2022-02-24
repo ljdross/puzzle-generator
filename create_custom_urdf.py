@@ -22,12 +22,7 @@ world.reset()
 world.create_base_link(32)
 
 # add custom objects (ADJUST AS NEEDED)
-# create child visuals first
-child_visuals = []
-child_visuals.append(world.create_visual((1, 0, 0), (0, 0, 0), (2, 1, 2)))
-# then create the parent visual with joint properties and provide list of child visuals
-door = world.new_link((0, 5, 1), (0, 0, 0), (1, 1, 2), 'revolute', -calc.RAD45, calc.RAD45, is_cylinder=True,
-                      child_visuals=child_visuals)
+d = world.new_link((0, 5, 1), (0, 0, 0), (1, 1, 2), 'revolute', -calc.RAD45, calc.RAD45, is_cylinder=True)
 
 upper_limit = 2
 length = 4
