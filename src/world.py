@@ -184,6 +184,9 @@ class BlenderWorld:
         bpy.context.scene.export_mesh_dae = self.export_mesh_dae
         bpy.context.scene.export_mesh_stl = self.export_mesh_stl
         bpy.context.scene.phobosexportsettings.outputMeshtype = self.output_mesh_type
+        bpy.ops.object.select_all(action='DESELECT')
+        self.base_object.select_set(True)
+        bpy.context.view_layer.objects.active = bpy.context.selected_objects[0]
         bpy.ops.phobos.name_model(modelname=self.name)
         bpy.ops.phobos.export_model()
         if self.contains_mesh:
