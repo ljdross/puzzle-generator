@@ -669,7 +669,9 @@ class Lockbox2017Sampler(PuzzleSampler):
         self.start_state.append(0)
         self.goal_space_append((calc.RAD90, calc.RAD90))
 
-        self.world.new_link((-4, 0, 0.5), (-calc.RAD90, 0, -calc.RAD90), (0.8, 1, 3.6), 'prismatic', 0, 2)
+        handle = self.world.create_visual((0, -0.5 - 0.1, 0), (0, 0, 0), (0.2, 0.2, 0.05), name="handle")
+        self.world.new_link((-4, 0, 0.5), (-calc.RAD90, 0, -calc.RAD90), (0.8, 1, 3.6), 'prismatic', 0, 2,
+                            child_visuals=[handle])
         self.start_state.append(0)
         self.goal_space_append((0, 2))
 
@@ -678,7 +680,8 @@ class Lockbox2017Sampler(PuzzleSampler):
         self.start_state.append(0)
         self.goal_space_append((0, calc.RAD90))
 
-        self.world.new_link((0, 2, 0.5), (-calc.RAD90, 0, 0), (0.8, 1, 3.6), 'prismatic', 0, 2)
+        handle = self.world.create_visual((0, -0.5 - 0.1, 0), (0, 0, 0), (0.2, 0.2, 0.05), name="handle")
+        self.world.new_link((0, 2, 0.5), (-calc.RAD90, 0, 0), (0.8, 1, 3.6), 'prismatic', 0, 2, child_visuals=[handle])
         self.start_state.append(0)
         self.goal_space_append((0, 2))
 

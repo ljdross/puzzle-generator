@@ -36,10 +36,23 @@
         </geometry>
         <material name="red"/>
       </visual>
+      <visual name="visual_cube_handle_1">
+        <origin xyz="0 -0.6 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.2 0.2 0.05"/>
+        </geometry>
+        <material name="red"/>
+      </visual>
       <collision name="collision_cube_1">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="0.8 1.0 3.6"/>
+        </geometry>
+      </collision>
+      <collision name="collision_cube_handle_1">
+        <origin xyz="0 -0.6 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.2 0.2 0.05"/>
         </geometry>
       </collision>
     </link>
@@ -78,10 +91,23 @@
         </geometry>
         <material name="red"/>
       </visual>
+      <visual name="visual_cube_handle_3">
+        <origin xyz="0 -0.6 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.2 0.2 0.05"/>
+        </geometry>
+        <material name="red"/>
+      </visual>
       <collision name="collision_cube_3">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="0.8 1.0 3.6"/>
+        </geometry>
+      </collision>
+      <collision name="collision_cube_handle_3">
+        <origin xyz="0 -0.6 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.2 0.2 0.05"/>
         </geometry>
       </collision>
     </link>
