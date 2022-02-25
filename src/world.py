@@ -102,18 +102,26 @@ class BlenderWorld:
         if floor_size != 0:
             self.create_collision(self.base_object)
 
-    def determine_link_color(self):
-        if len(self.movable_links) == 0:
-            return color.GREEN
-        else:
+    def determine_link_color(self, link_is_child=False):
+        num_links = len(self.movable_links)
+        if num_links > 1:
             return color.RED
+        elif num_links == 0:
+            return color.GREEN
+        else:  # num_links == 1
+            if link_is_child:
+                return color.GREEN
+            else:
+                return color.RED
 
     def new_link(self, location, rotation, scale, joint_type, lower_limit=0, upper_limit=0, material=None,
                  mesh_filepath="", object_name="", is_cylinder=False, name="", parent=None):
-        material = material if material else self.determine_link_color()
         if not parent:
             parent = self.base_object
             location = (location[0], location[1], location[2] + self.floor_thickness / 2)
+            material = material if material else self.determine_link_color(link_is_child=False)
+        else:
+            material = material if material else self.determine_link_color(link_is_child=True)
         i = str(len(self.movable_links))
         name = name + "_" + i if name else i
         visual = self.create_visual(location=location,
@@ -128,7 +136,6 @@ class BlenderWorld:
     def new_door(self, location=(0, 0, 1), rotation=(0, 0, 0), scale=(2, 0.2, 2), lower_limit=0, upper_limit=calc.RAD90,
                  cylinder_diameter=0.4, cylinder_material=color.GRAY, panel_material=None, name="door",
                  top_handle=True):
-        panel_material = panel_material if panel_material else self.determine_link_color()
         door = self.new_link(location, rotation, (cylinder_diameter, cylinder_diameter, scale[2]), 'revolute',
                              lower_limit, upper_limit, cylinder_material, is_cylinder=True, name=name)
         self.new_link((scale[0] / 2, 0, 0), (0, 0, 0), scale, 'fixed', material=panel_material, name=name + "_panel",

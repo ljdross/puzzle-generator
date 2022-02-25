@@ -22,6 +22,9 @@ world.reset()
 world.create_base_link(32)
 
 # add custom objects (ADJUST AS NEEDED)
+d2 = world.new_door((4, 4, 2), (0, 0, 0), (2, 0.2, 4))
+d3 = world.new_door((4, -4, 2), (0, 0, 0), (2, 0.2, 4), -calc.RAD90, calc.RAD45, top_handle=False)
+
 d = world.new_link((0, 5, 1), (0, 0, 0), (1, 1, 2), 'revolute', -calc.RAD45, calc.RAD45, is_cylinder=True)
 
 upper_limit = 2
@@ -38,8 +41,5 @@ world.new_link((0, 0, 0.5), (-calc.RAD90, 0, angle_rad), (1, 1, length), 'prisma
 sd = world.new_link((0, -5, 0.5), (0, 0, 0), (4, 4, 1), 'revolute', -calc.RAD45, calc.RAD45,
                     mesh_filepath="/home/userone/ba/puzzle-generator/input-meshes/slot_disc.blend",
                     object_name="slot_disc")
-
-d2 = world.new_door((4, 4, 2), (0, 0, 0), (2, 0.2, 4))
-d3 = world.new_door((4, -4, 2), (0, 0, 0), (2, 0.2, 4), -calc.RAD90, calc.RAD45, top_handle=False)
 
 world.export()
