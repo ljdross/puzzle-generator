@@ -1,7 +1,7 @@
 import pb_ompl
 import sys
 import os
-import pybullet as pb
+import pybullet as p
 from ast import literal_eval
 
 DIR = os.path.dirname(os.path.realpath(__file__))
@@ -18,6 +18,7 @@ ALLOWED_PLANNING_TIME = literal_eval(sys.argv[4]) if len(sys.argv) > 4 else 5.
 SHOW_GUI = literal_eval(sys.argv[5]) if len(sys.argv) > 5 else True
 PLANNER = sys.argv[6] if len(sys.argv) > 6 else "RRTConnect"
 HAVE_EXACT_SOLUTION = literal_eval(sys.argv[7]) if len(sys.argv) > 7 else True
+ONLY_CHECK_START_STATE_VALIDITY = literal_eval(sys.argv[8]) if len(sys.argv) > 8 else False
 
 if FILEPATH_FOR_INPUT == "/absolute/path/to/urdf/puzzle.urdf":
     print("""\n\tPLEASE provide arguments when executing this script with python3 like so:
@@ -25,23 +26,29 @@ if FILEPATH_FOR_INPUT == "/absolute/path/to/urdf/puzzle.urdf":
         or change the default values in this script (pybullet_ompl.py)\n""")
 
 if SHOW_GUI:
-    pb.connect(pb.GUI)
+    p.connect(p.GUI)
 else:
-    pb.connect(pb.DIRECT)
+    p.connect(p.DIRECT)
 
 # load robot
-robot_id = pb.loadURDF(FILEPATH_FOR_INPUT, (0, 0, 0), useFixedBase=1)
+robot_id = p.loadURDF(FILEPATH_FOR_INPUT, (0, 0, 0), useFixedBase=1)
 robot = pb_ompl.PbOMPLRobot(robot_id)
 
 # setup pb_ompl
 pb_ompl_interface = pb_ompl.PbOMPL(robot)
+
+if ONLY_CHECK_START_STATE_VALIDITY:
+    valid = pb_ompl_interface.is_state_valid(START_STATE)
+    # print("IS STATE VALID?", valid)
+    if valid:
+        sys.exit(0)
+    else:
+        sys.exit(1)
+
 pb_ompl_interface.set_planner(PLANNER)
 
 robot.set_state(START_STATE)
 found_solution, path = pb_ompl_interface.plan(GOAL_SPACE, ALLOWED_PLANNING_TIME)
-
-# pb_ompl_interface.is_state_valid()
-# pb_ompl_interface.ss.
 
 if HAVE_EXACT_SOLUTION:
     found_solution = pb_ompl_interface.ss.haveExactSolutionPath()
