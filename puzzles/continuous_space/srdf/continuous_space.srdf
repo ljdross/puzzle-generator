@@ -10,6 +10,26 @@
 
     <passive_joint name="link_3"/>
 
+    <passive_joint name="link_handle_knob_0"/>
+
+    <passive_joint name="link_handle_knob_1"/>
+
+    <passive_joint name="link_handle_knob_2"/>
+
+    <passive_joint name="link_handle_knob_3"/>
+
+    <passive_joint name="link_handle_shaft_0"/>
+
+    <passive_joint name="link_handle_shaft_1"/>
+
+    <passive_joint name="link_handle_shaft_2"/>
+
+    <passive_joint name="link_handle_shaft_3"/>
+
+    <passive_joint name="link_hinge_0"/>
+
+    <passive_joint name="link_hinge_1"/>
+
     <link_sphere_approximation link="base_link">
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
@@ -27,6 +47,46 @@
     </link_sphere_approximation>
 
     <link_sphere_approximation link="link_3">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_handle_knob_0">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_handle_knob_1">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_handle_knob_2">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_handle_knob_3">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_handle_shaft_0">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_handle_shaft_1">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_handle_shaft_2">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_handle_shaft_3">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_hinge_0">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_hinge_1">
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
 

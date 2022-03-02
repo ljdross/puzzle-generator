@@ -6,6 +6,14 @@
 
     <passive_joint name="link_1"/>
 
+    <passive_joint name="link_handle_knob_0"/>
+
+    <passive_joint name="link_handle_knob_1"/>
+
+    <passive_joint name="link_handle_shaft_0"/>
+
+    <passive_joint name="link_handle_shaft_1"/>
+
     <link_sphere_approximation link="base_link">
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
@@ -15,6 +23,22 @@
     </link_sphere_approximation>
 
     <link_sphere_approximation link="link_1">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_handle_knob_0">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_handle_knob_1">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_handle_shaft_0">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_handle_shaft_1">
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
 

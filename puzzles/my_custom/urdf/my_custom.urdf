@@ -32,14 +32,14 @@
       <visual name="visual_cylinder_2">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <cylinder radius="0.5" length="2.0"/>
+          <cylinder radius="1.0" length="2.0"/>
         </geometry>
         <material name="red"/>
       </visual>
       <collision name="collision_cylinder_2">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <cylinder radius="0.5" length="2.0"/>
+          <cylinder radius="1.0" length="2.0"/>
         </geometry>
       </collision>
     </link>
@@ -128,20 +128,20 @@
       </collision>
     </link>
 
-    <link name="link_door_handle1_2">
+    <link name="link_door_handle1_1">
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="0.001"/>
         <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
       </inertial>
-      <visual name="visual_cube_door_handle1_2">
+      <visual name="visual_cube_door_handle1_1">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="0.05 0.2 0.2"/>
         </geometry>
         <material name="yellow"/>
       </visual>
-      <collision name="collision_cube_door_handle1_2">
+      <collision name="collision_cube_door_handle1_1">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="0.05 0.2 0.2"/>
@@ -149,20 +149,20 @@
       </collision>
     </link>
 
-    <link name="link_door_handle2_2">
+    <link name="link_door_handle2_1">
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="0.001"/>
         <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
       </inertial>
-      <visual name="visual_cube_door_handle2_2">
+      <visual name="visual_cube_door_handle2_1">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="0.05 0.2 0.2"/>
         </geometry>
         <material name="yellow"/>
       </visual>
-      <collision name="collision_cube_door_handle2_2">
+      <collision name="collision_cube_door_handle2_1">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="0.05 0.2 0.2"/>
@@ -170,23 +170,44 @@
       </collision>
     </link>
 
-    <link name="link_door_handle_1">
+    <link name="link_door_handle_0">
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="0.001"/>
         <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
       </inertial>
-      <visual name="visual_cube_door_handle_1">
+      <visual name="visual_cube_door_handle_0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="0.2 0.05 0.2"/>
         </geometry>
         <material name="yellow"/>
       </visual>
-      <collision name="collision_cube_door_handle_1">
+      <collision name="collision_cube_door_handle_0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="0.2 0.05 0.2"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="link_door_panel_0">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_cube_door_panel_0">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="2.0 0.2 4.0"/>
+        </geometry>
+        <material name="green"/>
+      </visual>
+      <collision name="collision_cube_door_panel_0">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="2.0 0.2 4.0"/>
         </geometry>
       </collision>
     </link>
@@ -202,7 +223,7 @@
         <geometry>
           <box size="2.0 0.2 4.0"/>
         </geometry>
-        <material name="green"/>
+        <material name="red"/>
       </visual>
       <collision name="collision_cube_door_panel_1">
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -212,23 +233,212 @@
       </collision>
     </link>
 
-    <link name="link_door_panel_2">
+    <link name="link_handle_knob_2">
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="0.001"/>
         <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
       </inertial>
-      <visual name="visual_cube_door_panel_2">
+      <visual name="visual_cube_handle_knob_2">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="2.0 0.2 4.0"/>
+          <box size="0.05 0.05 0.2"/>
+        </geometry>
+        <material name="yellow"/>
+      </visual>
+      <collision name="collision_cube_handle_knob_2">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.05 0.05 0.2"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="link_handle_knob_3">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_cube_handle_knob_3">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.05 0.05 0.2"/>
+        </geometry>
+        <material name="yellow"/>
+      </visual>
+      <collision name="collision_cube_handle_knob_3">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.05 0.05 0.2"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="link_handle_knob_4">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_cube_handle_knob_4">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.05 0.05 0.2"/>
+        </geometry>
+        <material name="yellow"/>
+      </visual>
+      <collision name="collision_cube_handle_knob_4">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.05 0.05 0.2"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="link_handle_shaft_2">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_cylinder_handle_shaft_2">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.1" length="1.0"/>
         </geometry>
         <material name="red"/>
       </visual>
-      <collision name="collision_cube_door_panel_2">
+      <collision name="collision_cylinder_handle_shaft_2">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="2.0 0.2 4.0"/>
+          <cylinder radius="0.1" length="1.0"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="link_handle_shaft_3">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_cube_handle_shaft_3">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.2 0.2 1.0"/>
+        </geometry>
+        <material name="red"/>
+      </visual>
+      <collision name="collision_cube_handle_shaft_3">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.2 0.2 1.0"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="link_handle_shaft_4">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_cylinder_handle_shaft_4">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.1" length="1.0"/>
+        </geometry>
+        <material name="red"/>
+      </visual>
+      <collision name="collision_cylinder_handle_shaft_4">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.1" length="1.0"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="link_hinge_0">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_cylinder_hinge_0">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.05" length="4.1"/>
+        </geometry>
+        <material name="gray"/>
+      </visual>
+      <collision name="collision_cylinder_hinge_0">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.05" length="4.1"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="link_hinge_1">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_cylinder_hinge_1">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.05" length="4.1"/>
+        </geometry>
+        <material name="gray"/>
+      </visual>
+      <collision name="collision_cylinder_hinge_1">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.05" length="4.1"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="link_hinge_2">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_cylinder_hinge_2">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.05" length="2.1"/>
+        </geometry>
+        <material name="gray"/>
+      </visual>
+      <collision name="collision_cylinder_hinge_2">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.05" length="2.1"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="link_hinge_4">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_cylinder_hinge_4">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.05" length="1.1"/>
+        </geometry>
+        <material name="gray"/>
+      </visual>
+      <collision name="collision_cylinder_hinge_4">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.05" length="1.1"/>
         </geometry>
       </collision>
     </link>
@@ -273,34 +483,94 @@
       <limit lower="-1.5708" upper="0.7854" effort="0" velocity="0"/>
     </joint>
 
-    <joint name="link_door_handle1_2" type="fixed">
+    <joint name="link_door_handle1_1" type="fixed">
       <origin xyz="1.5 0.2 0" rpy="0 0 0"/>
       <parent link="link_door_1"/>
-      <child link="link_door_handle1_2"/>
+      <child link="link_door_handle1_1"/>
     </joint>
 
-    <joint name="link_door_handle2_2" type="fixed">
+    <joint name="link_door_handle2_1" type="fixed">
       <origin xyz="1.5 -0.2 0" rpy="0 0 0"/>
       <parent link="link_door_1"/>
-      <child link="link_door_handle2_2"/>
+      <child link="link_door_handle2_1"/>
     </joint>
 
-    <joint name="link_door_handle_1" type="fixed">
+    <joint name="link_door_handle_0" type="fixed">
       <origin xyz="1.5 0 2.1" rpy="0 0 0"/>
       <parent link="link_door_0"/>
-      <child link="link_door_handle_1"/>
+      <child link="link_door_handle_0"/>
+    </joint>
+
+    <joint name="link_door_panel_0" type="fixed">
+      <origin xyz="1.0 0 0" rpy="0 0 0"/>
+      <parent link="link_door_0"/>
+      <child link="link_door_panel_0"/>
     </joint>
 
     <joint name="link_door_panel_1" type="fixed">
       <origin xyz="1.0 0 0" rpy="0 0 0"/>
-      <parent link="link_door_0"/>
+      <parent link="link_door_1"/>
       <child link="link_door_panel_1"/>
     </joint>
 
-    <joint name="link_door_panel_2" type="fixed">
-      <origin xyz="1.0 0 0" rpy="0 0 0"/>
+    <joint name="link_handle_knob_2" type="fixed">
+      <origin xyz="0 0 0.6" rpy="0 0 0"/>
+      <parent link="link_handle_shaft_2"/>
+      <child link="link_handle_knob_2"/>
+    </joint>
+
+    <joint name="link_handle_knob_3" type="fixed">
+      <origin xyz="0 0 0.6" rpy="0 0 0"/>
+      <parent link="link_handle_shaft_3"/>
+      <child link="link_handle_knob_3"/>
+    </joint>
+
+    <joint name="link_handle_knob_4" type="fixed">
+      <origin xyz="0 0 0.6" rpy="0 0 0"/>
+      <parent link="link_handle_shaft_4"/>
+      <child link="link_handle_knob_4"/>
+    </joint>
+
+    <joint name="link_handle_shaft_2" type="fixed">
+      <origin xyz="0 0.75 1.5" rpy="0 0 0"/>
+      <parent link="link_2"/>
+      <child link="link_handle_shaft_2"/>
+    </joint>
+
+    <joint name="link_handle_shaft_3" type="fixed">
+      <origin xyz="0 -1.0 0" rpy="1.5708 0 0"/>
+      <parent link="link_3"/>
+      <child link="link_handle_shaft_3"/>
+    </joint>
+
+    <joint name="link_handle_shaft_4" type="fixed">
+      <origin xyz="0 1.5 1.0" rpy="0 0 0"/>
+      <parent link="link_4"/>
+      <child link="link_handle_shaft_4"/>
+    </joint>
+
+    <joint name="link_hinge_0" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <parent link="link_door_0"/>
+      <child link="link_hinge_0"/>
+    </joint>
+
+    <joint name="link_hinge_1" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
       <parent link="link_door_1"/>
-      <child link="link_door_panel_2"/>
+      <child link="link_hinge_1"/>
+    </joint>
+
+    <joint name="link_hinge_2" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <parent link="link_2"/>
+      <child link="link_hinge_2"/>
+    </joint>
+
+    <joint name="link_hinge_4" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <parent link="link_4"/>
+      <child link="link_hinge_4"/>
     </joint>
 
     <material name="gray">

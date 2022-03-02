@@ -96,11 +96,12 @@ class BlenderWorld:
         """Create a base object to become the base link for all other links.
         If no physical floor is needed, use default floor_size=0"""
         self.floor_thickness = thickness
-        self.base_object = self.create_visual(scale=(floor_size, floor_size, thickness), material=color.LAVENDER,
+        visual = self.create_visual(scale=(floor_size, floor_size, thickness), material=color.LAVENDER,
                                               name="base")
-        self.create_link_and_joint(self.base_object, "base_link")
+        self.create_link_and_joint(visual, "base_link")
         if floor_size != 0:
-            self.create_collision(self.base_object)
+            self.create_collision(visual)
+        self.base_object = visual.parent
 
     def determine_link_color(self, link_is_child=False):
         num_links = len(self.movable_links)
@@ -115,23 +116,52 @@ class BlenderWorld:
                 return color.RED
 
     def new_link(self, location, rotation, scale, joint_type, lower_limit=0, upper_limit=0, material=None,
-                 mesh_filepath="", object_name="", is_cylinder=False, name="", parent=None):
+                 mesh_filepath="", object_name="", is_cylinder=False, name="", parent=None, create_handle=False):
         if not parent:
             parent = self.base_object
             location = (location[0], location[1], location[2] + self.floor_thickness / 2)
             material = material if material else self.determine_link_color(link_is_child=False)
+            i = str(len(self.movable_links))
         else:
             material = material if material else self.determine_link_color(link_is_child=True)
-        i = str(len(self.movable_links))
+            i = str(len(self.movable_links) - 1)
         name = name + "_" + i if name else i
-        visual = self.create_visual(location=location,
-                                    rotation=rotation, scale=scale, material=material, name=name,
-                                    parent=parent, mesh=mesh_filepath, object_name=object_name, is_cylinder=is_cylinder)
-        self.create_link_and_joint(visual, name=name, joint_type=joint_type, lower=lower_limit, upper=upper_limit)
+        visual = self.create_visual(location, rotation, scale, material, name, parent, mesh_filepath, object_name,
+                                    is_cylinder)
+        self.create_link_and_joint(visual, name, joint_type, lower_limit, upper_limit)
         self.create_collision(visual)
         if joint_type != 'fixed':
             self.movable_links.append(visual.parent)
-        return visual
+        if create_handle:
+            self.create_handle_automatically(visual.parent, rotation, scale, joint_type)
+        if joint_type == 'revolute':
+            self.new_link((0, 0, 0), (0, 0, 0), (0.1, 0.1, scale[2] + 0.1), 'fixed', material=color.GRAY,
+                          is_cylinder=True, name="hinge", parent=visual.parent)
+        return visual.parent
+
+    def new_handle(self, parent, location, rotation=(0, 0, 0), height=1, width=0.2, material=None, is_cylinder=False):
+        shaft = self.new_link(location, rotation, (width, width, height), 'fixed', material=material,
+                              is_cylinder=is_cylinder, name="handle_shaft", parent=parent)
+        self.new_link((0, 0, height / 2 + 0.1), (0, 0, 0), (0.05, 0.05, 0.2), 'fixed', material=color.YELLOW,
+                      name="handle_knob", parent=shaft)
+
+    def create_handle_automatically(self, parent, parent_rotation, parent_scale, parent_joint_type, height=1):
+        if parent_joint_type == 'prismatic':
+            if parent_rotation[0] == calc.RAD90:
+                self.new_handle(parent, (0, parent_scale[1] / 2 + height / 2, 0), (-calc.RAD90, 0, 0), height)
+            elif parent_rotation[0] == -calc.RAD90:
+                self.new_handle(parent, (0, -parent_scale[1] / 2 - height / 2, 0), (calc.RAD90, 0, 0), height)
+            elif parent_rotation[1] == calc.RAD90:
+                self.new_handle(parent, (-parent_scale[0] / 2 - height / 2, 0, 0), (0, -calc.RAD90, 0), height)
+            else:
+                self.new_handle(parent, (parent_scale[0] / 2 + height / 2, 0, 0), (0, calc.RAD90, 0), height)
+        else:
+            if parent_scale[0] > parent_scale[1]:
+                self.new_handle(parent, (parent_scale[0] * 0.375, 0, parent_scale[2] / 2 + height / 2), (0, 0, 0),
+                                height, is_cylinder=True)
+            else:
+                self.new_handle(parent, (0, parent_scale[1] * 0.375, parent_scale[2] / 2 + height / 2), (0, 0, 0),
+                                height, is_cylinder=True)
 
     def new_door(self, location=(0, 0, 1), rotation=(0, 0, 0), scale=(2, 0.2, 2), lower_limit=0, upper_limit=calc.RAD90,
                  cylinder_diameter=0.4, cylinder_material=color.GRAY, panel_material=None, name="door",
@@ -157,19 +187,19 @@ class BlenderWorld:
         bpy.ops.object.delete()
         self.movable_links.pop()
 
-    def set_limit_of_active_object(self, limit, is_prismatic):
+    def set_limit_of_latest_link(self, limit, is_prismatic):
         """
         If limit is negative (for revolute joints), lower limit will be set and upper limit will be 0.
         Otherwise, upper limit will be set and lower limit will be 0.
         Appends to self.goal_space and applies self.goal_adjustment.
         """
         if is_prismatic:
-            bpy.context.object.pose.bones["Bone"].constraints["Limit Location"].max_y = limit
+            self.movable_links[-1].pose.bones["Bone"].constraints["Limit Location"].max_y = limit
         else:
             if limit < 0:
-                bpy.context.object.pose.bones["Bone"].constraints["Limit Rotation"].min_x = limit
+                self.movable_links[-1].pose.bones["Bone"].constraints["Limit Rotation"].min_x = limit
             else:
-                bpy.context.object.pose.bones["Bone"].constraints["Limit Rotation"].max_x = limit
+                self.movable_links[-1].pose.bones["Bone"].constraints["Limit Rotation"].max_x = limit
         self.export()
 
     def create_collision(self, visual_obj=None):
