@@ -1,4 +1,4 @@
-from random import seed, random, choice
+from random import seed, random, choice, shuffle
 import os
 import sys
 
@@ -656,7 +656,7 @@ class Lockbox2017Sampler(PuzzleSampler):
     def __init__(self, config, world: BlenderWorld):
         super().__init__(config, world)
         world.update_name("lockbox2017")
-        self.mesh1 = "/home/userone/ba/puzzle-generator/input-meshes/slot_disc.blend"
+        self.mesh1 = config["mesh1"]
 
     def build(self):
         self.world.reset()
@@ -666,18 +666,17 @@ class Lockbox2017Sampler(PuzzleSampler):
         self.start_state.append(0)
         self.goal_space_append((calc.RAD90, calc.RAD90))
 
-        slider = self.world.new_link((-4, 0, 0.5), (-calc.RAD90, 0, -calc.RAD90), (0.8, 1, 3.6), 'prismatic', 0, 2,
-                                     create_handle=True)
+        self.world.new_link((-4, 0, 0.5), (-calc.RAD90, 0, -calc.RAD90), (0.8, 1, 3.6), 'prismatic', 0, 2,
+                            create_handle=True)
         self.start_state.append(0)
         self.goal_space_append((0, 2))
 
         self.world.new_link((0, 0, 0.5), (0, 0, calc.RAD90), (4, 4, 1), 'revolute', 0, calc.RAD90,
-                                  mesh_filepath=self.mesh1, object_name="slot_disc", create_handle=True)
+                            mesh_filepath=self.mesh1, object_name="slot_disc", create_handle=True)
         self.start_state.append(0)
         self.goal_space_append((0, calc.RAD90))
 
-        slider = self.world.new_link((0, 2, 0.5), (-calc.RAD90, 0, 0), (0.8, 1, 3.6), 'prismatic', 0, 2,
-                                     create_handle=True)
+        self.world.new_link((0, 2, 0.5), (-calc.RAD90, 0, 0), (0.8, 1, 3.6), 'prismatic', 0, 2, create_handle=True)
         self.start_state.append(0)
         self.goal_space_append((0, 2))
 
@@ -686,3 +685,95 @@ class Lockbox2017Sampler(PuzzleSampler):
         self.goal_space_append((0, calc.RAD90))
 
         self.world.export()
+
+
+class LockboxRandomSampler(PuzzleSampler):
+    def __init__(self, config, world: BlenderWorld):
+        super().__init__(config, world)
+        world.update_name("lockbox_random")
+        self.epsilon = config["epsilon"]
+        self.iterations = config["iterations"]
+        self.mesh1 = config["mesh1"]
+        self.previous_direction = "E"
+
+    def add_slot_disc_and_slider(self, direction):
+        if direction == "N":
+            rot = calc.RAD90
+            self.world.new_link((self.start_point[0], self.start_point[1], 0.5), (0, 0, rot), (3, 3, 1),
+                                'revolute', -calc.RAD180, calc.RAD180, mesh_filepath=self.mesh1,
+                                object_name="slot_disc", create_handle=True)
+            self.world.new_link((self.start_point[0], self.start_point[1] + 1.5, 0.5), (0, calc.RAD90, rot),
+                                (1, 0.6, 2 - self.epsilon), 'prismatic', 0, 1, create_handle=True)
+            self.start_point = calc.tuple_add(self.start_point, (0, 4))
+        elif direction == "E":
+            rot = 0
+            self.world.new_link((self.start_point[0], self.start_point[1], 0.5), (0, 0, rot), (3, 3, 1),
+                                'revolute', -calc.RAD180, calc.RAD180, mesh_filepath=self.mesh1,
+                                object_name="slot_disc", create_handle=True)
+            self.world.new_link((self.start_point[0] + 1.5, self.start_point[1], 0.5), (0, calc.RAD90, rot),
+                                (1, 0.6, 2 - self.epsilon), 'prismatic', 0, 1, create_handle=True)
+            self.start_point = calc.tuple_add(self.start_point, (4, 0))
+        elif direction == "S":
+            rot = -calc.RAD90
+            self.world.new_link((self.start_point[0], self.start_point[1], 0.5), (0, 0, rot), (3, 3, 1),
+                                'revolute', -calc.RAD180, calc.RAD180, mesh_filepath=self.mesh1,
+                                object_name="slot_disc", create_handle=True)
+            self.world.new_link((self.start_point[0], self.start_point[1] - 1.5, 0.5), (0, calc.RAD90, rot),
+                                (1, 0.6, 2 - self.epsilon), 'prismatic', 0, 1, create_handle=True)
+            self.start_point = calc.tuple_add(self.start_point, (0, -4))
+        else:  # direction == "W"
+            rot = calc.RAD180
+            self.world.new_link((self.start_point[0], self.start_point[1], 0.5), (0, 0, rot), (3, 3, 1),
+                                'revolute', -calc.RAD180, calc.RAD180, mesh_filepath=self.mesh1,
+                                object_name="slot_disc", create_handle=True)
+            self.world.new_link((self.start_point[0] - 1.5, self.start_point[1], 0.5), (0, calc.RAD90, rot),
+                                (1, 0.6, 2 - self.epsilon), 'prismatic', 0, 1, create_handle=True)
+            self.start_point = calc.tuple_add(self.start_point, (-4, 0))
+
+    def available_directions(self):
+        if self.previous_direction == "N":
+            return ["N", "E", "W"]
+        elif self.previous_direction == "E":
+            return ["N", "E", "S"]
+        elif self.previous_direction == "S":
+            return ["E", "S", "W"]
+        else:  # self.previous_direction == "W"
+            return ["N", "S", "W"]
+
+    def choose_links(self):
+        directions = self.available_directions()
+        shuffle(directions)
+        for random_direction in directions:
+            self.add_slot_disc_and_slider(random_direction)
+            self.start_state.append(0)
+            self.start_state.append(0)
+            self.goal_space.append((-calc.RAD180, calc.RAD180))
+            self.goal_space.append((0, 1))
+            self.world.export()
+            if test_urdf(self.world.urdf_path, self.start_state, None, only_check_start_state_validity=True) == 0:
+                self.previous_direction = random_direction
+                return 0
+            else:
+                self.world.remove_last_object()
+                self.world.remove_last_object()
+                self.start_state.pop()
+                self.start_state.pop()
+                self.goal_space.pop()
+                self.goal_space.pop()
+        return 1
+
+    def build(self):
+        self.start_point = (0.5, 0.5)
+        self.world.reset()
+        self.world.create_base_link(self.floor_size)
+
+        # first slider
+        self.world.new_link((self.start_point[0] - 2.5, self.start_point[1], 0.5), (0, calc.RAD90, 0),
+                            (1, 0.6, 2 - self.epsilon), 'prismatic', 0, 1, create_handle=True)
+        self.start_state.append(0)
+        self.goal_space.append((1, 1))
+
+        for i in range(self.iterations):
+            if self.choose_links() == 1:
+                return 1
+        return 0

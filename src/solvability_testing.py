@@ -22,5 +22,5 @@ def test_urdf(input_path, start_state, goal_space, allowed_planning_time=5., sho
         if result == 0:
             print("FOUND SOLUTION!")
         else:
-            print("DID NOT FIND SOLUTION!")
+            print("NO SOLUTION FOUND!")
     return result
