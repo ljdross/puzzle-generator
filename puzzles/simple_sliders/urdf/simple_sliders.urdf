@@ -23,6 +23,21 @@
       </collision>
     </link>
 
+    <link name="goal">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_cube_0.001">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.2 0.2 1.6"/>
+        </geometry>
+        <material name="green_semitransparent"/>
+      </visual>
+    </link>
+
     <link name="link_0">
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -86,6 +101,21 @@
       </collision>
     </link>
 
+    <link name="link_handle_knob_0.001">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_cube_handle_knob_0.001">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.05 0.05 0.2"/>
+        </geometry>
+        <material name="green_semitransparent"/>
+      </visual>
+    </link>
+
     <link name="link_handle_knob_1">
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -128,6 +158,21 @@
       </collision>
     </link>
 
+    <link name="link_handle_shaft_0.001">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_cube_handle_shaft_0.001">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.2 0.2 1.0"/>
+        </geometry>
+        <material name="green_semitransparent"/>
+      </visual>
+    </link>
+
     <link name="link_handle_shaft_1">
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -148,6 +193,13 @@
         </geometry>
       </collision>
     </link>
+
+    <joint name="goal" type="fixed">
+      <origin xyz="0 -1.0 0.2" rpy="1.5708 0 0"/>
+      <parent link="base_link"/>
+      <child link="goal"/>
+      <limit effort="0" velocity="0"/>
+    </joint>
 
     <joint name="link_0" type="prismatic">
       <origin xyz="0 0 0.2" rpy="1.5708 0 0"/>
@@ -171,6 +223,12 @@
       <child link="link_handle_knob_0"/>
     </joint>
 
+    <joint name="link_handle_knob_0.001" type="fixed">
+      <origin xyz="0 0 0.6" rpy="0 0 0"/>
+      <parent link="link_handle_shaft_0.001"/>
+      <child link="link_handle_knob_0.001"/>
+    </joint>
+
     <joint name="link_handle_knob_1" type="fixed">
       <origin xyz="0 0 0.6" rpy="0 0 0"/>
       <parent link="link_handle_shaft_1"/>
@@ -183,6 +241,12 @@
       <child link="link_handle_shaft_0"/>
     </joint>
 
+    <joint name="link_handle_shaft_0.001" type="fixed">
+      <origin xyz="0 0.6 0" rpy="-1.5708 0 0"/>
+      <parent link="goal"/>
+      <child link="link_handle_shaft_0.001"/>
+    </joint>
+
     <joint name="link_handle_shaft_1" type="fixed">
       <origin xyz="-0.6 0 0" rpy="0 -1.5708 0"/>
       <parent link="link_1"/>
@@ -191,6 +255,10 @@
 
     <material name="green">
       <color rgba="0 1.0 0 1.0"/>
+    </material>
+
+    <material name="green_semitransparent">
+      <color rgba="0 1.0 0 0.25"/>
     </material>
 
     <material name="lavender">

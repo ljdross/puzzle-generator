@@ -101,6 +101,7 @@ class SimpleSlidersSampler(PuzzleSampler):
                                     scale=(0.2, 0.2, 1.6), joint_type='prismatic', upper_limit=1, create_handle=True)
             self.goal_space.append((0, 1))
         self.goal_space_narrow(dimension=0)
+        self.world.create_goal_duplicate((0, 0, 1))
 
     def build(self):
         """Build complete model in Blender and export to URDF. Create only prismatic joints."""
@@ -473,6 +474,11 @@ class GridWorldSampler(PuzzleSampler):
                 return result
         print("SUCCESSFULLY CREATED THE FOLLOWING SEQUENCE: " + str(self.position_sequence))
         self.goal_space_narrow(dimension=0)
+        goal_limit = self.goal_space[0][1]
+        if goal_limit == 1:
+            self.world.create_goal_duplicate((0, 0, goal_limit))
+        else:
+            self.world.create_goal_duplicate(rotation_offset=(0, 0, goal_limit))
 
         return 0
 
@@ -547,6 +553,7 @@ class ContinuousSpaceSampler(PuzzleSampler):
             self.world.new_link((self.start_point[0], self.start_point[1], 0.5), (-calc.RAD90, 0, rotation),
                                 (1, 1, self.prismatic_length), 'prismatic', lower_limit=0, upper_limit=limit_span,
                                 create_handle=True)
+            self.world.create_goal_duplicate((0, 0, limit_span))
             self.prismatic_joints_target -= 1
             self.start_point = self._calculate_next_start_point(True, self.start_point, rotation, limit_span)
         else:
@@ -560,6 +567,7 @@ class ContinuousSpaceSampler(PuzzleSampler):
                 self.world.new_link((self.start_point[0], self.start_point[1], 0.5), (0, 0, rotation),
                                     (self.revolute_length, 1, 1), 'revolute', lower_limit=limit_span, upper_limit=0,
                                     create_handle=True)
+            self.world.create_goal_duplicate(rotation_offset=(0, 0, limit_span))
             self.revolute_joints_target -= 1
             self.start_point = self._calculate_next_start_point(False, self.start_point, rotation, limit_span)
         self.goal_space_append((limit_span, limit_span))
@@ -662,7 +670,8 @@ class Lockbox2017Sampler(PuzzleSampler):
         self.world.reset()
         self.world.create_base_link(self.floor_size)
 
-        self.world.new_door((-6, -1, 0.5), (0, 0, 0), (2, 0.2, 2))
+        self.world.new_door((-6, -1, 1), (0, 0, 0), (2, 0.2, 2))
+        self.world.create_goal_duplicate(rotation_offset=(0, 0, calc.RAD90))
         self.start_state.append(0)
         self.goal_space_append((calc.RAD90, calc.RAD90))
 
@@ -760,6 +769,7 @@ class LockboxRandomSampler(PuzzleSampler):
         # first slider
         self.world.new_link((self.start_point[0] - 2.5, self.start_point[1], 0.5), (0, calc.RAD90, 0),
                             (1, 0.6, 2 - self.epsilon), 'prismatic', 0, 1, create_handle=True)
+        self.world.create_goal_duplicate((0, 0, 1))
         self.start_state.append(0)
         self.goal_space.append((1, 1))
 

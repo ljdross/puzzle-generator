@@ -2,21 +2,27 @@
 <!-- created with Phobos 1.0.1 "Capricious Choutengan" -->
   <robot name="lockbox2017">
 
+    <passive_joint name="goal"/>
+
+    <passive_joint name="link_0"/>
+
     <passive_joint name="link_1"/>
 
     <passive_joint name="link_2"/>
 
     <passive_joint name="link_3"/>
 
-    <passive_joint name="link_door_0"/>
-
-    <passive_joint name="link_door_4"/>
+    <passive_joint name="link_4"/>
 
     <passive_joint name="link_door_handle_0"/>
+
+    <passive_joint name="link_door_handle_0.001"/>
 
     <passive_joint name="link_door_handle_4"/>
 
     <passive_joint name="link_door_panel_0"/>
+
+    <passive_joint name="link_door_panel_0.001"/>
 
     <passive_joint name="link_door_panel_4"/>
 
@@ -34,11 +40,21 @@
 
     <passive_joint name="link_hinge_0"/>
 
+    <passive_joint name="link_hinge_0.001"/>
+
     <passive_joint name="link_hinge_2"/>
 
     <passive_joint name="link_hinge_4"/>
 
     <link_sphere_approximation link="base_link">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="goal">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_0">
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
 
@@ -54,15 +70,15 @@
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
 
-    <link_sphere_approximation link="link_door_0">
-      <sphere center="0.0 0.0 0.0" radius="0"/>
-    </link_sphere_approximation>
-
-    <link_sphere_approximation link="link_door_4">
+    <link_sphere_approximation link="link_4">
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
 
     <link_sphere_approximation link="link_door_handle_0">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_door_handle_0.001">
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
 
@@ -71,6 +87,10 @@
     </link_sphere_approximation>
 
     <link_sphere_approximation link="link_door_panel_0">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_door_panel_0.001">
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
 
@@ -103,6 +123,10 @@
     </link_sphere_approximation>
 
     <link_sphere_approximation link="link_hinge_0">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_hinge_0.001">
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
 

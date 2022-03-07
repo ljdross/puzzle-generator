@@ -23,6 +23,21 @@
       </collision>
     </link>
 
+    <link name="goal">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_cube_0.001">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="2.9 0.9 0.9"/>
+        </geometry>
+        <material name="green_semitransparent"/>
+      </visual>
+    </link>
+
     <link name="link_0">
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -128,6 +143,21 @@
       </collision>
     </link>
 
+    <link name="link_handle_knob_0.001">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_cube_handle_knob_0.001">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.05 0.05 0.2"/>
+        </geometry>
+        <material name="green_semitransparent"/>
+      </visual>
+    </link>
+
     <link name="link_handle_knob_1">
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -212,6 +242,21 @@
       </collision>
     </link>
 
+    <link name="link_handle_shaft_0.001">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_cylinder_handle_shaft_0.001">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.1" length="1.0"/>
+        </geometry>
+        <material name="green_semitransparent"/>
+      </visual>
+    </link>
+
     <link name="link_handle_shaft_1">
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -288,12 +333,21 @@
         </geometry>
         <material name="gray"/>
       </visual>
-      <collision name="collision_cylinder_hinge_0">
+    </link>
+
+    <link name="link_hinge_0.001">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_cylinder_hinge_0.001">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <cylinder radius="0.05" length="1.0"/>
         </geometry>
-      </collision>
+        <material name="green_semitransparent"/>
+      </visual>
     </link>
 
     <link name="link_hinge_1">
@@ -309,13 +363,14 @@
         </geometry>
         <material name="gray"/>
       </visual>
-      <collision name="collision_cylinder_hinge_1">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <cylinder radius="0.05" length="1.0"/>
-        </geometry>
-      </collision>
     </link>
+
+    <joint name="goal" type="fixed">
+      <origin xyz="-0.5 0.5 0.55" rpy="0 0 1.5707"/>
+      <parent link="base_link"/>
+      <child link="goal"/>
+      <limit effort="0" velocity="0"/>
+    </joint>
 
     <joint name="link_0" type="revolute">
       <origin xyz="-0.5 0.5 0.55" rpy="0 0 0"/>
@@ -355,6 +410,12 @@
       <child link="link_handle_knob_0"/>
     </joint>
 
+    <joint name="link_handle_knob_0.001" type="fixed">
+      <origin xyz="0 0 0.6" rpy="0 0 0"/>
+      <parent link="link_handle_shaft_0.001"/>
+      <child link="link_handle_knob_0.001"/>
+    </joint>
+
     <joint name="link_handle_knob_1" type="fixed">
       <origin xyz="0 0 0.6" rpy="0 0 0"/>
       <parent link="link_handle_shaft_1"/>
@@ -377,6 +438,12 @@
       <origin xyz="1.0875 0 0.95" rpy="0 0 0"/>
       <parent link="link_0"/>
       <child link="link_handle_shaft_0"/>
+    </joint>
+
+    <joint name="link_handle_shaft_0.001" type="fixed">
+      <origin xyz="1.0875 0 0.95" rpy="0 0 0"/>
+      <parent link="goal"/>
+      <child link="link_handle_shaft_0.001"/>
     </joint>
 
     <joint name="link_handle_shaft_1" type="fixed">
@@ -403,6 +470,12 @@
       <child link="link_hinge_0"/>
     </joint>
 
+    <joint name="link_hinge_0.001" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <parent link="goal"/>
+      <child link="link_hinge_0.001"/>
+    </joint>
+
     <joint name="link_hinge_1" type="fixed">
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <parent link="link_1"/>
@@ -415,6 +488,10 @@
 
     <material name="green">
       <color rgba="0 1.0 0 1.0"/>
+    </material>
+
+    <material name="green_semitransparent">
+      <color rgba="0 1.0 0 0.25"/>
     </material>
 
     <material name="lavender">

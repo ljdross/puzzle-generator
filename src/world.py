@@ -103,7 +103,7 @@ class BlenderWorld:
             self.create_collision(visual)
         self.base_object = visual.parent
 
-    def determine_link_color(self, link_is_child=False):
+    def _determine_link_color(self, link_is_child=False):
         num_links = len(self.movable_links)
         if num_links > 1:
             return color.RED
@@ -116,74 +116,92 @@ class BlenderWorld:
                 return color.RED
 
     def new_link(self, location, rotation, scale, joint_type, lower_limit=0, upper_limit=0, material=None,
-                 mesh_filepath="", object_name="", is_cylinder=False, name="", parent=None, create_handle=False):
+                 mesh_filepath="", object_name="", is_cylinder=False, name="", parent=None, create_handle=False,
+                 collision=True):
         if not parent:
             parent = self.base_object
             location = (location[0], location[1], location[2] + self.floor_thickness / 2)
-            material = material if material else self.determine_link_color(link_is_child=False)
+            material = material if material else self._determine_link_color(link_is_child=False)
             i = str(len(self.movable_links))
         else:
-            material = material if material else self.determine_link_color(link_is_child=True)
+            material = material if material else self._determine_link_color(link_is_child=True)
             i = str(len(self.movable_links) - 1)
         name = name + "_" + i if name else i
         visual = self.create_visual(location, rotation, scale, material, name, parent, mesh_filepath, object_name,
                                     is_cylinder)
         self.create_link_and_joint(visual, name, joint_type, lower_limit, upper_limit)
-        self.create_collision(visual)
+        if collision:
+            self.create_collision(visual)
         if joint_type != 'fixed':
             self.movable_links.append(visual.parent)
         if create_handle:
-            self.create_handle_automatically(visual.parent, rotation, scale, joint_type)
+            self._create_handle_automatically(visual.parent, collision, rotation, scale, joint_type)
         if joint_type == 'revolute':
             self.new_link((0, 0, 0), (0, 0, 0), (0.1, 0.1, scale[2] + 0.1), 'fixed', material=color.GRAY,
-                          is_cylinder=True, name="hinge", parent=visual.parent)
+                          is_cylinder=True, name="hinge", parent=visual.parent, collision=False)
         return visual.parent
 
-    def new_handle(self, parent, location, rotation=(0, 0, 0), height=1, width=0.2, material=None, is_cylinder=False):
+    def new_handle(self, parent, location, rotation=(0, 0, 0), height=1, width=0.2, material=None, is_cylinder=False,
+                   collision=True):
         shaft = self.new_link(location, rotation, (width, width, height), 'fixed', material=material,
-                              is_cylinder=is_cylinder, name="handle_shaft", parent=parent)
+                              is_cylinder=is_cylinder, name="handle_shaft", parent=parent, collision=collision)
         self.new_link((0, 0, height / 2 + 0.1), (0, 0, 0), (0.05, 0.05, 0.2), 'fixed', material=color.YELLOW,
-                      name="handle_knob", parent=shaft)
+                      name="handle_knob", parent=shaft, collision=collision)
 
-    def create_handle_automatically(self, parent, parent_rotation, parent_scale, parent_joint_type, height=1):
+    def _create_handle_automatically(self, parent, collision, parent_rotation, parent_scale, parent_joint_type,
+                                     height=1):
         if parent_joint_type == 'prismatic':
             if parent_rotation[0] == calc.RAD90:
-                self.new_handle(parent, (0, parent_scale[1] / 2 + height / 2, 0), (-calc.RAD90, 0, 0), height)
+                self.new_handle(parent, (0, parent_scale[1] / 2 + height / 2, 0), (-calc.RAD90, 0, 0), height,
+                                collision=collision)
             elif parent_rotation[0] == -calc.RAD90:
-                self.new_handle(parent, (0, -parent_scale[1] / 2 - height / 2, 0), (calc.RAD90, 0, 0), height)
+                self.new_handle(parent, (0, -parent_scale[1] / 2 - height / 2, 0), (calc.RAD90, 0, 0), height,
+                                collision=collision)
             elif parent_rotation[1] == calc.RAD90:
-                self.new_handle(parent, (-parent_scale[0] / 2 - height / 2, 0, 0), (0, -calc.RAD90, 0), height)
+                self.new_handle(parent, (-parent_scale[0] / 2 - height / 2, 0, 0), (0, -calc.RAD90, 0), height,
+                                collision=collision)
             else:
-                self.new_handle(parent, (parent_scale[0] / 2 + height / 2, 0, 0), (0, calc.RAD90, 0), height)
+                self.new_handle(parent, (parent_scale[0] / 2 + height / 2, 0, 0), (0, calc.RAD90, 0), height,
+                                collision=collision)
         else:
             if parent_scale[0] > parent_scale[1]:
                 self.new_handle(parent, (parent_scale[0] * 0.375, 0, parent_scale[2] / 2 + height / 2), (0, 0, 0),
-                                height, is_cylinder=True)
+                                height, is_cylinder=True, collision=collision)
             else:
                 self.new_handle(parent, (0, parent_scale[1] * 0.375, parent_scale[2] / 2 + height / 2), (0, 0, 0),
-                                height, is_cylinder=True)
+                                height, is_cylinder=True, collision=collision)
 
     def new_door(self, location=(0, 0, 1), rotation=(0, 0, 0), scale=(2, 0.2, 2), lower_limit=0, upper_limit=calc.RAD90,
-                 cylinder_diameter=0.4, cylinder_material=color.GRAY, panel_material=None, name="door",
-                 top_handle=True):
+                 cylinder_diameter=0.4, cylinder_material=color.GRAY, handle_material=color.YELLOW, panel_material=None,
+                 name="", top_handle=True, collision=True):
         door = self.new_link(location, rotation, (cylinder_diameter, cylinder_diameter, scale[2]), 'revolute',
-                             lower_limit, upper_limit, cylinder_material, is_cylinder=True, name=name)
-        self.new_link((scale[0] / 2, 0, 0), (0, 0, 0), scale, 'fixed', material=panel_material, name=name + "_panel",
-                      parent=door)
+                             lower_limit, upper_limit, cylinder_material, is_cylinder=True, name=name,
+                             collision=collision)
+        self.new_link((scale[0] / 2, 0, 0), (0, 0, 0), scale, 'fixed', material=panel_material, name="door_panel",
+                      parent=door, collision=collision)
         if top_handle:
             self.new_link((scale[0] * 0.75, 0, scale[2] / 2 + 0.1), (0, 0, 0), (0.2, 0.05, 0.2), 'fixed',
-                          material=color.YELLOW, name=name + "_handle", parent=door)
+                          material=handle_material, name="door_handle", parent=door, collision=collision)
         else:
             self.new_link((scale[0] * 0.75, scale[1] / 2 + 0.1, 0), (0, 0, 0), (0.05, 0.2, 0.2), 'fixed',
-                          material=color.YELLOW, name=name + "_handle1", parent=door)
+                          material=handle_material, name="door_handle1", parent=door, collision=collision)
             self.new_link((scale[0] * 0.75, -scale[1] / 2 - 0.1, 0), (0, 0, 0), (0.05, 0.2, 0.2), 'fixed',
-                          material=color.YELLOW, name=name + "_handle2", parent=door)
+                          material=handle_material, name="door_handle2", parent=door, collision=collision)
         return door
 
-    def remove_last_object(self):
-        bpy.context.view_layer.objects.active = self.movable_links[-1]
+    def select_with_children(self, object):
+        """deselect everything except the object and its children"""
+        bpy.context.view_layer.objects.active = object
         bpy.ops.object.select_grouped(extend=False, type='CHILDREN_RECURSIVE')
-        self.movable_links[-1].select_set(True)
+        object.select_set(True)
+
+    def duplicate_with_children(self, object):
+        self.select_with_children(object)
+        bpy.ops.object.duplicate()
+        return bpy.context.active_object
+
+    def remove_last_object(self):
+        self.select_with_children(self.movable_links[-1])
         bpy.ops.object.delete()
         self.movable_links.pop()
 
@@ -202,6 +220,21 @@ class BlenderWorld:
                 self.movable_links[-1].pose.bones["Bone"].constraints["Limit Rotation"].max_x = limit
         self.export()
 
+    def zeroize_limits(self, link):
+        link.pose.bones["Bone"].constraints["Limit Location"].min_x = 0
+        link.pose.bones["Bone"].constraints["Limit Location"].min_y = 0
+        link.pose.bones["Bone"].constraints["Limit Location"].min_z = 0
+        link.pose.bones["Bone"].constraints["Limit Location"].max_x = 0
+        link.pose.bones["Bone"].constraints["Limit Location"].max_y = 0
+        link.pose.bones["Bone"].constraints["Limit Location"].max_z = 0
+
+        link.pose.bones["Bone"].constraints["Limit Rotation"].min_x = 0
+        link.pose.bones["Bone"].constraints["Limit Rotation"].min_y = 0
+        link.pose.bones["Bone"].constraints["Limit Rotation"].min_z = 0
+        link.pose.bones["Bone"].constraints["Limit Rotation"].max_x = 0
+        link.pose.bones["Bone"].constraints["Limit Rotation"].max_y = 0
+        link.pose.bones["Bone"].constraints["Limit Rotation"].max_z = 0
+
     def create_collision(self, visual_obj=None):
         """Create collision objects from visual objects."""
         if visual_obj:
@@ -211,6 +244,28 @@ class BlenderWorld:
             bpy.ops.phobos.select_model()
         shape =  bpy.data.objects[visual_obj.name]['geometry/type']
         bpy.ops.phobos.create_collision_objects(property_colltype=shape)
+
+    def remove_collision_and_change_material(self, object, material=None):
+        self.select_with_children(object)
+        for obj in bpy.context.selected_objects:
+            if obj.phobostype == 'collision':
+                bpy.ops.object.select_all(action='DESELECT')
+                obj.select_set(True)
+                bpy.ops.object.delete()
+            elif material and obj.phobostype == 'visual':
+                obj.active_material = material
+
+    def create_goal_duplicate(self, local_translate=(0, 0, 0), rotation_offset=(0, 0, 0),
+                              new_material=color.GREEN_SEMITRANSPARENT):
+        goal_duplicate = self.duplicate_with_children(self.movable_links[0])
+        self.remove_collision_and_change_material(goal_duplicate, new_material)
+        bpy.ops.object.select_all(action='DESELECT')
+        goal_duplicate.select_set(True)
+        bpy.ops.transform.translate(value=local_translate, orient_type='LOCAL')
+        goal_duplicate.rotation_euler = calc.tuple_add(goal_duplicate.rotation_euler, rotation_offset)
+        goal_duplicate.name = "goal"
+        self.zeroize_limits(goal_duplicate)
+        return goal_duplicate
 
     def export(self):
         """Export model to URDF."""
