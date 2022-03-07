@@ -699,25 +699,25 @@ class LockboxRandomSampler(PuzzleSampler):
     def add_slot_disc_and_slider(self, direction):
         location_slot_disc = (self.start_point[0], self.start_point[1], 0.5)
         if direction == "N":
-            rot = calc.RAD90
+            rotation = calc.RAD90
             location_slider = (self.start_point[0], self.start_point[1] + 1.5, 0.5)
             self.start_point = calc.tuple_add(self.start_point, (0, 4))
         elif direction == "E":
-            rot = 0
+            rotation = 0
             location_slider = (self.start_point[0] + 1.5, self.start_point[1], 0.5)
             self.start_point = calc.tuple_add(self.start_point, (4, 0))
         elif direction == "S":
-            rot = -calc.RAD90
+            rotation = -calc.RAD90
             location_slider = (self.start_point[0], self.start_point[1] - 1.5, 0.5)
             self.start_point = calc.tuple_add(self.start_point, (0, -4))
         else:  # direction == "W"
-            rot = calc.RAD180
+            rotation = calc.RAD180
             location_slider = (self.start_point[0] - 1.5, self.start_point[1], 0.5)
             self.start_point = calc.tuple_add(self.start_point, (-4, 0))
 
-        self.world.new_link(location_slot_disc, (0, 0, rot), (3, 3, 1), 'revolute', -calc.RAD180, calc.RAD180,
+        self.world.new_link(location_slot_disc, (0, 0, rotation), (3, 3, 1), 'revolute', -calc.RAD180, calc.RAD180,
                             mesh_filepath=self.mesh1, object_name="slot_disc", create_handle=True)
-        self.world.new_link(location_slider, (0, calc.RAD90, rot), (1, 0.6, 2 - self.epsilon), 'prismatic', 0, 1,
+        self.world.new_link(location_slider, (0, calc.RAD90, rotation), (1, 0.6, 2 - self.epsilon), 'prismatic', 0, 1,
                             create_handle=True)
 
     def available_directions(self):
