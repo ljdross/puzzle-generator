@@ -11,8 +11,10 @@ from src import calc
 
 # output settings and world properties
 world_config = {
-    "dir_for_output": "/home/userone/ba/puzzle-generator/puzzles",
+    "dir_for_output": "puzzles",  # both absolute and relative paths are allowed
     "export_entity_srdf": True,
+    "absolute_path_for_meshes_in_urdf": True,   # generate an absolute path to reference the output meshes from within
+                                                # the urdf if True, else use a relative path
     "export_mesh_dae": False,
     "export_mesh_stl": True,
     "output_mesh_type": 'stl',
@@ -43,7 +45,7 @@ sampler_config = {
                                                         # clockwise)
 
     # this part is only required for Lockbox2017Sampler and LockboxRandomSampler
-    "mesh1": "/home/userone/ba/puzzle-generator/input-meshes/slot_disc.blend",
+    "mesh1": "input-meshes/slot_disc.blend",  # both absolute and relative paths are allowed
     "iterations": 2,
 
 }

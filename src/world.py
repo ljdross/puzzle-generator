@@ -15,7 +15,10 @@ class BlenderWorld:
             self.name = config["puzzle_name"]
         else:
             self.name = "default_name"
-        self._dir_for_output = config["dir_for_output"]
+        if config["absolute_path_for_meshes_in_urdf"]:
+            self._dir_for_output = os.path.abspath(config["dir_for_output"])
+        else:
+            self._dir_for_output = config["dir_for_output"]
         self.directory = self._dir_for_output + "/" + self.name
         self.urdf_path = self.directory + "/urdf/" + self.name + ".urdf"
         self.export_entity_srdf = config["export_entity_srdf"]
