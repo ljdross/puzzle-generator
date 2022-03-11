@@ -9,8 +9,10 @@ from src import calc
 # output settings (ADJUST AS NEEDED)
 config = {
     "puzzle_name": "my_custom",
-    "dir_for_output": "/home/userone/ba/puzzle-generator/puzzles",
+    "dir_for_output": "puzzles",
     "export_entity_srdf": True,
+    "absolute_path_for_meshes_in_urdf": True,   # generate an absolute path to reference the output meshes from within
+                                                # the urdf if True, else use a relative path
     "export_mesh_dae": False,
     "export_mesh_stl": True,
     "output_mesh_type": 'stl',

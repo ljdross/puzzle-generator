@@ -2,15 +2,15 @@
 <!-- created with Phobos 1.0.1 "Capricious Choutengan" -->
   <robot name="my_custom">
 
+    <passive_joint name="link_0"/>
+
+    <passive_joint name="link_1"/>
+
     <passive_joint name="link_2"/>
 
     <passive_joint name="link_3"/>
 
     <passive_joint name="link_4"/>
-
-    <passive_joint name="link_door_0"/>
-
-    <passive_joint name="link_door_1"/>
 
     <passive_joint name="link_door_handle1_1"/>
 
@@ -46,6 +46,14 @@
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
 
+    <link_sphere_approximation link="link_0">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_1">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
     <link_sphere_approximation link="link_2">
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
@@ -55,14 +63,6 @@
     </link_sphere_approximation>
 
     <link_sphere_approximation link="link_4">
-      <sphere center="0.0 0.0 0.0" radius="0"/>
-    </link_sphere_approximation>
-
-    <link_sphere_approximation link="link_door_0">
-      <sphere center="0.0 0.0 0.0" radius="0"/>
-    </link_sphere_approximation>
-
-    <link_sphere_approximation link="link_door_1">
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
 
