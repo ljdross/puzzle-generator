@@ -19,6 +19,7 @@ SHOW_GUI = literal_eval(sys.argv[5]) if len(sys.argv) > 5 else True
 PLANNER = sys.argv[6] if len(sys.argv) > 6 else "RRTConnect"
 HAVE_EXACT_SOLUTION = literal_eval(sys.argv[7]) if len(sys.argv) > 7 else True
 ONLY_CHECK_START_STATE_VALIDITY = literal_eval(sys.argv[8]) if len(sys.argv) > 8 else False
+URDF_USE_SELF_COLLISION = literal_eval(sys.argv[9]) if len(sys.argv) > 9 else False
 
 if FILEPATH_FOR_INPUT == "/absolute/path/to/urdf/puzzle.urdf":
     print("""\n\tPLEASE provide arguments when executing this script with python3 like so:
@@ -31,7 +32,11 @@ else:
     p.connect(p.DIRECT)
 
 # load robot
-robot_id = p.loadURDF(FILEPATH_FOR_INPUT, (0, 0, 0), useFixedBase=1)
+if URDF_USE_SELF_COLLISION:
+    robot_id = p.loadURDF(FILEPATH_FOR_INPUT, (0, 0, 0), useFixedBase=1, flags=p.URDF_USE_SELF_COLLISION)
+else:
+    robot_id = p.loadURDF(FILEPATH_FOR_INPUT, (0, 0, 0), useFixedBase=1)
+
 robot = pb_ompl.PbOMPLRobot(robot_id)
 
 # setup pb_ompl
