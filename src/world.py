@@ -96,11 +96,12 @@ class BlenderWorld:
             bpy.ops.phobos.define_joint_constraints(passive=True, joint_type=joint_type, lower=lower, upper=upper)
 
     def create_base_link(self, floor_size=0, thickness=0.2):
-        """Create a base object to become the base link for all other links.
-        If no physical floor is needed, use default floor_size=0"""
+        """
+        Create a base object to become the base link for all other links.
+        If no physical floor is needed, use default floor_size=0
+        """
         self.floor_thickness = thickness
-        visual = self.create_visual(scale=(floor_size, floor_size, thickness), material=color.LAVENDER,
-                                              name="base")
+        visual = self.create_visual(scale=(floor_size, floor_size, thickness), material=color.LAVENDER, name="base")
         self.create_link_and_joint(visual, "base_link")
         if floor_size != 0:
             self.create_collision(visual)
