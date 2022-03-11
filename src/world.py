@@ -107,6 +107,19 @@ class BlenderWorld:
             self.create_collision(visual)
         self.base_object = visual.parent
 
+    def update_joint_axis(self, link, direction_vector=(1, 0, 0)):
+        """
+        Normally the link moves along (prismatic joint) or rotates around (revolute joint) the Z-axis of the link.
+        This axis can be changed.
+        E.g. if direction_vector=(1, 0, 0), the link moves along or rotates around the X-axis instead of the Z-axis.
+        """
+        bpy.ops.object.select_all(action='DESELECT')
+        link.data.bones['Bone'].select = True
+        bpy.ops.object.mode_set(mode='EDIT')
+        bone = bpy.context.selected_bones[0]
+        bone.tail = direction_vector
+        bpy.ops.object.mode_set(mode='OBJECT')
+
     def _determine_link_color(self, link_is_child=False):
         num_links = len(self.movable_links)
         if num_links > 1:
