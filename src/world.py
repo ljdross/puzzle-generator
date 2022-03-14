@@ -134,7 +134,7 @@ class BlenderWorld:
 
     def new_link(self, location, rotation, scale, joint_type, lower_limit=0, upper_limit=0, material=None,
                  mesh_filepath="", object_name="", is_cylinder=False, name="", parent=None, create_handle=False,
-                 collision=True):
+                 collision=True, joint_axis=(0, 0, 1)):
         if not parent:
             parent = self.base_object
             location = (location[0], location[1], location[2] + self.floor_thickness / 2)
@@ -153,9 +153,12 @@ class BlenderWorld:
             self.movable_links.append(visual.parent)
         if create_handle:
             self._create_handle_automatically(visual.parent, collision, rotation, scale, joint_type)
-        if joint_type == 'revolute':
-            self.new_link((0, 0, 0), (0, 0, 0), (0.1, 0.1, scale[2] + 0.1), 'fixed', material=color.GRAY,
-                          is_cylinder=True, name="hinge", parent=visual.parent, collision=False)
+        if joint_axis == (0, 0, 1):
+            if joint_type == 'revolute':
+                self.new_link((0, 0, 0), (0, 0, 0), (0.1, 0.1, scale[2] + 0.1), 'fixed', material=color.GRAY,
+                              is_cylinder=True, name="hinge", parent=visual.parent, collision=False)
+        else:
+            self.update_joint_axis(visual.parent, joint_axis)
         return visual.parent
 
     def new_handle(self, parent, location, rotation=(0, 0, 0), height=1, width=0.2, material=None, is_cylinder=False,
