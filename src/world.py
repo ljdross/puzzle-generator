@@ -62,8 +62,7 @@ class BlenderWorld:
             visual = bpy.context.active_object
             visual.location = location
             visual.rotation_euler = rotation
-            visual.scale = tuple(x / 2 for x in scale)
-            bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
+            visual.scale = scale
         elif is_cylinder:
             bpy.ops.mesh.primitive_cylinder_add(location=location, rotation=rotation, scale=tuple(x / 2 for x in scale))
             visual = bpy.context.active_object

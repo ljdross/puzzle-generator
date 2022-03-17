@@ -197,7 +197,7 @@
       <visual name="visual_mesh_1_joint_0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/lockbox_random/meshes/stl/slot_disc.002.stl" scale="1.0 1.0 1.0"/>
+          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/lockbox_random/meshes/stl/slot_disc.002.stl" scale="3.0 3.0 1.0"/>
         </geometry>
         <material name="red"/>
       </visual>
@@ -338,7 +338,7 @@
       <visual name="visual_mesh_3_joint_0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/lockbox_random/meshes/stl/slot_disc.004.stl" scale="1.0 1.0 1.0"/>
+          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/lockbox_random/meshes/stl/slot_disc.004.stl" scale="3.0 3.0 1.0"/>
         </geometry>
         <material name="red"/>
       </visual>
