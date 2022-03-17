@@ -29,6 +29,7 @@ class BlenderWorld:
         self.floor_thickness = 0
         self.movable_links = []
         self.contains_mesh = False
+        self.temporary_joint_number = 0
 
     def update_name(self, new_name="new_default_name"):
         self.name = new_name
@@ -80,7 +81,7 @@ class BlenderWorld:
             visual.name = "visual_cylinder" + name
         else:
             bpy.ops.phobos.define_geometry(geomType='box')
-            visual.name = "visual_cube" + name
+            visual.name = "visual_box" + name
         if parent:
             visual.parent = parent
         return visual
@@ -137,29 +138,38 @@ class BlenderWorld:
                  collision=True, joint_axis=(0, 0, 1)):
         if not parent:
             parent = self.base_object
+            self.temporary_joint_number = 0
             location = (location[0], location[1], location[2] + self.floor_thickness / 2)
             material = material if material else self._determine_link_color(link_is_child=False)
             i = str(len(self.movable_links))
         else:
+            self.temporary_joint_number += 1
             material = material if material else self._determine_link_color(link_is_child=True)
             i = str(len(self.movable_links) - 1)
-        name = name + "_" + i if name else i
+        if joint_type == 'fixed':
+            if name:
+                name = i + "_fixed_joint_" + str(self.temporary_joint_number) + "_" + name
+            else:
+                name = i + "_fixed_joint_" + str(self.temporary_joint_number)
+        else:
+            name = i + "_joint_" + str(self.temporary_joint_number)
         visual = self.create_visual(location, rotation, scale, material, name, parent, mesh_filepath, object_name,
                                     is_cylinder)
         self.create_link_and_joint(visual, name, joint_type, lower_limit, upper_limit)
-        if collision:
+        link = visual.parent
+        if collision and scale != (0, 0, 0):
             self.create_collision(visual)
-        if joint_type != 'fixed':
-            self.movable_links.append(visual.parent)
+        if joint_type != 'fixed' and parent == self.base_object:
+            self.movable_links.append(link)
         if create_handle:
-            self._create_handle_automatically(visual.parent, collision, rotation, scale, joint_type)
+            self._create_handle_automatically(link, collision, rotation, scale, joint_type)
         if joint_axis == (0, 0, 1):
             if joint_type == 'revolute':
                 self.new_link((0, 0, 0), (0, 0, 0), (0.1, 0.1, scale[2] + 0.1), 'fixed', material=color.GRAY,
-                              is_cylinder=True, name="hinge", parent=visual.parent, collision=False)
+                              is_cylinder=True, name="hinge", parent=link, collision=False)
         else:
-            self.update_joint_axis(visual.parent, joint_axis)
-        return visual.parent
+            self.update_joint_axis(link, joint_axis)
+        return link
 
     def new_handle(self, parent, location, rotation=(0, 0, 0), height=1, width=0.2, material=None, is_cylinder=False,
                    collision=True):
