@@ -77,7 +77,7 @@
       <visual name="visual_mesh_0_joint_2">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/my_custom/meshes/stl/droids_3.stl" scale="0.75 1.0 1.0"/>
+          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/my_custom/meshes/stl/droids_3.stl" scale="1.0 1.0 1.0"/>
         </geometry>
         <material name="green"/>
       </visual>
@@ -155,12 +155,12 @@
       <visual name="visual_mesh_1_joint_0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/my_custom/meshes/stl/slot_disc.stl" scale="4.0 4.0 1.0"/>
+          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/my_custom/meshes/stl/slot_disc.stl" scale="1.0 1.0 1.0"/>
         </geometry>
         <material name="red"/>
       </visual>
       <collision concave="yes" name="collision_mesh_1_joint_0">
-        <origin xyz="-0.03587 0 0" rpy="0 0 0"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/my_custom/meshes/stl/slot_disc.001.stl" scale="1.0 1.0 1.0"/>
         </geometry>
@@ -233,12 +233,12 @@
       <visual name="visual_mesh_2_joint_0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/my_custom/meshes/stl/slot_disc.002.stl" scale="2.0 2.0 1.0"/>
+          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/my_custom/meshes/stl/slot_disc.002.stl" scale="1.0 1.0 1.0"/>
         </geometry>
         <material name="red"/>
       </visual>
       <collision concave="yes" name="collision_mesh_2_joint_0">
-        <origin xyz="-0.01794 0 0" rpy="0 0 0"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/my_custom/meshes/stl/slot_disc.003.stl" scale="1.0 1.0 1.0"/>
         </geometry>

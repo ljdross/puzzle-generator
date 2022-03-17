@@ -270,10 +270,14 @@ class BlenderWorld:
         if visual_obj:
             bpy.ops.object.select_all(action='DESELECT')
             visual_obj.select_set(True)
+            shape =  bpy.data.objects[visual_obj.name]['geometry/type']
+            bpy.ops.phobos.create_collision_objects(property_colltype=shape)
+            collision = bpy.context.selected_objects[0]
+            collision.location = visual_obj.location
+            return collision
         else:
             bpy.ops.phobos.select_model()
-        shape =  bpy.data.objects[visual_obj.name]['geometry/type']
-        bpy.ops.phobos.create_collision_objects(property_colltype=shape)
+            bpy.ops.phobos.create_collision_objects()
 
     def remove_collision_and_change_material(self, object, material=None):
         self.select_with_children(object)

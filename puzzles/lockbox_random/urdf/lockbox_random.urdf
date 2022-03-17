@@ -197,12 +197,12 @@
       <visual name="visual_mesh_1_joint_0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/lockbox_random/meshes/stl/slot_disc.002.stl" scale="3.0 3.0 1.0"/>
+          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/lockbox_random/meshes/stl/slot_disc.002.stl" scale="1.0 1.0 1.0"/>
         </geometry>
         <material name="red"/>
       </visual>
       <collision concave="yes" name="collision_mesh_1_joint_0">
-        <origin xyz="-0.0269 0 0" rpy="0 0 0"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/lockbox_random/meshes/stl/slot_disc.003.stl" scale="1.0 1.0 1.0"/>
         </geometry>
@@ -338,12 +338,12 @@
       <visual name="visual_mesh_3_joint_0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/lockbox_random/meshes/stl/slot_disc.004.stl" scale="3.0 3.0 1.0"/>
+          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/lockbox_random/meshes/stl/slot_disc.004.stl" scale="1.0 1.0 1.0"/>
         </geometry>
         <material name="red"/>
       </visual>
       <collision concave="yes" name="collision_mesh_3_joint_0">
-        <origin xyz="-0.0269 0 0" rpy="0 0 0"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/lockbox_random/meshes/stl/slot_disc.005.stl" scale="1.0 1.0 1.0"/>
         </geometry>
