@@ -475,11 +475,11 @@
     </joint>
 
     <joint name="link_3_joint_0" type="prismatic">
-      <origin xyz="3.51572 -2.56209 0.6" rpy="-1.5708 0 -2.44487"/>
+      <origin xyz="5.40311 -1.16809 0.6" rpy="-1.5708 0 -1.98559"/>
       <parent link="base_link"/>
       <child link="link_3_joint_0"/>
       <axis xyz="0 0 1.0"/>
-      <limit lower="0" upper="3.93321" effort="0" velocity="0"/>
+      <limit lower="0" upper="2.2014" effort="0" velocity="0"/>
     </joint>
 
     <material name="gray">

@@ -23,11 +23,12 @@ world_config = {
 sampler_config = {
     # this part of the config is always required
     "floor_size": 32,
-    "number_prismatic_joints": 2,
+    "number_prismatic_joints": 4,
     "number_revolute_joints": 2,
     "branching_factor_target": 2,  # should not be higher than number_revolute_joints
     "attempts": 50,
     "seed_for_randomness": 0,  # choose None for pseudorandom
+    "create_handle": False,
 
     # this part is only required for GridWorldSampler
     "allow_clockwise": True,  # allow both clockwise and counterclockwise rotating revolute joints
@@ -55,7 +56,10 @@ world = BlenderWorld(world_config)
 
 sampler = SimpleSlidersSampler(sampler_config, world)
 sampler.build()
-test_urdf(world.urdf_path, sampler.start_state, sampler.goal_space, show_gui=True)
+test_urdf(world.urdf_path, sampler.start_state, sampler.goal_space, 10., show_gui=True)
+
+sampler_config["number_prismatic_joints"] = 2
+sampler_config["create_handle"] = True
 
 sampler = GridWorldSampler(sampler_config, world)
 sampler.build()
