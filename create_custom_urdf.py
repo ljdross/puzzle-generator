@@ -30,12 +30,13 @@ world.create_base_link(32)
 
 first = world.new_link((0, 0, 0.5), (0, 0, 0), (0, 0, 0), 'prismatic', 0, 2, joint_axis=(1, 0, 0))
 second = world.new_link((0, 0, 0), (0, 0, 0), (0, 0, 0), 'prismatic', 0, 2, parent=first, joint_axis=(0, 1, 0))
-third = world.new_link((0, 0, 0), (0, 0, 0), (1, 1, 1), 'revolute', 0, 2, parent=second)
+droid = world.new_link((0, 0, 0), (0, 0, 0), (0.75, 1, 1), 'revolute', -calc.RAD180, calc.RAD180, parent=second,
+                       mesh_filepath="input-meshes/droids.blend", object_name="droids_3")
 
-
-# sd = world.new_link((0, -5, 0.5), (0, 0, 0), (4, 4, 1), 'revolute', -calc.RAD45, calc.RAD45,
-#                     mesh_filepath="/home/userone/ba/puzzle-generator/input-meshes/slot_disc.blend",
-#                     object_name="slot_disc", create_handle=True)
+sd1 = world.new_link((0, -5, 0.5), (0, 0, 0), (4, 4, 1), 'revolute', -calc.RAD45, calc.RAD45,
+                     mesh_filepath="input-meshes/slot_disc.blend", object_name="slot_disc", create_handle=True)
+sd2 = world.new_link((0, 5, 0.5), (0, 0, 0), (2, 2, 1), 'revolute', -calc.RAD45, calc.RAD45,
+                     mesh_filepath="input-meshes/slot_disc.blend", object_name="slot_disc", create_handle=True)
 
 # export
 world.export()
