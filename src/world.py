@@ -279,26 +279,28 @@ class BlenderWorld:
             bpy.ops.phobos.select_model()
             bpy.ops.phobos.create_collision_objects()
 
-    def remove_collision_and_change_material(self, object, material=None):
+    def apply_to_subtree(self, object, new_material=None, remove_collision=False, zeroize_limits=False):
         self.select_with_children(object)
         for obj in bpy.context.selected_objects:
-            if obj.phobostype == 'collision':
+            if remove_collision and obj.phobostype == 'collision':
                 bpy.ops.object.select_all(action='DESELECT')
                 obj.select_set(True)
                 bpy.ops.object.delete()
-            elif material and obj.phobostype == 'visual':
-                obj.active_material = material
+            elif new_material and obj.phobostype == 'visual':
+                obj.active_material = new_material
+            elif zeroize_limits and obj.phobostype == 'link':
+                self.zeroize_limits(obj)
+
 
     def create_goal_duplicate(self, local_translate=(0, 0, 0), rotation_offset=(0, 0, 0),
                               new_material=color.GREEN_SEMITRANSPARENT):
         goal_duplicate = self.duplicate_with_children(self.movable_links[0])
-        self.remove_collision_and_change_material(goal_duplicate, new_material)
+        self.apply_to_subtree(goal_duplicate, new_material, remove_collision=True, zeroize_limits=True)
         bpy.ops.object.select_all(action='DESELECT')
         goal_duplicate.select_set(True)
         bpy.ops.transform.translate(value=local_translate, orient_type='LOCAL')
         goal_duplicate.rotation_euler = calc.tuple_add(goal_duplicate.rotation_euler, rotation_offset)
         goal_duplicate.name = "goal"
-        self.zeroize_limits(goal_duplicate)
         return goal_duplicate
 
     def export(self):
