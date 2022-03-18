@@ -5,7 +5,7 @@ DIR = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(DIR)
 from src.world import BlenderWorld
 from src.sampling import SimpleSlidersSampler, ContinuousSpaceSampler, GridWorldSampler, Lockbox2017Sampler,\
-    LockboxRandomSampler
+    LockboxRandomSampler, EscapeRoomSampler
 from src.solvability_testing import test_urdf
 from src import calc
 
@@ -49,6 +49,9 @@ sampler_config = {
     "mesh1": "input-meshes/slot_disc.blend",  # both absolute and relative paths are allowed
     "iterations": 2,
 
+    # this part is only required for EscapeRoomSampler
+    "robot_mesh": "input-meshes/droids.blend",  # both absolute and relative paths are allowed
+
 }
 
 # set up world according to world_config
@@ -76,3 +79,7 @@ test_urdf(world.urdf_path, sampler.start_state, sampler.goal_space, show_gui=Tru
 sampler = LockboxRandomSampler(sampler_config, world)
 sampler.build()
 test_urdf(world.urdf_path, sampler.start_state, sampler.goal_space, show_gui=True, verbose=True)
+
+sampler = EscapeRoomSampler(sampler_config, world)
+sampler.build()
+test_urdf(world.urdf_path, sampler.start_state, sampler.goal_space, 60., show_gui=True, verbose=True)

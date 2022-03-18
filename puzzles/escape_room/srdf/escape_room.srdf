@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<!-- created with Phobos 1.0.1 "Capricious Choutengan" -->
+  <robot name="escape_room">
+
+    <passive_joint name="goal"/>
+
+    <passive_joint name="link_0_fixed_joint_3_hinge"/>
+
+    <passive_joint name="link_0_fixed_joint_3_hinge.001"/>
+
+    <passive_joint name="link_0_joint_0"/>
+
+    <passive_joint name="link_0_joint_1"/>
+
+    <passive_joint name="link_0_joint_1.001"/>
+
+    <passive_joint name="link_0_joint_2"/>
+
+    <passive_joint name="link_0_joint_2.001"/>
+
+    <passive_joint name="link_1_fixed_joint_1_hinge"/>
+
+    <passive_joint name="link_1_fixed_joint_2_door_panel"/>
+
+    <passive_joint name="link_1_fixed_joint_3_door_handle1"/>
+
+    <passive_joint name="link_1_fixed_joint_4_door_handle2"/>
+
+    <passive_joint name="link_1_joint_0"/>
+
+    <passive_joint name="link_2_fixed_joint_0_wall1"/>
+
+    <passive_joint name="link_2_fixed_joint_0_wall2"/>
+
+    <passive_joint name="link_2_fixed_joint_0_wall3"/>
+
+    <link_sphere_approximation link="base_link">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="goal">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_0_fixed_joint_3_hinge">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_0_fixed_joint_3_hinge.001">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_0_joint_0">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_0_joint_1">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_0_joint_1.001">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_0_joint_2">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_0_joint_2.001">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_1_fixed_joint_1_hinge">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_1_fixed_joint_2_door_panel">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_1_fixed_joint_3_door_handle1">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_1_fixed_joint_4_door_handle2">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_1_joint_0">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_2_fixed_joint_0_wall1">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_2_fixed_joint_0_wall2">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_2_fixed_joint_0_wall3">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+

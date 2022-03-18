@@ -28,8 +28,8 @@ world.create_base_link(32)
 # d3 = world.new_door((4, -4, 2), (0, 0, 0), (2, 0.2, 4), -calc.RAD90, calc.RAD45, top_handle=False)
 
 
-first = world.new_link((0, 0, 0.5), (0, 0, 0), (0, 0, 0), 'prismatic', 0, 2, joint_axis=(1, 0, 0))
-second = world.new_link((0, 0, 0), (0, 0, 0), (0, 0, 0), 'prismatic', 0, 2, parent=first, joint_axis=(0, 1, 0))
+first = world.new_link((0, 0, 0.5), (0, 0, 0), (0, 0, 0), 'prismatic', -16, 16, joint_axis=(1, 0, 0))
+second = world.new_link((0, 0, 0), (0, 0, 0), (0, 0, 0), 'prismatic', -16, 16, parent=first, joint_axis=(0, 1, 0))
 droid = world.new_link((0, 0, 0), (0, 0, 0), (0.75, 1, 1), 'revolute', -calc.RAD180, calc.RAD180, parent=second,
                        mesh_filepath="input-meshes/droids.blend", object_name="droids_3")
 

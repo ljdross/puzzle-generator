@@ -667,7 +667,7 @@ class Lockbox2017Sampler(PuzzleSampler):
     def __init__(self, config, world: BlenderWorld):
         super().__init__(config, world)
         world.update_name("lockbox2017")
-        self.mesh1 = config["mesh1"]
+        self.mesh = config["mesh1"]
 
     def build(self):
         self.world.reset()
@@ -684,7 +684,7 @@ class Lockbox2017Sampler(PuzzleSampler):
         self.goal_space_append((0, 2))
 
         self.world.new_link((0, 0, 0.5), (0, 0, calc.RAD90), (4, 4, 1), 'revolute', 0, calc.RAD90,
-                            mesh_filepath=self.mesh1, object_name="slot_disc", create_handle=self.create_handle)
+                            mesh_filepath=self.mesh, object_name="slot_disc", create_handle=self.create_handle)
         self.start_state.append(0)
         self.goal_space_append((0, calc.RAD90))
 
@@ -706,7 +706,7 @@ class LockboxRandomSampler(PuzzleSampler):
         world.update_name("lockbox_random")
         self.epsilon = config["epsilon"]
         self.iterations = config["iterations"]
-        self.mesh1 = config["mesh1"]
+        self.mesh = config["mesh1"]
         self.previous_direction = "E"
 
     def add_slot_disc_and_slider(self, direction):
@@ -729,7 +729,7 @@ class LockboxRandomSampler(PuzzleSampler):
             self.start_point = calc.tuple_add(self.start_point, (-4, 0))
 
         self.world.new_link(location_slot_disc, (0, 0, rotation), (3, 3, 1), 'revolute', -calc.RAD180, calc.RAD180,
-                            mesh_filepath=self.mesh1, object_name="slot_disc", create_handle=self.create_handle)
+                            mesh_filepath=self.mesh, object_name="slot_disc", create_handle=self.create_handle)
         self.world.new_link(location_slider, (0, calc.RAD90, rotation), (1, 0.6, 2 - self.epsilon), 'prismatic', 0, 1,
                             create_handle=self.create_handle)
 
@@ -781,3 +781,35 @@ class LockboxRandomSampler(PuzzleSampler):
             if self.choose_links() == 1:
                 return 1
         return 0
+
+
+class EscapeRoomSampler(PuzzleSampler):
+    def __init__(self, config, world: BlenderWorld):
+        super().__init__(config, world)
+        world.update_name("escape_room")
+        self.robot_mesh = config["robot_mesh"]
+
+    def build(self):
+        self.world.reset()
+        self.world.create_base_link(self.floor_size)
+
+        first = self.world.new_link((0, 0, 0.5), (0, 0, 0), (0, 0, 0), 'prismatic', -16, 16, joint_axis=(1, 0, 0))
+        second = self.world.new_link((0, 0, 0), (0, 0, 0), (0, 0, 0), 'prismatic', -16, 16, parent=first,
+                                joint_axis=(0, 1, 0))
+        droid = self.world.new_link((0, 0, 0), (0, 0, 0), (0.75, 1, 1), 'revolute', -calc.RAD180, calc.RAD180, parent=second,
+                               mesh_filepath="input-meshes/droids.blend", object_name="droids_3")
+        self.goal_space.extend(((4, 4), (0, 0)))
+        self.goal_space_append((calc.RAD90, calc.RAD90))
+        self.start_state.extend((0, 0, 0))
+
+        self.world.create_goal_duplicate((4, 0, 0), (0, 0, calc.RAD90))
+
+        self.world.new_door((2, -1, 0.5), (0, 0, calc.RAD90), (2, 0.2, 1), top_handle=False)
+        self.start_state.append(0)
+        self.goal_space_append((0, calc.RAD90))
+
+        self.world.new_link((0, -1.4, 0.5), (0, 0, 0), (4, 0.2, 1), 'fixed', name="wall1", material=color.GRAY)
+        self.world.new_link((0, 1.4, 0.5), (0, 0, 0), (4, 0.2, 1), 'fixed', name="wall2", material=color.GRAY)
+        self.world.new_link((-2, 0, 0.5), (0, 0, 0), (0.2, 2, 1), 'fixed', name="wall3", material=color.GRAY)
+
+        self.world.export()
