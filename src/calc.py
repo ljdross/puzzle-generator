@@ -1,10 +1,10 @@
 from math import radians, cos, sin
 
 
-RAD45 = radians(45)
-RAD90 = radians(90)
-RAD180 = radians(180)
-RAD360 = radians(360)
+RAD45 = round(radians(45), 5)
+RAD90 = round(radians(90), 5)
+RAD180 = round(radians(180), 5)
+RAD360 = round(radians(360), 5)
 
 
 def tuple_add(a: tuple, b: tuple) -> tuple:
@@ -22,6 +22,6 @@ def rotate(point_2d, angle_radians):
     """
     c = cos(angle_radians)
     s = sin(angle_radians)
-    x = point_2d[0] * c - point_2d[1] * s
-    y = point_2d[0] * s + point_2d[1] * c
+    x = round(point_2d[0] * c - point_2d[1] * s, 5)
+    y = round(point_2d[0] * s + point_2d[1] * c, 5)
     return x, y

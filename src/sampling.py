@@ -27,7 +27,7 @@ class PuzzleSampler:
         self.start_point = (0, 0)
         self.prismatic_length = 2
         self.revolute_length = 3
-        self.goal_adjustment = 0.0001
+        self.goal_adjustment = 0.  # e.g. 0.0001
         self.start_state = []
         self.goal_space = []
 
@@ -519,7 +519,7 @@ class ContinuousSpaceSampler(PuzzleSampler):
         """
         if is_prismatic:
             diff = self.upper_limit_prismatic[1] - self.upper_limit_prismatic[0]
-            return random() * diff + self.upper_limit_prismatic[0]
+            return round(random() * diff + self.upper_limit_prismatic[0], 5)
         else:
             diff = self.upper_limit_revolute[1] - self.upper_limit_revolute[0]
             limit = random() * diff * 2 - diff
@@ -527,7 +527,7 @@ class ContinuousSpaceSampler(PuzzleSampler):
                 limit += self.upper_limit_revolute[0]
             else:
                 limit -= self.upper_limit_revolute[0]
-            return limit
+            return round(limit, 5)
 
     def _calculate_next_start_point(self, is_prismatic, pos, rotation, limit):
         """
@@ -546,7 +546,7 @@ class ContinuousSpaceSampler(PuzzleSampler):
         """
         self.start_state.append(0)
         threshold = self.prismatic_joints_target / (self.prismatic_joints_target + self.revolute_joints_target)
-        rotation = random() * calc.RAD360
+        rotation = round(random() * calc.RAD360, 5)
         # since this is the first joint, we do not need to check solvability
         # but the goal is to move link0 to a specific location
         # so this dimension in the goal space must be narrowed
@@ -585,9 +585,10 @@ class ContinuousSpaceSampler(PuzzleSampler):
         threshold = self.prismatic_joints_target / (self.prismatic_joints_target + self.revolute_joints_target)
         is_prismatic: bool
         for i in range(self.attempts):
-            offset = (random() * self.area_size - self.area_size / 2, random() * self.area_size - self.area_size / 2)
+            offset = random() * self.area_size - self.area_size / 2, random() * self.area_size - self.area_size / 2
             new_point = calc.tuple_add(self.start_point, offset)
-            rotation = random() * calc.RAD360
+            new_point = round(new_point[0], 5), round(new_point[1], 5)
+            rotation = round(random() * calc.RAD360, 5)
             if random() < threshold:
                 # create immovable prismatic joint (joint limits = 0)
                 self.world.new_link((new_point[0], new_point[1], 0.5), (-calc.RAD90, 0, rotation),

@@ -366,7 +366,7 @@
     </link>
 
     <joint name="goal" type="fixed">
-      <origin xyz="-0.5 0.5 0.55" rpy="0 0 1.5707"/>
+      <origin xyz="-0.5 0.5 0.55" rpy="0 0 1.5708"/>
       <parent link="base_link"/>
       <child link="goal"/>
       <limit effort="0" velocity="0"/>

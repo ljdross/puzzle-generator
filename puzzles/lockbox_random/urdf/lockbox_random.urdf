@@ -479,7 +479,7 @@
     </joint>
 
     <joint name="link_2_fixed_joint_1_handle_shaft" type="fixed">
-      <origin xyz="-1.0 0 0" rpy="0 -1.5708 0"/>
+      <origin xyz="-1.0 0 0" rpy="-0.06577 -1.5708 0.06577"/>
       <parent link="link_2_joint_0"/>
       <child link="link_2_fixed_joint_1_handle_shaft"/>
     </joint>
@@ -491,7 +491,7 @@
     </joint>
 
     <joint name="link_2_joint_0" type="prismatic">
-      <origin xyz="0.5 2.0 0.6" rpy="-1.5708 1.5708 0"/>
+      <origin xyz="0.5 2.0 0.6" rpy="0 1.5708 1.5708"/>
       <parent link="base_link"/>
       <child link="link_2_joint_0"/>
       <axis xyz="0 0 1.0"/>
@@ -517,7 +517,7 @@
     </joint>
 
     <joint name="link_3_joint_0" type="revolute">
-      <origin xyz="0.5 4.5 0.6" rpy="0 0 -3.14159"/>
+      <origin xyz="0.5 4.5 0.6" rpy="0 0 3.14159"/>
       <parent link="base_link"/>
       <child link="link_3_joint_0"/>
       <axis xyz="0 0 1.0"/>
@@ -525,7 +525,7 @@
     </joint>
 
     <joint name="link_4_fixed_joint_1_handle_shaft" type="fixed">
-      <origin xyz="-1.0 0 0" rpy="0 -1.5708 0"/>
+      <origin xyz="-1.0 0 0" rpy="-0.01294 -1.5708 0.01294"/>
       <parent link="link_4_joint_0"/>
       <child link="link_4_fixed_joint_1_handle_shaft"/>
     </joint>
@@ -537,7 +537,7 @@
     </joint>
 
     <joint name="link_4_joint_0" type="prismatic">
-      <origin xyz="-1.0 4.5 0.6" rpy="3.14159 1.5708 0"/>
+      <origin xyz="-1.0 4.5 0.6" rpy="-3.14159 1.57079 0"/>
       <parent link="base_link"/>
       <child link="link_4_joint_0"/>
       <axis xyz="0 0 1.0"/>

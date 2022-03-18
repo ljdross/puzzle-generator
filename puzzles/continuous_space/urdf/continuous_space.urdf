@@ -366,7 +366,7 @@
     </link>
 
     <joint name="goal" type="fixed">
-      <origin xyz="0 0 0.6" rpy="0 0 -2.79785"/>
+      <origin xyz="0 0 0.6" rpy="0 0 -2.79786"/>
       <parent link="base_link"/>
       <child link="goal"/>
       <limit effort="0" velocity="0"/>
@@ -435,7 +435,7 @@
     </joint>
 
     <joint name="link_1_joint_0" type="revolute">
-      <origin xyz="1.89729 1.60702 0.6" rpy="0 0 -2.61769"/>
+      <origin xyz="1.89728 1.60703 0.6" rpy="0 0 -2.61769"/>
       <parent link="base_link"/>
       <child link="link_1_joint_0"/>
       <axis xyz="0 0 1.0"/>
@@ -455,7 +455,7 @@
     </joint>
 
     <joint name="link_2_joint_0" type="prismatic">
-      <origin xyz="2.7436 -0.22319 0.6" rpy="-1.5708 0 -2.39786"/>
+      <origin xyz="2.7436 -0.22317 0.6" rpy="-1.5708 0 -2.39786"/>
       <parent link="base_link"/>
       <child link="link_2_joint_0"/>
       <axis xyz="0 0 1.0"/>
@@ -475,11 +475,11 @@
     </joint>
 
     <joint name="link_3_joint_0" type="prismatic">
-      <origin xyz="5.40311 -1.16809 0.6" rpy="-1.5708 0 -1.98559"/>
+      <origin xyz="3.51572 -2.56206 0.6" rpy="-1.5708 0 -2.44487"/>
       <parent link="base_link"/>
       <child link="link_3_joint_0"/>
       <axis xyz="0 0 1.0"/>
-      <limit lower="0" upper="2.2014" effort="0" velocity="0"/>
+      <limit lower="0" upper="3.93321" effort="0" velocity="0"/>
     </joint>
 
     <material name="gray">
