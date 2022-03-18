@@ -82,4 +82,4 @@ test_urdf(world.urdf_path, sampler.start_state, sampler.goal_space, show_gui=Tru
 
 sampler = EscapeRoomSampler(sampler_config, world)
 sampler.build()
-test_urdf(world.urdf_path, sampler.start_state, sampler.goal_space, 60., show_gui=True, verbose=True)
+test_urdf(world.urdf_path, sampler.start_state, sampler.goal_space, 10., show_gui=True, verbose=True)

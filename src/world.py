@@ -104,9 +104,11 @@ class BlenderWorld:
         self.floor_thickness = thickness
         visual = self.create_visual(scale=(floor_size, floor_size, thickness), material=color.LAVENDER, name="base")
         self.create_link_and_joint(visual, "base_link")
-        if floor_size != 0:
-            self.create_collision(visual)
         self.base_object = visual.parent
+        if floor_size == 0:
+            self.apply_to_subtree(self.base_object, remove_visual=True)
+        else:
+            self.create_collision(visual)
 
     def update_joint_axis(self, link, direction_vector=(1, 0, 0)):
         """
@@ -157,7 +159,9 @@ class BlenderWorld:
                                     is_cylinder)
         self.create_link_and_joint(visual, name, joint_type, lower_limit, upper_limit)
         link = visual.parent
-        if collision and scale != (0, 0, 0):
+        if scale == (0, 0, 0):
+            self.apply_to_subtree(link, remove_visual=True)
+        elif collision:
             self.create_collision(visual)
         if joint_type != 'fixed' and parent == self.base_object:
             self.movable_links.append(link)
@@ -279,17 +283,25 @@ class BlenderWorld:
             bpy.ops.phobos.select_model()
             bpy.ops.phobos.create_collision_objects()
 
-    def apply_to_subtree(self, object, new_material=None, remove_collision=False, zeroize_limits=False):
+    def apply_to_subtree(self, object, new_material=None, remove_visual=False, remove_collision=False,
+                         zeroize_limits=False):
         self.select_with_children(object)
         for obj in bpy.context.selected_objects:
-            if remove_collision and obj.phobostype == 'collision':
-                bpy.ops.object.select_all(action='DESELECT')
-                obj.select_set(True)
-                bpy.ops.object.delete()
-            elif new_material and obj.phobostype == 'visual':
-                obj.active_material = new_material
-            elif zeroize_limits and obj.phobostype == 'link':
-                self.zeroize_limits(obj)
+            if obj.phobostype == 'visual':
+                if remove_visual:
+                    bpy.ops.object.select_all(action='DESELECT')
+                    obj.select_set(True)
+                    bpy.ops.object.delete()
+                elif new_material:
+                    obj.active_material = new_material
+            elif obj.phobostype == 'collision':
+                if remove_collision:
+                    bpy.ops.object.select_all(action='DESELECT')
+                    obj.select_set(True)
+                    bpy.ops.object.delete()
+            elif obj.phobostype == 'link':
+                if zeroize_limits:
+                    self.zeroize_limits(obj)
 
 
     def create_goal_duplicate(self, local_translate=(0, 0, 0), rotation_offset=(0, 0, 0),
