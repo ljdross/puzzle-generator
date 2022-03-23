@@ -24,3 +24,7 @@ def test_urdf(input_path, start_state, goal_space, allowed_planning_time=5., sho
         else:
             print("NO SOLUTION FOUND!")
     return result
+
+
+def create_srdf(urdf_path):
+    run(["python3", "src/srdf_generator.py", urdf_path])
