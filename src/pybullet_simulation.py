@@ -20,7 +20,13 @@ def solve(urdf_path, start_state, goal_space, allowed_planning_time=5., show_gui
     if verbose:
         print("returned from subprocess")
         if result == 0:
-            print("FOUND SOLUTION!")
+            if have_exact_solution:
+                print("FOUND EXACT SOLUTION!")
+            else:
+                print("FOUND SOLUTION!")
         else:
-            print("NO SOLUTION FOUND!")
+            if have_exact_solution:
+                print("NO EXACT SOLUTION FOUND!")
+            else:
+                print("NO SOLUTION FOUND!")
     return result
