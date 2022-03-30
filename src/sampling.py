@@ -5,7 +5,7 @@ import sys
 DIR = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(DIR)
 from world import BlenderWorld
-from pybullet_simulation import test_urdf
+from pybullet_simulation import solve
 import calc
 import color
 
@@ -601,8 +601,8 @@ class ContinuousSpaceSampler(PuzzleSampler):
                                       'revolute', lower_limit=0, upper_limit=0, create_handle=self.create_handle)
                 is_prismatic = False
             self.world.export()
-            result = test_urdf(self.world.urdf_path, self.start_state, self.goal_space,
-                               self.planning_time * self.first_test_time_multiplier)
+            result = solve(self.world.urdf_path, self.start_state, self.goal_space,
+                           self.planning_time * self.first_test_time_multiplier)
             if result == 0:
                 # can be solved with the immovable joint
                 # we do not want that
@@ -619,7 +619,7 @@ class ContinuousSpaceSampler(PuzzleSampler):
                 self.start_state.append(0)
 
                 # and check solvability again
-                result = test_urdf(self.world.urdf_path, self.start_state, self.goal_space, self.planning_time)
+                result = solve(self.world.urdf_path, self.start_state, self.goal_space, self.planning_time)
                 if result == 0:
                     self.start_point = self._calculate_next_start_point(is_prismatic, new_point, rotation, limit_span)
                     if is_prismatic:
@@ -754,7 +754,7 @@ class LockboxRandomSampler(PuzzleSampler):
             self.goal_space.append((-calc.RAD180, calc.RAD180))
             self.goal_space.append((0, 1))
             self.world.export()
-            if test_urdf(self.world.urdf_path, self.start_state, None, only_check_start_state_validity=True) == 0:
+            if solve(self.world.urdf_path, self.start_state, None, only_check_start_state_validity=True) == 0:
                 self.previous_direction = random_direction
                 return 0
             else:

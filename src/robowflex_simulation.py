@@ -18,8 +18,8 @@ def adjust_absolute_filepaths(robowflex_workspace="../rb_ws"):
     run(["python3", "filepath_organizer.py"], cwd=robowflex_workspace + "/src/robowflex/robowflex_dart/include/io")
 
 
-def test_solvability(urdf_path="puzzles/simple_sliders/urdf/simple_sliders.urdf", planning_time=5,
-                     robowflex_workspace="../rb_ws", adjust_filepaths=False):
+def solve(urdf_path="puzzles/simple_sliders/urdf/simple_sliders.urdf", planning_time=5,
+          robowflex_workspace="../rb_ws", adjust_filepaths=False):
     puzzle_directory = path.dirname(path.dirname(urdf_path))
     puzzle_name = puzzle_directory.split('/')[-1]
 

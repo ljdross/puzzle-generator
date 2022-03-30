@@ -6,7 +6,7 @@ sys.path.append(DIR)
 from src.world import BlenderWorld
 from src.sampling import SimpleSlidersSampler, ContinuousSpaceSampler, GridWorldSampler, Lockbox2017Sampler,\
     LockboxRandomSampler, EscapeRoomSampler
-from src.pybullet_simulation import test_urdf
+from src.pybullet_simulation import solve
 from src import calc
 
 # output settings and world properties
@@ -59,27 +59,27 @@ world = BlenderWorld(world_config)
 
 sampler = SimpleSlidersSampler(sampler_config, world)
 sampler.build()
-test_urdf(world.urdf_path, sampler.start_state, sampler.goal_space, 10., show_gui=True)
+solve(world.urdf_path, sampler.start_state, sampler.goal_space, 10., show_gui=True)
 
 sampler_config["number_prismatic_joints"] = 2
 sampler_config["create_handle"] = True
 
 sampler = GridWorldSampler(sampler_config, world)
 sampler.build()
-test_urdf(world.urdf_path, sampler.start_state, sampler.goal_space, show_gui=True)
+solve(world.urdf_path, sampler.start_state, sampler.goal_space, show_gui=True)
 
 sampler = ContinuousSpaceSampler(sampler_config, world)
 sampler.build()
-test_urdf(world.urdf_path, sampler.start_state, sampler.goal_space, show_gui=True)
+solve(world.urdf_path, sampler.start_state, sampler.goal_space, show_gui=True)
 
 sampler = Lockbox2017Sampler(sampler_config, world)
 sampler.build()
-test_urdf(world.urdf_path, sampler.start_state, sampler.goal_space, show_gui=True, verbose=True)
+solve(world.urdf_path, sampler.start_state, sampler.goal_space, show_gui=True, verbose=True)
 
 sampler = LockboxRandomSampler(sampler_config, world)
 sampler.build()
-test_urdf(world.urdf_path, sampler.start_state, sampler.goal_space, show_gui=True, verbose=True)
+solve(world.urdf_path, sampler.start_state, sampler.goal_space, show_gui=True, verbose=True)
 
 sampler = EscapeRoomSampler(sampler_config, world)
 sampler.build()
-test_urdf(world.urdf_path, sampler.start_state, sampler.goal_space, 10., show_gui=True, verbose=True)
+solve(world.urdf_path, sampler.start_state, sampler.goal_space, 10., show_gui=True, verbose=True)
