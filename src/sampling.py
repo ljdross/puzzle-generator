@@ -796,9 +796,9 @@ class EscapeRoomSampler(PuzzleSampler):
 
         first = self.world.new_link((0, 0, 0.5), (0, 0, 0), (0, 0, 0), 'prismatic', -16, 16, joint_axis=(1, 0, 0))
         second = self.world.new_link((0, 0, 0), (0, 0, 0), (0, 0, 0), 'prismatic', -16, 16, parent=first,
-                                joint_axis=(0, 1, 0))
-        droid = self.world.new_link((0, 0, 0), (0, 0, 0), (0.75, 1, 1), 'revolute', -calc.RAD180, calc.RAD180, parent=second,
-                               mesh_filepath="input-meshes/droids.blend", object_name="droids_3")
+                                     joint_axis=(0, 1, 0))
+        droid = self.world.new_link((0, 0, 0), (0, 0, 0), (0.75, 1, 1), 'revolute', -calc.RAD180, calc.RAD180,
+                                    parent=second, mesh_filepath="input-meshes/droids.blend", object_name="droids_3")
         self.goal_space.extend(((4, 4), (0, 0)))
         self.goal_space_append((calc.RAD90, calc.RAD90))
         self.start_state.extend((0, 0, 0))
@@ -812,5 +812,37 @@ class EscapeRoomSampler(PuzzleSampler):
         self.world.new_link((0, -1.4, 0.5), (0, 0, 0), (4, 0.2, 1), 'fixed', name="wall1", material=color.GRAY)
         self.world.new_link((0, 1.4, 0.5), (0, 0, 0), (4, 0.2, 1), 'fixed', name="wall2", material=color.GRAY)
         self.world.new_link((-2, 0, 0.5), (0, 0, 0), (0.2, 2, 1), 'fixed', name="wall3", material=color.GRAY)
+
+        self.world.export()
+
+
+class MoveTwiceSampler(PuzzleSampler):
+    def __init__(self, config, world: BlenderWorld):
+        super().__init__(config, world)
+        world.update_name("move_twice")
+        self.robot_mesh = config["robot_mesh"]
+
+    def build(self):
+        self.world.reset()
+        self.world.create_base_link(self.floor_size)
+
+        first = self.world.new_link((0, 0, 0.5), (0, 0, 0), (0, 0, 0), 'prismatic', -16, 16, joint_axis=(1, 0, 0))
+        second = self.world.new_link((0, 0, 0), (0, 0, 0), (0, 0, 0), 'prismatic', -16, 16, parent=first,
+                                     joint_axis=(0, 1, 0))
+        droid = self.world.new_link((0, 0, 0), (0, 0, 0), (0.75, 1, 1), 'revolute', -calc.RAD180, calc.RAD180,
+                                    parent=second, mesh_filepath="input-meshes/droids.blend", object_name="droids_3",
+                                    name="r2d2")
+        self.goal_space.extend(((0, 0), (3, 3)))
+        self.goal_space_append((calc.RAD90, calc.RAD90))
+        self.start_state.extend((0, 0, 0))
+
+        self.world.create_goal_duplicate((0, 3, 0), (0, 0, calc.RAD90))
+
+        self.world.new_link((0, -1.4, 0.5), (0, 0, 0), (4, 0.2, 1), 'fixed', name="wall_left", material=color.GRAY)
+        self.world.new_link((0, 4.4, 0.5), (0, 0, 0), (4, 0.2, 1), 'fixed', name="wall_right", material=color.GRAY)
+        self.world.new_link((0, 1.5, 0.5), (0, 0, 0), (4, 0.2, 1), 'fixed', name="wall_mid", material=color.GRAY)
+        self.world.new_link((-2.1, 1.5, 0.5), (0, 0, 0), (0.2, 6, 1), 'fixed', name="wall_back", material=color.GRAY)
+        self.world.new_link((2.1, 1.5, 0.5), (0, 0, 0), (0.2, 6, 1), 'prismatic', -2, 2, joint_axis=(0, 1, 0))
+        self.goal_space.append((-2, 2))
 
         self.world.export()

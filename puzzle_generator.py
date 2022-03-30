@@ -4,8 +4,7 @@ import sys
 DIR = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(DIR)
 from src.world import BlenderWorld
-from src.sampling import SimpleSlidersSampler, ContinuousSpaceSampler, GridWorldSampler, Lockbox2017Sampler,\
-    LockboxRandomSampler, EscapeRoomSampler
+from src.sampling import *
 from src.pybullet_simulation import solve
 from src import calc
 
@@ -81,5 +80,9 @@ sampler.build()
 solve(world.urdf_path, sampler.start_state, sampler.goal_space, show_gui=True, verbose=True)
 
 sampler = EscapeRoomSampler(sampler_config, world)
+sampler.build()
+solve(world.urdf_path, sampler.start_state, sampler.goal_space, 10., show_gui=True, verbose=True)
+
+sampler = MoveTwiceSampler(sampler_config, world)
 sampler.build()
 solve(world.urdf_path, sampler.start_state, sampler.goal_space, 10., show_gui=True, verbose=True)
