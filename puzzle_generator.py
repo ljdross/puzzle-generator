@@ -6,7 +6,7 @@ sys.path.append(DIR)
 from src.world import BlenderWorld
 from src.sampling import SimpleSlidersSampler, ContinuousSpaceSampler, GridWorldSampler, Lockbox2017Sampler,\
     LockboxRandomSampler, EscapeRoomSampler
-from src.solvability_testing import test_urdf
+from src.pybullet_simulation import test_urdf
 from src import calc
 
 # output settings and world properties

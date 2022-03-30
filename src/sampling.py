@@ -5,7 +5,7 @@ import sys
 DIR = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(DIR)
 from world import BlenderWorld
-from solvability_testing import test_urdf
+from pybullet_simulation import test_urdf
 import calc
 import color
 
