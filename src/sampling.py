@@ -86,7 +86,10 @@ class PuzzleSampler:
 class SimpleSlidersSampler(PuzzleSampler):
     def __init__(self, config, world: BlenderWorld):
         super().__init__(config, world)
-        world.update_name("simple_sliders")
+        if "puzzle_name" in config:
+            world.update_name(config["puzzle_name"])
+        else:
+            world.update_name("simple_sliders")
 
     def _create_simple_sliders_puzzle(self):
         """
@@ -119,7 +122,10 @@ class SimpleSlidersSampler(PuzzleSampler):
 class GridWorldSampler(PuzzleSampler):
     def __init__(self, config, world: BlenderWorld):
         super().__init__(config, world)
-        world.update_name("grid_world")
+        if "puzzle_name" in config:
+            world.update_name(config["puzzle_name"])
+        else:
+            world.update_name("grid_world")
         self.allow_clockwise = config["allow_clockwise"]
         self.epsilon = config["epsilon"]
         self.start_points = [(0.5, 0.5)]
@@ -504,7 +510,10 @@ class GridWorldSampler(PuzzleSampler):
 class ContinuousSpaceSampler(PuzzleSampler):
     def __init__(self, config, world: BlenderWorld):
         super().__init__(config, world)
-        world.update_name("continuous_space")
+        if "puzzle_name" in config:
+            world.update_name(config["puzzle_name"])
+        else:
+            world.update_name("continuous_space")
         self.planning_time = config["start_planning_time"]
         self.planning_time_multiplier = config["planning_time_multiplier"]
         self.first_test_time_multiplier = config["first_test_time_multiplier"]
@@ -667,7 +676,10 @@ class ContinuousSpaceSampler(PuzzleSampler):
 class Lockbox2017Sampler(PuzzleSampler):
     def __init__(self, config, world: BlenderWorld):
         super().__init__(config, world)
-        world.update_name("lockbox2017")
+        if "puzzle_name" in config:
+            world.update_name(config["puzzle_name"])
+        else:
+            world.update_name("lockbox2017")
         self.mesh = config["mesh1"]
 
     def build(self):
@@ -704,7 +716,10 @@ class Lockbox2017Sampler(PuzzleSampler):
 class LockboxRandomSampler(PuzzleSampler):
     def __init__(self, config, world: BlenderWorld):
         super().__init__(config, world)
-        world.update_name("lockbox_random")
+        if "puzzle_name" in config:
+            world.update_name(config["puzzle_name"])
+        else:
+            world.update_name("lockbox_random")
         self.epsilon = config["epsilon"]
         self.iterations = config["iterations"]
         self.mesh = config["mesh1"]
@@ -787,7 +802,10 @@ class LockboxRandomSampler(PuzzleSampler):
 class EscapeRoomSampler(PuzzleSampler):
     def __init__(self, config, world: BlenderWorld):
         super().__init__(config, world)
-        world.update_name("escape_room")
+        if "puzzle_name" in config:
+            world.update_name(config["puzzle_name"])
+        else:
+            world.update_name("escape_room")
         self.robot_mesh = config["robot_mesh"]
 
     def build(self):
@@ -819,7 +837,10 @@ class EscapeRoomSampler(PuzzleSampler):
 class MoveTwiceSampler(PuzzleSampler):
     def __init__(self, config, world: BlenderWorld):
         super().__init__(config, world)
-        world.update_name("move_twice")
+        if "puzzle_name" in config:
+            world.update_name(config["puzzle_name"])
+        else:
+            world.update_name("move_twice")
         self.robot_mesh = config["robot_mesh"]
 
     def build(self):
