@@ -46,6 +46,8 @@ def solve(urdf_path="puzzles/simple_sliders/urdf/simple_sliders.urdf", planning_
     else:
         run(["./benchmark_main", puzzle_name, str(planning_time), str(benchmark_runs)],
             cwd=robowflex_workspace + "/devel/lib/robowflex_dart/")
-        print("benchmark results(db):")
+        print("benchmark results(.db file):")
         print("file://" + path.abspath(robowflex_workspace + "/src/robowflex/robowflex_dart/include/io/db_files/"
                                        + puzzle_name + ".db"))
+        print("benchmark results(folder):")
+        print("file://" + path.abspath(robowflex_workspace + "/src/robowflex/robowflex_dart/include/io/db_files"))

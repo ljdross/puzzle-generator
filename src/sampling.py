@@ -830,8 +830,7 @@ class MoveTwiceSampler(PuzzleSampler):
         second = self.world.new_link((0, 0, 0), (0, 0, 0), (0, 0, 0), 'prismatic', -16, 16, parent=first,
                                      joint_axis=(0, 1, 0))
         droid = self.world.new_link((0, 0, 0), (0, 0, 0), (0.75, 1, 1), 'revolute', -calc.RAD180, calc.RAD180,
-                                    parent=second, mesh_filepath="input-meshes/droids.blend", object_name="droids_3",
-                                    name="r2d2")
+                                    parent=second, mesh_filepath="input-meshes/droids.blend", object_name="droids_3")
         self.goal_space.extend(((0, 0), (3, 3)))
         self.goal_space_append((calc.RAD90, calc.RAD90))
         self.start_state.extend((0, 0, 0))
