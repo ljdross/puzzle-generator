@@ -321,9 +321,13 @@ class BlenderWorld:
         bpy.context.scene.phobosexportsettings.selectedOnly = False
         bpy.context.scene.export_entity_urdf = True
         bpy.context.scene.export_entity_srdf = self.export_entity_srdf
-        bpy.context.scene.export_mesh_dae = self.export_mesh_dae
-        bpy.context.scene.export_mesh_stl = self.export_mesh_stl
-        bpy.context.scene.phobosexportsettings.outputMeshtype = self.output_mesh_type
+        if self.contains_mesh:
+            bpy.context.scene.export_mesh_dae = self.export_mesh_dae
+            bpy.context.scene.export_mesh_stl = self.export_mesh_stl
+            bpy.context.scene.phobosexportsettings.outputMeshtype = self.output_mesh_type
+        else:
+            bpy.context.scene.export_mesh_dae = False
+            bpy.context.scene.export_mesh_stl = False
         bpy.ops.object.select_all(action='DESELECT')
         self.base_object.select_set(True)
         bpy.context.view_layer.objects.active = bpy.context.selected_objects[0]
