@@ -309,7 +309,7 @@ class BlenderWorld:
 
 
     def create_goal_duplicate(self, local_translate=(0, 0, 0), rotation_offset=(0, 0, 0),
-                              new_material=color.GREEN_SEMITRANSPARENT):
+                              new_material=color.GREEN_TRANSLUCENT):
         goal_duplicate = self.duplicate_with_children(self.movable_links[0])
         self.apply_to_subtree(goal_duplicate, new_material, remove_collision=True, zeroize_limits=True)
         bpy.ops.object.select_all(action='DESELECT')

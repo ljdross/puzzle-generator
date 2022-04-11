@@ -34,7 +34,7 @@
         <geometry>
           <box size="0.2 0.2 1.6"/>
         </geometry>
-        <material name="green_semitransparent"/>
+        <material name="green_translucent"/>
       </visual>
     </link>
 
@@ -165,7 +165,7 @@
       <color rgba="0 1.0 0 1.0"/>
     </material>
 
-    <material name="green_semitransparent">
+    <material name="green_translucent">
       <color rgba="0 1.0 0 0.25"/>
     </material>
 
