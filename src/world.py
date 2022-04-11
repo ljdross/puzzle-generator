@@ -262,6 +262,10 @@ class BlenderWorld:
         link.pose.bones["Bone"].constraints["Limit Location"].max_y = 0
         link.pose.bones["Bone"].constraints["Limit Location"].max_z = 0
 
+        link.pose.bones["Bone"].constraints["Limit Rotation"].use_limit_y = True
+        link.pose.bones["Bone"].constraints["Limit Rotation"].use_limit_y = True
+        link.pose.bones["Bone"].constraints["Limit Rotation"].use_limit_y = True
+
         link.pose.bones["Bone"].constraints["Limit Rotation"].min_x = 0
         link.pose.bones["Bone"].constraints["Limit Rotation"].min_y = 0
         link.pose.bones["Bone"].constraints["Limit Rotation"].min_z = 0
