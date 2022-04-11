@@ -48,7 +48,7 @@ sampler_config = {
     "mesh1": "input-meshes/slot_disc.blend",  # both absolute and relative paths are allowed
     "iterations": 2,
 
-    # this part is only required for EscapeRoomSampler
+    # this part is only required for EscapeRoomSampler and MoveTwiceSampler
     "robot_mesh": "input-meshes/droids.blend",  # both absolute and relative paths are allowed
 
 }
