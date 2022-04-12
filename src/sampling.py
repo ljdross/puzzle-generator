@@ -657,7 +657,7 @@ class ContinuousSpaceSampler(PuzzleSampler):
                 print("Could NOT sample link" + str(i), "after", self.attempts, "attempts!")
                 print("\U000026D4 " * 64)
                 return result
-            print("Successfully sampled link" + str(i), "\U000026F3 " * i)
+            print("Successfully sampled link" + str(i), "\U000026F3 " * (i + 1))
             self.planning_time *= self.planning_time_multiplier
         print("\U000026F3 " * 32)
         print("SUCCESS! Sampled", self.total_number_joints, "links!")
