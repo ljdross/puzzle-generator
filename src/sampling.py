@@ -116,6 +116,7 @@ class SimpleSlidersSampler(PuzzleSampler):
         self.world.create_base_link(self.floor_size)
         self._create_simple_sliders_puzzle()
         self.world.export()
+        self.world.render_image()
         return 0
 
 
@@ -504,6 +505,7 @@ class GridWorldSampler(PuzzleSampler):
             self.attempts -= 1
 
         self.world.export()
+        self.world.render_image()
         return 0
 
 
@@ -668,6 +670,7 @@ class ContinuousSpaceSampler(PuzzleSampler):
         self.world.create_base_link(self.floor_size)
         result = self._create_continuous_space_puzzle()
         if result == 0:
+            self.world.render_image()
             return 0
         else:
             return result
@@ -711,6 +714,8 @@ class Lockbox2017Sampler(PuzzleSampler):
         self.goal_space_append((0, calc.RAD90))
 
         self.world.export()
+        self.world.render_image()
+        return 0
 
 
 class LockboxRandomSampler(PuzzleSampler):
@@ -796,6 +801,8 @@ class LockboxRandomSampler(PuzzleSampler):
         for i in range(self.iterations):
             if self.choose_links() == 1:
                 return 1
+
+        self.world.render_image()
         return 0
 
 
@@ -833,6 +840,8 @@ class EscapeRoomSampler(PuzzleSampler):
         self.world.new_link((-2, 0, 0.5), (0, 0, 0), (0.2, 2, 1), 'fixed', name="wall3", material=color.GRAY)
 
         self.world.export()
+        self.world.render_image()
+        return 0
 
 
 class MoveTwiceSampler(PuzzleSampler):
@@ -869,3 +878,5 @@ class MoveTwiceSampler(PuzzleSampler):
         self.start_state.append(0)
 
         self.world.export()
+        self.world.render_image()
+        return 0

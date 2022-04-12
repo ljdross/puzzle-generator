@@ -25,6 +25,7 @@ class BlenderWorld:
         self.export_mesh_dae = config["export_mesh_dae"]
         self.export_mesh_stl = config["export_mesh_stl"]
         self.output_mesh_type = config["output_mesh_type"]
+        bpy.context.scene.render.engine = 'BLENDER_WORKBENCH'
         self.base_object = None
         self.floor_thickness = 0
         self.movable_links = []
@@ -326,6 +327,12 @@ class BlenderWorld:
         goal_duplicate.rotation_euler = calc.tuple_add(goal_duplicate.rotation_euler, rotation_offset)
         goal_duplicate.name = "goal"
         return goal_duplicate
+
+    def render_image(self):
+        bpy.ops.object.camera_add(location=(30, 0, 20), rotation=(0.95, 0, calc.RAD90))
+        bpy.context.scene.camera = bpy.context.object
+        bpy.context.scene.render.filepath = self.directory + "/images/" + self.name + ".png"
+        bpy.ops.render.render(write_still=True)
 
     def export(self):
         """Export model to URDF."""
