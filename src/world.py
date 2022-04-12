@@ -40,6 +40,7 @@ class BlenderWorld:
         """Delete everything and reset position of 3D cursor."""
         for block in bpy.data.meshes:
             bpy.data.meshes.remove(block)
+        self.contains_mesh = False
 
         self.movable_links = []
         bpy.ops.object.select_all(action='SELECT')
@@ -314,7 +315,6 @@ class BlenderWorld:
             elif obj.phobostype == 'link':
                 if zeroize_limits:
                     self.zeroize_limits(obj)
-
 
     def create_goal_duplicate(self, local_translate=(0, 0, 0), rotation_offset=(0, 0, 0),
                               new_material=color.GREEN_TRANSLUCENT):
