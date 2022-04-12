@@ -44,6 +44,9 @@ class BlenderWorld:
         bpy.context.scene.cursor.location = (0, 0, 0)
         bpy.context.scene.cursor.rotation_euler = (0, 0, 0)
 
+    def rename_mesh(self, old_name, new_name):
+        bpy.data.meshes[old_name].name = new_name
+
     def create_visual(self, location=(0, 0, 0), rotation=(0, 0, 0), scale=(1, 1, 1), material=None, name="",
                       parent=None, mesh="", object_name="", is_cylinder=False):
         """Create a visual object with the appropriate Phobos object properties. Returns the object."""
@@ -137,7 +140,7 @@ class BlenderWorld:
 
     def new_link(self, location, rotation, scale, joint_type, lower_limit=0, upper_limit=0, material=None,
                  mesh_filepath="", object_name="", is_cylinder=False, name="", parent=None, create_handle=False,
-                 collision=True, joint_axis=(0, 0, 1)):
+                 collision=True, joint_axis=(0, 0, 1), new_mesh_name=""):
         if not parent:
             parent = self.base_object
             self.temporary_joint_number = 0
@@ -157,6 +160,8 @@ class BlenderWorld:
             name = i + "_joint_" + str(self.temporary_joint_number)
         visual = self.create_visual(location, rotation, scale, material, name, parent, mesh_filepath, object_name,
                                     is_cylinder)
+        if object_name and new_mesh_name:
+            self.rename_mesh(object_name, new_mesh_name)
         self.create_link_and_joint(visual, name, joint_type, lower_limit, upper_limit)
         link = visual.parent
         if scale == (0, 0, 0):
