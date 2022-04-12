@@ -94,14 +94,14 @@
       <visual name="visual_mesh_0_joint_2">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/move_twice/meshes/stl/droids_3.004.stl" scale="1.0 1.0 1.0"/>
+          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/move_twice/meshes/stl/r2d2.stl" scale="1.0 1.0 1.0"/>
         </geometry>
         <material name="green"/>
       </visual>
       <collision concave="yes" name="collision_mesh_0_joint_2">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/move_twice/meshes/stl/droids_3.005.stl" scale="1.0 1.0 1.0"/>
+          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/move_twice/meshes/stl/r2d2.001.stl" scale="1.0 1.0 1.0"/>
         </geometry>
       </collision>
     </link>
@@ -115,7 +115,7 @@
       <visual name="visual_mesh_0_joint_2.001">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/move_twice/meshes/stl/droids_3.006.stl" scale="1.0 1.0 1.0"/>
+          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/move_twice/meshes/stl/r2d2.002.stl" scale="1.0 1.0 1.0"/>
         </geometry>
         <material name="green_translucent"/>
       </visual>

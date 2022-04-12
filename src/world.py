@@ -38,6 +38,9 @@ class BlenderWorld:
 
     def reset(self):
         """Delete everything and reset position of 3D cursor."""
+        for block in bpy.data.meshes:
+            bpy.data.meshes.remove(block)
+
         self.movable_links = []
         bpy.ops.object.select_all(action='SELECT')
         bpy.ops.object.delete(use_global=True)
