@@ -38,14 +38,17 @@ class BlenderWorld:
         self.urdf_path = self.directory + "/urdf/" + self.name + ".urdf"
 
     def reset(self):
-        """Delete everything and reset position of 3D cursor."""
+        """Select everything and delete it and reset position of 3D cursor. Also remove data for cameras and meshes."""
+        for block in bpy.data.cameras:
+            bpy.data.cameras.remove(block)
         for block in bpy.data.meshes:
             bpy.data.meshes.remove(block)
         self.contains_mesh = False
 
-        self.movable_links = []
         bpy.ops.object.select_all(action='SELECT')
         bpy.ops.object.delete(use_global=True)
+        self.movable_links = []
+
         bpy.context.scene.cursor.location = (0, 0, 0)
         bpy.context.scene.cursor.rotation_euler = (0, 0, 0)
 
@@ -328,11 +331,14 @@ class BlenderWorld:
         goal_duplicate.name = "goal"
         return goal_duplicate
 
-    def render_image(self):
-        bpy.ops.object.camera_add(location=(30, 0, 20), rotation=(0.95, 0, calc.RAD90))
-        bpy.context.scene.camera = bpy.context.object
+    def render_image(self, location=(30, 0, 20), rotation=(0.95, 0, calc.RAD90), focal_length=50):
+        bpy.ops.object.camera_add(location=location, rotation=rotation)
+        cam = bpy.context.object
+        cam.data.lens = focal_length
+        bpy.context.scene.camera = cam
         bpy.context.scene.render.filepath = self.directory + "/images/" + self.name + ".png"
         bpy.ops.render.render(write_still=True)
+        return cam
 
     def export(self):
         """Export model to URDF."""
