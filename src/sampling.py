@@ -714,7 +714,7 @@ class Lockbox2017Sampler(PuzzleSampler):
         self.goal_space_append((0, calc.RAD90))
 
         self.world.export()
-        self.world.render_image()
+        self.world.render_image(rotation=(1.05, 0, calc.RAD90))
         return 0
 
 

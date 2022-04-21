@@ -58,31 +58,31 @@ world = BlenderWorld(world_config)
 
 sampler = SimpleSlidersSampler(sampler_config, world)
 sampler.build()
-solve(world.urdf_path, sampler.start_state, sampler.goal_space, 10., show_gui=True)
+solve(world.urdf_path, sampler.start_state, sampler.goal_space, 1., show_gui=True)
 
 sampler_config["number_prismatic_joints"] = 2
 sampler_config["create_handle"] = True
 
 sampler = GridWorldSampler(sampler_config, world)
 sampler.build()
-solve(world.urdf_path, sampler.start_state, sampler.goal_space, show_gui=True)
+solve(world.urdf_path, sampler.start_state, sampler.goal_space, 1., show_gui=True)
 
 sampler = ContinuousSpaceSampler(sampler_config, world)
 sampler.build()
-solve(world.urdf_path, sampler.start_state, sampler.goal_space, show_gui=True)
+solve(world.urdf_path, sampler.start_state, sampler.goal_space, 1., show_gui=True)
 
 sampler = Lockbox2017Sampler(sampler_config, world)
 sampler.build()
-solve(world.urdf_path, sampler.start_state, sampler.goal_space, show_gui=True, verbose=True)
+solve(world.urdf_path, sampler.start_state, sampler.goal_space, 1., show_gui=True, verbose=True)
 
 sampler = LockboxRandomSampler(sampler_config, world)
 sampler.build()
-solve(world.urdf_path, sampler.start_state, sampler.goal_space, show_gui=True, verbose=True)
+solve(world.urdf_path, sampler.start_state, sampler.goal_space, 1., show_gui=True, verbose=True)
 
 sampler = EscapeRoomSampler(sampler_config, world)
 sampler.build()
-solve(world.urdf_path, sampler.start_state, sampler.goal_space, 10., show_gui=True, verbose=True)
+solve(world.urdf_path, sampler.start_state, sampler.goal_space, 1., show_gui=True, verbose=True)
 
 sampler = MoveTwiceSampler(sampler_config, world)
 sampler.build()
-solve(world.urdf_path, sampler.start_state, sampler.goal_space, 10., show_gui=True, verbose=True)
+solve(world.urdf_path, sampler.start_state, sampler.goal_space, 1., show_gui=True, verbose=True)

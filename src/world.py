@@ -331,7 +331,7 @@ class BlenderWorld:
         goal_duplicate.name = "goal"
         return goal_duplicate
 
-    def render_image(self, location=(30, 0, 20), rotation=(0.95, 0, calc.RAD90), focal_length=50):
+    def render_image(self, location=(30, 0, 20), rotation=(0.96, 0, calc.RAD90), focal_length=90):
         bpy.ops.object.camera_add(location=location, rotation=rotation)
         cam = bpy.context.object
         cam.data.lens = focal_length
