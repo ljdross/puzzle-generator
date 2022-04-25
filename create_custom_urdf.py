@@ -9,7 +9,9 @@ from src import calc
 # output settings (ADJUST AS NEEDED)
 config = {
     "puzzle_name": "my_custom",
-    "dir_for_output": "puzzles",
+    "dir_for_output": "puzzles",                # both absolute and relative paths are allowed
+    "link_size_reduction": 0.001,               # reduce the size of every link by this value to avoid touching and
+                                                # permanent collision
     "export_entity_srdf": True,
     "absolute_path_for_meshes_in_urdf": True,   # generate an absolute path to reference the output meshes from within
                                                 # the urdf if True, else use a relative path

@@ -21,6 +21,7 @@ class BlenderWorld:
             self._dir_for_output = config["dir_for_output"]
         self.directory = self._dir_for_output + "/" + self.name
         self.urdf_path = self.directory + "/urdf/" + self.name + ".urdf"
+        self.link_size_reduction = config["link_size_reduction"]
         self.export_entity_srdf = config["export_entity_srdf"]
         self.export_mesh_dae = config["export_mesh_dae"]
         self.export_mesh_stl = config["export_mesh_stl"]
@@ -55,9 +56,19 @@ class BlenderWorld:
     def rename_mesh(self, old_name, new_name):
         bpy.data.meshes[old_name].name = new_name
 
+    def subtract_link_size_reduction(self, x):
+        if x < self.link_size_reduction:
+            return x
+        elif x < 2 * self.link_size_reduction:
+            return self.link_size_reduction
+        else:
+            return round(x - self.link_size_reduction, 5)
+
     def create_visual(self, location=(0, 0, 0), rotation=(0, 0, 0), scale=(1, 1, 1), material=None, name="",
                       parent=None, mesh="", object_name="", is_cylinder=False):
         """Create a visual object with the appropriate Phobos object properties. Returns the object."""
+        scale = tuple(map(self.subtract_link_size_reduction, scale))
+
         if mesh:
             self.contains_mesh = True
 
