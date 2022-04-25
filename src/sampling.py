@@ -873,7 +873,7 @@ class MoveTwiceSampler(PuzzleSampler):
         self.world.new_link((0, 4.4, 0.5), (0, 0, 0), (4, 0.2, 1), 'fixed', name="wall_right", material=color.GRAY)
         self.world.new_link((0, 1.5, 0.5), (0, 0, 0), (4, 0.2, 1), 'fixed', name="wall_mid", material=color.GRAY)
         self.world.new_link((-2.1, 1.5, 0.5), (0, 0, 0), (0.2, 6, 1), 'fixed', name="wall_back", material=color.GRAY)
-        self.world.new_link((2.1, 1.5, 0.5), (0, 0, 0), (0.2, 6, 1), 'prismatic', -2, 2, joint_axis=(0, 1, 0))
+        self.world.new_link((2.1, 1.5, 0.5), (0, 0, 0), (0.2, 6, 1), 'prismatic', -3, 3, joint_axis=(0, 1, 0))
         self.goal_space.append((-2, 2))
         self.start_state.append(0)
 
