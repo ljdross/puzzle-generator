@@ -751,7 +751,7 @@ class LockboxRandomSampler(PuzzleSampler):
 
         self.world.new_link(location_slot_disc, (0, 0, rotation), (3, 3, 1), 'revolute', -calc.RAD180, calc.RAD180,
                             mesh_filepath=self.mesh, object_name="slot_disc", create_handle=self.create_handle)
-        self.world.new_link(location_slider, (0, calc.RAD90, rotation), (1, 0.6, 2 - self.epsilon), 'prismatic', 0, 1,
+        self.world.new_link(location_slider, (0, calc.RAD90, rotation), (1, 0.2, 2 - self.epsilon), 'prismatic', 0, 1,
                             create_handle=self.create_handle)
 
     def available_directions(self):
@@ -793,7 +793,7 @@ class LockboxRandomSampler(PuzzleSampler):
 
         # first slider
         self.world.new_link((self.start_point[0] - 2.5, self.start_point[1], 0.5), (0, calc.RAD90, 0),
-                            (1, 0.6, 2 - self.epsilon), 'prismatic', 0, 1, create_handle=self.create_handle)
+                            (1, 0.2, 2 - self.epsilon), 'prismatic', 0, 1, create_handle=self.create_handle)
         self.world.create_goal_duplicate((0, 0, 1))
         self.start_state.append(0)
         self.goal_space.append((1, 1))
