@@ -345,8 +345,17 @@ class BlenderWorld:
     def render_image(self, location=(30, 0, 20), rotation=(0.96, 0, calc.RAD90), focal_length=90):
         bpy.ops.object.camera_add(location=location, rotation=rotation)
         cam = bpy.context.object
-        cam.data.lens = focal_length
+        cam.data.lens = focal_length + 10
         bpy.context.scene.camera = cam
+
+        bpy.ops.object.select_all(action='SELECT')
+        self.base_object.select_set(False)
+        for child in self.base_object.children:
+            if child.phobostype == 'collision' or child.phobostype == 'visual':
+                child.select_set(False)
+        bpy.ops.view3d.camera_to_view_selected()
+
+        cam.data.lens = focal_length
         bpy.context.scene.render.filepath = self.directory + "/images/" + self.name + ".png"
         bpy.ops.render.render(write_still=True)
         return cam
