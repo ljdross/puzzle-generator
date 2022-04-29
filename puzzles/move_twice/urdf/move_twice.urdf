@@ -11,14 +11,14 @@
       <visual name="visual_box_base">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="32.0 32.0 0.2"/>
+          <box size="31.999 31.999 0.199"/>
         </geometry>
         <material name="lavender"/>
       </visual>
       <collision name="collision_box_base">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="32.0 32.0 0.2"/>
+          <box size="31.999 31.999 0.199"/>
         </geometry>
       </collision>
     </link>
@@ -40,7 +40,7 @@
       <visual name="visual_cylinder_0_fixed_joint_3_hinge">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <cylinder radius="0.05" length="1.1"/>
+          <cylinder radius="0.0495" length="1.099"/>
         </geometry>
         <material name="gray"/>
       </visual>
@@ -55,7 +55,7 @@
       <visual name="visual_cylinder_0_fixed_joint_3_hinge.001">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <cylinder radius="0.05" length="1.1"/>
+          <cylinder radius="0.0495" length="1.099"/>
         </geometry>
         <material name="green_translucent"/>
       </visual>
@@ -130,14 +130,14 @@
       <visual name="visual_box_1_fixed_joint_0_wall_back">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.2 6.0 1.0"/>
+          <box size="0.199 5.999 0.999"/>
         </geometry>
         <material name="gray"/>
       </visual>
       <collision name="collision_box_1_fixed_joint_0_wall_back">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.2 6.0 1.0"/>
+          <box size="0.199 5.999 0.999"/>
         </geometry>
       </collision>
     </link>
@@ -151,14 +151,14 @@
       <visual name="visual_box_1_fixed_joint_0_wall_left">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="4.0 0.2 1.0"/>
+          <box size="3.999 0.199 0.999"/>
         </geometry>
         <material name="gray"/>
       </visual>
       <collision name="collision_box_1_fixed_joint_0_wall_left">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="4.0 0.2 1.0"/>
+          <box size="3.999 0.199 0.999"/>
         </geometry>
       </collision>
     </link>
@@ -172,14 +172,14 @@
       <visual name="visual_box_1_fixed_joint_0_wall_mid">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="4.0 0.2 1.0"/>
+          <box size="3.999 0.199 0.999"/>
         </geometry>
         <material name="gray"/>
       </visual>
       <collision name="collision_box_1_fixed_joint_0_wall_mid">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="4.0 0.2 1.0"/>
+          <box size="3.999 0.199 0.999"/>
         </geometry>
       </collision>
     </link>
@@ -193,14 +193,14 @@
       <visual name="visual_box_1_fixed_joint_0_wall_right">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="4.0 0.2 1.0"/>
+          <box size="3.999 0.199 0.999"/>
         </geometry>
         <material name="gray"/>
       </visual>
       <collision name="collision_box_1_fixed_joint_0_wall_right">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="4.0 0.2 1.0"/>
+          <box size="3.999 0.199 0.999"/>
         </geometry>
       </collision>
     </link>
@@ -214,20 +214,20 @@
       <visual name="visual_box_1_joint_0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.2 6.0 1.0"/>
+          <box size="0.199 5.999 0.999"/>
         </geometry>
         <material name="red"/>
       </visual>
       <collision name="collision_box_1_joint_0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.2 6.0 1.0"/>
+          <box size="0.199 5.999 0.999"/>
         </geometry>
       </collision>
     </link>
 
     <joint name="goal" type="fixed">
-      <origin xyz="0 3.0 0.6" rpy="0 0 1.5708"/>
+      <origin xyz="4.0 0 0.6" rpy="0 0 0"/>
       <parent link="base_link"/>
       <child link="goal"/>
       <limit effort="0" velocity="0"/>
@@ -312,7 +312,7 @@
       <parent link="base_link"/>
       <child link="link_1_joint_0"/>
       <axis xyz="0 1.0 0"/>
-      <limit lower="-2.0" upper="2.0" effort="0" velocity="0"/>
+      <limit lower="-3.0" upper="3.0" effort="0" velocity="0"/>
     </joint>
 
     <material name="gray">

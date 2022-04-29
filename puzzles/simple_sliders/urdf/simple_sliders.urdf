@@ -11,14 +11,14 @@
       <visual name="visual_box_base">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="32.0 32.0 0.2"/>
+          <box size="31.999 31.999 0.199"/>
         </geometry>
         <material name="lavender"/>
       </visual>
       <collision name="collision_box_base">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="32.0 32.0 0.2"/>
+          <box size="31.999 31.999 0.199"/>
         </geometry>
       </collision>
     </link>
@@ -32,7 +32,7 @@
       <visual name="visual_box_0_joint_0.001">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.2 0.2 1.6"/>
+          <box size="0.199 0.199 1.599"/>
         </geometry>
         <material name="green_translucent"/>
       </visual>
@@ -47,14 +47,14 @@
       <visual name="visual_box_0_joint_0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.2 0.2 1.6"/>
+          <box size="0.199 0.199 1.599"/>
         </geometry>
         <material name="green"/>
       </visual>
       <collision name="collision_box_0_joint_0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.2 0.2 1.6"/>
+          <box size="0.199 0.199 1.599"/>
         </geometry>
       </collision>
     </link>
@@ -68,14 +68,14 @@
       <visual name="visual_box_1_joint_0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.2 0.2 1.6"/>
+          <box size="0.199 0.199 1.599"/>
         </geometry>
         <material name="red"/>
       </visual>
       <collision name="collision_box_1_joint_0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.2 0.2 1.6"/>
+          <box size="0.199 0.199 1.599"/>
         </geometry>
       </collision>
     </link>
@@ -89,14 +89,14 @@
       <visual name="visual_box_2_joint_0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.2 0.2 1.6"/>
+          <box size="0.199 0.199 1.599"/>
         </geometry>
         <material name="red"/>
       </visual>
       <collision name="collision_box_2_joint_0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.2 0.2 1.6"/>
+          <box size="0.199 0.199 1.599"/>
         </geometry>
       </collision>
     </link>
@@ -110,14 +110,14 @@
       <visual name="visual_box_3_joint_0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.2 0.2 1.6"/>
+          <box size="0.199 0.199 1.599"/>
         </geometry>
         <material name="red"/>
       </visual>
       <collision name="collision_box_3_joint_0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.2 0.2 1.6"/>
+          <box size="0.199 0.199 1.599"/>
         </geometry>
       </collision>
     </link>
