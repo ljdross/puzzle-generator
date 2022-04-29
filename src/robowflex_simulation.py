@@ -2,41 +2,44 @@ from os import path, stat
 from subprocess import run
 from shutil import copytree
 
+ROBOWFLEX_WORKSPACE = "../rb_ws_tmp"
+OMPL_BENCHMARK_PLOTTER = "../ompl_benchmark_plotter"
 
-def copy_puzzle(puzzle_directory, robowflex_workspace="../rb_ws"):
+
+def copy_puzzle(puzzle_directory):
     puzzle_directory = path.normpath(puzzle_directory)
     puzzle_name = puzzle_directory.split('/')[-1]
-    destination = path.join(robowflex_workspace, "src/robowflex/robowflex_dart/include/io/envs", puzzle_name)
+    destination = path.join(ROBOWFLEX_WORKSPACE, "src/robowflex/robowflex_dart/include/io/envs", puzzle_name)
     copytree(puzzle_directory, destination, dirs_exist_ok=True)
 
 
-def create_srdf(urdf_path, robowflex_workspace="../rb_ws"):
-    run(["python3", robowflex_workspace + "/src/robowflex/robowflex_dart/include/io/create_srdf.py", urdf_path])
+def create_srdf(urdf_path):
+    run(["python3", ROBOWFLEX_WORKSPACE + "/src/robowflex/robowflex_dart/include/io/create_srdf.py", urdf_path])
 
 
-def adjust_absolute_filepaths(robowflex_workspace="../rb_ws"):
-    run(["python3", "filepath_organizer.py"], cwd=robowflex_workspace + "/src/robowflex/robowflex_dart/include/io")
+def adjust_absolute_filepaths():
+    run(["python3", "filepath_organizer.py"], cwd=ROBOWFLEX_WORKSPACE + "/src/robowflex/robowflex_dart/include/io")
 
 
 def solve(urdf_path="puzzles/simple_sliders/urdf/simple_sliders.urdf", planning_time=5, adjust_filepaths=False,
-          benchmark_runs=0, robowflex_workspace="../rb_ws"):
+          benchmark_runs=0, plot_max_time=3.0):
     puzzle_directory = path.dirname(path.dirname(urdf_path))
     puzzle_name = puzzle_directory.split('/')[-1]
 
-    copy_puzzle(puzzle_directory, robowflex_workspace)
-    create_srdf(robowflex_workspace + "/src/robowflex/robowflex_dart/include/io/envs/" + puzzle_name + "/urdf/"
+    copy_puzzle(puzzle_directory)
+    create_srdf(ROBOWFLEX_WORKSPACE + "/src/robowflex/robowflex_dart/include/io/envs/" + puzzle_name + "/urdf/"
                 + puzzle_name + ".urdf")
 
     if adjust_filepaths:
-        adjust_absolute_filepaths(robowflex_workspace)
+        adjust_absolute_filepaths()
 
     if not benchmark_runs:
-        # TODO: support URDFs with meshes
-        # TODO: catch errors in urdf2config.py e.g. no srdf
-        run(["./solve_puzzle", puzzle_name, str(planning_time)], cwd=robowflex_workspace + "/devel/lib/robowflex_dart/")
+        path_res = ROBOWFLEX_WORKSPACE + "/src/robowflex/robowflex_dart/include/io/path_result/" + puzzle_name + ".txt"
+        with open(path_res, "w"):
+            pass
+        run(["./solve_puzzle", puzzle_name, str(planning_time)], cwd=ROBOWFLEX_WORKSPACE + "/devel/lib/robowflex_dart/")
 
-        if stat(robowflex_workspace + "/src/robowflex/robowflex_dart/include/io/path_result/" + puzzle_name
-                + ".txt").st_size == 0:
+        if stat(path_res).st_size == 0:
             print("NO SOLUTION FOUND!")
             return 1
         else:
@@ -45,15 +48,11 @@ def solve(urdf_path="puzzles/simple_sliders/urdf/simple_sliders.urdf", planning_
 
     else:
         run(["./benchmark_main", puzzle_name, str(planning_time), str(benchmark_runs)],
-            cwd=robowflex_workspace + "/devel/lib/robowflex_dart/")
-        try:
-            run(["python3", "../ompl_benchmark_plotter/ompl_benchmark_plotter.py",
-                 robowflex_workspace + "/src/robowflex/robowflex_dart/include/io/db_files/" + puzzle_name + ".db",
-                 "--min-time", "0.04"])
-        except:
-            print("Could not plot graphs!")
-        print("benchmark results(.db file):")
-        print("file://" + path.abspath(robowflex_workspace + "/src/robowflex/robowflex_dart/include/io/db_files/"
+            cwd=ROBOWFLEX_WORKSPACE + "/devel/lib/robowflex_dart/")
+        run(["python3", OMPL_BENCHMARK_PLOTTER + "/ompl_benchmark_plotter.py",
+             ROBOWFLEX_WORKSPACE + "/src/robowflex/robowflex_dart/include/io/db_files/" + puzzle_name + ".db",
+             "--min-time", "0.04", "--max-time", str(plot_max_time)])
+        print("benchmark results:")
+        print("file://" + path.abspath(ROBOWFLEX_WORKSPACE + "/src/robowflex/robowflex_dart/include/io/db_files"))
+        print("file://" + path.abspath(ROBOWFLEX_WORKSPACE + "/src/robowflex/robowflex_dart/include/io/db_files/"
                                        + puzzle_name + ".db"))
-        print("benchmark results(folder):")
-        print("file://" + path.abspath(robowflex_workspace + "/src/robowflex/robowflex_dart/include/io/db_files"))
