@@ -2,7 +2,10 @@ from os import path, stat
 from subprocess import run
 from shutil import copytree
 
-ROBOWFLEX_WORKSPACE = "../rb_ws_tmp"
+# install https://github.com/servetb/robowflex and specify its location:
+ROBOWFLEX_WORKSPACE = "../../rb_ws"
+
+# install https://github.com/aorthey/ompl_benchmark_plotter and specify its location:
 OMPL_BENCHMARK_PLOTTER = "../ompl_benchmark_plotter"
 
 
