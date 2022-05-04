@@ -4,47 +4,47 @@
 
     <passive_joint name="goal"/>
 
-    <passive_joint name="link_0_fixed_joint_1_hinge"/>
-
-    <passive_joint name="link_0_fixed_joint_1_hinge.001"/>
-
-    <passive_joint name="link_0_fixed_joint_2_door_panel"/>
-
-    <passive_joint name="link_0_fixed_joint_2_door_panel.001"/>
-
-    <passive_joint name="link_0_fixed_joint_3_door_handle"/>
-
-    <passive_joint name="link_0_fixed_joint_3_door_handle.001"/>
-
     <passive_joint name="link_0_joint_0"/>
-
-    <passive_joint name="link_1_fixed_joint_1_handle_shaft"/>
-
-    <passive_joint name="link_1_fixed_joint_2_handle_knob"/>
 
     <passive_joint name="link_1_joint_0"/>
 
-    <passive_joint name="link_2_fixed_joint_1_handle_shaft"/>
-
-    <passive_joint name="link_2_fixed_joint_2_handle_knob"/>
-
-    <passive_joint name="link_2_fixed_joint_3_hinge"/>
-
     <passive_joint name="link_2_joint_0"/>
-
-    <passive_joint name="link_3_fixed_joint_1_handle_shaft"/>
-
-    <passive_joint name="link_3_fixed_joint_2_handle_knob"/>
 
     <passive_joint name="link_3_joint_0"/>
 
-    <passive_joint name="link_4_fixed_joint_1_hinge"/>
+    <passive_joint name="link_40_fixed_hinge"/>
 
-    <passive_joint name="link_4_fixed_joint_2_door_panel"/>
+    <passive_joint name="link_40_fixed_hinge.001"/>
 
-    <passive_joint name="link_4_fixed_joint_3_door_handle"/>
+    <passive_joint name="link_41_fixed_door_panel"/>
+
+    <passive_joint name="link_41_fixed_door_panel.001"/>
+
+    <passive_joint name="link_42_fixed_door_handle"/>
+
+    <passive_joint name="link_42_fixed_door_handle.001"/>
+
+    <passive_joint name="link_44_fixed_handle_shaft"/>
+
+    <passive_joint name="link_45_fixed_handle_knob"/>
+
+    <passive_joint name="link_47_fixed_handle_shaft"/>
+
+    <passive_joint name="link_48_fixed_handle_knob"/>
+
+    <passive_joint name="link_49_fixed_hinge"/>
 
     <passive_joint name="link_4_joint_0"/>
+
+    <passive_joint name="link_51_fixed_handle_shaft"/>
+
+    <passive_joint name="link_52_fixed_handle_knob"/>
+
+    <passive_joint name="link_54_fixed_hinge"/>
+
+    <passive_joint name="link_55_fixed_door_panel"/>
+
+    <passive_joint name="link_56_fixed_door_handle"/>
 
     <link_sphere_approximation link="base_link">
       <sphere center="0.0 0.0 0.0" radius="0"/>
@@ -54,39 +54,7 @@
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
 
-    <link_sphere_approximation link="link_0_fixed_joint_1_hinge">
-      <sphere center="0.0 0.0 0.0" radius="0"/>
-    </link_sphere_approximation>
-
-    <link_sphere_approximation link="link_0_fixed_joint_1_hinge.001">
-      <sphere center="0.0 0.0 0.0" radius="0"/>
-    </link_sphere_approximation>
-
-    <link_sphere_approximation link="link_0_fixed_joint_2_door_panel">
-      <sphere center="0.0 0.0 0.0" radius="0"/>
-    </link_sphere_approximation>
-
-    <link_sphere_approximation link="link_0_fixed_joint_2_door_panel.001">
-      <sphere center="0.0 0.0 0.0" radius="0"/>
-    </link_sphere_approximation>
-
-    <link_sphere_approximation link="link_0_fixed_joint_3_door_handle">
-      <sphere center="0.0 0.0 0.0" radius="0"/>
-    </link_sphere_approximation>
-
-    <link_sphere_approximation link="link_0_fixed_joint_3_door_handle.001">
-      <sphere center="0.0 0.0 0.0" radius="0"/>
-    </link_sphere_approximation>
-
     <link_sphere_approximation link="link_0_joint_0">
-      <sphere center="0.0 0.0 0.0" radius="0"/>
-    </link_sphere_approximation>
-
-    <link_sphere_approximation link="link_1_fixed_joint_1_handle_shaft">
-      <sphere center="0.0 0.0 0.0" radius="0"/>
-    </link_sphere_approximation>
-
-    <link_sphere_approximation link="link_1_fixed_joint_2_handle_knob">
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
 
@@ -94,27 +62,7 @@
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
 
-    <link_sphere_approximation link="link_2_fixed_joint_1_handle_shaft">
-      <sphere center="0.0 0.0 0.0" radius="0"/>
-    </link_sphere_approximation>
-
-    <link_sphere_approximation link="link_2_fixed_joint_2_handle_knob">
-      <sphere center="0.0 0.0 0.0" radius="0"/>
-    </link_sphere_approximation>
-
-    <link_sphere_approximation link="link_2_fixed_joint_3_hinge">
-      <sphere center="0.0 0.0 0.0" radius="0"/>
-    </link_sphere_approximation>
-
     <link_sphere_approximation link="link_2_joint_0">
-      <sphere center="0.0 0.0 0.0" radius="0"/>
-    </link_sphere_approximation>
-
-    <link_sphere_approximation link="link_3_fixed_joint_1_handle_shaft">
-      <sphere center="0.0 0.0 0.0" radius="0"/>
-    </link_sphere_approximation>
-
-    <link_sphere_approximation link="link_3_fixed_joint_2_handle_knob">
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
 
@@ -122,19 +70,71 @@
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
 
-    <link_sphere_approximation link="link_4_fixed_joint_1_hinge">
+    <link_sphere_approximation link="link_40_fixed_hinge">
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
 
-    <link_sphere_approximation link="link_4_fixed_joint_2_door_panel">
+    <link_sphere_approximation link="link_40_fixed_hinge.001">
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
 
-    <link_sphere_approximation link="link_4_fixed_joint_3_door_handle">
+    <link_sphere_approximation link="link_41_fixed_door_panel">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_41_fixed_door_panel.001">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_42_fixed_door_handle">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_42_fixed_door_handle.001">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_44_fixed_handle_shaft">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_45_fixed_handle_knob">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_47_fixed_handle_shaft">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_48_fixed_handle_knob">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_49_fixed_hinge">
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
 
     <link_sphere_approximation link="link_4_joint_0">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_51_fixed_handle_shaft">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_52_fixed_handle_knob">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_54_fixed_hinge">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_55_fixed_door_panel">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_56_fixed_door_handle">
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
 

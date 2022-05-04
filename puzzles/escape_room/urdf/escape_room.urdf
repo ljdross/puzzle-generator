@@ -31,42 +31,40 @@
       </inertial>
     </link>
 
-    <link name="link_0_fixed_joint_3_hinge">
-      <inertial>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <mass value="0.001"/>
-        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
-      </inertial>
-      <visual name="visual_cylinder_0_fixed_joint_3_hinge">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <cylinder radius="0.0495" length="1.099"/>
-        </geometry>
-        <material name="gray"/>
-      </visual>
-    </link>
-
-    <link name="link_0_fixed_joint_3_hinge.001">
-      <inertial>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <mass value="0.001"/>
-        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
-      </inertial>
-      <visual name="visual_cylinder_0_fixed_joint_3_hinge.001">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <cylinder radius="0.0495" length="1.099"/>
-        </geometry>
-        <material name="green_translucent"/>
-      </visual>
-    </link>
-
     <link name="link_0_joint_0">
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="0.001"/>
         <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
       </inertial>
+      <visual name="visual_mesh_76_link_0">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/escape_room/meshes/stl/r2d2.stl" scale="1.0 1.0 1.0"/>
+        </geometry>
+        <material name="green"/>
+      </visual>
+      <collision concave="yes" name="collision_mesh_76_link_0">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/escape_room/meshes/stl/r2d2.001.stl" scale="1.0 1.0 1.0"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="link_0_joint_0.001">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_mesh_76_link_0.001">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/escape_room/meshes/stl/r2d2.002.stl" scale="1.0 1.0 1.0"/>
+        </geometry>
+        <material name="green_translucent"/>
+      </visual>
     </link>
 
     <link name="link_0_joint_1">
@@ -91,112 +89,6 @@
         <mass value="0.001"/>
         <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
       </inertial>
-      <visual name="visual_mesh_0_joint_2">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/escape_room/meshes/stl/r2d2.stl" scale="1.0 1.0 1.0"/>
-        </geometry>
-        <material name="green"/>
-      </visual>
-      <collision concave="yes" name="collision_mesh_0_joint_2">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/escape_room/meshes/stl/r2d2.001.stl" scale="1.0 1.0 1.0"/>
-        </geometry>
-      </collision>
-    </link>
-
-    <link name="link_0_joint_2.001">
-      <inertial>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <mass value="0.001"/>
-        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
-      </inertial>
-      <visual name="visual_mesh_0_joint_2.001">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/escape_room/meshes/stl/r2d2.002.stl" scale="1.0 1.0 1.0"/>
-        </geometry>
-        <material name="green_translucent"/>
-      </visual>
-    </link>
-
-    <link name="link_1_fixed_joint_1_hinge">
-      <inertial>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <mass value="0.001"/>
-        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
-      </inertial>
-      <visual name="visual_cylinder_1_fixed_joint_1_hinge">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <cylinder radius="0.0495" length="1.099"/>
-        </geometry>
-        <material name="gray"/>
-      </visual>
-    </link>
-
-    <link name="link_1_fixed_joint_2_door_panel">
-      <inertial>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <mass value="0.001"/>
-        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
-      </inertial>
-      <visual name="visual_box_1_fixed_joint_2_door_panel">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <box size="1.999 0.199 0.999"/>
-        </geometry>
-        <material name="red"/>
-      </visual>
-      <collision name="collision_box_1_fixed_joint_2_door_panel">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <box size="1.999 0.199 0.999"/>
-        </geometry>
-      </collision>
-    </link>
-
-    <link name="link_1_fixed_joint_3_door_handle1">
-      <inertial>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <mass value="0.001"/>
-        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
-      </inertial>
-      <visual name="visual_box_1_fixed_joint_3_door_handle1">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <box size="0.049 0.199 0.199"/>
-        </geometry>
-        <material name="yellow"/>
-      </visual>
-      <collision name="collision_box_1_fixed_joint_3_door_handle1">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <box size="0.049 0.199 0.199"/>
-        </geometry>
-      </collision>
-    </link>
-
-    <link name="link_1_fixed_joint_4_door_handle2">
-      <inertial>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <mass value="0.001"/>
-        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
-      </inertial>
-      <visual name="visual_box_1_fixed_joint_4_door_handle2">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <box size="0.049 0.199 0.199"/>
-        </geometry>
-        <material name="yellow"/>
-      </visual>
-      <collision name="collision_box_1_fixed_joint_4_door_handle2">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <box size="0.049 0.199 0.199"/>
-        </geometry>
-      </collision>
     </link>
 
     <link name="link_1_joint_0">
@@ -205,14 +97,14 @@
         <mass value="0.001"/>
         <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
       </inertial>
-      <visual name="visual_cylinder_1_joint_0">
+      <visual name="visual_cylinder_78_link_1">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <cylinder radius="0.1995" length="0.999"/>
         </geometry>
         <material name="gray"/>
       </visual>
-      <collision name="collision_cylinder_1_joint_0">
+      <collision name="collision_cylinder_78_link_1">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <cylinder radius="0.1995" length="0.999"/>
@@ -220,20 +112,128 @@
       </collision>
     </link>
 
-    <link name="link_2_fixed_joint_0_wall1">
+    <link name="link_77_fixed_hinge">
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="0.001"/>
         <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
       </inertial>
-      <visual name="visual_box_2_fixed_joint_0_wall1">
+      <visual name="visual_cylinder_77_fixed_hinge">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.0495" length="1.099"/>
+        </geometry>
+        <material name="gray"/>
+      </visual>
+    </link>
+
+    <link name="link_77_fixed_hinge.001">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_cylinder_77_fixed_hinge.001">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.0495" length="1.099"/>
+        </geometry>
+        <material name="green_translucent"/>
+      </visual>
+    </link>
+
+    <link name="link_79_fixed_hinge">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_cylinder_79_fixed_hinge">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.0495" length="1.099"/>
+        </geometry>
+        <material name="gray"/>
+      </visual>
+    </link>
+
+    <link name="link_80_fixed_door_panel">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_box_80_fixed_door_panel">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="1.999 0.199 0.999"/>
+        </geometry>
+        <material name="red"/>
+      </visual>
+      <collision name="collision_box_80_fixed_door_panel">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="1.999 0.199 0.999"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="link_81_fixed_door_handle1">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_box_81_fixed_door_handle1">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.049 0.199 0.199"/>
+        </geometry>
+        <material name="yellow"/>
+      </visual>
+      <collision name="collision_box_81_fixed_door_handle1">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.049 0.199 0.199"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="link_82_fixed_door_handle2">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_box_82_fixed_door_handle2">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.049 0.199 0.199"/>
+        </geometry>
+        <material name="yellow"/>
+      </visual>
+      <collision name="collision_box_82_fixed_door_handle2">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.049 0.199 0.199"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="link_83_fixed_wall1">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_box_83_fixed_wall1">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="3.999 0.199 0.999"/>
         </geometry>
         <material name="gray"/>
       </visual>
-      <collision name="collision_box_2_fixed_joint_0_wall1">
+      <collision name="collision_box_83_fixed_wall1">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="3.999 0.199 0.999"/>
@@ -241,20 +241,20 @@
       </collision>
     </link>
 
-    <link name="link_2_fixed_joint_0_wall2">
+    <link name="link_84_fixed_wall2">
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="0.001"/>
         <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
       </inertial>
-      <visual name="visual_box_2_fixed_joint_0_wall2">
+      <visual name="visual_box_84_fixed_wall2">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="3.999 0.199 0.999"/>
         </geometry>
         <material name="gray"/>
       </visual>
-      <collision name="collision_box_2_fixed_joint_0_wall2">
+      <collision name="collision_box_84_fixed_wall2">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="3.999 0.199 0.999"/>
@@ -262,20 +262,20 @@
       </collision>
     </link>
 
-    <link name="link_2_fixed_joint_0_wall3">
+    <link name="link_85_fixed_wall3">
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="0.001"/>
         <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
       </inertial>
-      <visual name="visual_box_2_fixed_joint_0_wall3">
+      <visual name="visual_box_85_fixed_wall3">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="0.199 1.999 0.999"/>
         </geometry>
         <material name="gray"/>
       </visual>
-      <collision name="collision_box_2_fixed_joint_0_wall3">
+      <collision name="collision_box_85_fixed_wall3">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="0.199 1.999 0.999"/>
@@ -290,29 +290,24 @@
       <limit effort="0" velocity="0"/>
     </joint>
 
-    <joint name="link_0_fixed_joint_3_hinge" type="fixed">
+    <joint name="link_0_joint_0" type="revolute">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <parent link="link_0_joint_2"/>
-      <child link="link_0_fixed_joint_3_hinge"/>
-    </joint>
-
-    <joint name="link_0_fixed_joint_3_hinge.001" type="fixed">
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <parent link="link_0_joint_2.001"/>
-      <child link="link_0_fixed_joint_3_hinge.001"/>
-    </joint>
-
-    <joint name="link_0_joint_0" type="prismatic">
-      <origin xyz="0 0 0.6" rpy="0 0 0"/>
-      <parent link="base_link"/>
+      <parent link="link_0_joint_1"/>
       <child link="link_0_joint_0"/>
-      <axis xyz="1.0 0 0"/>
-      <limit lower="-16.0" upper="16.0" effort="0" velocity="0"/>
+      <axis xyz="0 0 1.0"/>
+      <limit lower="-3.14159" upper="3.14159" effort="0" velocity="0"/>
+    </joint>
+
+    <joint name="link_0_joint_0.001" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <parent link="link_0_joint_1.001"/>
+      <child link="link_0_joint_0.001"/>
+      <limit effort="0" velocity="0"/>
     </joint>
 
     <joint name="link_0_joint_1" type="prismatic">
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <parent link="link_0_joint_0"/>
+      <parent link="link_0_joint_2"/>
       <child link="link_0_joint_1"/>
       <axis xyz="0 1.0 0"/>
       <limit lower="-16.0" upper="16.0" effort="0" velocity="0"/>
@@ -325,43 +320,12 @@
       <limit effort="0" velocity="0"/>
     </joint>
 
-    <joint name="link_0_joint_2" type="revolute">
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <parent link="link_0_joint_1"/>
+    <joint name="link_0_joint_2" type="prismatic">
+      <origin xyz="0 0 0.6" rpy="0 0 0"/>
+      <parent link="base_link"/>
       <child link="link_0_joint_2"/>
-      <axis xyz="0 0 1.0"/>
-      <limit lower="-3.14159" upper="3.14159" effort="0" velocity="0"/>
-    </joint>
-
-    <joint name="link_0_joint_2.001" type="fixed">
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <parent link="link_0_joint_1.001"/>
-      <child link="link_0_joint_2.001"/>
-      <limit effort="0" velocity="0"/>
-    </joint>
-
-    <joint name="link_1_fixed_joint_1_hinge" type="fixed">
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <parent link="link_1_joint_0"/>
-      <child link="link_1_fixed_joint_1_hinge"/>
-    </joint>
-
-    <joint name="link_1_fixed_joint_2_door_panel" type="fixed">
-      <origin xyz="1.0 0 0" rpy="0 0 0"/>
-      <parent link="link_1_joint_0"/>
-      <child link="link_1_fixed_joint_2_door_panel"/>
-    </joint>
-
-    <joint name="link_1_fixed_joint_3_door_handle1" type="fixed">
-      <origin xyz="1.5 0.2 0" rpy="0 0 0"/>
-      <parent link="link_1_joint_0"/>
-      <child link="link_1_fixed_joint_3_door_handle1"/>
-    </joint>
-
-    <joint name="link_1_fixed_joint_4_door_handle2" type="fixed">
-      <origin xyz="1.5 -0.2 0" rpy="0 0 0"/>
-      <parent link="link_1_joint_0"/>
-      <child link="link_1_fixed_joint_4_door_handle2"/>
+      <axis xyz="1.0 0 0"/>
+      <limit lower="-16.0" upper="16.0" effort="0" velocity="0"/>
     </joint>
 
     <joint name="link_1_joint_0" type="revolute">
@@ -372,22 +336,58 @@
       <limit lower="0" upper="1.5708" effort="0" velocity="0"/>
     </joint>
 
-    <joint name="link_2_fixed_joint_0_wall1" type="fixed">
+    <joint name="link_77_fixed_hinge" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <parent link="link_0_joint_0"/>
+      <child link="link_77_fixed_hinge"/>
+    </joint>
+
+    <joint name="link_77_fixed_hinge.001" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <parent link="link_0_joint_0.001"/>
+      <child link="link_77_fixed_hinge.001"/>
+    </joint>
+
+    <joint name="link_79_fixed_hinge" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <parent link="link_1_joint_0"/>
+      <child link="link_79_fixed_hinge"/>
+    </joint>
+
+    <joint name="link_80_fixed_door_panel" type="fixed">
+      <origin xyz="1.0 0 0" rpy="0 0 0"/>
+      <parent link="link_1_joint_0"/>
+      <child link="link_80_fixed_door_panel"/>
+    </joint>
+
+    <joint name="link_81_fixed_door_handle1" type="fixed">
+      <origin xyz="1.5 0.2 0" rpy="0 0 0"/>
+      <parent link="link_1_joint_0"/>
+      <child link="link_81_fixed_door_handle1"/>
+    </joint>
+
+    <joint name="link_82_fixed_door_handle2" type="fixed">
+      <origin xyz="1.5 -0.2 0" rpy="0 0 0"/>
+      <parent link="link_1_joint_0"/>
+      <child link="link_82_fixed_door_handle2"/>
+    </joint>
+
+    <joint name="link_83_fixed_wall1" type="fixed">
       <origin xyz="0 -1.4 0.6" rpy="0 0 0"/>
       <parent link="base_link"/>
-      <child link="link_2_fixed_joint_0_wall1"/>
+      <child link="link_83_fixed_wall1"/>
     </joint>
 
-    <joint name="link_2_fixed_joint_0_wall2" type="fixed">
+    <joint name="link_84_fixed_wall2" type="fixed">
       <origin xyz="0 1.4 0.6" rpy="0 0 0"/>
       <parent link="base_link"/>
-      <child link="link_2_fixed_joint_0_wall2"/>
+      <child link="link_84_fixed_wall2"/>
     </joint>
 
-    <joint name="link_2_fixed_joint_0_wall3" type="fixed">
+    <joint name="link_85_fixed_wall3" type="fixed">
       <origin xyz="-2.0 0 0.6" rpy="0 0 0"/>
       <parent link="base_link"/>
-      <child link="link_2_fixed_joint_0_wall3"/>
+      <child link="link_85_fixed_wall3"/>
     </joint>
 
     <material name="gray">

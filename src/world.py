@@ -31,7 +31,7 @@ class BlenderWorld:
         self.floor_thickness = 0
         self.movable_links = []
         self.contains_mesh = False
-        self.temporary_joint_number = 0
+        self.joint_count = 0
 
     def update_name(self, new_name="new_default_name"):
         self.name = new_name
@@ -145,6 +145,16 @@ class BlenderWorld:
         bone.tail = direction_vector
         bpy.ops.object.mode_set(mode='OBJECT')
 
+    def _rename_links_recursively(self, link, link_number, joint_number):
+        if not link or not link.parent or link.name == 'base_link':  # exit condition
+            return
+        if not link.values()[1] == 'fixed':
+            new_name = "link_" + str(link_number) + "_joint_" + str(joint_number)
+            if link.parent.name == new_name:
+                link.parent.name = "link_" + str(link_number) + "_joint_" + str(joint_number + 1)
+            link.name = new_name
+        self._rename_links_recursively(link.parent, link_number, joint_number + 1)
+
     def _determine_link_color(self, link_is_child=False):
         num_links = len(self.movable_links)
         if num_links > 1:
@@ -162,25 +172,27 @@ class BlenderWorld:
                  collision=True, joint_axis=(0, 0, 1), new_mesh_name=""):
         if not parent:
             parent = self.base_object
-            self.temporary_joint_number = 0
             location = (location[0], location[1], location[2] + self.floor_thickness / 2)
             material = material if material else self._determine_link_color(link_is_child=False)
-            i = str(len(self.movable_links))
+            link_number = len(self.movable_links)
         else:
-            self.temporary_joint_number += 1
             material = material if material else self._determine_link_color(link_is_child=True)
-            i = str(len(self.movable_links) - 1)
+            link_number = len(self.movable_links) - 1
         if joint_type == 'fixed':
             if name:
-                name = i + "_fixed_joint_" + str(self.temporary_joint_number) + "_" + name
+                name = str(self.joint_count) + "_fixed_" + name
             else:
-                name = i + "_fixed_joint_" + str(self.temporary_joint_number)
+                name = str(self.joint_count) + "_fixed"
         else:
-            name = i + "_joint_" + str(self.temporary_joint_number)
+            name = str(self.joint_count) + "_link_" + str(link_number)
+        self.joint_count += 1
         visual = self.create_visual(location, rotation, scale, material, name, parent, mesh_filepath, object_name,
                                     is_cylinder)
         if object_name and new_mesh_name:
             self.rename_mesh(object_name, new_mesh_name)
+        if joint_type != 'fixed':
+            self._rename_links_recursively(parent, link_number, joint_number=1)
+            name = str(link_number) + "_joint_0"
         self.create_link_and_joint(visual, name, joint_type, lower_limit, upper_limit)
         link = visual.parent
         if scale == (0, 0, 0):

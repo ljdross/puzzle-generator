@@ -29,7 +29,7 @@
         <mass value="0.001"/>
         <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
       </inertial>
-      <visual name="visual_box_0_joint_0.001">
+      <visual name="visual_box_0_link_0.001">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="0.199 0.199 1.599"/>
@@ -44,14 +44,14 @@
         <mass value="0.001"/>
         <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
       </inertial>
-      <visual name="visual_box_0_joint_0">
+      <visual name="visual_box_0_link_0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="0.199 0.199 1.599"/>
         </geometry>
         <material name="green"/>
       </visual>
-      <collision name="collision_box_0_joint_0">
+      <collision name="collision_box_0_link_0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="0.199 0.199 1.599"/>
@@ -65,14 +65,14 @@
         <mass value="0.001"/>
         <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
       </inertial>
-      <visual name="visual_box_1_joint_0">
+      <visual name="visual_box_1_link_1">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="0.199 0.199 1.599"/>
         </geometry>
         <material name="red"/>
       </visual>
-      <collision name="collision_box_1_joint_0">
+      <collision name="collision_box_1_link_1">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="0.199 0.199 1.599"/>
@@ -86,14 +86,14 @@
         <mass value="0.001"/>
         <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
       </inertial>
-      <visual name="visual_box_2_joint_0">
+      <visual name="visual_box_2_link_2">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="0.199 0.199 1.599"/>
         </geometry>
         <material name="red"/>
       </visual>
-      <collision name="collision_box_2_joint_0">
+      <collision name="collision_box_2_link_2">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="0.199 0.199 1.599"/>
@@ -107,14 +107,14 @@
         <mass value="0.001"/>
         <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
       </inertial>
-      <visual name="visual_box_3_joint_0">
+      <visual name="visual_box_3_link_3">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="0.199 0.199 1.599"/>
         </geometry>
         <material name="red"/>
       </visual>
-      <collision name="collision_box_3_joint_0">
+      <collision name="collision_box_3_link_3">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="0.199 0.199 1.599"/>
