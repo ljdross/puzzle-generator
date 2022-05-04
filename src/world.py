@@ -45,10 +45,12 @@ class BlenderWorld:
         for block in bpy.data.meshes:
             bpy.data.meshes.remove(block)
         self.contains_mesh = False
+        self.joint_count = 0
 
         bpy.ops.object.select_all(action='SELECT')
         bpy.ops.object.delete(use_global=True)
         self.movable_links = []
+        self.base_object = None
 
         bpy.context.scene.cursor.location = (0, 0, 0)
         bpy.context.scene.cursor.rotation_euler = (0, 0, 0)

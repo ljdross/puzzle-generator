@@ -14,19 +14,19 @@
 
     <passive_joint name="link_0_joint_2"/>
 
-    <passive_joint name="link_100_fixed_wall_back"/>
-
     <passive_joint name="link_1_joint_0"/>
 
-    <passive_joint name="link_96_fixed_hinge"/>
+    <passive_joint name="link_3_fixed_hinge"/>
 
-    <passive_joint name="link_96_fixed_hinge.001"/>
+    <passive_joint name="link_3_fixed_hinge.001"/>
 
-    <passive_joint name="link_97_fixed_wall_left"/>
+    <passive_joint name="link_4_fixed_wall_left"/>
 
-    <passive_joint name="link_98_fixed_wall_right"/>
+    <passive_joint name="link_5_fixed_wall_right"/>
 
-    <passive_joint name="link_99_fixed_wall_mid"/>
+    <passive_joint name="link_6_fixed_wall_mid"/>
+
+    <passive_joint name="link_7_fixed_wall_back"/>
 
     <link_sphere_approximation link="base_link">
       <sphere center="0.0 0.0 0.0" radius="0"/>
@@ -56,31 +56,31 @@
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
 
-    <link_sphere_approximation link="link_100_fixed_wall_back">
-      <sphere center="0.0 0.0 0.0" radius="0"/>
-    </link_sphere_approximation>
-
     <link_sphere_approximation link="link_1_joint_0">
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
 
-    <link_sphere_approximation link="link_96_fixed_hinge">
+    <link_sphere_approximation link="link_3_fixed_hinge">
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
 
-    <link_sphere_approximation link="link_96_fixed_hinge.001">
+    <link_sphere_approximation link="link_3_fixed_hinge.001">
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
 
-    <link_sphere_approximation link="link_97_fixed_wall_left">
+    <link_sphere_approximation link="link_4_fixed_wall_left">
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
 
-    <link_sphere_approximation link="link_98_fixed_wall_right">
+    <link_sphere_approximation link="link_5_fixed_wall_right">
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
 
-    <link_sphere_approximation link="link_99_fixed_wall_mid">
+    <link_sphere_approximation link="link_6_fixed_wall_mid">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_7_fixed_wall_back">
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
 
