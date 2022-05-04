@@ -32,11 +32,11 @@
 
     <passive_joint name="link_32_fixed_handle_knob"/>
 
-    <passive_joint name="link_37_fixed_handle_shaft"/>
-
-    <passive_joint name="link_38_fixed_handle_knob"/>
-
     <passive_joint name="link_3_joint_0"/>
+
+    <passive_joint name="link_40_fixed_handle_shaft"/>
+
+    <passive_joint name="link_41_fixed_handle_knob"/>
 
     <link_sphere_approximation link="base_link">
       <sphere center="0.0 0.0 0.0" radius="0"/>
@@ -102,15 +102,15 @@
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
 
-    <link_sphere_approximation link="link_37_fixed_handle_shaft">
-      <sphere center="0.0 0.0 0.0" radius="0"/>
-    </link_sphere_approximation>
-
-    <link_sphere_approximation link="link_38_fixed_handle_knob">
-      <sphere center="0.0 0.0 0.0" radius="0"/>
-    </link_sphere_approximation>
-
     <link_sphere_approximation link="link_3_joint_0">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_40_fixed_handle_shaft">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_41_fixed_handle_knob">
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
 
