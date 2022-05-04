@@ -49,7 +49,6 @@ sampler_config = {
 
     # this part is only required for Lockbox2017Sampler and LockboxRandomSampler
     "mesh1": "input-meshes/slot_disc.blend",  # both absolute and relative paths are allowed
-    "iterations": 2,
 
     # this part is only required for EscapeRoomSampler and MoveTwiceSampler
     "robot_mesh": "input-meshes/droids.blend",  # both absolute and relative paths are allowed
@@ -59,22 +58,22 @@ sampler_config = {
 # set up world according to world_config
 world = BlenderWorld(world_config)
 
-BENCHMARK_RUNS = 4
+BENCHMARK_RUNS = 1
 VERSIONS = 1
 
 for i in range(VERSIONS):
     sampler_config["number_prismatic_joints"] = 4
-    sampler_config["puzzle_name"] = "simple_sliders_" + str(i)
+    sampler_config["puzzle_name"] = "simple_sliders_v" + str(i)
     sampler = SimpleSlidersSampler(sampler_config, world)
     sampler.build()
-    robowflex_simulation.solve(world.urdf_path, planning_time=30., benchmark_runs=BENCHMARK_RUNS)
+    robowflex_simulation.solve(world.urdf_path, planning_time=10., benchmark_runs=BENCHMARK_RUNS)
     # pybullet_simulation.solve(world.urdf_path, sampler.start_state, sampler.goal_space, 10., True)
 
-    sampler_config["number_prismatic_joints"] = 3
+    sampler_config["number_prismatic_joints"] = 2
     sampler_config["number_revolute_joints"] = 3
     sampler_config["epsilon"] = 0.1
     sampler_config["seed_for_randomness"] = i
-    sampler_config["puzzle_name"] = "grid_world_" + str(i)
+    sampler_config["puzzle_name"] = "grid_world_v" + str(i)
     sampler = GridWorldSampler(sampler_config, world)
     sampler.build()
     robowflex_simulation.solve(world.urdf_path, planning_time=30., benchmark_runs=BENCHMARK_RUNS)
@@ -83,31 +82,33 @@ for i in range(VERSIONS):
     sampler_config["number_prismatic_joints"] = 2
     sampler_config["number_revolute_joints"] = 2
     sampler_config["seed_for_randomness"] = i
-    sampler_config["puzzle_name"] = "continuous_space_" + str(i)
+    sampler_config["puzzle_name"] = "continuous_space_v" + str(i)
     sampler = ContinuousSpaceSampler(sampler_config, world)
     sampler.build()
-    robowflex_simulation.solve(world.urdf_path, planning_time=0.5, benchmark_runs=BENCHMARK_RUNS)
+    robowflex_simulation.solve(world.urdf_path, planning_time=1., benchmark_runs=BENCHMARK_RUNS)
     # pybullet_simulation.solve(world.urdf_path, sampler.start_state, sampler.goal_space, 10., True)
 
-    sampler_config["epsilon"] = 0.6
+    sampler_config["iterations"] = 2
+    sampler_config["slider_length"] = 1.4
+    sampler_config["slider_width"] = 0.2
     sampler_config["seed_for_randomness"] = i
-    sampler_config["puzzle_name"] = "lockbox_random_" + str(i)
+    sampler_config["puzzle_name"] = "lockbox_random_v" + str(i)
     sampler = LockboxRandomSampler(sampler_config, world)
     sampler.build()
     robowflex_simulation.solve(world.urdf_path, planning_time=30., benchmark_runs=BENCHMARK_RUNS)
     # pybullet_simulation.solve(world.urdf_path, sampler.start_state, sampler.goal_space, 10., True)
 
-    # sampler_config["puzzle_name"] = "escape_room_" + str(i)
-    # sampler = EscapeRoomSampler(sampler_config, world)
-    # sampler.build()
-    # robowflex_simulation.solve(world.urdf_path, planning_time=4)
+    sampler_config["puzzle_name"] = "escape_room_v" + str(i)
+    sampler = EscapeRoomSampler(sampler_config, world)
+    sampler.build()
+    robowflex_simulation.solve(world.urdf_path, planning_time=15., benchmark_runs=BENCHMARK_RUNS)
 
-    # sampler_config["puzzle_name"] = "move_twice_" + str(i)
-    # sampler = MoveTwiceSampler(sampler_config, world)
-    # sampler.build()
-    # robowflex_simulation.solve(world.urdf_path, planning_time=1)
+    sampler_config["puzzle_name"] = "move_twice_v" + str(i)
+    sampler = MoveTwiceSampler(sampler_config, world)
+    sampler.build()
+    robowflex_simulation.solve(world.urdf_path, planning_time=10., benchmark_runs=BENCHMARK_RUNS)
 
-    # sampler_config["puzzle_name"] = "lockbox2017_" + str(i)
+    # sampler_config["puzzle_name"] = "lockbox2017_v" + str(i)
     # sampler = Lockbox2017Sampler(sampler_config, world)
     # sampler.build()
     # robowflex_simulation.solve(world.urdf_path, planning_time=1)

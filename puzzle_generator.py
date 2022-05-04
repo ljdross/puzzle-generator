@@ -49,6 +49,8 @@ sampler_config = {
     # this part is only required for Lockbox2017Sampler and LockboxRandomSampler
     "mesh1": "input-meshes/slot_disc.blend",  # both absolute and relative paths are allowed
     "iterations": 2,
+    "slider_length": 1.4,
+    "slider_width": 0.2,
 
     # this part is only required for EscapeRoomSampler and MoveTwiceSampler
     "robot_mesh": "input-meshes/droids.blend",  # both absolute and relative paths are allowed

@@ -32,7 +32,7 @@
       <visual name="visual_box_57_link_0.001">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.999 0.199 1.899"/>
+          <box size="0.999 0.199 1.399"/>
         </geometry>
         <material name="green_translucent"/>
       </visual>
@@ -47,14 +47,14 @@
       <visual name="visual_box_57_link_0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.999 0.199 1.899"/>
+          <box size="0.999 0.199 1.399"/>
         </geometry>
         <material name="green"/>
       </visual>
       <collision name="collision_box_57_link_0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.999 0.199 1.899"/>
+          <box size="0.999 0.199 1.399"/>
         </geometry>
       </collision>
     </link>
@@ -89,14 +89,14 @@
       <visual name="visual_box_64_link_2">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.999 0.199 1.899"/>
+          <box size="0.999 0.199 1.399"/>
         </geometry>
         <material name="red"/>
       </visual>
       <collision name="collision_box_64_link_2">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.999 0.199 1.899"/>
+          <box size="0.999 0.199 1.399"/>
         </geometry>
       </collision>
     </link>
@@ -131,14 +131,14 @@
       <visual name="visual_box_71_link_4">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.999 0.199 1.899"/>
+          <box size="0.999 0.199 1.399"/>
         </geometry>
         <material name="red"/>
       </visual>
       <collision name="collision_box_71_link_4">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.999 0.199 1.899"/>
+          <box size="0.999 0.199 1.399"/>
         </geometry>
       </collision>
     </link>
