@@ -245,7 +245,7 @@
       <visual name="visual_cylinder_3_fixed_hinge">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <cylinder radius="0.0495" length="0.999"/>
+          <cylinder radius="0.112" length="0.989"/>
         </geometry>
         <material name="gray"/>
       </visual>
@@ -260,7 +260,7 @@
       <visual name="visual_cylinder_3_fixed_hinge.001">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <cylinder radius="0.0495" length="0.999"/>
+          <cylinder radius="0.112" length="0.989"/>
         </geometry>
         <material name="green_translucent"/>
       </visual>
@@ -338,7 +338,7 @@
       <visual name="visual_cylinder_7_fixed_hinge">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <cylinder radius="0.0495" length="0.999"/>
+          <cylinder radius="0.112" length="0.989"/>
         </geometry>
         <material name="gray"/>
       </visual>

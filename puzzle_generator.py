@@ -24,6 +24,7 @@ world_config = {
 sampler_config = {
     # this part of the config is always required
     "floor_size": 32,
+    "scaling": 1,
     "number_prismatic_joints": 4,
     "number_revolute_joints": 2,
     "branching_factor_target": 2,  # should not be higher than number_revolute_joints

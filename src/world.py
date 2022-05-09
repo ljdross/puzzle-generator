@@ -171,9 +171,14 @@ class BlenderWorld:
             else:
                 return color.RED
 
-    def new_link(self, location, rotation, scale, joint_type, lower_limit=0, upper_limit=0, material=None,
+    def new_link(self, location, rotation, scale, joint_type, lower_limit=0, upper_limit=0, material=None, auto_limit=0,
                  mesh_filepath="", object_name="", is_cylinder=False, name="", parent=None, create_handle=False,
                  collision=True, joint_axis=(0, 0, 1), new_mesh_name=""):
+        if auto_limit != 0:
+            if auto_limit < 0:
+                lower_limit = auto_limit
+            else:
+                upper_limit = auto_limit
         if not parent:
             parent = self.base_object
             location = (location[0], location[1], location[2] + self.floor_thickness / 2)
@@ -208,8 +213,10 @@ class BlenderWorld:
         if create_handle:
             self._create_handle_automatically(link, collision, rotation, scale, joint_type)
         if joint_axis == (0, 0, 1):
+            diameter = min(scale[0], scale[1]) * 0.25
+            length = scale[2] * 1.1
             if joint_type == 'revolute':
-                self.new_link((0, 0, 0), (0, 0, 0), (0.1, 0.1, scale[2] + 0.1), 'fixed', material=color.GRAY,
+                self.new_link((0, 0, 0), (0, 0, 0), (diameter, diameter, length), 'fixed', material=color.GRAY,
                               is_cylinder=True, name="hinge", parent=link, collision=False)
         else:
             self.update_joint_axis(link, joint_axis)

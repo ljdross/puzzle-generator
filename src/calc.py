@@ -7,12 +7,17 @@ RAD180 = round(radians(180), 5)
 RAD360 = round(radians(360), 5)
 
 
-def tuple_add(a: tuple, b: tuple) -> tuple:
+def tuple_add(tuple_a: tuple, tuple_b: tuple) -> tuple:
     """
     Return the result of the addition of two tuples.
     Source: https://stackoverflow.com/questions/497885/python-element-wise-tuple-operations-like-sum
     """
-    return tuple(map(lambda x, y: x + y, a, b))
+    return tuple(map(lambda x, y: x + y, tuple_a, tuple_b))
+
+
+def tuple_scale(tup: tuple, factor) -> tuple:
+    """Return the tuple with each entry scaled by a factor"""
+    return tuple(i * factor for i in tup)
 
 
 def rotate(point_2d, angle_radians):

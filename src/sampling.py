@@ -14,6 +14,7 @@ class PuzzleSampler:
     def __init__(self, config, world: BlenderWorld):
         self.world = world
         self.floor_size = config["floor_size"]
+        self.scaling = config["scaling"]
         self.number_prismatic_joints = config["number_prismatic_joints"]
         self.number_revolute_joints = config["number_revolute_joints"]
         self.total_number_joints = self.number_prismatic_joints + self.number_revolute_joints
@@ -157,7 +158,6 @@ class GridWorldSampler(PuzzleSampler):
             # add new prismatic joint at this position
             loc = (sp[0], sp[1] + 0.5, scale[0] / 2)
             rot = (-calc.RAD90, 0, 0)
-            self.world.new_link(loc, rot, scale, 'prismatic', upper_limit=1, create_handle=self.create_handle)
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (0, 1)))
             self.occupied_fields.append(calc.tuple_add(sp, (0, 2)))
@@ -166,7 +166,6 @@ class GridWorldSampler(PuzzleSampler):
             # add new prismatic joint at this position
             loc = (sp[0] + 0.5, sp[1], scale[0] / 2)
             rot = (0, calc.RAD90, 0)
-            self.world.new_link(loc, rot, scale, 'prismatic', upper_limit=1, create_handle=self.create_handle)
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (1, 0)))
             self.occupied_fields.append(calc.tuple_add(sp, (2, 0)))
@@ -175,7 +174,6 @@ class GridWorldSampler(PuzzleSampler):
             # add new prismatic joint at this position
             loc = (sp[0], sp[1] - 0.5, scale[0] / 2)
             rot = (calc.RAD90, 0, 0)
-            self.world.new_link(loc, rot, scale, 'prismatic', upper_limit=1, create_handle=self.create_handle)
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (0, -1)))
             self.occupied_fields.append(calc.tuple_add(sp, (0, -2)))
@@ -184,14 +182,16 @@ class GridWorldSampler(PuzzleSampler):
             # add new prismatic joint at this position
             loc = (sp[0] - 0.5, sp[1], scale[0] / 2)
             rot = (0, -calc.RAD90, 0)
-            self.world.new_link(loc, rot, scale, 'prismatic', upper_limit=1, create_handle=self.create_handle)
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (-1, 0)))
             self.occupied_fields.append(calc.tuple_add(sp, (-2, 0)))
             self.start_points.append(calc.tuple_add(sp, (-2, 0)))
 
+        self.world.new_link(calc.tuple_scale(loc, self.scaling), rot, calc.tuple_scale(scale, self.scaling),
+                            'prismatic', upper_limit=1 * self.scaling, create_handle=self.create_handle)
+
         # update goal_space target counter
-        self.goal_space.append((0, 1))
+        self.goal_space.append((0, 1 * self.scaling))
         self.prismatic_joints_target -= 1
 
         return 0
@@ -240,8 +240,7 @@ class GridWorldSampler(PuzzleSampler):
             # add new revolute joint at this position
             loc = (sp[0], sp[1] + 1, scale[2] / 2)
             rot = (0, 0, calc.RAD90)
-            self.world.new_link(loc, rot, scale, 'revolute', upper_limit=calc.RAD90, create_handle=self.create_handle)
-            self.goal_space_append((0, calc.RAD90))
+            limit = calc.RAD90
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (0, 1)))
             self.occupied_fields.append(calc.tuple_add(sp, (0, 2)))
@@ -263,8 +262,7 @@ class GridWorldSampler(PuzzleSampler):
             # add new revolute joint at this position
             loc = (sp[0], sp[1] + 1, scale[2] / 2)
             rot = (0, 0, calc.RAD90)
-            self.world.new_link(loc, rot, scale, 'revolute', lower_limit=-calc.RAD90, create_handle=self.create_handle)
-            self.goal_space_append((-calc.RAD90, 0))
+            limit = -calc.RAD90
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (0, 1)))
             self.occupied_fields.append(calc.tuple_add(sp, (0, 2)))
@@ -286,8 +284,7 @@ class GridWorldSampler(PuzzleSampler):
             # add new revolute joint at this position
             loc = (sp[0] + 1, sp[1], scale[2] / 2)
             rot = (0, 0, 0)
-            self.world.new_link(loc, rot, scale, 'revolute', upper_limit=calc.RAD90, create_handle=self.create_handle)
-            self.goal_space_append((0, calc.RAD90))
+            limit = calc.RAD90
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (1, 0)))
             self.occupied_fields.append(calc.tuple_add(sp, (2, 0)))
@@ -309,8 +306,7 @@ class GridWorldSampler(PuzzleSampler):
             # add new revolute joint at this position
             loc = (sp[0] + 1, sp[1], scale[2] / 2)
             rot = (0, 0, 0)
-            self.world.new_link(loc, rot, scale, 'revolute', lower_limit=-calc.RAD90, create_handle=self.create_handle)
-            self.goal_space_append((-calc.RAD90, 0))
+            limit = -calc.RAD90
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (1, 0)))
             self.occupied_fields.append(calc.tuple_add(sp, (2, 0)))
@@ -332,8 +328,7 @@ class GridWorldSampler(PuzzleSampler):
             # add new revolute joint at this position
             loc = (sp[0], sp[1] - 1, scale[2] / 2)
             rot = (0, 0, calc.RAD90)
-            self.world.new_link(loc, rot, scale, 'revolute', upper_limit=calc.RAD90, create_handle=self.create_handle)
-            self.goal_space_append((0, calc.RAD90))
+            limit = calc.RAD90
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (0, -1)))
             self.occupied_fields.append(calc.tuple_add(sp, (0, -2)))
@@ -355,8 +350,7 @@ class GridWorldSampler(PuzzleSampler):
             # add new revolute joint at this position
             loc = (sp[0], sp[1] - 1, scale[2] / 2)
             rot = (0, 0, calc.RAD90)
-            self.world.new_link(loc, rot, scale, 'revolute', lower_limit=-calc.RAD90, create_handle=self.create_handle)
-            self.goal_space_append((-calc.RAD90, 0))
+            limit = -calc.RAD90
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (0, -1)))
             self.occupied_fields.append(calc.tuple_add(sp, (0, -2)))
@@ -378,8 +372,7 @@ class GridWorldSampler(PuzzleSampler):
             # add new revolute joint at this position
             loc = (sp[0] - 1, sp[1], scale[2] / 2)
             rot = (0, 0, 0)
-            self.world.new_link(loc, rot, scale, 'revolute', upper_limit=calc.RAD90, create_handle=self.create_handle)
-            self.goal_space_append((0, calc.RAD90))
+            limit = calc.RAD90
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (-1, 0)))
             self.occupied_fields.append(calc.tuple_add(sp, (-2, 0)))
@@ -401,8 +394,7 @@ class GridWorldSampler(PuzzleSampler):
             # add new revolute joint at this position
             loc = (sp[0] - 1, sp[1], scale[2] / 2)
             rot = (0, 0, 0)
-            self.world.new_link(loc, rot, scale, 'revolute', lower_limit=-calc.RAD90, create_handle=self.create_handle)
-            self.goal_space_append((-calc.RAD90, 0))
+            limit = -calc.RAD90
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (-1, 0)))
             self.occupied_fields.append(calc.tuple_add(sp, (-2, 0)))
@@ -420,6 +412,10 @@ class GridWorldSampler(PuzzleSampler):
                 if self.branching_target != 0:
                     self.start_points.append(calc.tuple_add(sp, (0, -1)))
                     self.branching_target -= 1
+
+        self.world.new_link(calc.tuple_scale(loc, self.scaling), rot, calc.tuple_scale(scale, self.scaling), 'revolute',
+                            auto_limit=limit, create_handle=self.create_handle)
+        self.goal_space_append(self.return_lower_and_upper_limit(limit))
 
         # update target counter
         self.revolute_joints_target -= 1
@@ -485,7 +481,7 @@ class GridWorldSampler(PuzzleSampler):
         print("SUCCESSFULLY CREATED THE FOLLOWING SEQUENCE: " + str(self.position_sequence))
         self.goal_space_narrow(dimension=0)
         goal_limit = self.goal_space[0][1]
-        if goal_limit == 1:
+        if len(self.position_sequence[0]) == 1:
             self.world.create_goal_duplicate((0, 0, goal_limit))
         else:
             self.world.create_goal_duplicate(rotation_offset=(0, 0, goal_limit))
