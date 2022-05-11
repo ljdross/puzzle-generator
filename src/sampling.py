@@ -818,8 +818,8 @@ class EscapeRoomSampler(PuzzleSampler):
         self.world.create_base_link(self.floor_size)
 
         # add robot
-        first = self.world.new_link((0, 0, 0.5), (0, 0, 0), (0, 0, 0), 'prismatic', -16, 16, joint_axis=(1, 0, 0))
-        second = self.world.new_link((0, 0, 0), (0, 0, 0), (0, 0, 0), 'prismatic', -16, 16, joint_axis=(0, 1, 0),
+        first = self.world.new_link((0, 0, 0.5), (0, 0, 0), (0, 0, 0), 'prismatic', -6, 6, joint_axis=(1, 0, 0))
+        second = self.world.new_link((0, 0, 0), (0, 0, 0), (0, 0, 0), 'prismatic', -6, 6, joint_axis=(0, 1, 0),
                                      parent=first)
         droid = self.world.new_link((0, 0, 0), (0, 0, 0), (0.75, 1, 1), 'revolute', -calc.RAD180, calc.RAD180,
                                     parent=second, mesh_filepath="input-meshes/droids.blend", object_name="droids_3",
@@ -832,17 +832,17 @@ class EscapeRoomSampler(PuzzleSampler):
 
         # add obstacle
         y = random() * 3.2 + 0.6
-        first = self.world.new_link((0, y, 0.125), (0, 0, 0), (0, 0, 0), 'prismatic', -16, 16, joint_axis=(1, 0, 0))
-        second = self.world.new_link((0, 0, 0), (0, 0, 0), (0, 0, 0), 'prismatic', -16, 16, joint_axis=(0, 1, 0),
+        first = self.world.new_link((0, y, 0.125), (0, 0, 0), (0, 0, 0), 'prismatic', -6, 6, joint_axis=(1, 0, 0))
+        second = self.world.new_link((0, 0, 0), (0, 0, 0), (0, 0, 0), 'prismatic', -6, 6, joint_axis=(0, 1, 0),
                                      parent=first)
-        obstacle = self.world.new_link((0, 0, 0), (0, 0, 0), (2.5, 0.2, 0.25), 'revolute', -calc.RAD180, calc.RAD180,
+        obstacle = self.world.new_link((0, 0, 0), (0, 0, 0), (3.5, 0.35, 0.25), 'revolute', -calc.RAD180, calc.RAD180,
                                     parent=second)
         self.start_state.extend((0, 0, 0))
         self.goal_space.extend(((-16, 16), (-16, 16)))
         self.goal_space_append((-calc.RAD180, calc.RAD180))
 
         # add door
-        self.world.new_door((1.5, 4, 0.5), (0, 0, calc.RAD180), (3, 0.2, 1), top_handle=False)
+        self.world.new_door((1.5, 4, 0.5), (0, 0, calc.RAD180), (3.2, 0.2, 1), top_handle=False)
         self.start_state.append(0)
         self.goal_space_append((0, calc.RAD90))
 

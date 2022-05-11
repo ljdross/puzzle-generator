@@ -100,14 +100,14 @@
       <visual name="visual_box_10_fixed_door_panel">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="2.999 0.199 0.999"/>
+          <box size="3.199 0.199 0.999"/>
         </geometry>
         <material name="red"/>
       </visual>
       <collision name="collision_box_10_fixed_door_panel">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="2.999 0.199 0.999"/>
+          <box size="3.199 0.199 0.999"/>
         </geometry>
       </collision>
     </link>
@@ -226,14 +226,14 @@
       <visual name="visual_box_6_link_1">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="2.499 0.199 0.249"/>
+          <box size="3.499 0.349 0.249"/>
         </geometry>
         <material name="red"/>
       </visual>
       <collision name="collision_box_6_link_1">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="2.499 0.199 0.249"/>
+          <box size="3.499 0.349 0.249"/>
         </geometry>
       </collision>
     </link>
@@ -314,7 +314,7 @@
       <visual name="visual_cylinder_7_fixed_hinge">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <cylinder radius="0.0245" length="0.274"/>
+          <cylinder radius="0.04325" length="0.274"/>
         </geometry>
         <material name="gray"/>
       </visual>
@@ -362,7 +362,7 @@
       <parent link="link_0_joint_2"/>
       <child link="link_0_joint_1"/>
       <axis xyz="0 1.0 0"/>
-      <limit lower="-16.0" upper="16.0" effort="0" velocity="0"/>
+      <limit lower="-6.0" upper="6.0" effort="0" velocity="0"/>
     </joint>
 
     <joint name="link_0_joint_1.001" type="fixed">
@@ -377,23 +377,23 @@
       <parent link="base_link"/>
       <child link="link_0_joint_2"/>
       <axis xyz="1.0 0 0"/>
-      <limit lower="-16.0" upper="16.0" effort="0" velocity="0"/>
+      <limit lower="-6.0" upper="6.0" effort="0" velocity="0"/>
     </joint>
 
     <joint name="link_10_fixed_door_panel" type="fixed">
-      <origin xyz="1.5 0 0" rpy="0 0 0"/>
+      <origin xyz="1.6 0 0" rpy="0 0 0"/>
       <parent link="link_2_joint_0"/>
       <child link="link_10_fixed_door_panel"/>
     </joint>
 
     <joint name="link_11_fixed_door_handle1" type="fixed">
-      <origin xyz="2.25 0.2 0" rpy="0 0 0"/>
+      <origin xyz="2.4 0.2 0" rpy="0 0 0"/>
       <parent link="link_2_joint_0"/>
       <child link="link_11_fixed_door_handle1"/>
     </joint>
 
     <joint name="link_12_fixed_door_handle2" type="fixed">
-      <origin xyz="2.25 -0.2 0" rpy="0 0 0"/>
+      <origin xyz="2.4 -0.2 0" rpy="0 0 0"/>
       <parent link="link_2_joint_0"/>
       <child link="link_12_fixed_door_handle2"/>
     </joint>
@@ -429,7 +429,7 @@
       <parent link="link_1_joint_2"/>
       <child link="link_1_joint_1"/>
       <axis xyz="0 1.0 0"/>
-      <limit lower="-16.0" upper="16.0" effort="0" velocity="0"/>
+      <limit lower="-6.0" upper="6.0" effort="0" velocity="0"/>
     </joint>
 
     <joint name="link_1_joint_2" type="prismatic">
@@ -437,7 +437,7 @@
       <parent link="base_link"/>
       <child link="link_1_joint_2"/>
       <axis xyz="1.0 0 0"/>
-      <limit lower="-16.0" upper="16.0" effort="0" velocity="0"/>
+      <limit lower="-6.0" upper="6.0" effort="0" velocity="0"/>
     </joint>
 
     <joint name="link_2_joint_0" type="revolute">
