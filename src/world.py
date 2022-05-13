@@ -210,16 +210,17 @@ class BlenderWorld:
             self.create_collision(visual)
         if joint_type != 'fixed' and parent == self.base_object:
             self.movable_links.append(link)
-        if create_handle:
-            self._create_handle_automatically(link, collision, rotation, scale, joint_type)
-        if joint_axis == (0, 0, 1):
-            diameter = min(scale[0], scale[1]) * 0.25
-            length = scale[2] * 1.1
+        if joint_axis != (0, 0, 1):
+            # do this (update joint axis) before adding child links e.g. hinge or handle
+            self.update_joint_axis(link, joint_axis)
+        else:  # joint_axis == (0, 0, 1)
             if joint_type == 'revolute':
+                diameter = min(scale[0], scale[1]) * 0.25
+                length = scale[2] * 1.1
                 self.new_link((0, 0, 0), (0, 0, 0), (diameter, diameter, length), 'fixed', material=color.GRAY,
                               is_cylinder=True, name="hinge", parent=link, collision=False)
-        else:
-            self.update_joint_axis(link, joint_axis)
+        if create_handle:
+            self._create_handle_automatically(link, collision, rotation, scale, joint_type)
         return link
 
     def new_handle(self, parent, location, rotation=(0, 0, 0), height=1, width=0.2, material=None, is_cylinder=False,
