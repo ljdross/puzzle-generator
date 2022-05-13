@@ -831,7 +831,7 @@ class EscapeRoomSampler(PuzzleSampler):
         self.world.create_goal_duplicate((0, 5, 0), (0, 0, calc.RAD90))
 
         # add obstacle
-        y = random() * 3.2 + 0.6
+        y = random() * 2.75 + 0.75
         first = self.world.new_link((0, y, 0.125), (0, 0, 0), (0, 0, 0), 'prismatic', -6, 6, joint_axis=(1, 0, 0))
         second = self.world.new_link((0, 0, 0), (0, 0, 0), (0, 0, 0), 'prismatic', -6, 6, joint_axis=(0, 1, 0),
                                      parent=first)
