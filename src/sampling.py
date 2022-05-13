@@ -91,13 +91,14 @@ class SimpleSlidersSampler(PuzzleSampler):
             world.update_name(config["puzzle_name"])
         else:
             world.update_name("simple_sliders")
+        self.gap = config["gap"]
 
     def _create_simple_sliders_puzzle(self):
         """
         Create a very simple model that only works with prismatic joints
         (ignore number_revolute_joints and branching_factor).
         """
-        scale = (0.2, 0.2, 1.6)
+        scale = (0.2, 0.2, 1.8 - 2 * self.gap)
         for i in range(self.number_prismatic_joints):
             if i % 2 == 0:
                 location = (i / 2, i / -2, 0.1)

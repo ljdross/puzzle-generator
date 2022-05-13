@@ -32,6 +32,9 @@ sampler_config = {
     "seed_for_randomness": 0,  # choose None for pseudorandom
     "create_handle": False,
 
+    # this part is only required for SimpleSlidersSampler
+    "gap": 0.1,     # should be < 0.9
+
     # this part is only required for GridWorldSampler
     "allow_clockwise": True,  # allow both clockwise and counterclockwise rotating revolute joints
     "epsilon": 0.1,  # reduce the edge length of every box by epsilon
