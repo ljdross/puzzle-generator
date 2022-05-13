@@ -97,22 +97,22 @@ class SimpleSlidersSampler(PuzzleSampler):
         Create a very simple model that only works with prismatic joints
         (ignore number_revolute_joints and branching_factor).
         """
+        scale = (0.2, 0.2, 1.6)
         for i in range(self.number_prismatic_joints):
             if i % 2 == 0:
-                self.world.new_link(location=(i / 2, i / -2, 0.1), rotation=(calc.RAD90, 0, 0),
-                                    scale=(0.2, 0.2, 1.6), joint_type='prismatic', upper_limit=1,
-                                    create_handle=self.create_handle)
+                location = (i / 2, i / -2, 0.1)
+                rotation = (calc.RAD90, 0, 0)
             else:
-                self.world.new_link(location=((i - 1) / 2, ((i - 1) / -2) - 1, 0.1), rotation=(0, calc.RAD90, 0),
-                                    scale=(0.2, 0.2, 1.6), joint_type='prismatic', upper_limit=1,
-                                    create_handle=self.create_handle)
+                location = ((i - 1) / 2, ((i - 1) / -2) - 1, 0.1)
+                rotation = (0, calc.RAD90, 0)
+            self.world.new_link(location, rotation, scale, 'prismatic', upper_limit=1, create_handle=self.create_handle)
             self.goal_space.append((0, 1))
         self.goal_space_narrow(dimension=0)
+        self.start_state = [0] * self.number_prismatic_joints
         self.world.create_goal_duplicate((0, 0, 1))
 
     def build(self):
         """Build complete model in Blender and export to URDF. Create only prismatic joints."""
-        self.start_state = [0] * self.number_prismatic_joints
         self.world.reset()
         self.world.create_base_link(self.floor_size)
         self._create_simple_sliders_puzzle()
