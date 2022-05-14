@@ -852,9 +852,9 @@ class EscapeRoomSampler(PuzzleSampler):
         self.goal_space_append((0, calc.RAD90))
 
         # add walls
-        self.world.new_link((0, -4, 0.125), (0, 0, 0), (3.8, 0.2, 0.25), 'fixed', name="wall_left", material=color.GRAY)
-        self.world.new_link((2, 0, 0.125), (0, 0, 0), (0.2, 8, 0.25), 'fixed', name="wall_front", material=color.GRAY)
-        self.world.new_link((-2, 0, 0.125), (0, 0, 0), (0.2, 8, 0.25), 'fixed', name="wall_back", material=color.GRAY)
+        self.world.new_link((0, -4, 0.125), (0, 0, 0), (3.8, 0.2, 0.25), name="wall_left", material=color.GRAY)
+        self.world.new_link((2, 0, 0.125), (0, 0, 0), (0.2, 8, 0.25), name="wall_front", material=color.GRAY)
+        self.world.new_link((-2, 0, 0.125), (0, 0, 0), (0.2, 8, 0.25), name="wall_back", material=color.GRAY)
 
         self.world.export()
         self.world.render_image()
@@ -892,10 +892,10 @@ class MoveTwiceSampler(PuzzleSampler):
 
         self.world.create_goal_duplicate((goal[0], goal[1], 0), (0, 0, goal[2]))
 
-        self.world.new_link((0, -1.4, 0.5), (0, 0, 0), (4, 0.2, 1), 'fixed', name="wall_left", material=color.GRAY)
-        self.world.new_link((0, 4.4, 0.5), (0, 0, 0), (4, 0.2, 1), 'fixed', name="wall_right", material=color.GRAY)
-        self.world.new_link((0, 1.5, 0.5), (0, 0, 0), (4, 0.2, 1), 'fixed', name="wall_mid", material=color.GRAY)
-        self.world.new_link((-2.1, 1.5, 0.5), (0, 0, 0), (0.2, 6, 1), 'fixed', name="wall_back", material=color.GRAY)
+        self.world.new_link((0, -1.4, 0.5), (0, 0, 0), (4, 0.2, 1), name="wall_left", material=color.GRAY)
+        self.world.new_link((0, 4.4, 0.5), (0, 0, 0), (4, 0.2, 1), name="wall_right", material=color.GRAY)
+        self.world.new_link((0, 1.5, 0.5), (0, 0, 0), (4, 0.2, 1), name="wall_mid", material=color.GRAY)
+        self.world.new_link((-2.1, 1.5, 0.5), (0, 0, 0), (0.2, 6, 1), name="wall_back", material=color.GRAY)
         self.world.new_link((2.1, 1.5, 0.5), (0, 0, 0), (0.2, 6, 1), 'prismatic', -3, 3, joint_axis=(0, 1, 0))
         self.goal_space.append((-2, 2))
         self.start_state.append(0)

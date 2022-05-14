@@ -171,9 +171,9 @@ class BlenderWorld:
             else:
                 return color.RED
 
-    def new_link(self, location, rotation, scale, joint_type, lower_limit=0, upper_limit=0, material=None, auto_limit=0,
-                 mesh_filepath="", object_name="", is_cylinder=False, name="", parent=None, create_handle=False,
-                 collision=True, joint_axis=(0, 0, 1), new_mesh_name="", hinge_diameter=None):
+    def new_link(self, location, rotation, scale, joint_type='fixed', lower_limit=0, upper_limit=0, material=None,
+                 auto_limit=0, mesh_filepath="", object_name="", is_cylinder=False, name="", parent=None,
+                 create_handle=False, collision=True, joint_axis=(0, 0, 1), new_mesh_name="", hinge_diameter=None):
         if auto_limit != 0:
             if auto_limit < 0:
                 lower_limit = auto_limit
