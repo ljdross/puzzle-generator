@@ -143,27 +143,6 @@
       </collision>
     </link>
 
-    <link name="link_19_fixed_handle_shaft">
-      <inertial>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <mass value="0.001"/>
-        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
-      </inertial>
-      <visual name="visual_box_19_fixed_handle_shaft">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <box size="0.199 0.199 0.999"/>
-        </geometry>
-        <material name="red"/>
-      </visual>
-      <collision name="collision_box_19_fixed_handle_shaft">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <box size="0.199 0.199 0.999"/>
-        </geometry>
-      </collision>
-    </link>
-
     <link name="link_1_fixed_hinge">
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -215,20 +194,41 @@
       </collision>
     </link>
 
-    <link name="link_20_fixed_handle_knob">
+    <link name="link_22_fixed_handle_shaft">
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="0.001"/>
         <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
       </inertial>
-      <visual name="visual_box_20_fixed_handle_knob">
+      <visual name="visual_box_22_fixed_handle_shaft">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.199 0.199 0.999"/>
+        </geometry>
+        <material name="red"/>
+      </visual>
+      <collision name="collision_box_22_fixed_handle_shaft">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.199 0.199 0.999"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="link_23_fixed_handle_knob">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_box_23_fixed_handle_knob">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="0.049 0.049 0.199"/>
         </geometry>
         <material name="yellow"/>
       </visual>
-      <collision name="collision_box_20_fixed_handle_knob">
+      <collision name="collision_box_23_fixed_handle_knob">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="0.049 0.049 0.199"/>
@@ -335,14 +335,14 @@
         <mass value="0.001"/>
         <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
       </inertial>
-      <visual name="visual_box_18_link_3">
+      <visual name="visual_box_21_link_3">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="1.999 0.999 0.999"/>
         </geometry>
         <material name="red"/>
       </visual>
-      <collision name="collision_box_18_link_3">
+      <collision name="collision_box_21_link_3">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="1.999 0.999 0.999"/>
@@ -404,12 +404,6 @@
       <child link="link_14_fixed_handle_knob"/>
     </joint>
 
-    <joint name="link_19_fixed_handle_shaft" type="fixed">
-      <origin xyz="0 0 1.0" rpy="0 0 0"/>
-      <parent link="link_3_joint_0"/>
-      <child link="link_19_fixed_handle_shaft"/>
-    </joint>
-
     <joint name="link_1_fixed_hinge" type="fixed">
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <parent link="link_0_joint_0"/>
@@ -430,10 +424,16 @@
       <limit lower="0" upper="1.58552" effort="0" velocity="0"/>
     </joint>
 
-    <joint name="link_20_fixed_handle_knob" type="fixed">
+    <joint name="link_22_fixed_handle_shaft" type="fixed">
+      <origin xyz="0 0 1.0" rpy="0 0 0"/>
+      <parent link="link_3_joint_0"/>
+      <child link="link_22_fixed_handle_shaft"/>
+    </joint>
+
+    <joint name="link_23_fixed_handle_knob" type="fixed">
       <origin xyz="0 0 0.6" rpy="0 0 0"/>
-      <parent link="link_19_fixed_handle_shaft"/>
-      <child link="link_20_fixed_handle_knob"/>
+      <parent link="link_22_fixed_handle_shaft"/>
+      <child link="link_23_fixed_handle_knob"/>
     </joint>
 
     <joint name="link_2_fixed_handle_shaft" type="fixed">
@@ -469,11 +469,11 @@
     </joint>
 
     <joint name="link_3_joint_0" type="prismatic">
-      <origin xyz="5.40312 -1.16807 0.6" rpy="0 0 -0.41479"/>
+      <origin xyz="3.51572 -2.56206 0.6" rpy="0 0 -0.87407"/>
       <parent link="base_link"/>
       <child link="link_3_joint_0"/>
       <axis xyz="1.0 0 0"/>
-      <limit lower="0" upper="2.2014" effort="0" velocity="0"/>
+      <limit lower="0" upper="3.93321" effort="0" velocity="0"/>
     </joint>
 
     <joint name="link_9_fixed_hinge" type="fixed">

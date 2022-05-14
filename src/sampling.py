@@ -699,7 +699,8 @@ class Lockbox2017Sampler(PuzzleSampler):
         self.goal_space_append((0, 2))
 
         self.world.new_link((0, 0, 0.5), (0, 0, calc.RAD90), (4, 4, 1), 'revolute', 0, calc.RAD90,
-                            mesh_filepath=self.mesh, object_name="slot_disc", create_handle=self.create_handle)
+                            mesh_filepath=self.mesh, object_name="slot_disc", create_handle=self.create_handle,
+                            hinge_diameter=0.25)
         self.start_state.append(0)
         self.goal_space_append((0, calc.RAD90))
 
@@ -750,7 +751,8 @@ class LockboxRandomSampler(PuzzleSampler):
             self.start_point = calc.tuple_add(self.start_point, (-4, 0))
 
         self.world.new_link(location_slot_disc, (0, 0, rotation), (3, 3, 1), 'revolute', -calc.RAD180, calc.RAD180,
-                            mesh_filepath=self.mesh, object_name="slot_disc", create_handle=self.create_handle)
+                            mesh_filepath=self.mesh, object_name="slot_disc", create_handle=self.create_handle,
+                            hinge_diameter=0.25)
         self.world.new_link(location_slider, (0, 0, rotation), (self.slider_length, self.slider_width, 1),
                             'prismatic', 0, 1, create_handle=self.create_handle, joint_axis=(1, 0, 0))
 
@@ -826,7 +828,7 @@ class EscapeRoomSampler(PuzzleSampler):
                                      parent=first)
         droid = self.world.new_link((0, 0, 0), (0, 0, 0), (0.75, 1, 1), 'revolute', -calc.RAD180, calc.RAD180,
                                     parent=second, mesh_filepath="input-meshes/droids.blend", object_name="droids_3",
-                                    new_mesh_name="robot")
+                                    new_mesh_name="robot", hinge_diameter=0)
         self.start_state.extend((0, 0, 0))
         self.goal_space.extend(((0, 0), (5, 5)))
         self.goal_space_append((calc.RAD90, calc.RAD90))
@@ -839,7 +841,7 @@ class EscapeRoomSampler(PuzzleSampler):
         second = self.world.new_link((0, 0, 0), (0, 0, 0), (0, 0, 0), 'prismatic', -6, 6, joint_axis=(0, 1, 0),
                                      parent=first)
         obstacle = self.world.new_link((0, 0, 0), (0, 0, 0), (3.5, 0.35, 0.25), 'revolute', -calc.RAD180, calc.RAD180,
-                                    parent=second)
+                                    parent=second, hinge_diameter=0)
         self.start_state.extend((0, 0, 0))
         self.goal_space.extend(((-16, 16), (-16, 16)))
         self.goal_space_append((-calc.RAD180, calc.RAD180))
@@ -877,7 +879,7 @@ class MoveTwiceSampler(PuzzleSampler):
                                      parent=first)
         droid = self.world.new_link((0, 0, 0), (0, 0, 0), (0.75, 1, 1), 'revolute', -calc.RAD180, calc.RAD180,
                                     parent=second, mesh_filepath="input-meshes/droids.blend", object_name="droids_3",
-                                    new_mesh_name="robot")
+                                    new_mesh_name="robot", hinge_diameter=0)
 
         start = (0, 0, 0)
         # start = (random() * 3 - 1.5, random() * 1.4 - 0.7, random() * calc.RAD360 - calc.RAD180)
