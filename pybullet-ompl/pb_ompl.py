@@ -200,6 +200,14 @@ class PbOMPL():
             self.planner = og.FMT(self.ss.getSpaceInformation())
         elif planner_name == "BITstar":
             self.planner = og.BITstar(self.ss.getSpaceInformation())
+        elif planner_name == "AITstar":
+            self.planner = og.AITstar(self.ss.getSpaceInformation())
+        elif planner_name == "KPIECE1":
+            self.planner = og.KPIECE1(self.ss.getSpaceInformation())
+        elif planner_name == "BKPIECE1":
+            self.planner = og.BKPIECE1(self.ss.getSpaceInformation())
+        elif planner_name == "LBKPIECE1":
+            self.planner = og.LBKPIECE1(self.ss.getSpaceInformation())
         else:
             print("{} not recognized, please add it first".format(planner_name))
             return
