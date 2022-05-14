@@ -33,7 +33,7 @@ sampler_config = {
     "create_handle": False,
 
     # this part is only required for SimpleSlidersSampler
-    "gap": 0.1,     # should be < 0.9
+    "gap": 0.1,     # should be between 0 and 0.9 preferably smaller than 0.5
 
     # this part is only required for GridWorldSampler
     "allow_clockwise": True,  # allow both clockwise and counterclockwise rotating revolute joints
