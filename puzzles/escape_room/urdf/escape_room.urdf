@@ -433,7 +433,7 @@
     </joint>
 
     <joint name="link_1_joint_2" type="prismatic">
-      <origin xyz="0 3.30215 0.225" rpy="0 0 0"/>
+      <origin xyz="0 3.07216 0.225" rpy="0 0 0"/>
       <parent link="base_link"/>
       <child link="link_1_joint_2"/>
       <axis xyz="1.0 0 0"/>

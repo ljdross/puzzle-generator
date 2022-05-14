@@ -233,18 +233,7 @@ class BlenderWorld:
     def _create_handle_automatically(self, parent, collision, parent_rotation, parent_scale, parent_joint_type,
                                      height=1):
         if parent_joint_type == 'prismatic':
-            if parent_rotation[0] == calc.RAD90:
-                self.new_handle(parent, (0, parent_scale[1] / 2 + height / 2, 0), (-calc.RAD90, 0, 0), height,
-                                collision=collision)
-            elif parent_rotation[0] == -calc.RAD90:
-                self.new_handle(parent, (0, -parent_scale[1] / 2 - height / 2, 0), (calc.RAD90, 0, 0), height,
-                                collision=collision)
-            elif parent_rotation[1] == calc.RAD90:
-                self.new_handle(parent, (-parent_scale[0] / 2 - height / 2, 0, 0), (0, -calc.RAD90, 0), height,
-                                collision=collision)
-            else:
-                self.new_handle(parent, (parent_scale[0] / 2 + height / 2, 0, 0), (0, calc.RAD90, 0), height,
-                                collision=collision)
+            self.new_handle(parent, (0, 0, parent_scale[2] / 2 + height / 2), (0, 0, 0), height, collision=collision)
         else:
             if parent_scale[0] > parent_scale[1]:
                 self.new_handle(parent, (parent_scale[0] * 0.375, 0, parent_scale[2] / 2 + height / 2), (0, 0, 0),

@@ -32,7 +32,7 @@
       <visual name="visual_box_0_link_0.001">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.199 0.199 1.599"/>
+          <box size="1.599 0.199 0.199"/>
         </geometry>
         <material name="green_translucent"/>
       </visual>
@@ -47,14 +47,14 @@
       <visual name="visual_box_0_link_0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.199 0.199 1.599"/>
+          <box size="1.599 0.199 0.199"/>
         </geometry>
         <material name="green"/>
       </visual>
       <collision name="collision_box_0_link_0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.199 0.199 1.599"/>
+          <box size="1.599 0.199 0.199"/>
         </geometry>
       </collision>
     </link>
@@ -68,14 +68,14 @@
       <visual name="visual_box_1_link_1">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.199 0.199 1.599"/>
+          <box size="1.599 0.199 0.199"/>
         </geometry>
         <material name="red"/>
       </visual>
       <collision name="collision_box_1_link_1">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.199 0.199 1.599"/>
+          <box size="1.599 0.199 0.199"/>
         </geometry>
       </collision>
     </link>
@@ -89,14 +89,14 @@
       <visual name="visual_box_2_link_2">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.199 0.199 1.599"/>
+          <box size="1.599 0.199 0.199"/>
         </geometry>
         <material name="red"/>
       </visual>
       <collision name="collision_box_2_link_2">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.199 0.199 1.599"/>
+          <box size="1.599 0.199 0.199"/>
         </geometry>
       </collision>
     </link>
@@ -110,54 +110,54 @@
       <visual name="visual_box_3_link_3">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.199 0.199 1.599"/>
+          <box size="1.599 0.199 0.199"/>
         </geometry>
         <material name="red"/>
       </visual>
       <collision name="collision_box_3_link_3">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.199 0.199 1.599"/>
+          <box size="1.599 0.199 0.199"/>
         </geometry>
       </collision>
     </link>
 
     <joint name="goal" type="fixed">
-      <origin xyz="0 -1.0 0.2" rpy="1.5708 0 0"/>
+      <origin xyz="0 -1.0 0.2" rpy="0 0 -1.5708"/>
       <parent link="base_link"/>
       <child link="goal"/>
       <limit effort="0" velocity="0"/>
     </joint>
 
     <joint name="link_0_joint_0" type="prismatic">
-      <origin xyz="0 0 0.2" rpy="1.5708 0 0"/>
+      <origin xyz="0 0 0.2" rpy="0 0 -1.5708"/>
       <parent link="base_link"/>
       <child link="link_0_joint_0"/>
-      <axis xyz="0 0 1.0"/>
+      <axis xyz="1.0 0 0"/>
       <limit lower="0" upper="1.0" effort="0" velocity="0"/>
     </joint>
 
     <joint name="link_1_joint_0" type="prismatic">
-      <origin xyz="0 -1.0 0.2" rpy="0 1.5708 0"/>
+      <origin xyz="0 -1.0 0.2" rpy="0 0 0"/>
       <parent link="base_link"/>
       <child link="link_1_joint_0"/>
-      <axis xyz="0 0 1.0"/>
+      <axis xyz="1.0 0 0"/>
       <limit lower="0" upper="1.0" effort="0" velocity="0"/>
     </joint>
 
     <joint name="link_2_joint_0" type="prismatic">
-      <origin xyz="1.0 -1.0 0.2" rpy="1.5708 0 0"/>
+      <origin xyz="1.0 -1.0 0.2" rpy="0 0 -1.5708"/>
       <parent link="base_link"/>
       <child link="link_2_joint_0"/>
-      <axis xyz="0 0 1.0"/>
+      <axis xyz="1.0 0 0"/>
       <limit lower="0" upper="1.0" effort="0" velocity="0"/>
     </joint>
 
     <joint name="link_3_joint_0" type="prismatic">
-      <origin xyz="1.0 -2.0 0.2" rpy="0 1.5708 0"/>
+      <origin xyz="1.0 -2.0 0.2" rpy="0 0 0"/>
       <parent link="base_link"/>
       <child link="link_3_joint_0"/>
-      <axis xyz="0 0 1.0"/>
+      <axis xyz="1.0 0 0"/>
       <limit lower="0" upper="1.0" effort="0" velocity="0"/>
     </joint>
 

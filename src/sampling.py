@@ -98,19 +98,20 @@ class SimpleSlidersSampler(PuzzleSampler):
         Create a very simple model that only works with prismatic joints
         (ignore number_revolute_joints and branching_factor).
         """
-        scale = (0.2, 0.2, 1.8 - 2 * self.gap)
+        scale = (1.8 - 2 * self.gap, 0.2, 0.2)
         for i in range(self.number_prismatic_joints):
             if i % 2 == 0:
                 location = (i / 2, i / -2, 0.1)
-                rotation = (calc.RAD90, 0, 0)
+                rotation = (0, 0, -calc.RAD90)
             else:
                 location = ((i - 1) / 2, ((i - 1) / -2) - 1, 0.1)
-                rotation = (0, calc.RAD90, 0)
-            self.world.new_link(location, rotation, scale, 'prismatic', upper_limit=1, create_handle=self.create_handle)
+                rotation = (0, 0, 0)
+            self.world.new_link(location, rotation, scale, 'prismatic', upper_limit=1, create_handle=self.create_handle,
+                                joint_axis=(1, 0, 0))
             self.goal_space.append((0, 1))
         self.goal_space_narrow(dimension=0)
         self.start_state = [0] * self.number_prismatic_joints
-        self.world.create_goal_duplicate((0, 0, 1))
+        self.world.create_goal_duplicate((1, 0, 0))
 
     def build(self):
         """Build complete model in Blender and export to URDF. Create only prismatic joints."""
@@ -154,42 +155,43 @@ class GridWorldSampler(PuzzleSampler):
 
         random_pos = choice(positions)
         self.position_sequence.append(random_pos)
-        scale = (1 - self.epsilon, 1 - self.epsilon, 2 - self.epsilon)
+        scale = (2 - self.epsilon, 1 - self.epsilon, 1 - self.epsilon)
         if random_pos == "N":
             # add new prismatic joint at this position
-            loc = (sp[0], sp[1] + 0.5, scale[0] / 2)
-            rot = (-calc.RAD90, 0, 0)
+            loc = (sp[0], sp[1] + 0.5, scale[2] / 2)
+            rot = (0, 0, calc.RAD90)
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (0, 1)))
             self.occupied_fields.append(calc.tuple_add(sp, (0, 2)))
             self.start_points.append(calc.tuple_add(sp, (0, 2)))
         elif random_pos == "E":
             # add new prismatic joint at this position
-            loc = (sp[0] + 0.5, sp[1], scale[0] / 2)
-            rot = (0, calc.RAD90, 0)
+            loc = (sp[0] + 0.5, sp[1], scale[2] / 2)
+            rot = (0, 0, 0)
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (1, 0)))
             self.occupied_fields.append(calc.tuple_add(sp, (2, 0)))
             self.start_points.append(calc.tuple_add(sp, (2, 0)))
         elif random_pos == "S":
             # add new prismatic joint at this position
-            loc = (sp[0], sp[1] - 0.5, scale[0] / 2)
-            rot = (calc.RAD90, 0, 0)
+            loc = (sp[0], sp[1] - 0.5, scale[2] / 2)
+            rot = (0, 0, -calc.RAD90)
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (0, -1)))
             self.occupied_fields.append(calc.tuple_add(sp, (0, -2)))
             self.start_points.append(calc.tuple_add(sp, (0, -2)))
         elif random_pos == "W":
             # add new prismatic joint at this position
-            loc = (sp[0] - 0.5, sp[1], scale[0] / 2)
-            rot = (0, -calc.RAD90, 0)
+            loc = (sp[0] - 0.5, sp[1], scale[2] / 2)
+            rot = (0, 0, calc.RAD180)
             # update occupied fields and start point
             self.occupied_fields.append(calc.tuple_add(sp, (-1, 0)))
             self.occupied_fields.append(calc.tuple_add(sp, (-2, 0)))
             self.start_points.append(calc.tuple_add(sp, (-2, 0)))
 
         self.world.new_link(calc.tuple_scale(loc, self.scaling), rot, calc.tuple_scale(scale, self.scaling),
-                            'prismatic', upper_limit=1 * self.scaling, create_handle=self.create_handle)
+                            'prismatic', upper_limit=1 * self.scaling, create_handle=self.create_handle,
+                            joint_axis=(1, 0, 0))
 
         # update goal_space target counter
         self.goal_space.append((0, 1 * self.scaling))
@@ -483,7 +485,7 @@ class GridWorldSampler(PuzzleSampler):
         self.goal_space_narrow(dimension=0)
         goal_limit = self.goal_space[0][1]
         if len(self.position_sequence[0]) == 1:
-            self.world.create_goal_duplicate((0, 0, goal_limit))
+            self.world.create_goal_duplicate((goal_limit, 0, 0))
         else:
             self.world.create_goal_duplicate(rotation_offset=(0, 0, goal_limit))
 
@@ -561,10 +563,10 @@ class ContinuousSpaceSampler(PuzzleSampler):
         if random() < threshold:
             # create prismatic joint
             limit_span = self._get_random_limit_span(True)
-            self.world.new_link((self.start_point[0], self.start_point[1], 0.5), (-calc.RAD90, 0, rotation),
-                                (1, 1, self.prismatic_length), 'prismatic', lower_limit=0, upper_limit=limit_span,
-                                create_handle=self.create_handle)
-            self.world.create_goal_duplicate((0, 0, limit_span))
+            self.world.new_link((self.start_point[0], self.start_point[1], 0.5), (0, 0, rotation),
+                                (self.prismatic_length, 1, 1), 'prismatic', lower_limit=0, upper_limit=limit_span,
+                                create_handle=self.create_handle, joint_axis=(1, 0, 0))
+            self.world.create_goal_duplicate((limit_span, 0, 0))
             self.prismatic_joints_target -= 1
             self.start_point = self._calculate_next_start_point(True, self.start_point, rotation, limit_span)
         else:
@@ -599,9 +601,9 @@ class ContinuousSpaceSampler(PuzzleSampler):
             rotation = round(random() * calc.RAD360, 5)
             if random() < threshold:
                 # create immovable prismatic joint (joint limits = 0)
-                self.world.new_link((new_point[0], new_point[1], 0.5), (-calc.RAD90, 0, rotation),
-                                    (1, 1, self.prismatic_length), 'prismatic', lower_limit=0, upper_limit=0,
-                                    create_handle=self.create_handle)
+                self.world.new_link((new_point[0], new_point[1], 0.5), (0, 0, rotation + calc.RAD90),
+                                    (self.prismatic_length, 1, 1), 'prismatic', lower_limit=0, upper_limit=0,
+                                    create_handle=self.create_handle, joint_axis=(1, 0, 0))
                 is_prismatic = True
             else:
                 # create immovable revolute joint (joint limits = 0)
@@ -691,8 +693,8 @@ class Lockbox2017Sampler(PuzzleSampler):
         self.start_state.append(0)
         self.goal_space_append((calc.RAD90, calc.RAD90))
 
-        self.world.new_link((-4, 0, 0.5), (-calc.RAD90, 0, -calc.RAD90), (0.8, 1, 3.6), 'prismatic', 0, 2,
-                            create_handle=self.create_handle)
+        self.world.new_link((-4, 0, 0.5), (0, 0, 0), (3.6, 0.8, 1), 'prismatic', 0, 2,
+                            create_handle=self.create_handle, joint_axis=(1, 0, 0))
         self.start_state.append(0)
         self.goal_space_append((0, 2))
 
@@ -701,8 +703,8 @@ class Lockbox2017Sampler(PuzzleSampler):
         self.start_state.append(0)
         self.goal_space_append((0, calc.RAD90))
 
-        self.world.new_link((0, 2, 0.5), (-calc.RAD90, 0, 0), (0.8, 1, 3.6), 'prismatic', 0, 2,
-                            create_handle=self.create_handle)
+        self.world.new_link((0, 2, 0.5), (0, 0, calc.RAD90), (3.6, 0.8, 1), 'prismatic', 0, 2,
+                            create_handle=self.create_handle, joint_axis=(1, 0, 0))
         self.start_state.append(0)
         self.goal_space_append((0, 2))
 
@@ -749,8 +751,8 @@ class LockboxRandomSampler(PuzzleSampler):
 
         self.world.new_link(location_slot_disc, (0, 0, rotation), (3, 3, 1), 'revolute', -calc.RAD180, calc.RAD180,
                             mesh_filepath=self.mesh, object_name="slot_disc", create_handle=self.create_handle)
-        self.world.new_link(location_slider, (0, calc.RAD90, rotation), (1, self.slider_width, self.slider_length),
-                            'prismatic', 0, 1, create_handle=self.create_handle)
+        self.world.new_link(location_slider, (0, 0, rotation), (self.slider_length, self.slider_width, 1),
+                            'prismatic', 0, 1, create_handle=self.create_handle, joint_axis=(1, 0, 0))
 
     def available_directions(self):
         if self.previous_direction == "N":
@@ -790,10 +792,10 @@ class LockboxRandomSampler(PuzzleSampler):
         self.world.create_base_link(self.floor_size)
 
         # first slider
-        self.world.new_link((self.start_point[0] - 2.5, self.start_point[1], 0.5), (0, calc.RAD90, 0),
-                            (1, self.slider_width, self.slider_length), 'prismatic', 0, 1,
-                            create_handle=self.create_handle)
-        self.world.create_goal_duplicate((0, 0, 1))
+        self.world.new_link((self.start_point[0] - 2.5, self.start_point[1], 0.5), (0, 0, 0),
+                            (self.slider_length, self.slider_width, 1), 'prismatic', 0, 1,
+                            create_handle=self.create_handle, joint_axis=(1, 0, 0))
+        self.world.create_goal_duplicate((1, 0, 0))
         self.start_state.append(0)
         self.goal_space.append((1, 1))
 
