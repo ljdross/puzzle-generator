@@ -173,7 +173,7 @@ class BlenderWorld:
 
     def new_link(self, location, rotation, scale, joint_type, lower_limit=0, upper_limit=0, material=None, auto_limit=0,
                  mesh_filepath="", object_name="", is_cylinder=False, name="", parent=None, create_handle=False,
-                 collision=True, joint_axis=(0, 0, 1), new_mesh_name=""):
+                 collision=True, joint_axis=(0, 0, 1), new_mesh_name="", hinge_diameter=None):
         if auto_limit != 0:
             if auto_limit < 0:
                 lower_limit = auto_limit
@@ -214,8 +214,8 @@ class BlenderWorld:
             # do this (update joint axis) before adding child links e.g. hinge or handle
             self.update_joint_axis(link, joint_axis)
         else:  # joint_axis == (0, 0, 1)
-            if joint_type == 'revolute':
-                diameter = min(scale[0], scale[1]) * 0.25
+            if joint_type == 'revolute' and hinge_diameter != 0:
+                diameter = min(scale[0], scale[1]) * 0.25 if hinge_diameter is None else hinge_diameter
                 length = scale[2] * 1.1
                 self.new_link((0, 0, 0), (0, 0, 0), (diameter, diameter, length), 'fixed', material=color.GRAY,
                               is_cylinder=True, name="hinge", parent=link, collision=False)
