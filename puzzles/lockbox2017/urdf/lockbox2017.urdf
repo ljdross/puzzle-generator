@@ -218,14 +218,14 @@
       <visual name="visual_box_4_link_1">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="3.599 0.799 0.999"/>
+          <box size="2.999 0.499 0.999"/>
         </geometry>
         <material name="red"/>
       </visual>
       <collision name="collision_box_4_link_1">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="3.599 0.799 0.999"/>
+          <box size="2.999 0.499 0.999"/>
         </geometry>
       </collision>
     </link>
@@ -332,14 +332,14 @@
       <visual name="visual_box_11_link_3">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="3.599 0.799 0.999"/>
+          <box size="2.999 0.499 0.999"/>
         </geometry>
         <material name="red"/>
       </visual>
       <collision name="collision_box_11_link_3">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="3.599 0.799 0.999"/>
+          <box size="2.999 0.499 0.999"/>
         </geometry>
       </collision>
     </link>
