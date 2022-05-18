@@ -19,7 +19,7 @@ SHOW_GUI = literal_eval(sys.argv[5]) if len(sys.argv) > 5 else True
 PLANNER = sys.argv[6] if len(sys.argv) > 6 else "RRTConnect"
 HAVE_EXACT_SOLUTION = literal_eval(sys.argv[7]) if len(sys.argv) > 7 else True
 ONLY_CHECK_START_STATE_VALIDITY = literal_eval(sys.argv[8]) if len(sys.argv) > 8 else False
-URDF_USE_SELF_COLLISION = literal_eval(sys.argv[9]) if len(sys.argv) > 9 else False
+URDF_USE_SELF_COLLISION = literal_eval(sys.argv[9]) if len(sys.argv) > 9 else False  # seems to have no effect
 
 if FILEPATH_FOR_INPUT == "/absolute/path/to/urdf/puzzle.urdf":
     print("""\n\tPLEASE provide arguments when executing this script with python3 like so:
