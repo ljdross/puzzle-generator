@@ -55,9 +55,6 @@ class BlenderWorld:
         bpy.context.scene.cursor.location = (0, 0, 0)
         bpy.context.scene.cursor.rotation_euler = (0, 0, 0)
 
-    def rename_mesh(self, old_name, new_name):
-        bpy.data.meshes[old_name].name = new_name
-
     def subtract_link_size_reduction(self, x):
         if x < self.link_size_reduction:
             return x
@@ -197,8 +194,8 @@ class BlenderWorld:
         self.joint_count += 1
         visual = self.create_visual(location, rotation, scale, material, name, parent, mesh_filepath, object_name,
                                     is_cylinder)
-        if object_name and new_mesh_name:
-            self.rename_mesh(object_name, new_mesh_name)
+        if new_mesh_name:
+            visual.data.name = new_mesh_name
         if joint_type != 'fixed':
             self._rename_links_recursively(parent, link_number, joint_number=1)
             name = str(link_number) + "_joint_0"
