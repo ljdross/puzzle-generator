@@ -233,11 +233,10 @@ class BlenderWorld:
             self.new_handle(parent, (0, 0, parent_scale[2] / 2 + height / 2), (0, 0, 0), height, collision=collision)
         else:
             if parent_scale[0] > parent_scale[1]:
-                self.new_handle(parent, (parent_scale[0] * 0.375, 0, parent_scale[2] / 2 + height / 2), (0, 0, 0),
-                                height, is_cylinder=True, collision=collision)
+                location = (parent_scale[0] * 0.375, 0, parent_scale[2] / 2 + height / 2)
             else:
-                self.new_handle(parent, (0, parent_scale[1] * 0.375, parent_scale[2] / 2 + height / 2), (0, 0, 0),
-                                height, is_cylinder=True, collision=collision)
+                location = (0, parent_scale[1] * 0.375, parent_scale[2] / 2 + height / 2)
+            self.new_handle(parent, location, (0, 0, 0), height, is_cylinder=True, collision=collision)
 
     def new_door(self, location=(0, 0, 1), rotation=(0, 0, 0), scale=(2, 0.2, 2), lower_limit=0, upper_limit=calc.RAD90,
                  cylinder_diameter=0.4, cylinder_material=color.GRAY, handle_material=color.YELLOW, panel_material=None,
