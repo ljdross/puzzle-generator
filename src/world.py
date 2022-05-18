@@ -243,7 +243,7 @@ class BlenderWorld:
                  name="", top_handle=True, collision=True):
         door = self.new_link(location, rotation, (cylinder_diameter, cylinder_diameter, scale[2]), 'revolute',
                              lower_limit, upper_limit, cylinder_material, is_cylinder=True, name=name,
-                             collision=collision)
+                             collision=collision, hinge_diameter=None)
         self.new_link((scale[0] / 2, 0, 0), (0, 0, 0), scale, 'fixed', material=panel_material, name="door_panel",
                       parent=door, collision=collision)
         if top_handle:
