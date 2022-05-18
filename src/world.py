@@ -170,7 +170,7 @@ class BlenderWorld:
 
     def new_link(self, location, rotation, scale, joint_type='fixed', lower_limit=0, upper_limit=0, material=None,
                  auto_limit=0, blend_file="", object_name="", is_cylinder=False, name="", parent=None,
-                 create_handle=False, collision=True, joint_axis=(0, 0, 1), new_mesh_name="", hinge_diameter=None):
+                 create_handle=False, collision=True, joint_axis=(0, 0, 1), new_mesh_name="", hinge_diameter=0):
         if auto_limit != 0:
             if auto_limit < 0:
                 lower_limit = auto_limit

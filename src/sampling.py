@@ -417,7 +417,7 @@ class GridWorldSampler(PuzzleSampler):
                     self.branching_target -= 1
 
         self.world.new_link(calc.tuple_scale(loc, self.scaling), rot, calc.tuple_scale(scale, self.scaling), 'revolute',
-                            auto_limit=limit, create_handle=self.create_handle)
+                            auto_limit=limit, create_handle=self.create_handle, hinge_diameter=None)
         self.goal_space_append(self.return_lower_and_upper_limit(limit))
 
         # update target counter
@@ -575,11 +575,11 @@ class ContinuousSpaceSampler(PuzzleSampler):
             if limit_span > 0:
                 self.world.new_link((self.start_point[0], self.start_point[1], 0.5), (0, 0, rotation),
                                     (self.revolute_length, 1, 1), 'revolute', lower_limit=0, upper_limit=limit_span,
-                                    create_handle=self.create_handle)
+                                    create_handle=self.create_handle, hinge_diameter=None)
             else:
                 self.world.new_link((self.start_point[0], self.start_point[1], 0.5), (0, 0, rotation),
                                     (self.revolute_length, 1, 1), 'revolute', lower_limit=limit_span, upper_limit=0,
-                                    create_handle=self.create_handle)
+                                    create_handle=self.create_handle, hinge_diameter=None)
             self.world.create_goal_duplicate(rotation_offset=(0, 0, limit_span))
             self.revolute_joints_target -= 1
             self.start_point = self._calculate_next_start_point(False, self.start_point, rotation, limit_span)
@@ -608,7 +608,8 @@ class ContinuousSpaceSampler(PuzzleSampler):
             else:
                 # create immovable revolute joint (joint limits = 0)
                 self.world.new_link((new_point[0], new_point[1], 0.5), (0, 0, rotation), (self.revolute_length, 1, 1),
-                                      'revolute', lower_limit=0, upper_limit=0, create_handle=self.create_handle)
+                                    'revolute', lower_limit=0, upper_limit=0, create_handle=self.create_handle,
+                                    hinge_diameter=None)
                 is_prismatic = False
             self.world.export()
             result = solve(self.world.urdf_path, self.start_state, self.goal_space,
@@ -828,7 +829,7 @@ class EscapeRoomSampler(PuzzleSampler):
                                      parent=first)
         robot = self.world.new_link((0, 0, 0), (0, 0, 0), (0.75, 1, 1), 'revolute', -calc.RAD180, calc.RAD180,
                                     parent=second, blend_file="input-meshes/droids.blend", object_name="droids_3",
-                                    new_mesh_name="robot", hinge_diameter=0)
+                                    new_mesh_name="robot")
         self.start_state.extend((0, 0, 0))
         self.goal_space.extend(((0, 0), (5, 5)))
         self.goal_space_append((calc.RAD90, calc.RAD90))
@@ -842,7 +843,7 @@ class EscapeRoomSampler(PuzzleSampler):
                                      parent=first)
         obstacle = self.world.new_link((0, 0, 0), (0, 0, 0), (1.5, 0.5, 0.5), 'revolute', -calc.RAD180, calc.RAD180,
                                        parent=second, blend_file="input-meshes/l1_stick.blend", object_name="l1_stick",
-                                       new_mesh_name="stick", hinge_diameter=0, material=color.BROWN)
+                                       new_mesh_name="stick", material=color.BROWN)
         self.start_state.extend((0, 0, 0))
         self.goal_space.extend(((-16, 16), (-16, 16)))
         self.goal_space_append((-calc.RAD180, calc.RAD180))
@@ -880,7 +881,7 @@ class MoveTwiceSampler(PuzzleSampler):
                                      parent=first)
         robot = self.world.new_link((0, 0, 0), (0, 0, 0), (0.75, 1, 1), 'revolute', -calc.RAD180, calc.RAD180,
                                     parent=second, blend_file="input-meshes/droids.blend", object_name="droids_3",
-                                    new_mesh_name="robot", hinge_diameter=0)
+                                    new_mesh_name="robot")
 
         start = (0, 0, 0)
         # start = (random() * 3 - 1.5, random() * 1.4 - 0.7, random() * calc.RAD360 - calc.RAD180)
