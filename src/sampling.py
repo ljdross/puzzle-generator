@@ -136,23 +136,31 @@ class GridWorldSampler(PuzzleSampler):
         self.occupied_fields = self.start_points.copy()
         self.position_sequence = []
 
+    def available(self, fields):
+        """
+        Return True if all fields are available.
+        Every field in fields must be a position IN RELATION TO self.start_points[0].
+        """
+        for field in fields:
+            if calc.tuple_add(self.start_points[0], field) in self.occupied_fields:
+                return False
+        return True
+
     def _new_prismatic_joint(self):
         # check available positions for prismatic joint
         positions = []
-        sp = self.start_points.pop(0)
-        of = self.occupied_fields
-        if calc.tuple_add(sp, (0, 1)) not in of and calc.tuple_add(sp, (0, 2)) not in of:
+        if self.available(((0, 1), (0, 2))):
             positions.append("N")
-        if calc.tuple_add(sp, (1, 0)) not in of and calc.tuple_add(sp, (2, 0)) not in of:
+        if self.available(((1, 0), (2, 0))):
             positions.append("E")
-        if calc.tuple_add(sp, (0, -1)) not in of and calc.tuple_add(sp, (0, -2)) not in of:
+        if self.available(((0, -1), (0, -2))):
             positions.append("S")
-        if calc.tuple_add(sp, (-1, 0)) not in of and calc.tuple_add(sp, (-2, 0)) not in of:
+        if self.available(((-1, 0), (-2, 0))):
             positions.append("W")
         if not positions:
-            self.start_points.insert(0, sp)
             return 1
 
+        sp = self.start_points.pop(0)
         random_pos = choice(positions)
         self.position_sequence.append(random_pos)
         scale = (2 - self.epsilon, 1 - self.epsilon, 1 - self.epsilon)
@@ -202,40 +210,34 @@ class GridWorldSampler(PuzzleSampler):
     def _new_revolute_joint(self):
         # check available positions for revolute joint
         positions = []
-        sp = self.start_points.pop(0)
-        of = self.occupied_fields
-        if (calc.tuple_add(sp, (0, 1)) not in of and calc.tuple_add(sp, (0, 2)) not in of
-                and calc.tuple_add(sp, (1, 1)) not in of and calc.tuple_add(sp, (-1, 1)) not in of):
+        if self.available(((0, 1), (0, 2), (1, 1), (-1, 1))):
             # North
-            if calc.tuple_add(sp, (-1, 2)) not in of and calc.tuple_add(sp, (1, 0)) not in of:
+            if self.available(((-1, 2), (1, 0))):
                 positions.append("N_counterclockwise")
-            if calc.tuple_add(sp, (1, 2)) not in of and calc.tuple_add(sp, (-1, 0)) not in of and self.allow_clockwise:
+            if self.available(((1, 2), (-1, 0))) and self.allow_clockwise:
                 positions.append("N_clockwise")
-        if (calc.tuple_add(sp, (1, 0)) not in of and calc.tuple_add(sp, (2, 0)) not in of
-                and calc.tuple_add(sp, (1, 1)) not in of and calc.tuple_add(sp, (1, -1)) not in of):
+        if self.available(((1, 0), (2, 0), (1, 1), (1, -1))):
             # East
-            if calc.tuple_add(sp, (2, 1)) not in of and calc.tuple_add(sp, (0, -1)) not in of:
+            if self.available(((2, 1), (0, -1))):
                 positions.append("E_counterclockwise")
-            if calc.tuple_add(sp, (0, 1)) not in of and calc.tuple_add(sp, (2, -1)) not in of and self.allow_clockwise:
+            if self.available(((0, 1), (2, -1))) and self.allow_clockwise:
                 positions.append("E_clockwise")
-        if (calc.tuple_add(sp, (0, -1)) not in of and calc.tuple_add(sp, (0, -2)) not in of
-                and calc.tuple_add(sp, (-1, -1)) not in of and calc.tuple_add(sp, (1, -1)) not in of):
+        if self.available(((0, -1), (0, -2), (-1, -1), (1, -1))):
             # South
-            if calc.tuple_add(sp, (-1, 0)) not in of and calc.tuple_add(sp, (1, -2)) not in of:
+            if self.available(((-1, 0), (1, -2))):
                 positions.append("S_counterclockwise")
-            if calc.tuple_add(sp, (1, 0)) not in of and calc.tuple_add(sp, (-1, -2)) not in of and self.allow_clockwise:
+            if self.available(((1, 0), (-1, -2))) and self.allow_clockwise:
                 positions.append("S_clockwise")
-        if (calc.tuple_add(sp, (-1, 0)) not in of and calc.tuple_add(sp, (-2, 0)) not in of
-                and calc.tuple_add(sp, (-1, 1)) not in of and calc.tuple_add(sp, (-1, -1)) not in of):
+        if self.available(((-1, 0), (-2, 0), (-1, 1), (-1, -1))):
             # West
-            if calc.tuple_add(sp, (0, 1)) not in of and calc.tuple_add(sp, (-2, -1)) not in of:
+            if self.available(((0, 1), (-2, -1))):
                 positions.append("W_counterclockwise")
-            if calc.tuple_add(sp, (-2, 1)) not in of and calc.tuple_add(sp, (0, -1)) not in of and self.allow_clockwise:
+            if self.available(((-2, 1), (0, -1))) and self.allow_clockwise:
                 positions.append("W_clockwise")
         if not positions:
-            self.start_points.insert(0, sp)
             return 1
 
+        sp = self.start_points.pop(0)
         random_pos = choice(positions)
         self.position_sequence.append(random_pos)
         scale = (3 - self.epsilon, 1 - self.epsilon, 1 - self.epsilon)
