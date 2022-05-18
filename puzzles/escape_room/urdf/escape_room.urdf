@@ -44,7 +44,7 @@
         </geometry>
         <material name="green"/>
       </visual>
-      <collision concave="yes" name="collision_mesh_2_link_0">
+      <collision name="collision_mesh_2_link_0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/escape_room/meshes/stl/robot.001.stl" scale="1.0 1.0 1.0"/>
@@ -121,14 +121,14 @@
       <visual name="visual_box_11_fixed_wall_left">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="3.799 0.199 0.249"/>
+          <box size="3.799 0.199 0.499"/>
         </geometry>
         <material name="gray"/>
       </visual>
       <collision name="collision_box_11_fixed_wall_left">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="3.799 0.199 0.249"/>
+          <box size="3.799 0.199 0.499"/>
         </geometry>
       </collision>
     </link>
@@ -142,14 +142,14 @@
       <visual name="visual_box_12_fixed_wall_front">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.199 7.999 0.249"/>
+          <box size="0.199 7.999 0.499"/>
         </geometry>
         <material name="gray"/>
       </visual>
       <collision name="collision_box_12_fixed_wall_front">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.199 7.999 0.249"/>
+          <box size="0.199 7.999 0.499"/>
         </geometry>
       </collision>
     </link>
@@ -163,14 +163,14 @@
       <visual name="visual_box_13_fixed_wall_back">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.199 7.999 0.249"/>
+          <box size="0.199 7.999 0.499"/>
         </geometry>
         <material name="gray"/>
       </visual>
       <collision name="collision_box_13_fixed_wall_back">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.199 7.999 0.249"/>
+          <box size="0.199 7.999 0.499"/>
         </geometry>
       </collision>
     </link>
@@ -181,17 +181,17 @@
         <mass value="0.001"/>
         <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
       </inertial>
-      <visual name="visual_box_5_link_1">
+      <visual name="visual_mesh_5_link_1">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="3.499 0.349 0.249"/>
+          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/escape_room/meshes/stl/stick.stl" scale="1.0 1.0 1.0"/>
         </geometry>
-        <material name="red"/>
+        <material name="brown"/>
       </visual>
-      <collision name="collision_box_5_link_1">
+      <collision name="collision_mesh_5_link_1">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="3.499 0.349 0.249"/>
+          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/escape_room/meshes/stl/stick.001.stl" scale="1.0 1.0 1.0"/>
         </geometry>
       </collision>
     </link>
@@ -342,19 +342,19 @@
     </joint>
 
     <joint name="link_11_fixed_wall_left" type="fixed">
-      <origin xyz="0 -4.0 0.225" rpy="0 0 0"/>
+      <origin xyz="0 -4.0 0.35" rpy="0 0 0"/>
       <parent link="base_link"/>
       <child link="link_11_fixed_wall_left"/>
     </joint>
 
     <joint name="link_12_fixed_wall_front" type="fixed">
-      <origin xyz="2.0 0 0.225" rpy="0 0 0"/>
+      <origin xyz="2.0 0 0.35" rpy="0 0 0"/>
       <parent link="base_link"/>
       <child link="link_12_fixed_wall_front"/>
     </joint>
 
     <joint name="link_13_fixed_wall_back" type="fixed">
-      <origin xyz="-2.0 0 0.225" rpy="0 0 0"/>
+      <origin xyz="-2.0 0 0.35" rpy="0 0 0"/>
       <parent link="base_link"/>
       <child link="link_13_fixed_wall_back"/>
     </joint>
@@ -376,7 +376,7 @@
     </joint>
 
     <joint name="link_1_joint_2" type="prismatic">
-      <origin xyz="0 3.07216 0.225" rpy="0 0 0"/>
+      <origin xyz="-0.75 2.68884 0.35" rpy="0 0 0"/>
       <parent link="base_link"/>
       <child link="link_1_joint_2"/>
       <axis xyz="1.0 0 0"/>
@@ -408,6 +408,10 @@
       <parent link="link_2_joint_0"/>
       <child link="link_9_fixed_door_handle1"/>
     </joint>
+
+    <material name="brown">
+      <color rgba="0.38 0.2 0.07 1.0"/>
+    </material>
 
     <material name="gray">
       <color rgba="0.5 0.5 0.5 1.0"/>

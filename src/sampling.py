@@ -699,7 +699,7 @@ class Lockbox2017Sampler(PuzzleSampler):
         self.goal_space_append((0, 2))
 
         self.world.new_link((0, 0, 0.5), (0, 0, calc.RAD90), (4, 4, 1), 'revolute', 0, calc.RAD90,
-                            mesh_filepath=self.mesh, object_name="slot_disc", create_handle=self.create_handle,
+                            blend_file=self.mesh, object_name="slot_disc", create_handle=self.create_handle,
                             hinge_diameter=0.25)
         self.start_state.append(0)
         self.goal_space_append((0, calc.RAD90))
@@ -713,7 +713,7 @@ class Lockbox2017Sampler(PuzzleSampler):
         self.start_state.append(0)
         self.goal_space_append((0, calc.RAD90))
 
-        self.world.export()
+        self.world.export(concave_collision_mesh=True)
         self.world.render_image(rotation=(1.05, 0, calc.RAD90))
         return 0
 
@@ -751,7 +751,7 @@ class LockboxRandomSampler(PuzzleSampler):
             self.start_point = calc.tuple_add(self.start_point, (-4, 0))
 
         self.world.new_link(location_slot_disc, (0, 0, rotation), (3, 3, 1), 'revolute', -calc.RAD180, calc.RAD180,
-                            mesh_filepath=self.mesh, object_name="slot_disc", create_handle=self.create_handle,
+                            blend_file=self.mesh, object_name="slot_disc", create_handle=self.create_handle,
                             hinge_diameter=0.25)
         self.world.new_link(location_slider, (0, 0, rotation), (self.slider_length, self.slider_width, 1),
                             'prismatic', 0, 1, create_handle=self.create_handle, joint_axis=(1, 0, 0))
@@ -775,7 +775,7 @@ class LockboxRandomSampler(PuzzleSampler):
             self.start_state.append(0)
             self.goal_space.append((-calc.RAD180, calc.RAD180))
             self.goal_space.append((0, 1))
-            self.world.export()
+            self.world.export(concave_collision_mesh=True)
             if solve(self.world.urdf_path, self.start_state, None, only_check_start_state_validity=True) == 0:
                 self.previous_direction = random_direction
                 return 0
@@ -826,8 +826,8 @@ class EscapeRoomSampler(PuzzleSampler):
         first = self.world.new_link((0, 0, 0.5), (0, 0, 0), (0, 0, 0), 'prismatic', -6, 6, joint_axis=(1, 0, 0))
         second = self.world.new_link((0, 0, 0), (0, 0, 0), (0, 0, 0), 'prismatic', -6, 6, joint_axis=(0, 1, 0),
                                      parent=first)
-        droid = self.world.new_link((0, 0, 0), (0, 0, 0), (0.75, 1, 1), 'revolute', -calc.RAD180, calc.RAD180,
-                                    parent=second, mesh_filepath="input-meshes/droids.blend", object_name="droids_3",
+        robot = self.world.new_link((0, 0, 0), (0, 0, 0), (0.75, 1, 1), 'revolute', -calc.RAD180, calc.RAD180,
+                                    parent=second, blend_file="input-meshes/droids.blend", object_name="droids_3",
                                     new_mesh_name="robot", hinge_diameter=0)
         self.start_state.extend((0, 0, 0))
         self.goal_space.extend(((0, 0), (5, 5)))
@@ -836,12 +836,13 @@ class EscapeRoomSampler(PuzzleSampler):
         self.world.create_goal_duplicate((0, 5, 0), (0, 0, calc.RAD90))
 
         # add obstacle
-        y = random() * 2.75 + 0.75
-        first = self.world.new_link((0, y, 0.125), (0, 0, 0), (0, 0, 0), 'prismatic', -6, 6, joint_axis=(1, 0, 0))
+        y = random() * 2 + 1
+        first = self.world.new_link((-0.75, y, 0.25), (0, 0, 0), (0, 0, 0), 'prismatic', -6, 6, joint_axis=(1, 0, 0))
         second = self.world.new_link((0, 0, 0), (0, 0, 0), (0, 0, 0), 'prismatic', -6, 6, joint_axis=(0, 1, 0),
                                      parent=first)
-        obstacle = self.world.new_link((0, 0, 0), (0, 0, 0), (3.5, 0.35, 0.25), 'revolute', -calc.RAD180, calc.RAD180,
-                                    parent=second, hinge_diameter=0)
+        obstacle = self.world.new_link((0, 0, 0), (0, 0, 0), (1.5, 0.5, 0.5), 'revolute', -calc.RAD180, calc.RAD180,
+                                       parent=second, blend_file="input-meshes/l1_stick.blend", object_name="l1_stick",
+                                       new_mesh_name="stick", hinge_diameter=0, material=color.BROWN)
         self.start_state.extend((0, 0, 0))
         self.goal_space.extend(((-16, 16), (-16, 16)))
         self.goal_space_append((-calc.RAD180, calc.RAD180))
@@ -852,9 +853,9 @@ class EscapeRoomSampler(PuzzleSampler):
         self.goal_space_append((0, calc.RAD90))
 
         # add walls
-        self.world.new_link((0, -4, 0.125), (0, 0, 0), (3.8, 0.2, 0.25), name="wall_left", material=color.GRAY)
-        self.world.new_link((2, 0, 0.125), (0, 0, 0), (0.2, 8, 0.25), name="wall_front", material=color.GRAY)
-        self.world.new_link((-2, 0, 0.125), (0, 0, 0), (0.2, 8, 0.25), name="wall_back", material=color.GRAY)
+        self.world.new_link((0, -4, 0.25), (0, 0, 0), (3.8, 0.2, 0.5), name="wall_left", material=color.GRAY)
+        self.world.new_link((2, 0, 0.25), (0, 0, 0), (0.2, 8, 0.5), name="wall_front", material=color.GRAY)
+        self.world.new_link((-2, 0, 0.25), (0, 0, 0), (0.2, 8, 0.5), name="wall_back", material=color.GRAY)
 
         self.world.export()
         self.world.render_image()
@@ -877,8 +878,8 @@ class MoveTwiceSampler(PuzzleSampler):
         first = self.world.new_link((0, 0, 0.5), (0, 0, 0), (0, 0, 0), 'prismatic', -16, 16, joint_axis=(1, 0, 0))
         second = self.world.new_link((0, 0, 0), (0, 0, 0), (0, 0, 0), 'prismatic', -16, 16, joint_axis=(0, 1, 0),
                                      parent=first)
-        droid = self.world.new_link((0, 0, 0), (0, 0, 0), (0.75, 1, 1), 'revolute', -calc.RAD180, calc.RAD180,
-                                    parent=second, mesh_filepath="input-meshes/droids.blend", object_name="droids_3",
+        robot = self.world.new_link((0, 0, 0), (0, 0, 0), (0.75, 1, 1), 'revolute', -calc.RAD180, calc.RAD180,
+                                    parent=second, blend_file="input-meshes/droids.blend", object_name="droids_3",
                                     new_mesh_name="robot", hinge_diameter=0)
 
         start = (0, 0, 0)

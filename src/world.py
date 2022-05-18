@@ -169,7 +169,7 @@ class BlenderWorld:
                 return color.RED
 
     def new_link(self, location, rotation, scale, joint_type='fixed', lower_limit=0, upper_limit=0, material=None,
-                 auto_limit=0, mesh_filepath="", object_name="", is_cylinder=False, name="", parent=None,
+                 auto_limit=0, blend_file="", object_name="", is_cylinder=False, name="", parent=None,
                  create_handle=False, collision=True, joint_axis=(0, 0, 1), new_mesh_name="", hinge_diameter=None):
         if auto_limit != 0:
             if auto_limit < 0:
@@ -192,7 +192,7 @@ class BlenderWorld:
         else:
             name = str(self.joint_count) + "_link_" + str(link_number)
         self.joint_count += 1
-        visual = self.create_visual(location, rotation, scale, material, name, parent, mesh_filepath, object_name,
+        visual = self.create_visual(location, rotation, scale, material, name, parent, blend_file, object_name,
                                     is_cylinder)
         if new_mesh_name:
             visual.data.name = new_mesh_name
@@ -370,7 +370,7 @@ class BlenderWorld:
         bpy.ops.render.render(write_still=True)
         return cam
 
-    def export(self):
+    def export(self, add_mesh_filepath_prefix=True, concave_collision_mesh=False):
         """Export model to URDF."""
         bpy.context.scene.phobosexportsettings.path = self.directory
         bpy.context.scene.phobosexportsettings.selectedOnly = False
@@ -389,17 +389,20 @@ class BlenderWorld:
         bpy.ops.phobos.name_model(modelname=self.name)
         bpy.ops.phobos.export_model()
         if self.contains_mesh:
-            self.fix_filepaths_in_urdf()
+            self.modify_urdf(add_mesh_filepath_prefix, concave_collision_mesh)
 
-    def fix_filepaths_in_urdf(self):
+    def modify_urdf(self, add_mesh_filepath_prefix=True, concave_collision_mesh=False):
         """
         Fix the bad filepaths created by phobos.
         Source:
         https://stackoverflow.com/questions/43875243/find-and-replace-specific-text-within-an-attribute-in-xml-using-python
         """
         with open(self.urdf_path, 'r') as f:
-            res = f.read().replace('<mesh filename="..', '<mesh filename="file://' + self.directory).replace(
-                '<collision name="collision_mesh', '<collision concave="yes" name="collision_mesh')
+            res = f.read()
+            if add_mesh_filepath_prefix:
+                res = res.replace('<mesh filename="..', '<mesh filename="file://' + self.directory)
+            if concave_collision_mesh:
+                res = res.replace('<collision name="collision_mesh', '<collision concave="yes" name="collision_mesh')
 
         with open(self.urdf_path, 'w') as f:
             f.write(res)

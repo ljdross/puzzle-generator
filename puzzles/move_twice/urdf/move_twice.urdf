@@ -44,7 +44,7 @@
         </geometry>
         <material name="green"/>
       </visual>
-      <collision concave="yes" name="collision_mesh_2_link_0">
+      <collision name="collision_mesh_2_link_0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/move_twice/meshes/stl/robot.001.stl" scale="1.0 1.0 1.0"/>
