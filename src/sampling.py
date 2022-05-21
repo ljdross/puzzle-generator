@@ -18,13 +18,11 @@ class PuzzleSampler:
         self.number_prismatic_joints = config["number_prismatic_joints"]
         self.number_revolute_joints = config["number_revolute_joints"]
         self.total_number_joints = self.number_prismatic_joints + self.number_revolute_joints
-        self.branching_factor = config["branching_factor_target"]
         self.attempts = config["attempts"]
         seed(config["seed_for_randomness"])
         self.create_handle = config["create_handle"]
         self.prismatic_joints_target = self.number_prismatic_joints
         self.revolute_joints_target = self.number_revolute_joints
-        self.branching_target = self.branching_factor
         self.start_point = (0, 0)
         self.prismatic_length = 2
         self.revolute_length = 3
@@ -96,7 +94,7 @@ class SimpleSlidersSampler(PuzzleSampler):
     def _create_simple_sliders_puzzle(self):
         """
         Create a very simple model that only works with prismatic joints
-        (ignore number_revolute_joints and branching_factor).
+        (ignore number_revolute_joints).
         """
         scale = (1.8 - 2 * self.gap, 0.2, 0.2)
         for i in range(self.number_prismatic_joints):
@@ -132,6 +130,9 @@ class GridWorldSampler(PuzzleSampler):
             world.update_name("grid_world")
         self.allow_clockwise = config["allow_clockwise"]
         self.epsilon = config["epsilon"]
+        self.branching_per_revolute_joint = config["branching_per_revolute_joint"]
+        self.branching_factor = config["branching_factor_target"]
+        self.branching_target = self.branching_factor
         self.start_points = [(0.5, 0.5)]
         self.occupied_fields = self.start_points.copy()
         self.position_sequence = []
@@ -147,8 +148,8 @@ class GridWorldSampler(PuzzleSampler):
             # last two fields are potential new start points
             "N_counterclockwise":   ((0, 1), (0, 2), (1, 1), (-1, 1), (-1, 2), (1, 0)),
             "N_clockwise":          ((0, 1), (0, 2), (1, 1), (-1, 1), (1, 2), (-1, 0)),
-            "E_counterclockwise":   ((1, 0), (2, 0), (1, 1), (1, -1), (2, 1), (0, -1)),
-            "E_clockwise":          ((1, 0), (2, 0), (1, 1), (1, -1), (0, 1), (2, -1)),
+            "E_counterclockwise":   ((1, 0), (2, 0), (1, -1), (1, 1), (2, 1), (0, -1)),
+            "E_clockwise":          ((1, 0), (2, 0), (1, -1), (1, 1), (0, 1), (2, -1)),
             "S_counterclockwise":   ((0, -1), (0, -2), (-1, -1), (1, -1), (-1, 0), (1, -2)),
             "S_clockwise":          ((0, -1), (0, -2), (-1, -1), (1, -1), (1, 0), (-1, -2)),
             "W_counterclockwise":   ((-1, 0), (-2, 0), (-1, 1), (-1, -1), (0, 1), (-2, -1)),
@@ -180,8 +181,9 @@ class GridWorldSampler(PuzzleSampler):
             direction_field = self.direction_fields[direction][-1]
             new_start_point = calc.tuple_add(self.start_points[0], direction_field)
             self.start_points.append(new_start_point)
-        else:
-            direction_fields = self.direction_fields[direction][-2:]
+        else:  # revolute
+            new_start_points_amount = 1 + self.branching_per_revolute_joint
+            direction_fields = self.direction_fields[direction][-new_start_points_amount:]
             new_start_points = [calc.tuple_add(self.start_points[0], df) for df in direction_fields]
             shuffle(new_start_points)
             self.start_points.append(new_start_points.pop())

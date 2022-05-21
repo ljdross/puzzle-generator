@@ -27,10 +27,9 @@ sampler_config = {
     "scaling": 1,
     "number_prismatic_joints": 4,
     "number_revolute_joints": 2,
-    "branching_factor_target": 2,  # should not be higher than number_revolute_joints
     "attempts": 50,
     "seed_for_randomness": 0,  # choose None for pseudorandom
-    "create_handle": False,
+    "create_handle": True,
 
     # this part is only required for SimpleSlidersSampler
     "gap": 0.1,     # should be between 0 and 0.9 preferably smaller than 0.5
@@ -38,6 +37,8 @@ sampler_config = {
     # this part is only required for GridWorldSampler
     "allow_clockwise": True,  # allow both clockwise and counterclockwise rotating revolute joints
     "epsilon": 0.1,  # reduce the edge length of every box by epsilon
+    "branching_per_revolute_joint": 3,  # must be <= 3
+    "branching_factor_target": 6,  # cannot reach > (number_revolute_joints * branching_per_revolute_joint)
 
     # this part is only required for ContinuousSpaceSampler
     "start_planning_time": 0.1,
@@ -68,12 +69,11 @@ sampler = SimpleSlidersSampler(sampler_config, world)
 sampler.build()
 solve(world.urdf_path, sampler.start_state, sampler.goal_space, 1., show_gui=True)
 
-sampler_config["number_prismatic_joints"] = 2
-sampler_config["create_handle"] = True
-
 sampler = GridWorldSampler(sampler_config, world)
 sampler.build()
 solve(world.urdf_path, sampler.start_state, sampler.goal_space, 1., show_gui=True)
+
+sampler_config["number_prismatic_joints"] = 2
 
 sampler = ContinuousSpaceSampler(sampler_config, world)
 sampler.build()
