@@ -183,21 +183,14 @@ class GridWorldSampler(PuzzleSampler):
         else:
             direction_fields = self.direction_fields[direction][-2:]
             new_start_points = [calc.tuple_add(self.start_points[0], df) for df in direction_fields]
-            # shuffle(new_start_points)
-            # self.start_points.append(new_start_points[1])
-            # if self.branching_target != 0:
-            #     self.start_points.append(new_start_points[0])
-            #     self.branching_target -= 1
-            if random() < 0.5:
-                self.start_points.append(new_start_points[1])
+            shuffle(new_start_points)
+            self.start_points.append(new_start_points.pop())
+            for new_start_point in new_start_points:
                 if self.branching_target != 0:
-                    self.start_points.append(new_start_points[0])
+                    self.start_points.append(new_start_point)
                     self.branching_target -= 1
-            else:
-                self.start_points.append(new_start_points[0])
-                if self.branching_target != 0:
-                    self.start_points.append(new_start_points[1])
-                    self.branching_target -= 1
+                else:
+                    break
 
     def _place_prismatic_link(self, direction):
         sp = self.start_points[0]
