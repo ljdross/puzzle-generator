@@ -284,10 +284,16 @@ class GridWorldSampler(PuzzleSampler):
             if self.revolute_joints_target == 0:
                 return 1
 
-            positions = ("N_counterclockwise", "N_clockwise",
-                         "E_counterclockwise", "E_clockwise",
-                         "S_counterclockwise", "S_clockwise",
-                         "W_counterclockwise", "W_clockwise")
+            if self.allow_clockwise:
+                positions = ("N_counterclockwise", "N_clockwise",
+                             "E_counterclockwise", "E_clockwise",
+                             "S_counterclockwise", "S_clockwise",
+                             "W_counterclockwise", "W_clockwise")
+            else:
+                positions = ("N_counterclockwise",
+                             "E_counterclockwise",
+                             "S_counterclockwise",
+                             "W_counterclockwise")
 
         available_positions = tuple(p for p in positions if self.available(p))
         if not available_positions:
