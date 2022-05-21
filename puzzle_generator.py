@@ -81,16 +81,16 @@ solve(world.urdf_path, sampler.start_state, sampler.goal_space, 1., show_gui=Tru
 
 sampler = Lockbox2017Sampler(sampler_config, world)
 sampler.build()
-solve(world.urdf_path, sampler.start_state, sampler.goal_space, 1., show_gui=True, verbose=True)
+solve(world.urdf_path, sampler.start_state, sampler.goal_space, 1., show_gui=True)
 
 sampler = LockboxRandomSampler(sampler_config, world)
 sampler.build()
-solve(world.urdf_path, sampler.start_state, sampler.goal_space, 1., show_gui=True, verbose=True)
+solve(world.urdf_path, sampler.start_state, sampler.goal_space, 1., show_gui=True)
 
 sampler = EscapeRoomSampler(sampler_config, world)
 sampler.build()
-solve(world.urdf_path, sampler.start_state, sampler.goal_space, 1., show_gui=True, verbose=True)
+solve(world.urdf_path, sampler.start_state, sampler.goal_space, 1., show_gui=True)
 
 sampler = MoveTwiceSampler(sampler_config, world)
 sampler.build()
-solve(world.urdf_path, sampler.start_state, sampler.goal_space, 1., show_gui=True, verbose=True)
+solve(world.urdf_path, sampler.start_state, sampler.goal_space, 1., show_gui=True)
