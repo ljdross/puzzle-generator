@@ -136,6 +136,7 @@ class GridWorldSampler(PuzzleSampler):
         self.start_points = [(0.5, 0.5)]
         self.occupied_fields = self.start_points.copy()
         self.position_sequence = []
+        self.blender_operations_queue = []
         self.direction_fields = {
             # prismatic
             # last field is potential new start point
@@ -210,9 +211,10 @@ class GridWorldSampler(PuzzleSampler):
             loc = (sp[0] - 0.5, sp[1], scale[2] / 2)
             rot = (0, 0, calc.RAD180)
 
-        self.world.new_link(calc.tuple_scale(loc, self.scaling), rot, calc.tuple_scale(scale, self.scaling),
-                            'prismatic', upper_limit=1 * self.scaling, create_handle=self.create_handle,
-                            joint_axis=(1, 0, 0))
+        call = lambda: self.world.new_link(calc.tuple_scale(loc, self.scaling), rot,
+                                           calc.tuple_scale(scale, self.scaling), 'prismatic', upper_limit=self.scaling,
+                                           create_handle=self.create_handle, joint_axis=(1, 0, 0))
+        self.blender_operations_queue.append(call)
 
         # update goal_space and target counter
         self.goal_space.append((0, 1 * self.scaling))
@@ -262,8 +264,10 @@ class GridWorldSampler(PuzzleSampler):
             rot = (0, 0, 0)
             limit = -calc.RAD90
 
-        self.world.new_link(calc.tuple_scale(loc, self.scaling), rot, calc.tuple_scale(scale, self.scaling), 'revolute',
-                            auto_limit=limit, create_handle=self.create_handle, hinge_diameter=None)
+        call = lambda: self.world.new_link(calc.tuple_scale(loc, self.scaling), rot,
+                                           calc.tuple_scale(scale, self.scaling), 'revolute', auto_limit=limit,
+                                           create_handle=self.create_handle, hinge_diameter=None)
+        self.blender_operations_queue.append(call)
 
         # update goal_space and target counter
         self.goal_space_append(self.return_lower_and_upper_limit(limit))
@@ -347,8 +351,11 @@ class GridWorldSampler(PuzzleSampler):
                 self.occupied_fields = self.start_points.copy()
                 self.position_sequence = []
                 self.world.movable_links = []
+                self.blender_operations_queue = []
                 return result
         print("SUCCESSFULLY CREATED THE FOLLOWING SEQUENCE: " + str(self.position_sequence))
+        for operation in self.blender_operations_queue:
+            operation()
         self.goal_space_narrow(dimension=0)
         goal_limit = self.goal_space[0][1]
         if len(self.position_sequence[0]) == 1:  # first joint is prismatic
