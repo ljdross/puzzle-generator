@@ -598,6 +598,12 @@ class LockboxRandomSampler(PuzzleSampler):
         self.slider_length = config["slider_length"]
         self.slider_width = config["slider_width"]
         self.previous_direction = "E"
+        self.available_directions = {
+            "N": ["N", "E", "W"],
+            "E": ["N", "E", "S"],
+            "S": ["E", "S", "W"],
+            "W": ["N", "S", "W"],
+        }
 
     def add_slot_disc_and_slider(self, direction):
         location_slot_disc = (self.start_point[0], self.start_point[1], 0.5)
@@ -624,18 +630,8 @@ class LockboxRandomSampler(PuzzleSampler):
         self.world.new_link(location_slider, (0, 0, rotation), (self.slider_length, self.slider_width, 1),
                             'prismatic', 0, 1, create_handle=self.create_handle, joint_axis=(1, 0, 0))
 
-    def available_directions(self):
-        if self.previous_direction == "N":
-            return ["N", "E", "W"]
-        elif self.previous_direction == "E":
-            return ["N", "E", "S"]
-        elif self.previous_direction == "S":
-            return ["E", "S", "W"]
-        else:  # self.previous_direction == "W"
-            return ["N", "S", "W"]
-
     def choose_links(self):
-        directions = self.available_directions()
+        directions = self.available_directions[self.previous_direction]
         shuffle(directions)
         for random_direction in directions:
             self.add_slot_disc_and_slider(random_direction)
