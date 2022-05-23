@@ -198,6 +198,7 @@ class GridWorldSampler(PuzzleSampler):
     def _place_prismatic_link(self, direction):
         sp = self.start_points[0]
         scale = (2 - self.epsilon, 1 - self.epsilon, 1 - self.epsilon)
+        # add new prismatic joint at this position:
         if direction == "N":
             loc = (sp[0], sp[1] + 0.5, scale[2] / 2)
             rot = (0, 0, calc.RAD90)
@@ -223,8 +224,8 @@ class GridWorldSampler(PuzzleSampler):
     def _place_revolute_link(self, direction):
         sp = self.start_points[0]
         scale = (3 - self.epsilon, 1 - self.epsilon, 1 - self.epsilon)
+        # add new revolute joint at this position:
         if direction == "N_counterclockwise":
-            # add new revolute joint at this position
             loc = (sp[0], sp[1] + 1, scale[2] / 2)
             rot = (0, 0, calc.RAD90)
             limit = calc.RAD90
@@ -234,32 +235,26 @@ class GridWorldSampler(PuzzleSampler):
             rot = (0, 0, calc.RAD90)
             limit = -calc.RAD90
         elif direction == "E_counterclockwise":
-            # add new revolute joint at this position
             loc = (sp[0] + 1, sp[1], scale[2] / 2)
             rot = (0, 0, 0)
             limit = calc.RAD90
         elif direction == "E_clockwise":
-            # add new revolute joint at this position
             loc = (sp[0] + 1, sp[1], scale[2] / 2)
             rot = (0, 0, 0)
             limit = -calc.RAD90
         elif direction == "S_counterclockwise":
-            # add new revolute joint at this position
             loc = (sp[0], sp[1] - 1, scale[2] / 2)
             rot = (0, 0, calc.RAD90)
             limit = calc.RAD90
         elif direction == "S_clockwise":
-            # add new revolute joint at this position
             loc = (sp[0], sp[1] - 1, scale[2] / 2)
             rot = (0, 0, calc.RAD90)
             limit = -calc.RAD90
         elif direction == "W_counterclockwise":
-            # add new revolute joint at this position
             loc = (sp[0] - 1, sp[1], scale[2] / 2)
             rot = (0, 0, 0)
             limit = calc.RAD90
         elif direction == "W_clockwise":
-            # add new revolute joint at this position
             loc = (sp[0] - 1, sp[1], scale[2] / 2)
             rot = (0, 0, 0)
             limit = -calc.RAD90
@@ -365,7 +360,7 @@ class GridWorldSampler(PuzzleSampler):
         goal_limit = self.goal_space[0][1]
         if len(self.position_sequence[0]) == 1:  # first joint is prismatic
             self.world.create_goal_duplicate((goal_limit, 0, 0))
-        else:
+        else:  # revolute
             self.world.create_goal_duplicate(rotation_offset=(0, 0, goal_limit))
 
         return 0
