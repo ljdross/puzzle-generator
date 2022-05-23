@@ -438,7 +438,7 @@ class ContinuousSpaceSampler(PuzzleSampler):
             # create prismatic joint
             limit_span = self._get_random_limit_span(True)
             self.world.new_link((self.start_point[0], self.start_point[1], 0.5), (0, 0, rotation),
-                                (self.prismatic_length, 1, 1), 'prismatic', lower_limit=0, upper_limit=limit_span,
+                                (self.prismatic_length, 1, 1), 'prismatic', upper_limit=limit_span,
                                 create_handle=self.create_handle, joint_axis=(1, 0, 0))
             self.world.create_goal_duplicate((limit_span, 0, 0))
             self.prismatic_joints_target -= 1
@@ -446,14 +446,9 @@ class ContinuousSpaceSampler(PuzzleSampler):
         else:
             # create revolute joint
             limit_span = self._get_random_limit_span(False)
-            if limit_span > 0:
-                self.world.new_link((self.start_point[0], self.start_point[1], 0.5), (0, 0, rotation),
-                                    (self.revolute_length, 1, 1), 'revolute', lower_limit=0, upper_limit=limit_span,
-                                    create_handle=self.create_handle, hinge_diameter=None)
-            else:
-                self.world.new_link((self.start_point[0], self.start_point[1], 0.5), (0, 0, rotation),
-                                    (self.revolute_length, 1, 1), 'revolute', lower_limit=limit_span, upper_limit=0,
-                                    create_handle=self.create_handle, hinge_diameter=None)
+            self.world.new_link((self.start_point[0], self.start_point[1], 0.5), (0, 0, rotation),
+                                (self.revolute_length, 1, 1), 'revolute', auto_limit=limit_span,
+                                create_handle=self.create_handle, hinge_diameter=None)
             self.world.create_goal_duplicate(rotation_offset=(0, 0, limit_span))
             self.revolute_joints_target -= 1
             self.start_point = self._calculate_next_start_point(False, self.start_point, rotation, limit_span)
