@@ -356,7 +356,6 @@ class GridWorldSampler(PuzzleSampler):
                 self.start_points = [(0.5, 0.5)]
                 self.occupied_fields = self.start_points.copy()
                 self.position_sequence = []
-                self.world.movable_links = []
                 self.blender_operations_queue = []
                 return result
         print("SUCCESSFULLY CREATED THE FOLLOWING SEQUENCE: " + str(self.position_sequence))
