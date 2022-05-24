@@ -33,9 +33,9 @@ class PuzzleSampler:
     def build(self):
         raise NotImplementedError
 
-    def goal_space_append(self, limits: tuple):
+    def goal_space_append_with_adjustment(self, limits: tuple):
         if len(limits) != 2:
-            print("goal_space_append(): INPUT TUPLE LENGTH IS NOT 2")
+            print("goal_space_append_with_adjustment(): INPUT TUPLE LENGTH IS NOT 2")
         lower_limit = limits[0]
         upper_limit = limits[1]
         if type(lower_limit) == int and type(upper_limit) == int:
@@ -75,11 +75,11 @@ class PuzzleSampler:
             print("goal_space_narrow(dimension): goal_space has only", len(self.goal_space), "dimensions. dimension",
                   dimension, "is not available (starting indexing of dimensions with 0!)")
 
-    def return_lower_and_upper_limit(self, span):
-        if span < 0:
-            return span, 0
+    def get_limits_tuple(self, limit):
+        if limit < 0:
+            return limit, 0
         else:
-            return 0, span
+            return 0, limit
 
 
 class SimpleSlidersSampler(PuzzleSampler):
@@ -238,7 +238,7 @@ class GridWorldSampler(PuzzleSampler):
             self.revolute_joints_target -= 1
         self.blender_operations_queue.append(call)
 
-        self.goal_space_append(self.return_lower_and_upper_limit(limit))
+        self.goal_space_append_with_adjustment(self.get_limits_tuple(limit))
 
     def _choose_link(self, prismatic: bool):
         if prismatic:
@@ -365,7 +365,7 @@ class ContinuousSpaceSampler(PuzzleSampler):
         self.upper_limit_prismatic = config["upper_limit_prismatic"]
         self.upper_limit_revolute = config["upper_limit_revolute"]
 
-    def _get_random_limit_span(self, is_prismatic):
+    def _get_random_limit(self, is_prismatic):
         """
         Return a random limit within the interval upper_limit_prismatic or upper_limit_revolute respectively.
         If not prismatic the return value will be in radians and there is a 50 % chance that it will be negative.
@@ -405,23 +405,23 @@ class ContinuousSpaceSampler(PuzzleSampler):
         # so this dimension in the goal space must be narrowed
         if random() < threshold:
             # create prismatic joint
-            limit_span = self._get_random_limit_span(True)
+            limit = self._get_random_limit(True)
             self.world.new_link((self.start_point[0], self.start_point[1], 0.5), (0, 0, rotation),
-                                (self.prismatic_length, 1, 1), 'prismatic', upper_limit=limit_span,
+                                (self.prismatic_length, 1, 1), 'prismatic', upper_limit=limit,
                                 create_handle=self.create_handle, joint_axis=(1, 0, 0))
-            self.world.create_goal_duplicate((limit_span, 0, 0))
+            self.world.create_goal_duplicate((limit, 0, 0))
             self.prismatic_joints_target -= 1
-            self.start_point = self._calculate_next_start_point(True, self.start_point, rotation, limit_span)
+            self.start_point = self._calculate_next_start_point(True, self.start_point, rotation, limit)
         else:
             # create revolute joint
-            limit_span = self._get_random_limit_span(False)
+            limit = self._get_random_limit(False)
             self.world.new_link((self.start_point[0], self.start_point[1], 0.5), (0, 0, rotation),
-                                (self.revolute_length, 1, 1), 'revolute', auto_limit=limit_span,
+                                (self.revolute_length, 1, 1), 'revolute', auto_limit=limit,
                                 create_handle=self.create_handle, hinge_diameter=None)
-            self.world.create_goal_duplicate(rotation_offset=(0, 0, limit_span))
+            self.world.create_goal_duplicate(rotation_offset=(0, 0, limit))
             self.revolute_joints_target -= 1
-            self.start_point = self._calculate_next_start_point(False, self.start_point, rotation, limit_span)
-        self.goal_space_append((limit_span, limit_span))
+            self.start_point = self._calculate_next_start_point(False, self.start_point, rotation, limit)
+        self.goal_space_append_with_adjustment((limit, limit))
 
     def _sample_next_joint(self):
         """
@@ -461,16 +461,16 @@ class ContinuousSpaceSampler(PuzzleSampler):
             else:
                 # the new (immovable) joint successfully blocks the previously solvable puzzle
                 # now make it movable
-                limit_span = self._get_random_limit_span(is_prismatic)
-                self.world.set_limit_of_latest_link(limit_span, is_prismatic)
-                limits_tuple = self.return_lower_and_upper_limit(limit_span)
-                self.goal_space_append(limits_tuple)
+                limit = self._get_random_limit(is_prismatic)
+                self.world.set_limit_of_latest_link(limit, is_prismatic)
+                limits_tuple = self.get_limits_tuple(limit)
+                self.goal_space_append_with_adjustment(limits_tuple)
                 self.start_state.append(0)
 
                 # and check solvability again
                 result = solve(self.world.urdf_path, self.start_state, self.goal_space, self.planning_time)
                 if result == 0:
-                    self.start_point = self._calculate_next_start_point(is_prismatic, new_point, rotation, limit_span)
+                    self.start_point = self._calculate_next_start_point(is_prismatic, new_point, rotation, limit)
                     if is_prismatic:
                         self.prismatic_joints_target -= 1
                     else:
@@ -530,27 +530,27 @@ class Lockbox2017Sampler(PuzzleSampler):
         self.world.new_door((-6, -1, 1), (0, 0, 0), (2, 0.2, 2))
         self.world.create_goal_duplicate(rotation_offset=(0, 0, calc.RAD90))
         self.start_state.append(0)
-        self.goal_space_append((calc.RAD90, calc.RAD90))
+        self.goal_space_append_with_adjustment((calc.RAD90, calc.RAD90))
 
         self.world.new_link((-4, 0, 0.5), (0, 0, 0), (3, 0.5, 1), 'prismatic', 0, 2,
                             create_handle=self.create_handle, joint_axis=(1, 0, 0))
         self.start_state.append(0)
-        self.goal_space_append((0, 2))
+        self.goal_space_append_with_adjustment((0, 2))
 
         self.world.new_link((0, 0, 0.5), (0, 0, calc.RAD90), (4, 4, 1), 'revolute', 0, calc.RAD90,
                             blend_file=self.mesh, object_name="slot_disc", create_handle=self.create_handle,
                             hinge_diameter=0.25)
         self.start_state.append(0)
-        self.goal_space_append((0, calc.RAD90))
+        self.goal_space_append_with_adjustment((0, calc.RAD90))
 
         self.world.new_link((0, 2, 0.5), (0, 0, calc.RAD90), (3, 0.5, 1), 'prismatic', 0, 2,
                             create_handle=self.create_handle, joint_axis=(1, 0, 0))
         self.start_state.append(0)
-        self.goal_space_append((0, 2))
+        self.goal_space_append_with_adjustment((0, 2))
 
         self.world.new_door((-2, 4, 1), (0, 0, 0), (4, 0.2, 2))
         self.start_state.append(0)
-        self.goal_space_append((0, calc.RAD90))
+        self.goal_space_append_with_adjustment((0, calc.RAD90))
 
         self.world.export(concave_collision_mesh=True)
         self.world.render_image(rotation=(1.05, 0, calc.RAD90))
@@ -666,7 +666,7 @@ class EscapeRoomSampler(PuzzleSampler):
                                     new_mesh_name="robot")
         self.start_state.extend((0, 0, 0))
         self.goal_space.extend(((0, 0), (5, 5)))
-        self.goal_space_append((calc.RAD90, calc.RAD90))
+        self.goal_space_append_with_adjustment((calc.RAD90, calc.RAD90))
 
         self.world.create_goal_duplicate((0, 5, 0), (0, 0, calc.RAD90))
 
@@ -680,12 +680,12 @@ class EscapeRoomSampler(PuzzleSampler):
                                        new_mesh_name="stick", material=color.BROWN)
         self.start_state.extend((0, 0, 0))
         self.goal_space.extend(((-16, 16), (-16, 16)))
-        self.goal_space_append((-calc.RAD180, calc.RAD180))
+        self.goal_space_append_with_adjustment((-calc.RAD180, calc.RAD180))
 
         # add door
         self.world.new_door((1.5, 4, 0.5), (0, 0, calc.RAD180), (3.2, 0.2, 1), top_handle=False)
         self.start_state.append(0)
-        self.goal_space_append((0, calc.RAD90))
+        self.goal_space_append_with_adjustment((0, calc.RAD90))
 
         # add walls
         self.world.new_link((0, -4, 0.25), (0, 0, 0), (3.8, 0.2, 0.5), name="wall_left", material=color.GRAY)
@@ -722,9 +722,9 @@ class MoveTwiceSampler(PuzzleSampler):
         self.start_state.extend(start)
 
         goal = (random() * 3 - 1.5, random() * 1.4 - 0.7 + 3, random() * calc.RAD360 - calc.RAD180)
-        self.goal_space_append((goal[0], goal[0]))
-        self.goal_space_append((goal[1], goal[1]))
-        self.goal_space_append((goal[2], goal[2]))
+        self.goal_space_append_with_adjustment((goal[0], goal[0]))
+        self.goal_space_append_with_adjustment((goal[1], goal[1]))
+        self.goal_space_append_with_adjustment((goal[2], goal[2]))
 
         self.world.create_goal_duplicate((goal[0], goal[1], 0), (0, 0, goal[2]))
 
