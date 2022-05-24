@@ -137,7 +137,7 @@ class GridWorldSampler(PuzzleSampler):
         self.occupied_fields = self.start_points.copy()
         self.position_sequence = []
         self.blender_operations_queue = []
-        self.direction_fields = {
+        self.fields_to_occupy = {
             # prismatic
             # last field is potential new start point
             "N": ((0, 1), (0, 2)),
@@ -156,13 +156,32 @@ class GridWorldSampler(PuzzleSampler):
             "W_counterclockwise":   ((-1, 0), (-2, 0), (-1, 1), (-1, -1), (0, 1), (-2, -1)),
             "W_clockwise":          ((-1, 0), (-2, 0), (-1, 1), (-1, -1), (-2, 1), (0, -1)),
         }
+        self.link_position = {
+            # ((x_location, y_location), rotation, limit)
+
+            # prismatic
+            "N": ((0, 0.5), calc.RAD90, 1),
+            "E": ((0.5, 0), 0, 1),
+            "S": ((0, -0.5), -calc.RAD90, 1),
+            "W": ((-0.5, 0), calc.RAD180, 1),
+
+            # revolute
+            "N_counterclockwise":   ((0, 1), calc.RAD90, calc.RAD90),
+            "N_clockwise":          ((0, 1), calc.RAD90, -calc.RAD90),
+            "E_counterclockwise":   ((1, 0), 0, calc.RAD90),
+            "E_clockwise":          ((1, 0), 0, -calc.RAD90),
+            "S_counterclockwise":   ((0, -1), calc.RAD90, calc.RAD90),
+            "S_clockwise":          ((0, -1), calc.RAD90, -calc.RAD90),
+            "W_counterclockwise":   ((-1, 0), 0, calc.RAD90),
+            "W_clockwise":          ((-1, 0), 0, -calc.RAD90),
+        }
 
     def available(self, direction):
         """
         Return True if all fields in the given direction are available.
         Assume self.start_points[0] as current position!
         """
-        fields = self.direction_fields[direction]
+        fields = self.fields_to_occupy[direction]
         for field in fields:
             if calc.tuple_add(self.start_points[0], field) in self.occupied_fields:
                 return False
@@ -173,18 +192,18 @@ class GridWorldSampler(PuzzleSampler):
         Extend self.occupied_fields by newly occupied fields in the given direction.
         Assume self.start_points[0] as current position!
         """
-        fields = self.direction_fields[direction]
+        fields = self.fields_to_occupy[direction]
         for field in fields:
             self.occupied_fields.append(calc.tuple_add(self.start_points[0], field))
 
     def _add_new_start_points(self, direction):
         if len(direction) == 1:  # prismatic
-            direction_field = self.direction_fields[direction][-1]
+            direction_field = self.fields_to_occupy[direction][-1]
             new_start_point = calc.tuple_add(self.start_points[0], direction_field)
             self.start_points.append(new_start_point)
         else:  # revolute
             new_start_points_amount = 1 + self.branching_per_revolute_joint
-            direction_fields = self.direction_fields[direction][-new_start_points_amount:]
+            direction_fields = self.fields_to_occupy[direction][-new_start_points_amount:]
             new_start_points = [calc.tuple_add(self.start_points[0], df) for df in direction_fields]
             shuffle(new_start_points)
             self.start_points.append(new_start_points.pop())
@@ -195,80 +214,33 @@ class GridWorldSampler(PuzzleSampler):
                 else:
                     break
 
-    def _place_prismatic_link(self, direction):
+    def _place_link(self, direction, prismatic: bool):
+        if prismatic:
+            scale = (2 - self.epsilon, 1 - self.epsilon, 1 - self.epsilon)
+        else:
+            scale = (3 - self.epsilon, 1 - self.epsilon, 1 - self.epsilon)
+        loc, rot, limit = self.link_position[direction]
         sp = self.start_points[0]
-        scale = (2 - self.epsilon, 1 - self.epsilon, 1 - self.epsilon)
-        # add new prismatic joint at this position:
-        if direction == "N":
-            loc = (sp[0], sp[1] + 0.5, scale[2] / 2)
-            rot = (0, 0, calc.RAD90)
-        elif direction == "E":
-            loc = (sp[0] + 0.5, sp[1], scale[2] / 2)
-            rot = (0, 0, 0)
-        elif direction == "S":
-            loc = (sp[0], sp[1] - 0.5, scale[2] / 2)
-            rot = (0, 0, -calc.RAD90)
-        elif direction == "W":
-            loc = (sp[0] - 0.5, sp[1], scale[2] / 2)
-            rot = (0, 0, calc.RAD180)
+        loc = (sp[0] + loc[0], sp[1] + loc[1], scale[2] / 2)
+        rot = (0, 0, rot)
 
-        call = lambda: self.world.new_link(calc.tuple_scale(loc, self.scaling), rot,
-                                           calc.tuple_scale(scale, self.scaling), 'prismatic', upper_limit=self.scaling,
-                                           create_handle=self.create_handle, joint_axis=(1, 0, 0))
+        loc = calc.tuple_scale(loc, self.scaling)
+        scale = calc.tuple_scale(scale, self.scaling)
+        if prismatic:
+            limit = round(limit * self.scaling, 5)
+
+            call = lambda: self.world.new_link(loc, rot, scale, 'prismatic', upper_limit=limit,
+                                               create_handle=self.create_handle, joint_axis=(1, 0, 0))
+            self.prismatic_joints_target -= 1
+        else:
+            call = lambda: self.world.new_link(loc, rot, scale, 'revolute', auto_limit=limit,
+                                               create_handle=self.create_handle, hinge_diameter=None)
+            self.revolute_joints_target -= 1
         self.blender_operations_queue.append(call)
 
-        # update goal_space and target counter
-        self.goal_space.append((0, 1 * self.scaling))
-        self.prismatic_joints_target -= 1
-
-    def _place_revolute_link(self, direction):
-        sp = self.start_points[0]
-        scale = (3 - self.epsilon, 1 - self.epsilon, 1 - self.epsilon)
-        # add new revolute joint at this position:
-        if direction == "N_counterclockwise":
-            loc = (sp[0], sp[1] + 1, scale[2] / 2)
-            rot = (0, 0, calc.RAD90)
-            limit = calc.RAD90
-        elif direction == "N_clockwise":
-            # add new revolute joint at this position
-            loc = (sp[0], sp[1] + 1, scale[2] / 2)
-            rot = (0, 0, calc.RAD90)
-            limit = -calc.RAD90
-        elif direction == "E_counterclockwise":
-            loc = (sp[0] + 1, sp[1], scale[2] / 2)
-            rot = (0, 0, 0)
-            limit = calc.RAD90
-        elif direction == "E_clockwise":
-            loc = (sp[0] + 1, sp[1], scale[2] / 2)
-            rot = (0, 0, 0)
-            limit = -calc.RAD90
-        elif direction == "S_counterclockwise":
-            loc = (sp[0], sp[1] - 1, scale[2] / 2)
-            rot = (0, 0, calc.RAD90)
-            limit = calc.RAD90
-        elif direction == "S_clockwise":
-            loc = (sp[0], sp[1] - 1, scale[2] / 2)
-            rot = (0, 0, calc.RAD90)
-            limit = -calc.RAD90
-        elif direction == "W_counterclockwise":
-            loc = (sp[0] - 1, sp[1], scale[2] / 2)
-            rot = (0, 0, 0)
-            limit = calc.RAD90
-        elif direction == "W_clockwise":
-            loc = (sp[0] - 1, sp[1], scale[2] / 2)
-            rot = (0, 0, 0)
-            limit = -calc.RAD90
-
-        call = lambda: self.world.new_link(calc.tuple_scale(loc, self.scaling), rot,
-                                           calc.tuple_scale(scale, self.scaling), 'revolute', auto_limit=limit,
-                                           create_handle=self.create_handle, hinge_diameter=None)
-        self.blender_operations_queue.append(call)
-
-        # update goal_space and target counter
         self.goal_space_append(self.return_lower_and_upper_limit(limit))
-        self.revolute_joints_target -= 1
 
-    def _place_link(self, prismatic: bool):
+    def _choose_link(self, prismatic: bool):
         if prismatic:
             if self.prismatic_joints_target == 0:
                 return 1
@@ -298,10 +270,7 @@ class GridWorldSampler(PuzzleSampler):
         self.position_sequence.append(random_pos)
         self.occupy(random_pos)
         self._add_new_start_points(random_pos)
-        if prismatic:
-            self._place_prismatic_link(random_pos)
-        else:
-            self._place_revolute_link(random_pos)
+        self._place_link(random_pos, prismatic)
         self.start_points.pop(0)
 
         return 0
@@ -309,10 +278,10 @@ class GridWorldSampler(PuzzleSampler):
     def _new_joint(self, try_prismatic_first):
         result = 1
         # try creating either a prismatic or a revolute joint
-        result = self._place_link(prismatic=try_prismatic_first)
+        result = self._choose_link(prismatic=try_prismatic_first)
         if result != 0:
             # if creating that type of joint failed, try creating the other type of joint
-            result = self._place_link(prismatic=not try_prismatic_first)
+            result = self._choose_link(prismatic=not try_prismatic_first)
 
         return result
 
