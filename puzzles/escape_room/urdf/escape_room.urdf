@@ -61,7 +61,7 @@
       <visual name="visual_mesh_2_link_0.001">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/escape_room/meshes/stl/robot.002.stl" scale="1.0 1.0 1.0"/>
+          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/escape_room/meshes/stl/robot.002.stl" scale="0.999 0.999 0.999"/>
         </geometry>
         <material name="green_translucent"/>
       </visual>

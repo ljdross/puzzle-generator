@@ -32,7 +32,7 @@
       <visual name="visual_cylinder_0_link_0.001">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <cylinder radius="0.1995" length="1.999"/>
+          <cylinder radius="0.1993" length="1.997"/>
         </geometry>
         <material name="green_translucent"/>
       </visual>
@@ -203,7 +203,7 @@
       <visual name="visual_cylinder_1_fixed_hinge.001">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <cylinder radius="0.0495" length="2.199"/>
+          <cylinder radius="0.04945" length="2.1968"/>
         </geometry>
         <material name="green_translucent"/>
       </visual>
@@ -260,7 +260,7 @@
       <visual name="visual_box_2_fixed_door_panel.001">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="1.999 0.199 1.999"/>
+          <box size="1.997 0.1988 1.997"/>
         </geometry>
         <material name="green_translucent"/>
       </visual>
@@ -317,7 +317,7 @@
       <visual name="visual_box_3_fixed_door_handle.001">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.199 0.049 0.199"/>
+          <box size="0.1988 0.04895 0.1988"/>
         </geometry>
         <material name="green_translucent"/>
       </visual>
@@ -521,7 +521,7 @@
     </joint>
 
     <joint name="link_2_fixed_door_panel.001" type="fixed">
-      <origin xyz="1.0 0 0" rpy="0 0 0"/>
+      <origin xyz="0.999 0 0" rpy="0 0 0"/>
       <parent link="goal"/>
       <child link="link_2_fixed_door_panel.001"/>
     </joint>
@@ -541,7 +541,7 @@
     </joint>
 
     <joint name="link_3_fixed_door_handle.001" type="fixed">
-      <origin xyz="1.5 0 1.1" rpy="0 0 0"/>
+      <origin xyz="1.4985 0 1.0989" rpy="0 0 0"/>
       <parent link="goal"/>
       <child link="link_3_fixed_door_handle.001"/>
     </joint>

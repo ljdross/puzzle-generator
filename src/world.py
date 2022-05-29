@@ -341,8 +341,11 @@ class BlenderWorld:
                     self.zeroize_limits(obj)
 
     def create_goal_duplicate(self, local_translate=(0, 0, 0), rotation_offset=(0, 0, 0),
-                              new_material=color.GREEN_TRANSLUCENT):
+                              new_material=color.GREEN_TRANSLUCENT, shrink=True):
         goal_duplicate = self.duplicate_with_children(self.movable_links[0])
+        if shrink:
+            factors = tuple(map(self.subtract_link_size_reduction, (1, 1, 1)))
+            bpy.ops.transform.resize(value=factors)
         self.apply_to_subtree(goal_duplicate, new_material, remove_collision=True, zeroize_limits=True)
         bpy.ops.object.select_all(action='DESELECT')
         goal_duplicate.select_set(True)

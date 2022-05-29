@@ -32,7 +32,7 @@
       <visual name="visual_box_0_link_0.001">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="2.899 0.899 0.899"/>
+          <box size="2.8961 0.8981 0.8981"/>
         </geometry>
         <material name="green_translucent"/>
       </visual>
@@ -230,7 +230,7 @@
       <visual name="visual_cylinder_1_fixed_hinge.001">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <cylinder radius="0.112" length="0.989"/>
+          <cylinder radius="0.11189" length="0.98801"/>
         </geometry>
         <material name="green_translucent"/>
       </visual>
@@ -287,7 +287,7 @@
       <visual name="visual_cylinder_2_fixed_handle_shaft.001">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <cylinder radius="0.0995" length="0.999"/>
+          <cylinder radius="0.0994" length="0.998"/>
         </geometry>
         <material name="green_translucent"/>
       </visual>
@@ -344,7 +344,7 @@
       <visual name="visual_box_3_fixed_handle_knob.001">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.049 0.049 0.199"/>
+          <box size="0.04895 0.04895 0.1988"/>
         </geometry>
         <material name="green_translucent"/>
       </visual>
@@ -575,7 +575,7 @@
     </joint>
 
     <joint name="link_2_fixed_handle_shaft.001" type="fixed">
-      <origin xyz="1.0875 0 0.95" rpy="0 0 0"/>
+      <origin xyz="1.08641 0 0.94905" rpy="0 0 0"/>
       <parent link="goal"/>
       <child link="link_2_fixed_handle_shaft.001"/>
     </joint>
@@ -595,7 +595,7 @@
     </joint>
 
     <joint name="link_3_fixed_handle_knob.001" type="fixed">
-      <origin xyz="0 0 0.6" rpy="0 0 0"/>
+      <origin xyz="0 0 0.5994" rpy="0 0 0"/>
       <parent link="link_2_fixed_handle_shaft.001"/>
       <child link="link_3_fixed_handle_knob.001"/>
     </joint>
