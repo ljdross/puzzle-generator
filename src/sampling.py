@@ -359,11 +359,14 @@ class ContinuousSpaceSampler(PuzzleSampler):
         else:
             world.update_name("continuous_space")
         self.planning_time = config["start_planning_time"]
+        self.initial_planning_time = self.planning_time
         self.planning_time_multiplier = config["planning_time_multiplier"]
         self.first_test_time_multiplier = config["first_test_time_multiplier"]
         self.area_size = config["area_size"]
         self.upper_limit_prismatic = config["upper_limit_prismatic"]
         self.upper_limit_revolute = config["upper_limit_revolute"]
+        self.attempts_per_link = config["attempts_per_link"]
+        self.start_points = [(0, 0)]
 
     def _get_random_limit(self, is_prismatic):
         """
@@ -384,14 +387,19 @@ class ContinuousSpaceSampler(PuzzleSampler):
 
     def _calculate_next_start_point(self, is_prismatic, pos, rotation, limit):
         """
+        Remove the previous start point and append new start point(s).
         Calculate the center of the sampling area for the next joint to maximize the chance of blocking the previous
         joint.
         """
+        self.start_points.pop(0)
         if is_prismatic:
             link_oriented = calc.rotate((0, self.prismatic_length / 2 + limit / 2), rotation)
+            self.start_points.append(calc.tuple_add(pos, link_oriented))
         else:
+            link_oriented = calc.rotate((self.revolute_length, 0), rotation - calc.RAD90)
+            self.start_points.append(calc.tuple_add(pos, link_oriented))
             link_oriented = calc.rotate((self.revolute_length, 0), rotation + calc.RAD90)
-        return calc.tuple_add(pos, link_oriented)
+            self.start_points.append(calc.tuple_add(pos, link_oriented))
 
     def _sample_first_joint(self):
         """
@@ -400,27 +408,28 @@ class ContinuousSpaceSampler(PuzzleSampler):
         self.start_state.append(0)
         threshold = self.prismatic_joints_target / (self.prismatic_joints_target + self.revolute_joints_target)
         rotation = round(random() * calc.RAD360, 5)
+        start_point = self.start_points[0]
         # since this is the first joint, we do not need to check solvability
         # but the goal is to move link0 to a specific location
         # so this dimension in the goal space must be narrowed
         if random() < threshold:
             # create prismatic joint
             limit = self._get_random_limit(True)
-            self.world.new_link((self.start_point[0], self.start_point[1], 0.5), (0, 0, rotation),
+            self.world.new_link((start_point[0], start_point[1], 0.5), (0, 0, rotation + calc.RAD90),
                                 (self.prismatic_length, 1, 1), 'prismatic', upper_limit=limit,
                                 create_handle=self.create_handle, joint_axis=(1, 0, 0))
             self.world.create_goal_duplicate((limit, 0, 0))
             self.prismatic_joints_target -= 1
-            self.start_point = self._calculate_next_start_point(True, self.start_point, rotation, limit)
+            self._calculate_next_start_point(True, start_point, rotation, limit)
         else:
             # create revolute joint
             limit = self._get_random_limit(False)
-            self.world.new_link((self.start_point[0], self.start_point[1], 0.5), (0, 0, rotation),
+            self.world.new_link((start_point[0], start_point[1], 0.5), (0, 0, rotation),
                                 (self.revolute_length, 1, 1), 'revolute', auto_limit=limit,
                                 create_handle=self.create_handle, hinge_diameter=None)
             self.world.create_goal_duplicate(rotation_offset=(0, 0, limit))
             self.revolute_joints_target -= 1
-            self.start_point = self._calculate_next_start_point(False, self.start_point, rotation, limit)
+            self._calculate_next_start_point(False, start_point, rotation, limit)
         self.goal_space_append_with_adjustment((limit, limit))
 
     def _sample_next_joint(self):
@@ -432,9 +441,11 @@ class ContinuousSpaceSampler(PuzzleSampler):
         """
         threshold = self.prismatic_joints_target / (self.prismatic_joints_target + self.revolute_joints_target)
         is_prismatic: bool
-        for i in range(self.attempts):
+        for i in range(self.attempts_per_link):
             offset = random() * self.area_size - self.area_size / 2, random() * self.area_size - self.area_size / 2
-            new_point = calc.tuple_add(self.start_point, offset)
+            shuffle(self.start_points)
+            start_point = self.start_points[0]
+            new_point = calc.tuple_add(start_point, offset)
             new_point = round(new_point[0], 5), round(new_point[1], 5)
             rotation = round(random() * calc.RAD360, 5)
             if random() < threshold:
@@ -451,7 +462,7 @@ class ContinuousSpaceSampler(PuzzleSampler):
                 is_prismatic = False
             self.world.export()
             result = solve(self.world.urdf_path, self.start_state, self.goal_space,
-                           self.planning_time * self.first_test_time_multiplier)
+                           self.planning_time * self.first_test_time_multiplier, verbose=False)
             if result == 0:
                 # can be solved with the immovable joint
                 # we do not want that
@@ -468,9 +479,10 @@ class ContinuousSpaceSampler(PuzzleSampler):
                 self.start_state.append(0)
 
                 # and check solvability again
-                result = solve(self.world.urdf_path, self.start_state, self.goal_space, self.planning_time)
+                result = solve(self.world.urdf_path, self.start_state, self.goal_space, self.planning_time,
+                               verbose=False)
                 if result == 0:
-                    self.start_point = self._calculate_next_start_point(is_prismatic, new_point, rotation, limit)
+                    self._calculate_next_start_point(is_prismatic, new_point, rotation, limit)
                     if is_prismatic:
                         self.prismatic_joints_target -= 1
                     else:
@@ -483,6 +495,14 @@ class ContinuousSpaceSampler(PuzzleSampler):
 
         return 1
 
+    def _clean_up(self):
+        self.prismatic_joints_target = self.number_prismatic_joints
+        self.revolute_joints_target = self.number_revolute_joints
+        self.start_points = [(0, 0)]
+        self.start_state = []
+        self.goal_space = []
+        self.planning_time = self.initial_planning_time
+
     def _create_continuous_space_puzzle(self):
         """
         Sample links with joints iteratively
@@ -492,8 +512,9 @@ class ContinuousSpaceSampler(PuzzleSampler):
             result = self._sample_next_joint()
             if result != 0:
                 print("\U000026D4 " * 64)
-                print("Could NOT sample link" + str(i), "after", self.attempts, "attempts!")
+                print("Could NOT sample link" + str(i), "after", self.attempts_per_link, "attempts!")
                 print("\U000026D4 " * 64)
+                self._clean_up()
                 return result
             print("Successfully sampled link" + str(i), "\U000026F3 " * (i + 1))
             self.planning_time *= self.planning_time_multiplier
@@ -504,14 +525,17 @@ class ContinuousSpaceSampler(PuzzleSampler):
 
     def build(self):
         """Build complete model in Blender and export to URDF. Sample random positions for joints."""
-        self.world.reset()
-        self.world.create_base_link(self.floor_size)
-        result = self._create_continuous_space_puzzle()
-        if result == 0:
-            self.world.render_image()
-            return 0
-        else:
-            return result
+        for i in range(self.attempts):
+            self.world.reset()
+            self.world.create_base_link(self.floor_size)
+            result = self._create_continuous_space_puzzle()
+            progress = round((i + 1) / self.attempts * 100)
+            print("Attempt", i + 1, "of", self.attempts, "done [" + ("#" * progress) + (" " * (100 - progress)) + "]")
+            if result == 0:
+                self.world.render_image()
+                return 0
+
+        return result
 
 
 class Lockbox2017Sampler(PuzzleSampler):

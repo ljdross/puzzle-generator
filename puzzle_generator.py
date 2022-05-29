@@ -6,6 +6,7 @@ sys.path.append(DIR)
 from src.world import BlenderWorld
 from src.sampling import *
 from src.pybullet_simulation import solve
+from src import robowflex_simulation
 from src import calc
 
 # output settings and world properties
@@ -27,7 +28,7 @@ sampler_config = {
     "scaling": 1,
     "number_prismatic_joints": 4,
     "number_revolute_joints": 2,
-    "attempts": 50,
+    "attempts": 10,
     "seed_for_randomness": 0,  # choose None for pseudorandom
     "create_handle": True,
 
@@ -42,7 +43,7 @@ sampler_config = {
 
     # this part is only required for ContinuousSpaceSampler
     "start_planning_time": 0.1,
-    "planning_time_multiplier": 2.,  # apply for sampling of next link+joint after successfully sampling one link+joint
+    "planning_time_multiplier": 5.,  # apply for sampling of next link+joint after successfully sampling one link+joint
     "first_test_time_multiplier": 1.5,  # during the first test the link+joint is immovable and the puzzle must be
                                         # unsolvable. to make sure that it is really UNsolvable, we must provide more
                                         # planning time than in the second test (where we just check solvability)
@@ -50,6 +51,7 @@ sampler_config = {
     "upper_limit_prismatic": (2, 4),  # random upper limit will be within this interval, lower limit is always 0
     "upper_limit_revolute": (calc.RAD90, calc.RAD180),  # same here (but there is a 50 % chance for the joint to be
                                                         # clockwise)
+    "attempts_per_link": 50,
 
     # this part is only required for Lockbox2017Sampler and LockboxRandomSampler
     "mesh1": "input-meshes/slot_disc.blend",  # both absolute and relative paths are allowed
@@ -73,11 +75,11 @@ sampler = GridWorldSampler(sampler_config, world)
 sampler.build()
 solve(world.urdf_path, sampler.start_state, sampler.goal_space, 1., show_gui=True)
 
-sampler_config["number_prismatic_joints"] = 2
-
-sampler = ContinuousSpaceSampler(sampler_config, world)
-sampler.build()
-solve(world.urdf_path, sampler.start_state, sampler.goal_space, 1., show_gui=True)
+# sampler_config["number_prismatic_joints"] = 3
+# sampler_config["number_revolute_joints"] = 2
+# sampler = ContinuousSpaceSampler(sampler_config, world)
+# sampler.build()
+# solve(world.urdf_path, sampler.start_state, sampler.goal_space, 1., show_gui=True)
 
 sampler = Lockbox2017Sampler(sampler_config, world)
 sampler.build()
