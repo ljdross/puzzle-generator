@@ -25,7 +25,7 @@ def adjust_absolute_filepaths():
 
 
 def solve(urdf_path="puzzles/simple_sliders/urdf/simple_sliders.urdf", planning_time=5, adjust_filepaths=False,
-          benchmark_runs=0):
+          benchmark_runs=0, animation=False):
     puzzle_directory = path.dirname(path.dirname(urdf_path))
     puzzle_name = puzzle_directory.split('/')[-1]
 
@@ -38,11 +38,17 @@ def solve(urdf_path="puzzles/simple_sliders/urdf/simple_sliders.urdf", planning_
 
     if not benchmark_runs:
         path_res = ROBOWFLEX_WORKSPACE + "/src/robowflex/robowflex_dart/include/io/path_result/" + puzzle_name + ".txt"
-        with open(path_res, "w"):
+        with open(path_res, "w"):  # reset result file
             pass
-        run(["./solve_puzzle", puzzle_name, str(planning_time)], cwd=ROBOWFLEX_WORKSPACE + "/devel/lib/robowflex_dart/")
 
-        if stat(path_res).st_size == 0:
+        if animation:
+            run(["./solve_puzzle_animation", puzzle_name, str(planning_time)],
+                cwd=ROBOWFLEX_WORKSPACE + "/devel/lib/robowflex_dart/")
+        else:
+            run(["./solve_puzzle", puzzle_name, str(planning_time)],
+                cwd=ROBOWFLEX_WORKSPACE + "/devel/lib/robowflex_dart/")
+
+        if stat(path_res).st_size == 0:  # size of result file
             print("NO SOLUTION FOUND!")
             return 1
         else:
