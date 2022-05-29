@@ -21,7 +21,7 @@ class BlenderWorld:
             self._dir_for_output = config["dir_for_output"]
         self.directory = self._dir_for_output + "/" + self.name
         self.urdf_path = self.directory + "/urdf/" + self.name + ".urdf"
-        self.link_size_reduction = config["link_size_reduction"]
+        self.link_shrink = config["link_shrink"]
         self.export_entity_srdf = config["export_entity_srdf"]
         self.export_mesh_dae = config["export_mesh_dae"]
         self.export_mesh_stl = config["export_mesh_stl"]
@@ -55,18 +55,18 @@ class BlenderWorld:
         bpy.context.scene.cursor.location = (0, 0, 0)
         bpy.context.scene.cursor.rotation_euler = (0, 0, 0)
 
-    def subtract_link_size_reduction(self, x):
-        if x < self.link_size_reduction:
+    def subtract_link_shrink(self, x):
+        if x < self.link_shrink:
             return x
-        elif x < 2 * self.link_size_reduction:
-            return self.link_size_reduction
+        elif x < 2 * self.link_shrink:
+            return self.link_shrink
         else:
-            return round(x - self.link_size_reduction, 5)
+            return round(x - self.link_shrink, 5)
 
     def create_visual(self, location=(0, 0, 0), rotation=(0, 0, 0), scale=(1, 1, 1), material=None, name="",
                       parent=None, mesh="", object_name="", is_cylinder=False):
         """Create a visual object with the appropriate Phobos object properties. Returns the object."""
-        scale = tuple(map(self.subtract_link_size_reduction, scale))
+        scale = tuple(map(self.subtract_link_shrink, scale))
 
         if mesh:
             self.contains_mesh = True
@@ -344,7 +344,7 @@ class BlenderWorld:
                               new_material=color.GREEN_TRANSLUCENT, shrink=True):
         goal_duplicate = self.duplicate_with_children(self.movable_links[0])
         if shrink:
-            factors = tuple(map(self.subtract_link_size_reduction, (1, 1, 1)))
+            factors = tuple(map(self.subtract_link_shrink, (1, 1, 1)))
             bpy.ops.transform.resize(value=factors)
         self.apply_to_subtree(goal_duplicate, new_material, remove_collision=True, zeroize_limits=True)
         bpy.ops.object.select_all(action='DESELECT')
