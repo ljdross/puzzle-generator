@@ -285,6 +285,16 @@ class GridWorldSampler(PuzzleSampler):
 
         return result
 
+    def _clean_up(self):
+        self.goal_space = []
+        self.prismatic_joints_target = self.number_prismatic_joints
+        self.revolute_joints_target = self.number_revolute_joints
+        self.branching_target = self.branching_factor
+        self.start_points = [(0.5, 0.5)]
+        self.occupied_fields = self.start_points.copy()
+        self.position_sequence = []
+        self.blender_operations_queue = []
+
     def _create_grid_world_puzzle(self):
         """Create movable objects to become links for the puzzle (in a grid world)."""
         try_prismatic: bool
@@ -312,15 +322,7 @@ class GridWorldSampler(PuzzleSampler):
             result = self._new_joint(try_prismatic)
             if result != 0:
                 print("ATTEMPT TO CREATE A SEQUENCE FAILED: " + str(self.position_sequence))
-                # clean up
-                self.goal_space = []
-                self.prismatic_joints_target = self.number_prismatic_joints
-                self.revolute_joints_target = self.number_revolute_joints
-                self.branching_target = self.branching_factor
-                self.start_points = [(0.5, 0.5)]
-                self.occupied_fields = self.start_points.copy()
-                self.position_sequence = []
-                self.blender_operations_queue = []
+                self._clean_up()
                 return result
         print("SUCCESSFULLY CREATED THE FOLLOWING SEQUENCE: " + str(self.position_sequence))
         for operation in self.blender_operations_queue:
@@ -337,18 +339,15 @@ class GridWorldSampler(PuzzleSampler):
     def build(self):
         """Build complete model in Blender and export to URDF."""
         self.start_state = [0] * self.total_number_joints
-        result = 1
-        while result != 0:
+        for _ in range(self.attempts):
             self.world.reset()
-            if self.attempts <= 0:
-                return result
             self.world.create_base_link(self.floor_size)
             result = self._create_grid_world_puzzle()
-            self.attempts -= 1
-
-        self.world.export()
-        self.world.render_image()
-        return 0
+            if result == 0:
+                self.world.export()
+                self.world.render_image()
+                return 0
+        return result
 
 
 class ContinuousSpaceSampler(PuzzleSampler):
