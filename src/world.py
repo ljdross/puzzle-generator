@@ -27,11 +27,11 @@ class BlenderWorld:
         self.export_mesh_stl = config["export_mesh_stl"]
         self.output_mesh_type = config["output_mesh_type"]
         bpy.context.scene.render.engine = 'BLENDER_WORKBENCH'
-        self.base_object = None
-        self.floor_thickness = 0
+        self.base_link = None
+        self.floor = None
         self.movable_links = []
         self.contains_mesh = False
-        self.joint_count = 0
+        self.link_count = 0
 
     def update_name(self, new_name="new_default_name"):
         self.name = new_name
@@ -45,12 +45,13 @@ class BlenderWorld:
         for block in bpy.data.meshes:
             bpy.data.meshes.remove(block)
         self.contains_mesh = False
-        self.joint_count = 0
+        self.link_count = 0
 
         bpy.ops.object.select_all(action='SELECT')
         bpy.ops.object.delete(use_global=True)
         self.movable_links = []
-        self.base_object = None
+        self.base_link = None
+        self.floor = None
 
         bpy.context.scene.cursor.location = (0, 0, 0)
         bpy.context.scene.cursor.rotation_euler = (0, 0, 0)
@@ -117,21 +118,20 @@ class BlenderWorld:
         if joint_type:
             bpy.ops.phobos.define_joint_constraints(passive=True, joint_type=joint_type, lower=lower, upper=upper)
 
-    def create_base_link(self, floor_size=32, thickness=0.2):
+    def create_base_link(self):
         """
         Create a base object to become the base link for all other links.
-        If no physical floor is needed, use default floor_size=0
+        Has neither visual nor collision.
         """
-        if floor_size == 0:
-            thickness = 0
-        self.floor_thickness = thickness
-        visual = self.create_visual(scale=(floor_size, floor_size, thickness), material=color.LAVENDER, name="base")
+        visual = self.create_visual(name="base")
         self.create_link_and_joint(visual, "base_link")
-        self.base_object = visual.parent
-        if floor_size == 0:
-            self.apply_to_subtree(self.base_object, remove_visual=True)
-        else:
-            self.create_collision(visual)
+        self.base_link = visual.parent
+        self.apply_to_subtree(self.base_link, remove_visual=True)
+
+    def create_floor(self, size=32, thickness=0.2):
+        if size:
+            self.floor = self.new_link((0, 0, -thickness / 2), (0, 0, 0), (size, size, thickness),
+                                       material=color.LAVENDER, name="floor")
 
     def update_joint_axis(self, link, direction_vector=(1, 0, 0)):
         """
@@ -177,8 +177,7 @@ class BlenderWorld:
             else:
                 upper_limit = auto_limit
         if not parent:
-            parent = self.base_object
-            location = (location[0], location[1], location[2] + self.floor_thickness / 2)
+            parent = self.base_link
             material = material if material else self._determine_link_color(link_is_child=False)
             link_number = len(self.movable_links)
         else:
@@ -186,12 +185,12 @@ class BlenderWorld:
             link_number = len(self.movable_links) - 1
         if joint_type == 'fixed':
             if name:
-                name = str(self.joint_count) + "_fixed_" + name
+                name = "fixed_" + str(self.link_count) + "_" + name
             else:
-                name = str(self.joint_count) + "_fixed"
+                name = "fixed_" + str(self.link_count)
         else:
-            name = str(self.joint_count) + "_link_" + str(link_number)
-        self.joint_count += 1
+            name = str(self.link_count) + "_link_" + str(link_number)
+        self.link_count += 1
         visual = self.create_visual(location, rotation, scale, material, name, parent, blend_file, object_name,
                                     is_cylinder)
         if new_mesh_name:
@@ -205,7 +204,7 @@ class BlenderWorld:
             self.apply_to_subtree(link, remove_visual=True)
         elif collision:
             self.create_collision(visual)
-        if joint_type != 'fixed' and parent == self.base_object:
+        if joint_type != 'fixed' and parent == self.base_link:
             self.movable_links.append(link)
         if joint_axis != (0, 0, 1):
             # do this (update joint axis) before adding child links e.g. hinge or handle
@@ -361,8 +360,8 @@ class BlenderWorld:
         bpy.context.scene.camera = cam
 
         bpy.ops.object.select_all(action='SELECT')
-        self.base_object.select_set(False)
-        for child in self.base_object.children:
+        self.floor.select_set(False)
+        for child in self.floor.children:
             if child.phobostype == 'collision' or child.phobostype == 'visual':
                 child.select_set(False)
         bpy.ops.view3d.camera_to_view_selected()
@@ -386,7 +385,7 @@ class BlenderWorld:
             bpy.context.scene.export_mesh_dae = False
             bpy.context.scene.export_mesh_stl = False
         bpy.ops.object.select_all(action='DESELECT')
-        self.base_object.select_set(True)
+        self.base_link.select_set(True)
         bpy.context.view_layer.objects.active = bpy.context.selected_objects[0]
         bpy.ops.phobos.name_model(modelname=self.name)
         bpy.ops.phobos.export_model()

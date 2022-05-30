@@ -6,31 +6,33 @@
 
     <passive_joint name="link_0_joint_0"/>
 
-    <passive_joint name="link_10_fixed_handle_shaft"/>
-
-    <passive_joint name="link_11_fixed_handle_knob"/>
-
-    <passive_joint name="link_1_fixed_handle_shaft"/>
-
-    <passive_joint name="link_1_fixed_handle_shaft.001"/>
-
     <passive_joint name="link_1_joint_0"/>
-
-    <passive_joint name="link_2_fixed_handle_knob"/>
-
-    <passive_joint name="link_2_fixed_handle_knob.001"/>
 
     <passive_joint name="link_2_joint_0"/>
 
     <passive_joint name="link_3_joint_0"/>
 
-    <passive_joint name="link_4_fixed_handle_shaft"/>
+    <passive_joint name="link_fixed_0_floor"/>
 
-    <passive_joint name="link_5_fixed_handle_knob"/>
+    <passive_joint name="link_fixed_11_handle_shaft"/>
 
-    <passive_joint name="link_7_fixed_handle_shaft"/>
+    <passive_joint name="link_fixed_12_handle_knob"/>
 
-    <passive_joint name="link_8_fixed_handle_knob"/>
+    <passive_joint name="link_fixed_2_handle_shaft"/>
+
+    <passive_joint name="link_fixed_2_handle_shaft.001"/>
+
+    <passive_joint name="link_fixed_3_handle_knob"/>
+
+    <passive_joint name="link_fixed_3_handle_knob.001"/>
+
+    <passive_joint name="link_fixed_5_handle_shaft"/>
+
+    <passive_joint name="link_fixed_6_handle_knob"/>
+
+    <passive_joint name="link_fixed_8_handle_shaft"/>
+
+    <passive_joint name="link_fixed_9_handle_knob"/>
 
     <link_sphere_approximation link="base_link">
       <sphere center="0.0 0.0 0.0" radius="0"/>
@@ -44,31 +46,7 @@
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
 
-    <link_sphere_approximation link="link_10_fixed_handle_shaft">
-      <sphere center="0.0 0.0 0.0" radius="0"/>
-    </link_sphere_approximation>
-
-    <link_sphere_approximation link="link_11_fixed_handle_knob">
-      <sphere center="0.0 0.0 0.0" radius="0"/>
-    </link_sphere_approximation>
-
-    <link_sphere_approximation link="link_1_fixed_handle_shaft">
-      <sphere center="0.0 0.0 0.0" radius="0"/>
-    </link_sphere_approximation>
-
-    <link_sphere_approximation link="link_1_fixed_handle_shaft.001">
-      <sphere center="0.0 0.0 0.0" radius="0"/>
-    </link_sphere_approximation>
-
     <link_sphere_approximation link="link_1_joint_0">
-      <sphere center="0.0 0.0 0.0" radius="0"/>
-    </link_sphere_approximation>
-
-    <link_sphere_approximation link="link_2_fixed_handle_knob">
-      <sphere center="0.0 0.0 0.0" radius="0"/>
-    </link_sphere_approximation>
-
-    <link_sphere_approximation link="link_2_fixed_handle_knob.001">
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
 
@@ -80,19 +58,47 @@
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
 
-    <link_sphere_approximation link="link_4_fixed_handle_shaft">
+    <link_sphere_approximation link="link_fixed_0_floor">
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
 
-    <link_sphere_approximation link="link_5_fixed_handle_knob">
+    <link_sphere_approximation link="link_fixed_11_handle_shaft">
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
 
-    <link_sphere_approximation link="link_7_fixed_handle_shaft">
+    <link_sphere_approximation link="link_fixed_12_handle_knob">
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
 
-    <link_sphere_approximation link="link_8_fixed_handle_knob">
+    <link_sphere_approximation link="link_fixed_2_handle_shaft">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_2_handle_shaft.001">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_3_handle_knob">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_3_handle_knob.001">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_5_handle_shaft">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_6_handle_knob">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_8_handle_shaft">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_9_handle_knob">
       <sphere center="0.0 0.0 0.0" radius="0"/>
     </link_sphere_approximation>
 

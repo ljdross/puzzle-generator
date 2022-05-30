@@ -8,19 +8,6 @@
         <mass value="0.001"/>
         <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
       </inertial>
-      <visual name="visual_box_base">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <box size="31.999 31.999 0.199"/>
-        </geometry>
-        <material name="lavender"/>
-      </visual>
-      <collision name="collision_box_base">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <box size="31.999 31.999 0.199"/>
-        </geometry>
-      </collision>
     </link>
 
     <link name="goal">
@@ -29,7 +16,7 @@
         <mass value="0.001"/>
         <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
       </inertial>
-      <visual name="visual_box_0_link_0.001">
+      <visual name="visual_box_1_link_0.001">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="2.8961 0.8981 0.8981"/>
@@ -44,196 +31,19 @@
         <mass value="0.001"/>
         <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
       </inertial>
-      <visual name="visual_box_0_link_0">
+      <visual name="visual_box_1_link_0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="2.899 0.899 0.899"/>
         </geometry>
         <material name="green"/>
       </visual>
-      <collision name="collision_box_0_link_0">
+      <collision name="collision_box_1_link_0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="2.899 0.899 0.899"/>
         </geometry>
       </collision>
-    </link>
-
-    <link name="link_10_fixed_handle_knob">
-      <inertial>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <mass value="0.001"/>
-        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
-      </inertial>
-      <visual name="visual_box_10_fixed_handle_knob">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <box size="0.049 0.049 0.199"/>
-        </geometry>
-        <material name="yellow"/>
-      </visual>
-      <collision name="collision_box_10_fixed_handle_knob">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <box size="0.049 0.049 0.199"/>
-        </geometry>
-      </collision>
-    </link>
-
-    <link name="link_12_fixed_handle_shaft">
-      <inertial>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <mass value="0.001"/>
-        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
-      </inertial>
-      <visual name="visual_box_12_fixed_handle_shaft">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <box size="0.199 0.199 0.999"/>
-        </geometry>
-        <material name="red"/>
-      </visual>
-      <collision name="collision_box_12_fixed_handle_shaft">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <box size="0.199 0.199 0.999"/>
-        </geometry>
-      </collision>
-    </link>
-
-    <link name="link_13_fixed_handle_knob">
-      <inertial>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <mass value="0.001"/>
-        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
-      </inertial>
-      <visual name="visual_box_13_fixed_handle_knob">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <box size="0.049 0.049 0.199"/>
-        </geometry>
-        <material name="yellow"/>
-      </visual>
-      <collision name="collision_box_13_fixed_handle_knob">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <box size="0.049 0.049 0.199"/>
-        </geometry>
-      </collision>
-    </link>
-
-    <link name="link_15_fixed_handle_shaft">
-      <inertial>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <mass value="0.001"/>
-        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
-      </inertial>
-      <visual name="visual_box_15_fixed_handle_shaft">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <box size="0.199 0.199 0.999"/>
-        </geometry>
-        <material name="red"/>
-      </visual>
-      <collision name="collision_box_15_fixed_handle_shaft">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <box size="0.199 0.199 0.999"/>
-        </geometry>
-      </collision>
-    </link>
-
-    <link name="link_16_fixed_handle_knob">
-      <inertial>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <mass value="0.001"/>
-        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
-      </inertial>
-      <visual name="visual_box_16_fixed_handle_knob">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <box size="0.049 0.049 0.199"/>
-        </geometry>
-        <material name="yellow"/>
-      </visual>
-      <collision name="collision_box_16_fixed_handle_knob">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <box size="0.049 0.049 0.199"/>
-        </geometry>
-      </collision>
-    </link>
-
-    <link name="link_18_fixed_handle_shaft">
-      <inertial>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <mass value="0.001"/>
-        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
-      </inertial>
-      <visual name="visual_box_18_fixed_handle_shaft">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <box size="0.199 0.199 0.999"/>
-        </geometry>
-        <material name="red"/>
-      </visual>
-      <collision name="collision_box_18_fixed_handle_shaft">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <box size="0.199 0.199 0.999"/>
-        </geometry>
-      </collision>
-    </link>
-
-    <link name="link_19_fixed_handle_knob">
-      <inertial>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <mass value="0.001"/>
-        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
-      </inertial>
-      <visual name="visual_box_19_fixed_handle_knob">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <box size="0.049 0.049 0.199"/>
-        </geometry>
-        <material name="yellow"/>
-      </visual>
-      <collision name="collision_box_19_fixed_handle_knob">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <box size="0.049 0.049 0.199"/>
-        </geometry>
-      </collision>
-    </link>
-
-    <link name="link_1_fixed_hinge">
-      <inertial>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <mass value="0.001"/>
-        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
-      </inertial>
-      <visual name="visual_cylinder_1_fixed_hinge">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <cylinder radius="0.112" length="0.989"/>
-        </geometry>
-        <material name="gray"/>
-      </visual>
-    </link>
-
-    <link name="link_1_fixed_hinge.001">
-      <inertial>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <mass value="0.001"/>
-        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
-      </inertial>
-      <visual name="visual_cylinder_1_fixed_hinge.001">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <cylinder radius="0.11189" length="0.98801"/>
-        </geometry>
-        <material name="green_translucent"/>
-      </visual>
     </link>
 
     <link name="link_1_joint_0">
@@ -242,55 +52,19 @@
         <mass value="0.001"/>
         <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
       </inertial>
-      <visual name="visual_box_4_link_1">
+      <visual name="visual_box_5_link_1">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="1.899 0.899 0.899"/>
         </geometry>
         <material name="red"/>
       </visual>
-      <collision name="collision_box_4_link_1">
+      <collision name="collision_box_5_link_1">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="1.899 0.899 0.899"/>
         </geometry>
       </collision>
-    </link>
-
-    <link name="link_2_fixed_handle_shaft">
-      <inertial>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <mass value="0.001"/>
-        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
-      </inertial>
-      <visual name="visual_cylinder_2_fixed_handle_shaft">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <cylinder radius="0.0995" length="0.999"/>
-        </geometry>
-        <material name="green"/>
-      </visual>
-      <collision name="collision_cylinder_2_fixed_handle_shaft">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <cylinder radius="0.0995" length="0.999"/>
-        </geometry>
-      </collision>
-    </link>
-
-    <link name="link_2_fixed_handle_shaft.001">
-      <inertial>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <mass value="0.001"/>
-        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
-      </inertial>
-      <visual name="visual_cylinder_2_fixed_handle_shaft.001">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <cylinder radius="0.0994" length="0.998"/>
-        </geometry>
-        <material name="green_translucent"/>
-      </visual>
     </link>
 
     <link name="link_2_joint_0">
@@ -299,55 +73,19 @@
         <mass value="0.001"/>
         <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
       </inertial>
-      <visual name="visual_box_7_link_2">
+      <visual name="visual_box_8_link_2">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="2.899 0.899 0.899"/>
         </geometry>
         <material name="red"/>
       </visual>
-      <collision name="collision_box_7_link_2">
+      <collision name="collision_box_8_link_2">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="2.899 0.899 0.899"/>
         </geometry>
       </collision>
-    </link>
-
-    <link name="link_3_fixed_handle_knob">
-      <inertial>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <mass value="0.001"/>
-        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
-      </inertial>
-      <visual name="visual_box_3_fixed_handle_knob">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <box size="0.049 0.049 0.199"/>
-        </geometry>
-        <material name="yellow"/>
-      </visual>
-      <collision name="collision_box_3_fixed_handle_knob">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <box size="0.049 0.049 0.199"/>
-        </geometry>
-      </collision>
-    </link>
-
-    <link name="link_3_fixed_handle_knob.001">
-      <inertial>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <mass value="0.001"/>
-        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
-      </inertial>
-      <visual name="visual_box_3_fixed_handle_knob.001">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <box size="0.04895 0.04895 0.1988"/>
-        </geometry>
-        <material name="green_translucent"/>
-      </visual>
     </link>
 
     <link name="link_3_joint_0">
@@ -356,14 +94,14 @@
         <mass value="0.001"/>
         <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
       </inertial>
-      <visual name="visual_box_11_link_3">
+      <visual name="visual_box_12_link_3">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="1.899 0.899 0.899"/>
         </geometry>
         <material name="red"/>
       </visual>
-      <collision name="collision_box_11_link_3">
+      <collision name="collision_box_12_link_3">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="1.899 0.899 0.899"/>
@@ -377,38 +115,17 @@
         <mass value="0.001"/>
         <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
       </inertial>
-      <visual name="visual_box_14_link_4">
+      <visual name="visual_box_15_link_4">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="1.899 0.899 0.899"/>
         </geometry>
         <material name="red"/>
       </visual>
-      <collision name="collision_box_14_link_4">
+      <collision name="collision_box_15_link_4">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="1.899 0.899 0.899"/>
-        </geometry>
-      </collision>
-    </link>
-
-    <link name="link_5_fixed_handle_shaft">
-      <inertial>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <mass value="0.001"/>
-        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
-      </inertial>
-      <visual name="visual_box_5_fixed_handle_shaft">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <box size="0.199 0.199 0.999"/>
-        </geometry>
-        <material name="red"/>
-      </visual>
-      <collision name="collision_box_5_fixed_handle_shaft">
-        <origin xyz="0 0 0" rpy="0 0 0"/>
-        <geometry>
-          <box size="0.199 0.199 0.999"/>
         </geometry>
       </collision>
     </link>
@@ -419,14 +136,14 @@
         <mass value="0.001"/>
         <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
       </inertial>
-      <visual name="visual_box_17_link_5">
+      <visual name="visual_box_18_link_5">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="1.899 0.899 0.899"/>
         </geometry>
         <material name="red"/>
       </visual>
-      <collision name="collision_box_17_link_5">
+      <collision name="collision_box_18_link_5">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="1.899 0.899 0.899"/>
@@ -434,20 +151,62 @@
       </collision>
     </link>
 
-    <link name="link_6_fixed_handle_knob">
+    <link name="link_fixed_0_floor">
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="0.001"/>
         <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
       </inertial>
-      <visual name="visual_box_6_fixed_handle_knob">
+      <visual name="visual_box_fixed_0_floor">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="31.999 31.999 0.199"/>
+        </geometry>
+        <material name="lavender"/>
+      </visual>
+      <collision name="collision_box_fixed_0_floor">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="31.999 31.999 0.199"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="link_fixed_10_handle_shaft">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_cylinder_fixed_10_handle_shaft">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.0995" length="0.999"/>
+        </geometry>
+        <material name="red"/>
+      </visual>
+      <collision name="collision_cylinder_fixed_10_handle_shaft">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.0995" length="0.999"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="link_fixed_11_handle_knob">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_box_fixed_11_handle_knob">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="0.049 0.049 0.199"/>
         </geometry>
         <material name="yellow"/>
       </visual>
-      <collision name="collision_box_6_fixed_handle_knob">
+      <collision name="collision_box_fixed_11_handle_knob">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <box size="0.049 0.049 0.199"/>
@@ -455,13 +214,139 @@
       </collision>
     </link>
 
-    <link name="link_8_fixed_hinge">
+    <link name="link_fixed_13_handle_shaft">
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="0.001"/>
         <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
       </inertial>
-      <visual name="visual_cylinder_8_fixed_hinge">
+      <visual name="visual_box_fixed_13_handle_shaft">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.199 0.199 0.999"/>
+        </geometry>
+        <material name="red"/>
+      </visual>
+      <collision name="collision_box_fixed_13_handle_shaft">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.199 0.199 0.999"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="link_fixed_14_handle_knob">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_box_fixed_14_handle_knob">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.049 0.049 0.199"/>
+        </geometry>
+        <material name="yellow"/>
+      </visual>
+      <collision name="collision_box_fixed_14_handle_knob">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.049 0.049 0.199"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="link_fixed_16_handle_shaft">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_box_fixed_16_handle_shaft">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.199 0.199 0.999"/>
+        </geometry>
+        <material name="red"/>
+      </visual>
+      <collision name="collision_box_fixed_16_handle_shaft">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.199 0.199 0.999"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="link_fixed_17_handle_knob">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_box_fixed_17_handle_knob">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.049 0.049 0.199"/>
+        </geometry>
+        <material name="yellow"/>
+      </visual>
+      <collision name="collision_box_fixed_17_handle_knob">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.049 0.049 0.199"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="link_fixed_19_handle_shaft">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_box_fixed_19_handle_shaft">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.199 0.199 0.999"/>
+        </geometry>
+        <material name="red"/>
+      </visual>
+      <collision name="collision_box_fixed_19_handle_shaft">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.199 0.199 0.999"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="link_fixed_20_handle_knob">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_box_fixed_20_handle_knob">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.049 0.049 0.199"/>
+        </geometry>
+        <material name="yellow"/>
+      </visual>
+      <collision name="collision_box_fixed_20_handle_knob">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.049 0.049 0.199"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="link_fixed_2_hinge">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_cylinder_fixed_2_hinge">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <cylinder radius="0.112" length="0.989"/>
@@ -470,20 +355,35 @@
       </visual>
     </link>
 
-    <link name="link_9_fixed_handle_shaft">
+    <link name="link_fixed_2_hinge.001">
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="0.001"/>
         <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
       </inertial>
-      <visual name="visual_cylinder_9_fixed_handle_shaft">
+      <visual name="visual_cylinder_fixed_2_hinge.001">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.11189" length="0.98801"/>
+        </geometry>
+        <material name="green_translucent"/>
+      </visual>
+    </link>
+
+    <link name="link_fixed_3_handle_shaft">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_cylinder_fixed_3_handle_shaft">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <cylinder radius="0.0995" length="0.999"/>
         </geometry>
-        <material name="red"/>
+        <material name="green"/>
       </visual>
-      <collision name="collision_cylinder_9_fixed_handle_shaft">
+      <collision name="collision_cylinder_fixed_3_handle_shaft">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <cylinder radius="0.0995" length="0.999"/>
@@ -491,117 +391,147 @@
       </collision>
     </link>
 
+    <link name="link_fixed_3_handle_shaft.001">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_cylinder_fixed_3_handle_shaft.001">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.0994" length="0.998"/>
+        </geometry>
+        <material name="green_translucent"/>
+      </visual>
+    </link>
+
+    <link name="link_fixed_4_handle_knob">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_box_fixed_4_handle_knob">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.049 0.049 0.199"/>
+        </geometry>
+        <material name="yellow"/>
+      </visual>
+      <collision name="collision_box_fixed_4_handle_knob">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.049 0.049 0.199"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="link_fixed_4_handle_knob.001">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_box_fixed_4_handle_knob.001">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.04895 0.04895 0.1988"/>
+        </geometry>
+        <material name="green_translucent"/>
+      </visual>
+    </link>
+
+    <link name="link_fixed_6_handle_shaft">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_box_fixed_6_handle_shaft">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.199 0.199 0.999"/>
+        </geometry>
+        <material name="red"/>
+      </visual>
+      <collision name="collision_box_fixed_6_handle_shaft">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.199 0.199 0.999"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="link_fixed_7_handle_knob">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_box_fixed_7_handle_knob">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.049 0.049 0.199"/>
+        </geometry>
+        <material name="yellow"/>
+      </visual>
+      <collision name="collision_box_fixed_7_handle_knob">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.049 0.049 0.199"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="link_fixed_9_hinge">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="visual_cylinder_fixed_9_hinge">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.112" length="0.989"/>
+        </geometry>
+        <material name="gray"/>
+      </visual>
+    </link>
+
     <joint name="goal" type="fixed">
-      <origin xyz="-0.5 0.5 0.55" rpy="0 0 1.5708"/>
+      <origin xyz="-0.5 0.5 0.45" rpy="0 0 1.5708"/>
       <parent link="base_link"/>
       <child link="goal"/>
       <limit effort="0" velocity="0"/>
     </joint>
 
     <joint name="link_0_joint_0" type="revolute">
-      <origin xyz="-0.5 0.5 0.55" rpy="0 0 0"/>
+      <origin xyz="-0.5 0.5 0.45" rpy="0 0 0"/>
       <parent link="base_link"/>
       <child link="link_0_joint_0"/>
       <axis xyz="0 0 1.0"/>
       <limit lower="0" upper="1.5708" effort="0" velocity="0"/>
     </joint>
 
-    <joint name="link_10_fixed_handle_knob" type="fixed">
-      <origin xyz="0 0 0.6" rpy="0 0 0"/>
-      <parent link="link_9_fixed_handle_shaft"/>
-      <child link="link_10_fixed_handle_knob"/>
-    </joint>
-
-    <joint name="link_12_fixed_handle_shaft" type="fixed">
-      <origin xyz="0 0 0.95" rpy="0 0 0"/>
-      <parent link="link_3_joint_0"/>
-      <child link="link_12_fixed_handle_shaft"/>
-    </joint>
-
-    <joint name="link_13_fixed_handle_knob" type="fixed">
-      <origin xyz="0 0 0.6" rpy="0 0 0"/>
-      <parent link="link_12_fixed_handle_shaft"/>
-      <child link="link_13_fixed_handle_knob"/>
-    </joint>
-
-    <joint name="link_15_fixed_handle_shaft" type="fixed">
-      <origin xyz="0 0 0.95" rpy="0 0 0"/>
-      <parent link="link_4_joint_0"/>
-      <child link="link_15_fixed_handle_shaft"/>
-    </joint>
-
-    <joint name="link_16_fixed_handle_knob" type="fixed">
-      <origin xyz="0 0 0.6" rpy="0 0 0"/>
-      <parent link="link_15_fixed_handle_shaft"/>
-      <child link="link_16_fixed_handle_knob"/>
-    </joint>
-
-    <joint name="link_18_fixed_handle_shaft" type="fixed">
-      <origin xyz="0 0 0.95" rpy="0 0 0"/>
-      <parent link="link_5_joint_0"/>
-      <child link="link_18_fixed_handle_shaft"/>
-    </joint>
-
-    <joint name="link_19_fixed_handle_knob" type="fixed">
-      <origin xyz="0 0 0.6" rpy="0 0 0"/>
-      <parent link="link_18_fixed_handle_shaft"/>
-      <child link="link_19_fixed_handle_knob"/>
-    </joint>
-
-    <joint name="link_1_fixed_hinge" type="fixed">
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <parent link="link_0_joint_0"/>
-      <child link="link_1_fixed_hinge"/>
-    </joint>
-
-    <joint name="link_1_fixed_hinge.001" type="fixed">
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <parent link="goal"/>
-      <child link="link_1_fixed_hinge.001"/>
-    </joint>
-
     <joint name="link_1_joint_0" type="prismatic">
-      <origin xyz="-1.0 1.5 0.55" rpy="0 0 3.14159"/>
+      <origin xyz="-1.0 1.5 0.45" rpy="0 0 3.14159"/>
       <parent link="base_link"/>
       <child link="link_1_joint_0"/>
       <axis xyz="1.0 0 0"/>
       <limit lower="0" upper="1.0" effort="0" velocity="0"/>
     </joint>
 
-    <joint name="link_2_fixed_handle_shaft" type="fixed">
-      <origin xyz="1.0875 0 0.95" rpy="0 0 0"/>
-      <parent link="link_0_joint_0"/>
-      <child link="link_2_fixed_handle_shaft"/>
-    </joint>
-
-    <joint name="link_2_fixed_handle_shaft.001" type="fixed">
-      <origin xyz="1.08641 0 0.94905" rpy="0 0 0"/>
-      <parent link="goal"/>
-      <child link="link_2_fixed_handle_shaft.001"/>
-    </joint>
-
     <joint name="link_2_joint_0" type="revolute">
-      <origin xyz="-2.5 -0.5 0.55" rpy="0 0 0"/>
+      <origin xyz="-2.5 -0.5 0.45" rpy="0 0 0"/>
       <parent link="base_link"/>
       <child link="link_2_joint_0"/>
       <axis xyz="0 0 1.0"/>
       <limit lower="-1.5708" upper="0" effort="0" velocity="0"/>
     </joint>
 
-    <joint name="link_3_fixed_handle_knob" type="fixed">
-      <origin xyz="0 0 0.6" rpy="0 0 0"/>
-      <parent link="link_2_fixed_handle_shaft"/>
-      <child link="link_3_fixed_handle_knob"/>
-    </joint>
-
-    <joint name="link_3_fixed_handle_knob.001" type="fixed">
-      <origin xyz="0 0 0.5994" rpy="0 0 0"/>
-      <parent link="link_2_fixed_handle_shaft.001"/>
-      <child link="link_3_fixed_handle_knob.001"/>
-    </joint>
-
     <joint name="link_3_joint_0" type="prismatic">
-      <origin xyz="1.0 1.5 0.55" rpy="0 0 0"/>
+      <origin xyz="1.0 1.5 0.45" rpy="0 0 0"/>
       <parent link="base_link"/>
       <child link="link_3_joint_0"/>
       <axis xyz="1.0 0 0"/>
@@ -609,43 +539,127 @@
     </joint>
 
     <joint name="link_4_joint_0" type="prismatic">
-      <origin xyz="0 -0.5 0.55" rpy="0 0 0"/>
+      <origin xyz="0 -0.5 0.45" rpy="0 0 0"/>
       <parent link="base_link"/>
       <child link="link_4_joint_0"/>
       <axis xyz="1.0 0 0"/>
       <limit lower="0" upper="1.0" effort="0" velocity="0"/>
     </joint>
 
-    <joint name="link_5_fixed_handle_shaft" type="fixed">
-      <origin xyz="0 0 0.95" rpy="0 0 0"/>
-      <parent link="link_1_joint_0"/>
-      <child link="link_5_fixed_handle_shaft"/>
-    </joint>
-
     <joint name="link_5_joint_0" type="prismatic">
-      <origin xyz="-2.5 2.0 0.55" rpy="0 0 1.5708"/>
+      <origin xyz="-2.5 2.0 0.45" rpy="0 0 1.5708"/>
       <parent link="base_link"/>
       <child link="link_5_joint_0"/>
       <axis xyz="1.0 0 0"/>
       <limit lower="0" upper="1.0" effort="0" velocity="0"/>
     </joint>
 
-    <joint name="link_6_fixed_handle_knob" type="fixed">
-      <origin xyz="0 0 0.6" rpy="0 0 0"/>
-      <parent link="link_5_fixed_handle_shaft"/>
-      <child link="link_6_fixed_handle_knob"/>
+    <joint name="link_fixed_0_floor" type="fixed">
+      <origin xyz="0 0 -0.1" rpy="0 0 0"/>
+      <parent link="base_link"/>
+      <child link="link_fixed_0_floor"/>
     </joint>
 
-    <joint name="link_8_fixed_hinge" type="fixed">
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <parent link="link_2_joint_0"/>
-      <child link="link_8_fixed_hinge"/>
-    </joint>
-
-    <joint name="link_9_fixed_handle_shaft" type="fixed">
+    <joint name="link_fixed_10_handle_shaft" type="fixed">
       <origin xyz="1.0875 0 0.95" rpy="0 0 0"/>
       <parent link="link_2_joint_0"/>
-      <child link="link_9_fixed_handle_shaft"/>
+      <child link="link_fixed_10_handle_shaft"/>
+    </joint>
+
+    <joint name="link_fixed_11_handle_knob" type="fixed">
+      <origin xyz="0 0 0.6" rpy="0 0 0"/>
+      <parent link="link_fixed_10_handle_shaft"/>
+      <child link="link_fixed_11_handle_knob"/>
+    </joint>
+
+    <joint name="link_fixed_13_handle_shaft" type="fixed">
+      <origin xyz="0 0 0.95" rpy="0 0 0"/>
+      <parent link="link_3_joint_0"/>
+      <child link="link_fixed_13_handle_shaft"/>
+    </joint>
+
+    <joint name="link_fixed_14_handle_knob" type="fixed">
+      <origin xyz="0 0 0.6" rpy="0 0 0"/>
+      <parent link="link_fixed_13_handle_shaft"/>
+      <child link="link_fixed_14_handle_knob"/>
+    </joint>
+
+    <joint name="link_fixed_16_handle_shaft" type="fixed">
+      <origin xyz="0 0 0.95" rpy="0 0 0"/>
+      <parent link="link_4_joint_0"/>
+      <child link="link_fixed_16_handle_shaft"/>
+    </joint>
+
+    <joint name="link_fixed_17_handle_knob" type="fixed">
+      <origin xyz="0 0 0.6" rpy="0 0 0"/>
+      <parent link="link_fixed_16_handle_shaft"/>
+      <child link="link_fixed_17_handle_knob"/>
+    </joint>
+
+    <joint name="link_fixed_19_handle_shaft" type="fixed">
+      <origin xyz="0 0 0.95" rpy="0 0 0"/>
+      <parent link="link_5_joint_0"/>
+      <child link="link_fixed_19_handle_shaft"/>
+    </joint>
+
+    <joint name="link_fixed_20_handle_knob" type="fixed">
+      <origin xyz="0 0 0.6" rpy="0 0 0"/>
+      <parent link="link_fixed_19_handle_shaft"/>
+      <child link="link_fixed_20_handle_knob"/>
+    </joint>
+
+    <joint name="link_fixed_2_hinge" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <parent link="link_0_joint_0"/>
+      <child link="link_fixed_2_hinge"/>
+    </joint>
+
+    <joint name="link_fixed_2_hinge.001" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <parent link="goal"/>
+      <child link="link_fixed_2_hinge.001"/>
+    </joint>
+
+    <joint name="link_fixed_3_handle_shaft" type="fixed">
+      <origin xyz="1.0875 0 0.95" rpy="0 0 0"/>
+      <parent link="link_0_joint_0"/>
+      <child link="link_fixed_3_handle_shaft"/>
+    </joint>
+
+    <joint name="link_fixed_3_handle_shaft.001" type="fixed">
+      <origin xyz="1.08641 0 0.94905" rpy="0 0 0"/>
+      <parent link="goal"/>
+      <child link="link_fixed_3_handle_shaft.001"/>
+    </joint>
+
+    <joint name="link_fixed_4_handle_knob" type="fixed">
+      <origin xyz="0 0 0.6" rpy="0 0 0"/>
+      <parent link="link_fixed_3_handle_shaft"/>
+      <child link="link_fixed_4_handle_knob"/>
+    </joint>
+
+    <joint name="link_fixed_4_handle_knob.001" type="fixed">
+      <origin xyz="0 0 0.5994" rpy="0 0 0"/>
+      <parent link="link_fixed_3_handle_shaft.001"/>
+      <child link="link_fixed_4_handle_knob.001"/>
+    </joint>
+
+    <joint name="link_fixed_6_handle_shaft" type="fixed">
+      <origin xyz="0 0 0.95" rpy="0 0 0"/>
+      <parent link="link_1_joint_0"/>
+      <child link="link_fixed_6_handle_shaft"/>
+    </joint>
+
+    <joint name="link_fixed_7_handle_knob" type="fixed">
+      <origin xyz="0 0 0.6" rpy="0 0 0"/>
+      <parent link="link_fixed_6_handle_shaft"/>
+      <child link="link_fixed_7_handle_knob"/>
+    </joint>
+
+    <joint name="link_fixed_9_hinge" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <parent link="link_2_joint_0"/>
+      <child link="link_fixed_9_hinge"/>
     </joint>
 
     <material name="gray">
