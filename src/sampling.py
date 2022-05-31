@@ -345,6 +345,7 @@ class GridWorldSampler(PuzzleSampler):
                 self.world.export()
                 self.world.render_image()
                 return 0
+        print("GridWorldSampler failed!")
         return result
 
 
@@ -530,7 +531,7 @@ class ContinuousSpaceSampler(PuzzleSampler):
             if result == 0:
                 self.world.render_image()
                 return 0
-
+        print("ContinuousSpaceSampler failed!")
         return result
 
 
