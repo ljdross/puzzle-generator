@@ -116,7 +116,7 @@ class SimpleSlidersSampler(PuzzleSampler):
         self.world.initialize(self.floor_size)
         self._create_simple_sliders_puzzle()
         self.world.export()
-        self.world.render_image()
+        self.world.render_images()
         return 0
 
 
@@ -343,7 +343,7 @@ class GridWorldSampler(PuzzleSampler):
             result = self._create_grid_world_puzzle()
             if result == 0:
                 self.world.export()
-                self.world.render_image()
+                self.world.render_images()
                 return 0
         print("GridWorldSampler failed!")
         return result
@@ -529,7 +529,7 @@ class ContinuousSpaceSampler(PuzzleSampler):
             progress = round((i + 1) / self.attempts * 100)
             print("Attempt", i + 1, "of", self.attempts, "done [" + ("#" * progress) + (" " * (100 - progress)) + "]")
             if result == 0:
-                self.world.render_image()
+                self.world.render_images()
                 return 0
         print("ContinuousSpaceSampler failed!")
         return result
@@ -573,7 +573,7 @@ class Lockbox2017Sampler(PuzzleSampler):
         self.goal_space_append_with_adjustment((0, calc.RAD90))
 
         self.world.export(concave_collision_mesh=True)
-        self.world.render_image(rotation=(1.05, 0, calc.RAD90))
+        self.world.render_images()
         return 0
 
 
@@ -662,7 +662,7 @@ class LockboxRandomSampler(PuzzleSampler):
                 print("LockboxRandomSampler failed!")
                 return 1
 
-        self.world.render_image()
+        self.world.render_images()
         return 0
 
 
@@ -714,7 +714,7 @@ class EscapeRoomSampler(PuzzleSampler):
         self.world.new_link((-2, 0, 0.25), (0, 0, 0), (0.2, 8, 0.5), name="wall_back", material=color.GRAY)
 
         self.world.export()
-        self.world.render_image()
+        self.world.render_images()
         return 0
 
 
@@ -757,5 +757,5 @@ class MoveTwiceSampler(PuzzleSampler):
         self.start_state.append(0)
 
         self.world.export()
-        self.world.render_image()
+        self.world.render_images()
         return 0

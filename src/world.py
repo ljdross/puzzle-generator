@@ -32,6 +32,7 @@ class BlenderWorld:
         self.movable_links = []
         self.contains_mesh = False
         self.link_count = 0
+        self.img_count = 0
 
     def update_name(self, new_name="new_default_name"):
         self.name = new_name
@@ -46,6 +47,7 @@ class BlenderWorld:
             bpy.data.meshes.remove(block)
         self.contains_mesh = False
         self.link_count = 0
+        self.img_count = 0
 
         bpy.ops.object.select_all(action='SELECT')
         bpy.ops.object.delete(use_global=True)
@@ -373,9 +375,25 @@ class BlenderWorld:
         bpy.ops.view3d.camera_to_view_selected()
 
         cam.data.lens = focal_length
-        bpy.context.scene.render.filepath = self.directory + "/images/" + self.name + ".png"
+        filepath = self.directory + "/images/" + self.name + "_img_" + f"{self.img_count:02}" + ".png"
+        bpy.context.scene.render.filepath = filepath
         bpy.ops.render.render(write_still=True)
+        self.img_count += 1
         return cam
+
+    def render_images(self):
+        loc_rots = (((0, 0, 30), (0, 0, 0)),                    # top
+                    ((0, -30, 20), (0.96, 0, 0)),               # north
+                    ((-30, 0, 20), (0.96, 0, -calc.RAD90)),     # east
+                    ((0, 30, 20), (0.96, 0, calc.RAD180)),      # south
+                    ((30, 0, 20), (0.96, 0, calc.RAD90)),       # west
+                    ((-30, -30, 20), (0.96, 0, -calc.RAD45)),   # northeast
+                    ((-30, 30, 20), (0.96, 0, -calc.RAD135)),   # southeast
+                    ((30, 30, 20), (0.96, 0, calc.RAD135)),     # southwest
+                    ((30, -30, 20), (0.96, 0, calc.RAD45)),     # northwest
+                    )
+        for loc_rot in loc_rots:
+            self.render_image(loc_rot[0], loc_rot[1])
 
     def export(self, add_mesh_filepath_prefix=True, concave_collision_mesh=False):
         """Export model to URDF."""
