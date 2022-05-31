@@ -3,6 +3,7 @@ from math import radians, cos, sin
 
 RAD45 = round(radians(45), 5)
 RAD90 = round(radians(90), 5)
+RAD135 = round(radians(135), 5)
 RAD180 = round(radians(180), 5)
 RAD360 = round(radians(360), 5)
 
