@@ -587,50 +587,51 @@ class LockboxRandomSampler(PuzzleSampler):
         self.iterations = config["iterations"]
         self.slider_length = config["slider_length"]
         self.slider_width = config["slider_width"]
-        self.previous_direction = "E"
+        self.radius_interval = config["radius_interval"]
+        self.previous_direction = ""
         self.available_directions = {
             "N": ["N", "E", "W"],
             "E": ["N", "E", "S"],
             "S": ["E", "S", "W"],
             "W": ["N", "S", "W"],
         }
+        self.get_rotation = {
+            "N": calc.RAD90,
+            "E": 0,
+            "S": -calc.RAD90,
+            "W": calc.RAD180,
+        }
 
     def add_slot_disc_and_slider(self, direction):
-        location_slot_disc = (self.start_point[0], self.start_point[1], 0.5)
-        if direction == "N":
-            rotation = calc.RAD90
-            location_slider = (self.start_point[0], self.start_point[1] + 1.5, 0.5)
-            self.start_point = calc.tuple_add(self.start_point, (0, 4))
-        elif direction == "E":
-            rotation = 0
-            location_slider = (self.start_point[0] + 1.5, self.start_point[1], 0.5)
-            self.start_point = calc.tuple_add(self.start_point, (4, 0))
-        elif direction == "S":
-            rotation = -calc.RAD90
-            location_slider = (self.start_point[0], self.start_point[1] - 1.5, 0.5)
-            self.start_point = calc.tuple_add(self.start_point, (0, -4))
-        else:  # direction == "W"
-            rotation = calc.RAD180
-            location_slider = (self.start_point[0] - 1.5, self.start_point[1], 0.5)
-            self.start_point = calc.tuple_add(self.start_point, (-4, 0))
+        radius = self.radius_interval[0] + random() * (self.radius_interval[1] - self.radius_interval[0])
+        rotation = self.get_rotation[direction]
 
-        self.world.new_link(location_slot_disc, (0, 0, rotation), (3, 3, 1), 'revolute', -calc.RAD180, calc.RAD180,
-                            blend_file=self.mesh, object_name="slot_disc", create_handle=self.create_handle,
-                            hinge_diameter=0.25)
-        self.world.new_link(location_slider, (0, 0, rotation), (self.slider_length, self.slider_width, 1),
+        offset_start = calc.tuple_scale(calc.DIRECTION_VECTOR_2D[self.previous_direction], radius + 1)
+        start_point = calc.tuple_add(self.start_point, offset_start)
+
+        slot_disc_location = (start_point[0], start_point[1], 0.5)
+        self.world.new_link(slot_disc_location, (0, 0, rotation), (radius * 2, radius * 2, 1), 'revolute',
+                            -calc.RAD180, calc.RAD180, blend_file=self.mesh, object_name="slot_disc",
+                            create_handle=self.create_handle, hinge_diameter=radius * 0.125)
+
+        offset_slider = calc.tuple_scale(calc.DIRECTION_VECTOR_2D[direction], radius)
+        slider_location = (start_point[0] + offset_slider[0], start_point[1] + offset_slider[1], 0.5)
+        self.world.new_link(slider_location, (0, 0, rotation), (self.slider_length, self.slider_width, 1),
                             'prismatic', 0, 1, create_handle=self.create_handle, joint_axis=(1, 0, 0))
+        return slider_location
 
     def choose_links(self):
         directions = self.available_directions[self.previous_direction]
         shuffle(directions)
         for random_direction in directions:
-            self.add_slot_disc_and_slider(random_direction)
+            new_start = self.add_slot_disc_and_slider(random_direction)
             self.start_state.append(0)
             self.start_state.append(0)
             self.goal_space.append((-calc.RAD180, calc.RAD180))
             self.goal_space.append((0, 1))
             self.world.export(concave_collision_mesh=True)
             if solve(self.world.urdf_path, self.start_state, None, only_check_start_state_validity=True) == 0:
+                self.start_point = new_start
                 self.previous_direction = random_direction
                 return 0
             else:
@@ -643,11 +644,12 @@ class LockboxRandomSampler(PuzzleSampler):
         return 1
 
     def build(self):
-        self.start_point = (0.5, 0.5)
         self.world.initialize(self.floor_size)
 
         # first slider
-        self.world.new_link((self.start_point[0] - 2.5, self.start_point[1], 0.5), (0, 0, 0),
+        self.previous_direction = choice(("N", "E", "S", "W"))
+        rotation = self.get_rotation[self.previous_direction]
+        self.world.new_link((self.start_point[0], self.start_point[1], 0.5), (0, 0, rotation),
                             (self.slider_length, self.slider_width, 1), 'prismatic', 0, 1,
                             create_handle=self.create_handle, joint_axis=(1, 0, 0))
         self.world.create_goal_duplicate((1, 0, 0))
@@ -656,6 +658,7 @@ class LockboxRandomSampler(PuzzleSampler):
 
         for i in range(self.iterations):
             if self.choose_links() == 1:
+                print("LockboxRandomSampler failed!")
                 return 1
 
         self.world.render_image()

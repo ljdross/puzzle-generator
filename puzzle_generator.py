@@ -58,6 +58,7 @@ sampler_config = {
     "iterations": 2,
     "slider_length": 1.4,
     "slider_width": 0.2,
+    "radius_interval": (1, 3),
 
     # this part is only required for EscapeRoomSampler and MoveTwiceSampler
     "robot_mesh": "input-meshes/droids.blend",  # both absolute and relative paths are allowed
