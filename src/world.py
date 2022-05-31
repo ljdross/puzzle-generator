@@ -133,6 +133,12 @@ class BlenderWorld:
             self.floor = self.new_link((0, 0, -thickness / 2), (0, 0, 0), (size, size, thickness),
                                        material=color.LAVENDER, name="floor")
 
+    def initialize(self, floor_size=32, floor_thickness=0.2):
+        """Reset world, create base link and floor."""
+        self.reset()
+        self.create_base_link()
+        self.create_floor(floor_size, floor_thickness)
+
     def update_joint_axis(self, link, direction_vector=(1, 0, 0)):
         """
         Normally the link moves along (prismatic joint) or rotates around (revolute joint) the Z-axis of the link.

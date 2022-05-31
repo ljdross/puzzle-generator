@@ -113,9 +113,7 @@ class SimpleSlidersSampler(PuzzleSampler):
 
     def build(self):
         """Build complete model in Blender and export to URDF. Create only prismatic joints."""
-        self.world.reset()
-        self.world.create_base_link()
-        self.world.create_floor(self.floor_size)
+        self.world.initialize(self.floor_size)
         self._create_simple_sliders_puzzle()
         self.world.export()
         self.world.render_image()
@@ -341,9 +339,7 @@ class GridWorldSampler(PuzzleSampler):
         """Build complete model in Blender and export to URDF."""
         self.start_state = [0] * self.total_number_joints
         for _ in range(self.attempts):
-            self.world.reset()
-            self.world.create_base_link()
-            self.world.create_floor(self.floor_size)
+            self.world.initialize(self.floor_size)
             result = self._create_grid_world_puzzle()
             if result == 0:
                 self.world.export()
@@ -527,9 +523,7 @@ class ContinuousSpaceSampler(PuzzleSampler):
     def build(self):
         """Build complete model in Blender and export to URDF. Sample random positions for joints."""
         for i in range(self.attempts):
-            self.world.reset()
-            self.world.create_base_link()
-            self.world.create_floor(self.floor_size)
+            self.world.initialize(self.floor_size)
             result = self._create_continuous_space_puzzle()
             progress = round((i + 1) / self.attempts * 100)
             print("Attempt", i + 1, "of", self.attempts, "done [" + ("#" * progress) + (" " * (100 - progress)) + "]")
@@ -550,9 +544,7 @@ class Lockbox2017Sampler(PuzzleSampler):
         self.mesh = config["mesh1"]
 
     def build(self):
-        self.world.reset()
-        self.world.create_base_link()
-        self.world.create_floor(self.floor_size)
+        self.world.initialize(self.floor_size)
 
         self.world.new_door((-6, -1, 1), (0, 0, 0), (2, 0.2, 2))
         self.world.create_goal_duplicate(rotation_offset=(0, 0, calc.RAD90))
@@ -652,9 +644,7 @@ class LockboxRandomSampler(PuzzleSampler):
 
     def build(self):
         self.start_point = (0.5, 0.5)
-        self.world.reset()
-        self.world.create_base_link()
-        self.world.create_floor(self.floor_size)
+        self.world.initialize(self.floor_size)
 
         # first slider
         self.world.new_link((self.start_point[0] - 2.5, self.start_point[1], 0.5), (0, 0, 0),
@@ -682,9 +672,7 @@ class EscapeRoomSampler(PuzzleSampler):
         self.robot_mesh = config["robot_mesh"]
 
     def build(self):
-        self.world.reset()
-        self.world.create_base_link()
-        self.world.create_floor(self.floor_size)
+        self.world.initialize(self.floor_size)
 
         # add robot
         first = self.world.new_link((0, 0, 0.5), (0, 0, 0), (0, 0, 0), 'prismatic', -6, 6, joint_axis=(1, 0, 0))
@@ -736,9 +724,7 @@ class MoveTwiceSampler(PuzzleSampler):
         self.robot_mesh = config["robot_mesh"]
 
     def build(self):
-        self.world.reset()
-        self.world.create_base_link()
-        self.world.create_floor(self.floor_size)
+        self.world.initialize(self.floor_size)
 
         first = self.world.new_link((0, 0, 0.5), (0, 0, 0), (0, 0, 0), 'prismatic', -16, 16, joint_axis=(1, 0, 0))
         second = self.world.new_link((0, 0, 0), (0, 0, 0), (0, 0, 0), 'prismatic', -16, 16, joint_axis=(0, 1, 0),
