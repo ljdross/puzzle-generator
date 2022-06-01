@@ -368,10 +368,11 @@ class BlenderWorld:
         bpy.context.scene.camera = cam
 
         bpy.ops.object.select_all(action='SELECT')
-        self.floor.select_set(False)
-        for child in self.floor.children:
-            if child.phobostype == 'collision' or child.phobostype == 'visual':
-                child.select_set(False)
+        if self.floor:
+            self.floor.select_set(False)
+            for child in self.floor.children:
+                if child.phobostype == 'collision' or child.phobostype == 'visual':
+                    child.select_set(False)
         bpy.ops.view3d.camera_to_view_selected()
 
         cam.data.lens = focal_length
