@@ -63,6 +63,9 @@ sampler_config = {
     # this part is only required for EscapeRoomSampler and MoveTwiceSampler
     "robot_mesh": "input-meshes/droids.blend",  # both absolute and relative paths are allowed
 
+    # this part is only required for MoveNTimesSampler
+    "n": 3,
+
 }
 
 # set up world according to world_config
@@ -95,5 +98,9 @@ sampler.build()
 solve(world.urdf_path, sampler.start_state, sampler.goal_space, 1., show_gui=True)
 
 sampler = MoveTwiceSampler(sampler_config, world)
+sampler.build()
+solve(world.urdf_path, sampler.start_state, sampler.goal_space, 1., show_gui=True)
+
+sampler = MoveNTimesSampler(sampler_config, world)
 sampler.build()
 solve(world.urdf_path, sampler.start_state, sampler.goal_space, 1., show_gui=True)

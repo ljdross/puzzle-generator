@@ -759,3 +759,76 @@ class MoveTwiceSampler(PuzzleSampler):
         self.world.export()
         self.world.render_images()
         return 0
+
+
+class MoveNTimesSampler(PuzzleSampler):
+    def __init__(self, config, world: BlenderWorld):
+        super().__init__(config, world)
+        if "puzzle_name" in config:
+            world.update_name(config["puzzle_name"])
+        else:
+            world.update_name("move_n_times")
+        self.robot_mesh = config["robot_mesh"]
+        self.n = config["n"]
+
+    def build(self):
+        self.world.initialize(self.floor_size)
+        if self.n == 0:
+            n = 1
+        else:
+            n = self.n
+
+        first = self.world.new_link((0, 0, 0.25), (0, 0, 0), (0, 0, 0), 'prismatic', -n, n, joint_axis=(1, 0, 0))
+        second = self.world.new_link((0, 0, 0), (0, 0, 0), (0, 0, 0), 'prismatic', -n, 0.5, joint_axis=(0, 1, 0),
+                                     parent=first)
+        robot = self.world.new_link((0, 0, 0), (0, 0, 0), (0.375, 0.5, 0.5), 'revolute', -calc.RAD180, calc.RAD180,
+                                    parent=second, blend_file="input-meshes/droids.blend", object_name="droids_3",
+                                    new_mesh_name="robot")
+        start = (0, 0, 0)
+        self.start_state.extend(start)
+        goal = (random() * n * 2 - n, -n, random() * calc.RAD360 - calc.RAD180)
+        self.goal_space_append_with_adjustment((goal[0], goal[0]))
+        self.goal_space_append_with_adjustment((goal[1], goal[1]))
+        self.goal_space_append_with_adjustment((goal[2], goal[2]))
+        self.world.create_goal_duplicate((goal[0], goal[1], 0), (0, 0, goal[2]))
+
+        self.world.link_offset = (0.5, -0.5, 0.25)
+
+        if n > 2:
+            width = n * 2 - 2
+        else:
+            width = 2
+        limit = width / 2
+        self.world.new_link((0, 0, 0), (0, 0, 0), (width, 0.1, 0.5), 'prismatic', -limit, limit,
+                            joint_axis=(1, 0, 0))
+        self.goal_space.append((-limit, limit))
+        self.start_state.append(0)
+
+        if self.n > 0:
+            self.world.new_link((-0.5, 1, 0), (0, 0, 0), (0.9, 0.1, 0.5), name="wall_north_0", material=color.GRAY)
+            self.world.new_link((-1, 0.5, 0), (0, 0, 0), (0.1, 0.9, 0.5), name="wall_northwest_0", material=color.GRAY)
+            self.world.new_link((0, 0.5, 0), (0, 0, 0), (0.1, 0.9, 0.5), name="wall_northeast_0", material=color.GRAY)
+
+        for i in range(1, n):
+            self.world.new_link((0, -i, 0), (0, 0, 0), (i * 2 - 0.1, 0.1, 0.5), name="wall_south_" + str(i),
+                                material=color.GRAY)
+            self.world.new_link((-i, -i / 2, 0), (0, 0, 0), (0.1, i - 0.1, 0.5), name="wall_southwest_" + str(i),
+                                material=color.GRAY)
+            self.world.new_link((i, -i / 2, 0), (0, 0, 0), (0.1, i - 0.1, 0.5), name="wall_southeast_" + str(i),
+                                material=color.GRAY)
+
+            if i > 1:
+                if i % 2 == 0:
+                    x1 = i - 1
+                    x2 = i
+                else:
+                    x1 = -(i - 1)
+                    x2 = -i
+                self.world.new_link((x1, 1, 0), (0, 0, 0), (1.9, 0.1, 0.5), name="wall_north_" + str(i),
+                                    material=color.GRAY)
+                self.world.new_link((x2, 0.5, 0), (0, 0, 0), (0.1, 0.9, 0.5), name="wall_north_side_" + str(i),
+                                    material=color.GRAY)
+
+        self.world.export()
+        self.world.render_images()
+        return 0

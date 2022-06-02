@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+<!-- created with Phobos 1.0.1 "Capricious Choutengan" -->
+  <robot name="move_n_times">
+
+    <passive_joint name="goal"/>
+
+    <passive_joint name="link_0_joint_0"/>
+
+    <passive_joint name="link_0_joint_0.001"/>
+
+    <passive_joint name="link_0_joint_1"/>
+
+    <passive_joint name="link_0_joint_1.001"/>
+
+    <passive_joint name="link_0_joint_2"/>
+
+    <passive_joint name="link_1_joint_0"/>
+
+    <passive_joint name="link_fixed_0_floor"/>
+
+    <passive_joint name="link_fixed_10_wall_southeast_1"/>
+
+    <passive_joint name="link_fixed_11_wall_south_2"/>
+
+    <passive_joint name="link_fixed_12_wall_southwest_2"/>
+
+    <passive_joint name="link_fixed_13_wall_southeast_2"/>
+
+    <passive_joint name="link_fixed_14_wall_north_2"/>
+
+    <passive_joint name="link_fixed_15_wall_north_side_2"/>
+
+    <passive_joint name="link_fixed_5_wall_north_0"/>
+
+    <passive_joint name="link_fixed_6_wall_northwest_0"/>
+
+    <passive_joint name="link_fixed_7_wall_northeast_0"/>
+
+    <passive_joint name="link_fixed_8_wall_south_1"/>
+
+    <passive_joint name="link_fixed_9_wall_southwest_1"/>
+
+    <link_sphere_approximation link="base_link">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="goal">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_0_joint_0">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_0_joint_0.001">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_0_joint_1">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_0_joint_1.001">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_0_joint_2">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_1_joint_0">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_0_floor">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_10_wall_southeast_1">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_11_wall_south_2">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_12_wall_southwest_2">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_13_wall_southeast_2">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_14_wall_north_2">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_15_wall_north_side_2">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_5_wall_north_0">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_6_wall_northwest_0">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_7_wall_northeast_0">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_8_wall_south_1">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_9_wall_southwest_1">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
