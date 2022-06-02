@@ -19,7 +19,7 @@
       <visual name="visual_box_1_link_0.001">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="2.8961 0.8981 0.8981"/>
+          <box size="2.88053 0.89052 0.89052"/>
         </geometry>
         <material name="green_translucent"/>
       </visual>
@@ -34,14 +34,14 @@
       <visual name="visual_box_1_link_0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="2.899 0.899 0.899"/>
+          <box size="2.895 0.895 0.895"/>
         </geometry>
         <material name="green"/>
       </visual>
       <collision name="collision_box_1_link_0">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="2.899 0.899 0.899"/>
+          <box size="2.895 0.895 0.895"/>
         </geometry>
       </collision>
     </link>
@@ -55,14 +55,14 @@
       <visual name="visual_box_5_link_1">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="1.899 0.899 0.899"/>
+          <box size="1.895 0.895 0.895"/>
         </geometry>
         <material name="red"/>
       </visual>
       <collision name="collision_box_5_link_1">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="1.899 0.899 0.899"/>
+          <box size="1.895 0.895 0.895"/>
         </geometry>
       </collision>
     </link>
@@ -76,14 +76,14 @@
       <visual name="visual_box_8_link_2">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="2.899 0.899 0.899"/>
+          <box size="2.895 0.895 0.895"/>
         </geometry>
         <material name="red"/>
       </visual>
       <collision name="collision_box_8_link_2">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="2.899 0.899 0.899"/>
+          <box size="2.895 0.895 0.895"/>
         </geometry>
       </collision>
     </link>
@@ -97,14 +97,14 @@
       <visual name="visual_box_12_link_3">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="1.899 0.899 0.899"/>
+          <box size="1.895 0.895 0.895"/>
         </geometry>
         <material name="red"/>
       </visual>
       <collision name="collision_box_12_link_3">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="1.899 0.899 0.899"/>
+          <box size="1.895 0.895 0.895"/>
         </geometry>
       </collision>
     </link>
@@ -118,14 +118,14 @@
       <visual name="visual_box_15_link_4">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="1.899 0.899 0.899"/>
+          <box size="1.895 0.895 0.895"/>
         </geometry>
         <material name="red"/>
       </visual>
       <collision name="collision_box_15_link_4">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="1.899 0.899 0.899"/>
+          <box size="1.895 0.895 0.895"/>
         </geometry>
       </collision>
     </link>
@@ -139,14 +139,14 @@
       <visual name="visual_box_18_link_5">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="1.899 0.899 0.899"/>
+          <box size="1.895 0.895 0.895"/>
         </geometry>
         <material name="red"/>
       </visual>
       <collision name="collision_box_18_link_5">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="1.899 0.899 0.899"/>
+          <box size="1.895 0.895 0.895"/>
         </geometry>
       </collision>
     </link>
@@ -160,14 +160,14 @@
       <visual name="visual_box_fixed_0_floor">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="31.999 31.999 0.199"/>
+          <box size="31.995 31.995 0.195"/>
         </geometry>
         <material name="lavender"/>
       </visual>
       <collision name="collision_box_fixed_0_floor">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="31.999 31.999 0.199"/>
+          <box size="31.995 31.995 0.195"/>
         </geometry>
       </collision>
     </link>
@@ -181,14 +181,14 @@
       <visual name="visual_cylinder_fixed_10_handle_shaft">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <cylinder radius="0.0995" length="0.999"/>
+          <cylinder radius="0.0975" length="0.995"/>
         </geometry>
         <material name="red"/>
       </visual>
       <collision name="collision_cylinder_fixed_10_handle_shaft">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <cylinder radius="0.0995" length="0.999"/>
+          <cylinder radius="0.0975" length="0.995"/>
         </geometry>
       </collision>
     </link>
@@ -202,14 +202,14 @@
       <visual name="visual_box_fixed_11_handle_knob">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.049 0.049 0.199"/>
+          <box size="0.045 0.045 0.195"/>
         </geometry>
         <material name="yellow"/>
       </visual>
       <collision name="collision_box_fixed_11_handle_knob">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.049 0.049 0.199"/>
+          <box size="0.045 0.045 0.195"/>
         </geometry>
       </collision>
     </link>
@@ -223,14 +223,14 @@
       <visual name="visual_box_fixed_13_handle_shaft">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.199 0.199 0.999"/>
+          <box size="0.195 0.195 0.995"/>
         </geometry>
         <material name="red"/>
       </visual>
       <collision name="collision_box_fixed_13_handle_shaft">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.199 0.199 0.999"/>
+          <box size="0.195 0.195 0.995"/>
         </geometry>
       </collision>
     </link>
@@ -244,14 +244,14 @@
       <visual name="visual_box_fixed_14_handle_knob">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.049 0.049 0.199"/>
+          <box size="0.045 0.045 0.195"/>
         </geometry>
         <material name="yellow"/>
       </visual>
       <collision name="collision_box_fixed_14_handle_knob">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.049 0.049 0.199"/>
+          <box size="0.045 0.045 0.195"/>
         </geometry>
       </collision>
     </link>
@@ -265,14 +265,14 @@
       <visual name="visual_box_fixed_16_handle_shaft">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.199 0.199 0.999"/>
+          <box size="0.195 0.195 0.995"/>
         </geometry>
         <material name="red"/>
       </visual>
       <collision name="collision_box_fixed_16_handle_shaft">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.199 0.199 0.999"/>
+          <box size="0.195 0.195 0.995"/>
         </geometry>
       </collision>
     </link>
@@ -286,14 +286,14 @@
       <visual name="visual_box_fixed_17_handle_knob">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.049 0.049 0.199"/>
+          <box size="0.045 0.045 0.195"/>
         </geometry>
         <material name="yellow"/>
       </visual>
       <collision name="collision_box_fixed_17_handle_knob">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.049 0.049 0.199"/>
+          <box size="0.045 0.045 0.195"/>
         </geometry>
       </collision>
     </link>
@@ -307,14 +307,14 @@
       <visual name="visual_box_fixed_19_handle_shaft">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.199 0.199 0.999"/>
+          <box size="0.195 0.195 0.995"/>
         </geometry>
         <material name="red"/>
       </visual>
       <collision name="collision_box_fixed_19_handle_shaft">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.199 0.199 0.999"/>
+          <box size="0.195 0.195 0.995"/>
         </geometry>
       </collision>
     </link>
@@ -328,14 +328,14 @@
       <visual name="visual_box_fixed_20_handle_knob">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.049 0.049 0.199"/>
+          <box size="0.045 0.045 0.195"/>
         </geometry>
         <material name="yellow"/>
       </visual>
       <collision name="collision_box_fixed_20_handle_knob">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.049 0.049 0.199"/>
+          <box size="0.045 0.045 0.195"/>
         </geometry>
       </collision>
     </link>
@@ -349,7 +349,7 @@
       <visual name="visual_cylinder_fixed_2_hinge">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <cylinder radius="0.112" length="0.989"/>
+          <cylinder radius="0.11" length="0.985"/>
         </geometry>
         <material name="gray"/>
       </visual>
@@ -364,7 +364,7 @@
       <visual name="visual_cylinder_fixed_2_hinge.001">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <cylinder radius="0.11189" length="0.98801"/>
+          <cylinder radius="0.10945" length="0.98008"/>
         </geometry>
         <material name="green_translucent"/>
       </visual>
@@ -379,14 +379,14 @@
       <visual name="visual_cylinder_fixed_3_handle_shaft">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <cylinder radius="0.0995" length="0.999"/>
+          <cylinder radius="0.0975" length="0.995"/>
         </geometry>
         <material name="green"/>
       </visual>
       <collision name="collision_cylinder_fixed_3_handle_shaft">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <cylinder radius="0.0995" length="0.999"/>
+          <cylinder radius="0.0975" length="0.995"/>
         </geometry>
       </collision>
     </link>
@@ -400,7 +400,7 @@
       <visual name="visual_cylinder_fixed_3_handle_shaft.001">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <cylinder radius="0.0994" length="0.998"/>
+          <cylinder radius="0.09701" length="0.99002"/>
         </geometry>
         <material name="green_translucent"/>
       </visual>
@@ -415,14 +415,14 @@
       <visual name="visual_box_fixed_4_handle_knob">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.049 0.049 0.199"/>
+          <box size="0.045 0.045 0.195"/>
         </geometry>
         <material name="yellow"/>
       </visual>
       <collision name="collision_box_fixed_4_handle_knob">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.049 0.049 0.199"/>
+          <box size="0.045 0.045 0.195"/>
         </geometry>
       </collision>
     </link>
@@ -436,7 +436,7 @@
       <visual name="visual_box_fixed_4_handle_knob.001">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.04895 0.04895 0.1988"/>
+          <box size="0.04478 0.04478 0.19402"/>
         </geometry>
         <material name="green_translucent"/>
       </visual>
@@ -451,14 +451,14 @@
       <visual name="visual_box_fixed_6_handle_shaft">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.199 0.199 0.999"/>
+          <box size="0.195 0.195 0.995"/>
         </geometry>
         <material name="red"/>
       </visual>
       <collision name="collision_box_fixed_6_handle_shaft">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.199 0.199 0.999"/>
+          <box size="0.195 0.195 0.995"/>
         </geometry>
       </collision>
     </link>
@@ -472,14 +472,14 @@
       <visual name="visual_box_fixed_7_handle_knob">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.049 0.049 0.199"/>
+          <box size="0.045 0.045 0.195"/>
         </geometry>
         <material name="yellow"/>
       </visual>
       <collision name="collision_box_fixed_7_handle_knob">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.049 0.049 0.199"/>
+          <box size="0.045 0.045 0.195"/>
         </geometry>
       </collision>
     </link>
@@ -493,7 +493,7 @@
       <visual name="visual_cylinder_fixed_9_hinge">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <cylinder radius="0.112" length="0.989"/>
+          <cylinder radius="0.11" length="0.985"/>
         </geometry>
         <material name="gray"/>
       </visual>
@@ -627,7 +627,7 @@
     </joint>
 
     <joint name="link_fixed_3_handle_shaft.001" type="fixed">
-      <origin xyz="1.08641 0 0.94905" rpy="0 0 0"/>
+      <origin xyz="1.08206 0 0.94525" rpy="0 0 0"/>
       <parent link="goal"/>
       <child link="link_fixed_3_handle_shaft.001"/>
     </joint>
@@ -639,7 +639,7 @@
     </joint>
 
     <joint name="link_fixed_4_handle_knob.001" type="fixed">
-      <origin xyz="0 0 0.5994" rpy="0 0 0"/>
+      <origin xyz="0 0 0.597" rpy="0 0 0"/>
       <parent link="link_fixed_3_handle_shaft.001"/>
       <child link="link_fixed_4_handle_knob.001"/>
     </joint>

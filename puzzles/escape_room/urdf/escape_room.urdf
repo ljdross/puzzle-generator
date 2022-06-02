@@ -48,7 +48,7 @@
       <visual name="visual_mesh_3_link_0.001">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/escape_room/meshes/stl/robot.002.stl" scale="0.999 0.999 0.999"/>
+          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/escape_room/meshes/stl/robot.002.stl" scale="0.995 0.995 0.995"/>
         </geometry>
         <material name="green_translucent"/>
       </visual>
@@ -124,14 +124,14 @@
       <visual name="visual_cylinder_7_link_2">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <cylinder radius="0.1995" length="0.999"/>
+          <cylinder radius="0.1975" length="0.995"/>
         </geometry>
         <material name="gray"/>
       </visual>
       <collision name="collision_cylinder_7_link_2">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <cylinder radius="0.1995" length="0.999"/>
+          <cylinder radius="0.1975" length="0.995"/>
         </geometry>
       </collision>
     </link>
@@ -145,14 +145,14 @@
       <visual name="visual_box_fixed_0_floor">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="31.999 31.999 0.199"/>
+          <box size="31.995 31.995 0.195"/>
         </geometry>
         <material name="lavender"/>
       </visual>
       <collision name="collision_box_fixed_0_floor">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="31.999 31.999 0.199"/>
+          <box size="31.995 31.995 0.195"/>
         </geometry>
       </collision>
     </link>
@@ -166,14 +166,14 @@
       <visual name="visual_box_fixed_10_door_handle1">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.049 0.199 0.199"/>
+          <box size="0.045 0.195 0.195"/>
         </geometry>
         <material name="yellow"/>
       </visual>
       <collision name="collision_box_fixed_10_door_handle1">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.049 0.199 0.199"/>
+          <box size="0.045 0.195 0.195"/>
         </geometry>
       </collision>
     </link>
@@ -187,14 +187,14 @@
       <visual name="visual_box_fixed_11_door_handle2">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.049 0.199 0.199"/>
+          <box size="0.045 0.195 0.195"/>
         </geometry>
         <material name="yellow"/>
       </visual>
       <collision name="collision_box_fixed_11_door_handle2">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.049 0.199 0.199"/>
+          <box size="0.045 0.195 0.195"/>
         </geometry>
       </collision>
     </link>
@@ -208,14 +208,14 @@
       <visual name="visual_box_fixed_12_wall_left">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="3.799 0.199 0.499"/>
+          <box size="3.795 0.195 0.495"/>
         </geometry>
         <material name="gray"/>
       </visual>
       <collision name="collision_box_fixed_12_wall_left">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="3.799 0.199 0.499"/>
+          <box size="3.795 0.195 0.495"/>
         </geometry>
       </collision>
     </link>
@@ -229,14 +229,14 @@
       <visual name="visual_box_fixed_13_wall_front">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.199 7.999 0.499"/>
+          <box size="0.195 7.995 0.495"/>
         </geometry>
         <material name="gray"/>
       </visual>
       <collision name="collision_box_fixed_13_wall_front">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.199 7.999 0.499"/>
+          <box size="0.195 7.995 0.495"/>
         </geometry>
       </collision>
     </link>
@@ -250,14 +250,14 @@
       <visual name="visual_box_fixed_14_wall_back">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.199 7.999 0.499"/>
+          <box size="0.195 7.995 0.495"/>
         </geometry>
         <material name="gray"/>
       </visual>
       <collision name="collision_box_fixed_14_wall_back">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.199 7.999 0.499"/>
+          <box size="0.195 7.995 0.495"/>
         </geometry>
       </collision>
     </link>
@@ -271,7 +271,7 @@
       <visual name="visual_cylinder_fixed_8_hinge">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <cylinder radius="0.0495" length="1.099"/>
+          <cylinder radius="0.0475" length="1.095"/>
         </geometry>
         <material name="gray"/>
       </visual>
@@ -286,14 +286,14 @@
       <visual name="visual_box_fixed_9_door_panel">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="3.199 0.199 0.999"/>
+          <box size="3.195 0.195 0.995"/>
         </geometry>
         <material name="red"/>
       </visual>
       <collision name="collision_box_fixed_9_door_panel">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="3.199 0.199 0.999"/>
+          <box size="3.195 0.195 0.995"/>
         </geometry>
       </collision>
     </link>
