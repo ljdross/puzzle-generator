@@ -30,6 +30,7 @@ class BlenderWorld:
         self.base_link = None
         self.floor = None
         self.movable_links = []
+        self.link_offset = (0, 0, 0)
         self.contains_mesh = False
         self.link_count = 0
         self.img_count = 0
@@ -45,15 +46,16 @@ class BlenderWorld:
             bpy.data.cameras.remove(block)
         for block in bpy.data.meshes:
             bpy.data.meshes.remove(block)
-        self.contains_mesh = False
-        self.link_count = 0
-        self.img_count = 0
 
         bpy.ops.object.select_all(action='SELECT')
         bpy.ops.object.delete(use_global=True)
-        self.movable_links = []
         self.base_link = None
         self.floor = None
+        self.movable_links = []
+        self.link_offset = (0, 0, 0)
+        self.contains_mesh = False
+        self.link_count = 0
+        self.img_count = 0
 
         bpy.context.scene.cursor.location = (0, 0, 0)
         bpy.context.scene.cursor.rotation_euler = (0, 0, 0)
@@ -179,6 +181,7 @@ class BlenderWorld:
     def new_link(self, location, rotation, scale, joint_type='fixed', lower_limit=0, upper_limit=0, material=None,
                  auto_limit=0, blend_file="", object_name="", is_cylinder=False, name="", parent=None,
                  create_handle=False, collision=True, joint_axis=(0, 0, 1), new_mesh_name="", hinge_diameter=0):
+        location = calc.tuple_add(location, self.link_offset)
         if auto_limit != 0:
             if auto_limit < 0:
                 lower_limit = auto_limit
