@@ -27,6 +27,9 @@ class BlenderWorld:
         self.export_mesh_stl = config["export_mesh_stl"]
         self.output_mesh_type = config["output_mesh_type"]
         bpy.context.scene.render.engine = 'BLENDER_WORKBENCH'
+        self.init_attributes()
+
+    def init_attributes(self):
         self.base_link = None
         self.floor = None
         self.movable_links = []
@@ -49,13 +52,7 @@ class BlenderWorld:
 
         bpy.ops.object.select_all(action='SELECT')
         bpy.ops.object.delete(use_global=True)
-        self.base_link = None
-        self.floor = None
-        self.movable_links = []
-        self.link_offset = (0, 0, 0)
-        self.contains_mesh = False
-        self.link_count = 0
-        self.img_count = 0
+        self.init_attributes()
 
         bpy.context.scene.cursor.location = (0, 0, 0)
         bpy.context.scene.cursor.rotation_euler = (0, 0, 0)
