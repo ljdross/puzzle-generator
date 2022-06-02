@@ -48,7 +48,7 @@
       <visual name="visual_mesh_3_link_0.001">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/move_twice/meshes/stl/robot.002.stl" scale="0.999 0.999 0.999"/>
+          <mesh filename="file:///home/userone/ba/puzzle-generator/puzzles/move_twice/meshes/stl/robot.002.stl" scale="0.995 0.995 0.995"/>
         </geometry>
         <material name="green_translucent"/>
       </visual>
@@ -87,14 +87,14 @@
       <visual name="visual_box_8_link_1">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.199 5.999 0.999"/>
+          <box size="0.195 5.995 0.995"/>
         </geometry>
         <material name="red"/>
       </visual>
       <collision name="collision_box_8_link_1">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.199 5.999 0.999"/>
+          <box size="0.195 5.995 0.995"/>
         </geometry>
       </collision>
     </link>
@@ -108,14 +108,14 @@
       <visual name="visual_box_fixed_0_floor">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="31.999 31.999 0.199"/>
+          <box size="31.995 31.995 0.195"/>
         </geometry>
         <material name="lavender"/>
       </visual>
       <collision name="collision_box_fixed_0_floor">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="31.999 31.999 0.199"/>
+          <box size="31.995 31.995 0.195"/>
         </geometry>
       </collision>
     </link>
@@ -129,14 +129,14 @@
       <visual name="visual_box_fixed_4_wall_left">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="3.999 0.199 0.999"/>
+          <box size="3.995 0.195 0.995"/>
         </geometry>
         <material name="gray"/>
       </visual>
       <collision name="collision_box_fixed_4_wall_left">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="3.999 0.199 0.999"/>
+          <box size="3.995 0.195 0.995"/>
         </geometry>
       </collision>
     </link>
@@ -150,14 +150,14 @@
       <visual name="visual_box_fixed_5_wall_right">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="3.999 0.199 0.999"/>
+          <box size="3.995 0.195 0.995"/>
         </geometry>
         <material name="gray"/>
       </visual>
       <collision name="collision_box_fixed_5_wall_right">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="3.999 0.199 0.999"/>
+          <box size="3.995 0.195 0.995"/>
         </geometry>
       </collision>
     </link>
@@ -171,14 +171,14 @@
       <visual name="visual_box_fixed_6_wall_mid">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="3.999 0.199 0.999"/>
+          <box size="3.995 0.195 0.995"/>
         </geometry>
         <material name="gray"/>
       </visual>
       <collision name="collision_box_fixed_6_wall_mid">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="3.999 0.199 0.999"/>
+          <box size="3.995 0.195 0.995"/>
         </geometry>
       </collision>
     </link>
@@ -192,14 +192,14 @@
       <visual name="visual_box_fixed_7_wall_back">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.199 5.999 0.999"/>
+          <box size="0.195 5.995 0.995"/>
         </geometry>
         <material name="gray"/>
       </visual>
       <collision name="collision_box_fixed_7_wall_back">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.199 5.999 0.999"/>
+          <box size="0.195 5.995 0.995"/>
         </geometry>
       </collision>
     </link>
