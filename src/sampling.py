@@ -104,7 +104,7 @@ class SimpleSlidersSampler(PuzzleSampler):
             else:
                 location = ((i - 1) / 2, ((i - 1) / -2) - 1, 0.1)
                 rotation = (0, 0, 0)
-            self.world.new_link(location, rotation, scale, 'prismatic', upper_limit=1, create_handle=self.create_handle,
+            self.world.new_link(location, rotation, scale, 'prismatic', (0, 1), create_handle=self.create_handle,
                                 joint_axis=(1, 0, 0))
             self.goal_space.append((0, 1))
         self.goal_space_narrow(dimension=0)
@@ -228,7 +228,7 @@ class GridWorldSampler(PuzzleSampler):
         if prismatic:
             limit = round(limit * self.scaling, 5)
 
-            call = lambda: self.world.new_link(loc, rot, scale, 'prismatic', upper_limit=limit,
+            call = lambda: self.world.new_link(loc, rot, scale, 'prismatic', (0, limit),
                                                create_handle=self.create_handle, joint_axis=(1, 0, 0))
             self.prismatic_joints_target -= 1
         else:
@@ -414,7 +414,7 @@ class ContinuousSpaceSampler(PuzzleSampler):
             # create prismatic joint
             limit = self._get_random_limit(True)
             self.world.new_link((start_point[0], start_point[1], 0.5), (0, 0, rotation + calc.RAD90),
-                                (self.prismatic_length, 1, 1), 'prismatic', upper_limit=limit,
+                                (self.prismatic_length, 1, 1), 'prismatic', (0, limit),
                                 create_handle=self.create_handle, joint_axis=(1, 0, 0))
             self.world.create_goal_duplicate((limit, 0, 0))
             self.prismatic_joints_target -= 1
@@ -449,14 +449,13 @@ class ContinuousSpaceSampler(PuzzleSampler):
             if random() < threshold:
                 # create immovable prismatic joint (joint limits = 0)
                 self.world.new_link((new_point[0], new_point[1], 0.5), (0, 0, rotation + calc.RAD90),
-                                    (self.prismatic_length, 1, 1), 'prismatic', lower_limit=0, upper_limit=0,
+                                    (self.prismatic_length, 1, 1), 'prismatic', limits=(0, 0),
                                     create_handle=self.create_handle, joint_axis=(1, 0, 0))
                 is_prismatic = True
             else:
                 # create immovable revolute joint (joint limits = 0)
                 self.world.new_link((new_point[0], new_point[1], 0.5), (0, 0, rotation), (self.revolute_length, 1, 1),
-                                    'revolute', lower_limit=0, upper_limit=0, create_handle=self.create_handle,
-                                    hinge_diameter=None)
+                                    'revolute', limits=(0, 0), create_handle=self.create_handle, hinge_diameter=None)
                 is_prismatic = False
             self.world.export()
             result = solve(self.world.urdf_path, self.start_state, self.goal_space,
@@ -552,18 +551,18 @@ class Lockbox2017Sampler(PuzzleSampler):
         self.start_state.append(0)
         self.goal_space_append_with_adjustment((calc.RAD90, calc.RAD90))
 
-        self.world.new_link((-4, 0, 0.5), (0, 0, 0), (3, 0.5, 1), 'prismatic', 0, 2,
-                            create_handle=self.create_handle, joint_axis=(1, 0, 0))
+        self.world.new_link((-4, 0, 0.5), (0, 0, 0), (3, 0.5, 1), 'prismatic', (0, 2), create_handle=self.create_handle,
+                            joint_axis=(1, 0, 0))
         self.start_state.append(0)
         self.goal_space_append_with_adjustment((0, 2))
 
-        self.world.new_link((0, 0, 0.5), (0, 0, calc.RAD90), (4, 4, 1), 'revolute', 0, calc.RAD90,
+        self.world.new_link((0, 0, 0.5), (0, 0, calc.RAD90), (4, 4, 1), 'revolute', (0, calc.RAD90),
                             blend_file=self.mesh, object_name="slot_disc", create_handle=self.create_handle,
                             hinge_diameter=0.25)
         self.start_state.append(0)
         self.goal_space_append_with_adjustment((0, calc.RAD90))
 
-        self.world.new_link((0, 2, 0.5), (0, 0, calc.RAD90), (3, 0.5, 1), 'prismatic', 0, 2,
+        self.world.new_link((0, 2, 0.5), (0, 0, calc.RAD90), (3, 0.5, 1), 'prismatic', (0, 2),
                             create_handle=self.create_handle, joint_axis=(1, 0, 0))
         self.start_state.append(0)
         self.goal_space_append_with_adjustment((0, 2))
@@ -612,13 +611,13 @@ class LockboxRandomSampler(PuzzleSampler):
 
         slot_disc_location = (start_point[0], start_point[1], 0.5)
         self.world.new_link(slot_disc_location, (0, 0, rotation), (radius * 2, radius * 2, 1), 'revolute',
-                            -calc.RAD180, calc.RAD180, blend_file=self.mesh, object_name="slot_disc",
+                            (-calc.RAD180, calc.RAD180), blend_file=self.mesh, object_name="slot_disc",
                             create_handle=self.create_handle, hinge_diameter=radius * 0.125)
 
         offset_slider = calc.tuple_scale(calc.DIRECTION_VECTOR_2D[direction], radius)
         slider_location = (start_point[0] + offset_slider[0], start_point[1] + offset_slider[1], 0.5)
         self.world.new_link(slider_location, (0, 0, rotation), (self.slider_length, self.slider_width, 1),
-                            'prismatic', 0, 1, create_handle=self.create_handle, joint_axis=(1, 0, 0))
+                            'prismatic', (0, 1), create_handle=self.create_handle, joint_axis=(1, 0, 0))
         return slider_location
 
     def choose_links(self):
@@ -651,7 +650,7 @@ class LockboxRandomSampler(PuzzleSampler):
         self.previous_direction = choice(("N", "E", "S", "W"))
         rotation = self.get_rotation[self.previous_direction]
         self.world.new_link((self.start_point[0], self.start_point[1], 0.5), (0, 0, rotation),
-                            (self.slider_length, self.slider_width, 1), 'prismatic', 0, 1,
+                            (self.slider_length, self.slider_width, 1), 'prismatic', (0, 1),
                             create_handle=self.create_handle, joint_axis=(1, 0, 0))
         self.world.create_goal_duplicate((1, 0, 0))
         self.start_state.append(0)
@@ -679,10 +678,10 @@ class EscapeRoomSampler(PuzzleSampler):
         self.world.initialize(self.floor_size)
 
         # add robot
-        first = self.world.new_link((0, 0, 0.5), (0, 0, 0), (0, 0, 0), 'prismatic', -6, 6, joint_axis=(1, 0, 0))
-        second = self.world.new_link((0, 0, 0), (0, 0, 0), (0, 0, 0), 'prismatic', -6, 6, joint_axis=(0, 1, 0),
+        first = self.world.new_link((0, 0, 0.5), (0, 0, 0), (0, 0, 0), 'prismatic', (-6, 6), joint_axis=(1, 0, 0))
+        second = self.world.new_link((0, 0, 0), (0, 0, 0), (0, 0, 0), 'prismatic', (-6, 6), joint_axis=(0, 1, 0),
                                      parent=first)
-        robot = self.world.new_link((0, 0, 0), (0, 0, 0), (0.75, 1, 1), 'revolute', -calc.RAD180, calc.RAD180,
+        robot = self.world.new_link((0, 0, 0), (0, 0, 0), (0.75, 1, 1), 'revolute', (-calc.RAD180, calc.RAD180),
                                     parent=second, blend_file="input-meshes/droids.blend", object_name="droids_3",
                                     new_mesh_name="robot")
         self.start_state.extend((0, 0, 0))
@@ -693,10 +692,10 @@ class EscapeRoomSampler(PuzzleSampler):
 
         # add obstacle
         y = random() * 2 + 1
-        first = self.world.new_link((-0.75, y, 0.25), (0, 0, 0), (0, 0, 0), 'prismatic', -6, 6, joint_axis=(1, 0, 0))
-        second = self.world.new_link((0, 0, 0), (0, 0, 0), (0, 0, 0), 'prismatic', -6, 6, joint_axis=(0, 1, 0),
+        first = self.world.new_link((-0.75, y, 0.25), (0, 0, 0), (0, 0, 0), 'prismatic', (-6, 6), joint_axis=(1, 0, 0))
+        second = self.world.new_link((0, 0, 0), (0, 0, 0), (0, 0, 0), 'prismatic', (-6, 6), joint_axis=(0, 1, 0),
                                      parent=first)
-        obstacle = self.world.new_link((0, 0, 0), (0, 0, 0), (1.5, 0.5, 0.5), 'revolute', -calc.RAD180, calc.RAD180,
+        obstacle = self.world.new_link((0, 0, 0), (0, 0, 0), (1.5, 0.5, 0.5), 'revolute', (-calc.RAD180, calc.RAD180),
                                        parent=second, blend_file="input-meshes/l1_stick.blend", object_name="l1_stick",
                                        new_mesh_name="stick", material=color.BROWN)
         self.start_state.extend((0, 0, 0))
@@ -709,9 +708,9 @@ class EscapeRoomSampler(PuzzleSampler):
         self.goal_space_append_with_adjustment((0, calc.RAD90))
 
         # add walls
-        self.world.new_link((0, -4, 0.25), (0, 0, 0), (3.8, 0.2, 0.5), name="wall_left", material=color.GRAY)
-        self.world.new_link((2, 0, 0.25), (0, 0, 0), (0.2, 8, 0.5), name="wall_front", material=color.GRAY)
-        self.world.new_link((-2, 0, 0.25), (0, 0, 0), (0.2, 8, 0.5), name="wall_back", material=color.GRAY)
+        self.world.new_link((0, -4, 0.25), (0, 0, 0), (3.8, 0.2, 0.5), material=color.GRAY, name="wall_left")
+        self.world.new_link((2, 0, 0.25), (0, 0, 0), (0.2, 8, 0.5), material=color.GRAY, name="wall_front")
+        self.world.new_link((-2, 0, 0.25), (0, 0, 0), (0.2, 8, 0.5), material=color.GRAY, name="wall_back")
 
         self.world.export()
         self.world.render_images()
@@ -730,10 +729,10 @@ class MoveTwiceSampler(PuzzleSampler):
     def build(self):
         self.world.initialize(self.floor_size)
 
-        first = self.world.new_link((0, 0, 0.5), (0, 0, 0), (0, 0, 0), 'prismatic', -16, 16, joint_axis=(1, 0, 0))
-        second = self.world.new_link((0, 0, 0), (0, 0, 0), (0, 0, 0), 'prismatic', -16, 16, joint_axis=(0, 1, 0),
+        first = self.world.new_link((0, 0, 0.5), (0, 0, 0), (0, 0, 0), 'prismatic', (-16, 16), joint_axis=(1, 0, 0))
+        second = self.world.new_link((0, 0, 0), (0, 0, 0), (0, 0, 0), 'prismatic', (-16, 16), joint_axis=(0, 1, 0),
                                      parent=first)
-        robot = self.world.new_link((0, 0, 0), (0, 0, 0), (0.75, 1, 1), 'revolute', -calc.RAD180, calc.RAD180,
+        robot = self.world.new_link((0, 0, 0), (0, 0, 0), (0.75, 1, 1), 'revolute', (-calc.RAD180, calc.RAD180),
                                     parent=second, blend_file="input-meshes/droids.blend", object_name="droids_3",
                                     new_mesh_name="robot")
 
@@ -748,11 +747,11 @@ class MoveTwiceSampler(PuzzleSampler):
 
         self.world.create_goal_duplicate((goal[0], goal[1], 0), (0, 0, goal[2]))
 
-        self.world.new_link((0, -1.4, 0.5), (0, 0, 0), (4, 0.2, 1), name="wall_left", material=color.GRAY)
-        self.world.new_link((0, 4.4, 0.5), (0, 0, 0), (4, 0.2, 1), name="wall_right", material=color.GRAY)
-        self.world.new_link((0, 1.5, 0.5), (0, 0, 0), (4, 0.2, 1), name="wall_mid", material=color.GRAY)
-        self.world.new_link((-2.1, 1.5, 0.5), (0, 0, 0), (0.2, 6, 1), name="wall_back", material=color.GRAY)
-        self.world.new_link((2.1, 1.5, 0.5), (0, 0, 0), (0.2, 6, 1), 'prismatic', -3, 3, joint_axis=(0, 1, 0))
+        self.world.new_link((0, -1.4, 0.5), (0, 0, 0), (4, 0.2, 1), material=color.GRAY, name="wall_left")
+        self.world.new_link((0, 4.4, 0.5), (0, 0, 0), (4, 0.2, 1), material=color.GRAY, name="wall_right")
+        self.world.new_link((0, 1.5, 0.5), (0, 0, 0), (4, 0.2, 1), material=color.GRAY, name="wall_mid")
+        self.world.new_link((-2.1, 1.5, 0.5), (0, 0, 0), (0.2, 6, 1), material=color.GRAY, name="wall_back")
+        self.world.new_link((2.1, 1.5, 0.5), (0, 0, 0), (0.2, 6, 1), 'prismatic', (-3, 3), joint_axis=(0, 1, 0))
         self.goal_space.append((-2, 2))
         self.start_state.append(0)
 
@@ -778,10 +777,10 @@ class MoveNTimesSampler(PuzzleSampler):
         else:
             n = self.n
 
-        first = self.world.new_link((0, 0, 0.25), (0, 0, 0), (0, 0, 0), 'prismatic', -n, n, joint_axis=(1, 0, 0))
-        second = self.world.new_link((0, 0, 0), (0, 0, 0), (0, 0, 0), 'prismatic', -n, 0.5, joint_axis=(0, 1, 0),
+        first = self.world.new_link((0, 0, 0.25), (0, 0, 0), (0, 0, 0), 'prismatic', (-n, n), joint_axis=(1, 0, 0))
+        second = self.world.new_link((0, 0, 0), (0, 0, 0), (0, 0, 0), 'prismatic', (-n, 0.5), joint_axis=(0, 1, 0),
                                      parent=first)
-        robot = self.world.new_link((0, 0, 0), (0, 0, 0), (0.375, 0.5, 0.5), 'revolute', -calc.RAD180, calc.RAD180,
+        robot = self.world.new_link((0, 0, 0), (0, 0, 0), (0.375, 0.5, 0.5), 'revolute', (-calc.RAD180, calc.RAD180),
                                     parent=second, blend_file="input-meshes/droids.blend", object_name="droids_3",
                                     new_mesh_name="robot")
         start = (0, 0, 0)
@@ -799,23 +798,22 @@ class MoveNTimesSampler(PuzzleSampler):
         else:
             width = 2
         limit = width / 2
-        self.world.new_link((0, 0, 0), (0, 0, 0), (width, 0.1, 0.5), 'prismatic', -limit, limit,
-                            joint_axis=(1, 0, 0))
+        self.world.new_link((0, 0, 0), (0, 0, 0), (width, 0.1, 0.5), 'prismatic', (-limit, limit), joint_axis=(1, 0, 0))
         self.goal_space.append((-limit, limit))
         self.start_state.append(0)
 
         if self.n > 0:
-            self.world.new_link((-0.5, 1, 0), (0, 0, 0), (0.9, 0.1, 0.5), name="wall_north_0", material=color.GRAY)
-            self.world.new_link((-1, 0.5, 0), (0, 0, 0), (0.1, 0.9, 0.5), name="wall_northwest_0", material=color.GRAY)
-            self.world.new_link((0, 0.5, 0), (0, 0, 0), (0.1, 0.9, 0.5), name="wall_northeast_0", material=color.GRAY)
+            self.world.new_link((-0.5, 1, 0), (0, 0, 0), (0.9, 0.1, 0.5), material=color.GRAY, name="wall_north_0")
+            self.world.new_link((-1, 0.5, 0), (0, 0, 0), (0.1, 0.9, 0.5), material=color.GRAY, name="wall_northwest_0")
+            self.world.new_link((0, 0.5, 0), (0, 0, 0), (0.1, 0.9, 0.5), material=color.GRAY, name="wall_northeast_0")
 
         for i in range(1, n):
-            self.world.new_link((0, -i, 0), (0, 0, 0), (i * 2 - 0.1, 0.1, 0.5), name="wall_south_" + str(i),
-                                material=color.GRAY)
-            self.world.new_link((-i, -i / 2, 0), (0, 0, 0), (0.1, i - 0.1, 0.5), name="wall_southwest_" + str(i),
-                                material=color.GRAY)
-            self.world.new_link((i, -i / 2, 0), (0, 0, 0), (0.1, i - 0.1, 0.5), name="wall_southeast_" + str(i),
-                                material=color.GRAY)
+            self.world.new_link((0, -i, 0), (0, 0, 0), (i * 2 - 0.1, 0.1, 0.5), material=color.GRAY,
+                                name="wall_south_" + str(i))
+            self.world.new_link((-i, -i / 2, 0), (0, 0, 0), (0.1, i - 0.1, 0.5), material=color.GRAY,
+                                name="wall_southwest_" + str(i))
+            self.world.new_link((i, -i / 2, 0), (0, 0, 0), (0.1, i - 0.1, 0.5), material=color.GRAY,
+                                name="wall_southeast_" + str(i))
 
             if i > 1:
                 if i % 2 == 0:
@@ -824,10 +822,10 @@ class MoveNTimesSampler(PuzzleSampler):
                 else:
                     x1 = -(i - 1)
                     x2 = -i
-                self.world.new_link((x1, 1, 0), (0, 0, 0), (1.9, 0.1, 0.5), name="wall_north_" + str(i),
-                                    material=color.GRAY)
-                self.world.new_link((x2, 0.5, 0), (0, 0, 0), (0.1, 0.9, 0.5), name="wall_north_side_" + str(i),
-                                    material=color.GRAY)
+                self.world.new_link((x1, 1, 0), (0, 0, 0), (1.9, 0.1, 0.5), material=color.GRAY,
+                                    name="wall_north_" + str(i))
+                self.world.new_link((x2, 0.5, 0), (0, 0, 0), (0.1, 0.9, 0.5), material=color.GRAY,
+                                    name="wall_north_side_" + str(i))
 
         self.world.export()
         self.world.render_images()

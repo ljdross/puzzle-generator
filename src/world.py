@@ -109,7 +109,7 @@ class BlenderWorld:
             visual.parent = parent
         return visual
 
-    def create_link_and_joint(self, obj, name="", joint_type=None, lower=0, upper=0):
+    def create_link_and_joint(self, obj, name="", joint_type=None, limits=(0, 0)):
         """Create link (at origin of object). Also create joint at child if joint_type is specified."""
         bpy.ops.object.select_all(action='DESELECT')
         obj.select_set(True)
@@ -117,7 +117,8 @@ class BlenderWorld:
         bpy.ops.phobos.create_links(location='selected objects', size=10, parent_link=True, parent_objects=True,
                                     nameformat=name)
         if joint_type:
-            bpy.ops.phobos.define_joint_constraints(passive=True, joint_type=joint_type, lower=lower, upper=upper)
+            bpy.ops.phobos.define_joint_constraints(passive=True, joint_type=joint_type,
+                                                    lower=limits[0], upper=limits[1])
 
     def create_base_link(self):
         """
@@ -175,15 +176,15 @@ class BlenderWorld:
             else:
                 return color.RED
 
-    def new_link(self, location, rotation, scale, joint_type='fixed', lower_limit=0, upper_limit=0, material=None,
-                 auto_limit=0, blend_file="", object_name="", is_cylinder=False, name="", parent=None,
-                 create_handle=False, collision=True, joint_axis=(0, 0, 1), new_mesh_name="", hinge_diameter=0):
+    def new_link(self, location, rotation, scale, joint_type='fixed', limits=(0, 0), material=None, auto_limit=0,
+                 blend_file="", object_name="", is_cylinder=False, name="", parent=None, create_handle=False,
+                 collision=True, joint_axis=(0, 0, 1), new_mesh_name="", hinge_diameter=0):
         location = calc.tuple_add(location, self.link_offset)
         if auto_limit != 0:
             if auto_limit < 0:
-                lower_limit = auto_limit
+                limits = (auto_limit, limits[1])
             else:
-                upper_limit = auto_limit
+                limits = (limits[0], auto_limit)
         if not parent:
             parent = self.base_link
             material = material if material else self._determine_link_color(link_is_child=False)
@@ -206,7 +207,7 @@ class BlenderWorld:
         if joint_type != 'fixed':
             self._rename_links_recursively(parent, link_number, joint_number=1)
             name = str(link_number) + "_joint_0"
-        self.create_link_and_joint(visual, name, joint_type, lower_limit, upper_limit)
+        self.create_link_and_joint(visual, name, joint_type, limits)
         link = visual.parent
         if scale == (0, 0, 0):
             self.apply_to_subtree(link, remove_visual=True)
@@ -249,7 +250,7 @@ class BlenderWorld:
                  cylinder_diameter=0.4, cylinder_material=color.GRAY, handle_material=color.YELLOW, panel_material=None,
                  name="", top_handle=True, collision=True):
         door = self.new_link(location, rotation, (cylinder_diameter, cylinder_diameter, scale[2]), 'revolute',
-                             lower_limit, upper_limit, cylinder_material, is_cylinder=True, name=name,
+                             (lower_limit, upper_limit), cylinder_material, is_cylinder=True, name=name,
                              collision=collision, hinge_diameter=None)
         self.new_link((scale[0] / 2, 0, 0), (0, 0, 0), scale, 'fixed', material=panel_material, name="door_panel",
                       parent=door, collision=collision)
