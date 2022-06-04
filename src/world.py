@@ -222,17 +222,17 @@ class BlenderWorld:
             if joint_type == 'revolute' and hinge_diameter != 0:
                 diameter = min(scale[0], scale[1]) * 0.25 if hinge_diameter is None else hinge_diameter
                 length = scale[2] * 1.1
-                self.new_link((0, 0, 0), (0, 0, 0), (diameter, diameter, length), 'fixed', material=color.GRAY,
-                              is_cylinder=True, name="hinge", parent=link, collision=False)
+                self.new_link((0, 0, 0), (0, 0, 0), (diameter, diameter, length), material=color.GRAY, is_cylinder=True,
+                              name="hinge", parent=link, collision=False)
         if create_handle:
             self._create_handle_automatically(link, collision, rotation, scale, joint_type)
         return link
 
     def new_handle(self, parent, location, rotation=(0, 0, 0), height=1, width=0.2, material=None, is_cylinder=False,
                    collision=True):
-        shaft = self.new_link(location, rotation, (width, width, height), 'fixed', material=material,
-                              is_cylinder=is_cylinder, name="handle_shaft", parent=parent, collision=collision)
-        self.new_link((0, 0, height / 2 + 0.1), (0, 0, 0), (0.05, 0.05, 0.2), 'fixed', material=color.YELLOW,
+        shaft = self.new_link(location, rotation, (width, width, height), material=material, is_cylinder=is_cylinder,
+                              name="handle_shaft", parent=parent, collision=collision)
+        self.new_link((0, 0, height / 2 + 0.1), (0, 0, 0), (0.05, 0.05, 0.2), material=color.YELLOW,
                       name="handle_knob", parent=shaft, collision=collision)
 
     def _create_handle_automatically(self, parent, collision, parent_rotation, parent_scale, parent_joint_type,
@@ -246,21 +246,21 @@ class BlenderWorld:
                 location = (0, parent_scale[1] * 0.375, parent_scale[2] / 2 + height / 2)
             self.new_handle(parent, location, (0, 0, 0), height, is_cylinder=True, collision=collision)
 
-    def new_door(self, location=(0, 0, 1), rotation=(0, 0, 0), scale=(2, 0.2, 2), lower_limit=0, upper_limit=calc.RAD90,
+    def new_door(self, location=(0, 0, 1), rotation=(0, 0, 0), scale=(2, 0.2, 2), limits=(0, calc.RAD90),
                  cylinder_diameter=0.4, cylinder_material=color.GRAY, handle_material=color.YELLOW, panel_material=None,
                  name="", top_handle=True, collision=True):
         door = self.new_link(location, rotation, (cylinder_diameter, cylinder_diameter, scale[2]), 'revolute',
-                             (lower_limit, upper_limit), cylinder_material, is_cylinder=True, name=name,
-                             collision=collision, hinge_diameter=None)
-        self.new_link((scale[0] / 2, 0, 0), (0, 0, 0), scale, 'fixed', material=panel_material, name="door_panel",
-                      parent=door, collision=collision)
+                             limits, cylinder_material, is_cylinder=True, name=name, collision=collision,
+                             hinge_diameter=None)
+        self.new_link((scale[0] / 2, 0, 0), (0, 0, 0), scale, material=panel_material, name="door_panel", parent=door,
+                      collision=collision)
         if top_handle:
-            self.new_link((scale[0] * 0.75, 0, scale[2] / 2 + 0.1), (0, 0, 0), (0.2, 0.05, 0.2), 'fixed',
+            self.new_link((scale[0] * 0.75, 0, scale[2] / 2 + 0.1), (0, 0, 0), (0.2, 0.05, 0.2),
                           material=handle_material, name="door_handle", parent=door, collision=collision)
         else:
-            self.new_link((scale[0] * 0.75, scale[1] / 2 + 0.1, 0), (0, 0, 0), (0.05, 0.2, 0.2), 'fixed',
+            self.new_link((scale[0] * 0.75, scale[1] / 2 + 0.1, 0), (0, 0, 0), (0.05, 0.2, 0.2),
                           material=handle_material, name="door_handle1", parent=door, collision=collision)
-            self.new_link((scale[0] * 0.75, -scale[1] / 2 - 0.1, 0), (0, 0, 0), (0.05, 0.2, 0.2), 'fixed',
+            self.new_link((scale[0] * 0.75, -scale[1] / 2 - 0.1, 0), (0, 0, 0), (0.05, 0.2, 0.2),
                           material=handle_material, name="door_handle2", parent=door, collision=collision)
         return door
 

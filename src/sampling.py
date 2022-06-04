@@ -616,8 +616,8 @@ class LockboxRandomSampler(PuzzleSampler):
 
         offset_slider = calc.tuple_scale(calc.DIRECTION_VECTOR_2D[direction], radius)
         slider_location = (start_point[0] + offset_slider[0], start_point[1] + offset_slider[1], 0.5)
-        self.world.new_link(slider_location, (0, 0, rotation), (self.slider_length, self.slider_width, 1),
-                            'prismatic', (0, 1), create_handle=self.create_handle, joint_axis=(1, 0, 0))
+        self.world.new_link(slider_location, (0, 0, rotation), (self.slider_length, self.slider_width, 1), 'prismatic',
+                            (0, 1), create_handle=self.create_handle, joint_axis=(1, 0, 0))
         return slider_location
 
     def choose_links(self):
