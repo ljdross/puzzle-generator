@@ -77,15 +77,13 @@ class BlenderWorld:
             blend_filepath = mesh["blend_filepath"]
             object_name = mesh["object_name"]
             inner_path = 'Object'
-            bpy.ops.wm.append(filepath=os.path.join(blend_filepath, inner_path, object_name),  # TODO: autoselect=True refactor
+            bpy.ops.wm.append(filepath=os.path.join(blend_filepath, inner_path, object_name),
                               directory=os.path.join(blend_filepath, inner_path), filename=object_name)
             # Source:
             # https://b3d.interplanety.org/en/how-to-append-an-object-from-another-blend-file-to-the-scene-using-the-blender-python-api/
 
-            bpy.ops.object.select_all(action='DESELECT')
-            bpy.data.objects[object_name].select_set(True)
-            bpy.context.view_layer.objects.active = bpy.context.selected_objects[0]
-            visual = bpy.context.active_object
+            visual = bpy.context.selected_objects[0]  # bpy.ops.wm.append() selects the new object
+            bpy.context.view_layer.objects.active = visual
             visual.location = location
             visual.rotation_euler = rotation
             visual.scale = scale
