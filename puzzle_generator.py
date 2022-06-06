@@ -20,6 +20,20 @@ world_config = {
     "export_mesh_dae": False,
     "export_mesh_stl": True,
     "output_mesh_type": 'stl',
+    "render_positions": (                       # (cam_location, cam_rotation) tuples
+                                                # the amount of given tuples determines the amount of images being
+                                                # rendered
+                                                # e.g. no images are being rendered if no tuples are given
+        ((0, 0, 30), (0, 0, 0)),                    # top
+        # ((0, -30, 20), (0.96, 0, 0)),               # north
+        # ((-30, 0, 20), (0.96, 0, -calc.RAD90)),     # east
+        # ((0, 30, 20), (0.96, 0, calc.RAD180)),      # south
+        # ((30, 0, 20), (0.96, 0, calc.RAD90)),       # west
+        # ((-30, -30, 20), (0.96, 0, -calc.RAD45)),   # northeast
+        # ((-30, 30, 20), (0.96, 0, -calc.RAD135)),   # southeast
+        # ((30, 30, 20), (0.96, 0, calc.RAD135)),     # southwest
+        # ((30, -30, 20), (0.96, 0, calc.RAD45)),     # northwest
+        )
 }
 
 sampler_config = {

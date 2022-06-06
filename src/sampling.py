@@ -116,7 +116,6 @@ class SimpleSlidersSampler(PuzzleSampler):
         self.world.initialize(self.floor_size)
         self._create_simple_sliders_puzzle()
         self.world.export()
-        self.world.render_images()
         return 0
 
 
@@ -343,7 +342,6 @@ class GridWorldSampler(PuzzleSampler):
             result = self._create_grid_world_puzzle()
             if result == 0:
                 self.world.export()
-                self.world.render_images()
                 return 0
         print("GridWorldSampler failed!")
         return result
@@ -457,7 +455,7 @@ class ContinuousSpaceSampler(PuzzleSampler):
                 self.world.new_link((new_point[0], new_point[1], 0.5), (0, 0, rotation), (self.revolute_length, 1, 1),
                                     'revolute', limits=(0, 0), create_handle=self.create_handle, hinge_diameter=None)
                 is_prismatic = False
-            self.world.export()
+            self.world.export(render_images=False)
             result = solve(self.world.urdf_path, self.start_state, self.goal_space,
                            self.planning_time * self.first_test_time_multiplier, verbose=False)
             if result == 0:
@@ -471,6 +469,7 @@ class ContinuousSpaceSampler(PuzzleSampler):
                 # now make it movable
                 limit = self._get_random_limit(is_prismatic)
                 self.world.set_limit_of_latest_link(limit, is_prismatic)
+                self.world.export(render_images=False)
                 limits_tuple = self.get_limits_tuple(limit)
                 self.goal_space_append_with_adjustment(limits_tuple)
                 self.start_state.append(0)
@@ -571,7 +570,6 @@ class Lockbox2017Sampler(PuzzleSampler):
         self.goal_space_append_with_adjustment((0, calc.RAD90))
 
         self.world.export(concave_collision_mesh=True)
-        self.world.render_images()
         return 0
 
 
@@ -628,7 +626,7 @@ class LockboxRandomSampler(PuzzleSampler):
             self.start_state.append(0)
             self.goal_space.append((-calc.RAD180, calc.RAD180))
             self.goal_space.append((0, 1))
-            self.world.export(concave_collision_mesh=True)
+            self.world.export(render_images=False, concave_collision_mesh=True)
             if solve(self.world.urdf_path, self.start_state, None, only_check_start_state_validity=True) == 0:
                 self.start_point = new_start
                 self.previous_direction = random_direction
@@ -711,7 +709,6 @@ class EscapeRoomSampler(PuzzleSampler):
         self.world.new_link((-2, 0, 0.25), (0, 0, 0), (0.2, 8, 0.5), material=color.GRAY, name="wall_back")
 
         self.world.export()
-        self.world.render_images()
         return 0
 
 
@@ -753,7 +750,6 @@ class MoveTwiceSampler(PuzzleSampler):
         self.start_state.append(0)
 
         self.world.export()
-        self.world.render_images()
         return 0
 
 
@@ -824,5 +820,4 @@ class MoveNTimesSampler(PuzzleSampler):
                                     name="wall_north_side_" + str(i))
 
         self.world.export()
-        self.world.render_images()
         return 0

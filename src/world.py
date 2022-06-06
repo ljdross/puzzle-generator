@@ -26,6 +26,7 @@ class BlenderWorld:
         self.export_mesh_dae = config["export_mesh_dae"]
         self.export_mesh_stl = config["export_mesh_stl"]
         self.output_mesh_type = config["output_mesh_type"]
+        self.render_positions = config["render_positions"]
         bpy.context.scene.render.engine = 'BLENDER_WORKBENCH'
         self.init_attributes()
 
@@ -296,7 +297,6 @@ class BlenderWorld:
                 self.movable_links[-1].pose.bones["Bone"].constraints["Limit Rotation"].min_x = limit
             else:
                 self.movable_links[-1].pose.bones["Bone"].constraints["Limit Rotation"].max_x = limit
-        self.export()
 
     def zeroize_limits(self, link):
         link.pose.bones["Bone"].constraints["Limit Location"].min_x = 0
@@ -387,20 +387,10 @@ class BlenderWorld:
         return cam
 
     def render_images(self):
-        loc_rots = (((0, 0, 30), (0, 0, 0)),                    # top
-                    ((0, -30, 20), (0.96, 0, 0)),               # north
-                    ((-30, 0, 20), (0.96, 0, -calc.RAD90)),     # east
-                    ((0, 30, 20), (0.96, 0, calc.RAD180)),      # south
-                    ((30, 0, 20), (0.96, 0, calc.RAD90)),       # west
-                    ((-30, -30, 20), (0.96, 0, -calc.RAD45)),   # northeast
-                    ((-30, 30, 20), (0.96, 0, -calc.RAD135)),   # southeast
-                    ((30, 30, 20), (0.96, 0, calc.RAD135)),     # southwest
-                    ((30, -30, 20), (0.96, 0, calc.RAD45)),     # northwest
-                    )
-        for loc_rot in loc_rots:
+        for loc_rot in self.render_positions:
             self.render_image(loc_rot[0], loc_rot[1])
 
-    def export(self, add_mesh_filepath_prefix=True, concave_collision_mesh=False):
+    def export(self, render_images=True, add_mesh_filepath_prefix=True, concave_collision_mesh=False):
         """Export model to URDF."""
         bpy.context.scene.phobosexportsettings.path = self.directory
         bpy.context.scene.phobosexportsettings.selectedOnly = False
@@ -420,6 +410,8 @@ class BlenderWorld:
         bpy.ops.phobos.export_model()
         if self.contains_mesh:
             self.modify_urdf(add_mesh_filepath_prefix, concave_collision_mesh)
+        if render_images:
+            self.render_images()
 
     def modify_urdf(self, add_mesh_filepath_prefix=True, concave_collision_mesh=False):
         """
