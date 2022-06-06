@@ -66,16 +66,18 @@ class BlenderWorld:
             return round(x - self.link_shrink, 5)
 
     def create_visual(self, location=(0, 0, 0), rotation=(0, 0, 0), scale=(1, 1, 1), material=None, name="",
-                      parent=None, mesh="", object_name="", is_cylinder=False):
+                      parent=None, mesh={}, is_cylinder=False):
         """Create a visual object with the appropriate Phobos object properties. Returns the object."""
         scale = tuple(map(self.subtract_link_shrink, scale))
 
         if mesh:
             self.contains_mesh = True
 
+            blend_filepath = mesh["blend_filepath"]
+            object_name = mesh["object_name"]
             inner_path = 'Object'
-            bpy.ops.wm.append(filepath=os.path.join(mesh, inner_path, object_name),
-                              directory=os.path.join(mesh, inner_path), filename=object_name)
+            bpy.ops.wm.append(filepath=os.path.join(blend_filepath, inner_path, object_name),  # TODO: autoselect=True refactor
+                              directory=os.path.join(blend_filepath, inner_path), filename=object_name)
             # Source:
             # https://b3d.interplanety.org/en/how-to-append-an-object-from-another-blend-file-to-the-scene-using-the-blender-python-api/
 
@@ -87,6 +89,10 @@ class BlenderWorld:
             visual.rotation_euler = rotation
             visual.scale = scale
             bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
+            if "new_mesh_name" in mesh:
+                new_mesh_name = mesh["new_mesh_name"]
+                if new_mesh_name:
+                    visual.data.name = new_mesh_name
         elif is_cylinder:
             bpy.ops.mesh.primitive_cylinder_add(location=location, rotation=rotation, scale=tuple(x / 2 for x in scale))
             visual = bpy.context.active_object
@@ -177,8 +183,8 @@ class BlenderWorld:
                 return color.RED
 
     def new_link(self, location, rotation, scale, joint_type='fixed', limits=(0, 0), material=None, auto_limit=0,
-                 blend_file="", object_name="", is_cylinder=False, name="", parent=None, create_handle=False,
-                 collision=True, joint_axis=(0, 0, 1), new_mesh_name="", hinge_diameter=0):
+                 mesh={}, is_cylinder=False, name="", parent=None, create_handle=False, collision=True,
+                 joint_axis=(0, 0, 1), hinge_diameter=0):
         location = calc.tuple_add(location, self.link_offset)
         if auto_limit != 0:
             if auto_limit < 0:
@@ -200,10 +206,7 @@ class BlenderWorld:
         else:
             name = str(self.link_count) + "_link_" + str(link_number)
         self.link_count += 1
-        visual = self.create_visual(location, rotation, scale, material, name, parent, blend_file, object_name,
-                                    is_cylinder)
-        if new_mesh_name:
-            visual.data.name = new_mesh_name
+        visual = self.create_visual(location, rotation, scale, material, name, parent, mesh, is_cylinder)
         if joint_type != 'fixed':
             self._rename_links_recursively(parent, link_number, joint_number=1)
             name = str(link_number) + "_joint_0"

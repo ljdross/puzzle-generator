@@ -54,14 +54,27 @@ sampler_config = {
     "attempts_per_link": 50,
 
     # this part is only required for Lockbox2017Sampler and LockboxRandomSampler
-    "mesh1": "input-meshes/slot_disc.blend",  # both absolute and relative paths are allowed
+    "slot_disc_mesh": {
+        "blend_filepath": "input-meshes/slot_disc.blend",  # both absolute and relative paths are allowed
+        "object_name": "slot_disc",
+        "new_mesh_name": None,
+    },
     "iterations": 2,
     "slider_length": 1.4,
     "slider_width": 0.2,
     "radius_interval": (1, 3),
 
-    # this part is only required for EscapeRoomSampler and MoveTwiceSampler
-    "robot_mesh": "input-meshes/droids.blend",  # both absolute and relative paths are allowed
+    # this part is only required for EscapeRoomSampler, MoveTwiceSampler, MoveNTimesSampler and RoomsSampler
+    "stick_mesh": {
+        "blend_filepath": "input-meshes/l1_stick.blend",  # both absolute and relative paths are allowed
+        "object_name": "l1_stick",
+        "new_mesh_name": "stick",
+    },
+    "robot_mesh": {
+        "blend_filepath": "input-meshes/droids.blend",  # both absolute and relative paths are allowed
+        "object_name": "droids_3",
+        "new_mesh_name": "robot",
+    },
 
     # this part is only required for MoveNTimesSampler
     "n": 3,
