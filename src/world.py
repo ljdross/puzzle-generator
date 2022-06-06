@@ -98,9 +98,11 @@ class BlenderWorld:
         else:
             bpy.ops.mesh.primitive_cube_add(location=location, rotation=rotation, scale=tuple(x / 2 for x in scale))
             visual = bpy.context.active_object
-        visual.active_material = material if material else visual.active_material
+        if material:
+            visual.active_material = material
         bpy.ops.phobos.set_phobostype(phobostype='visual')
-        name = "_" + name if name else ""
+        if name:
+            name = "_" + name
         if mesh:
             bpy.ops.phobos.define_geometry(geomType='mesh')
             visual.name = "visual_mesh" + name
@@ -118,7 +120,8 @@ class BlenderWorld:
         """Create link (at origin of object). Also create joint at child if joint_type is specified."""
         bpy.ops.object.select_all(action='DESELECT')
         obj.select_set(True)
-        name = name if name == "base_link" else "link_" + name
+        if name != "base_link":
+            name = "link_" + name
         bpy.ops.phobos.create_links(location='selected objects', size=10, parent_link=True, parent_objects=True,
                                     nameformat=name)
         if joint_type:
@@ -192,10 +195,12 @@ class BlenderWorld:
                 limits = (limits[0], auto_limit)
         if not parent:
             parent = self.base_link
-            material = material if material else self._determine_link_color(link_is_child=False)
+            if not material:
+                material = self._determine_link_color(link_is_child=False)
             link_number = len(self.movable_links)
         else:
-            material = material if material else self._determine_link_color(link_is_child=True)
+            if not material:
+                material = self._determine_link_color(link_is_child=True)
             link_number = len(self.movable_links) - 1
         if joint_type == 'fixed':
             if name:
@@ -222,10 +227,11 @@ class BlenderWorld:
             self.update_joint_axis(link, joint_axis)
         else:  # joint_axis == (0, 0, 1)
             if joint_type == 'revolute' and hinge_diameter != 0:
-                diameter = min(scale[0], scale[1]) * 0.25 if hinge_diameter is None else hinge_diameter
+                if hinge_diameter is None:
+                    hinge_diameter = min(scale[0], scale[1]) * 0.25
                 length = scale[2] * 1.1
-                self.new_link((0, 0, 0), (0, 0, 0), (diameter, diameter, length), material=color.GRAY, is_cylinder=True,
-                              name="hinge", parent=link, collision=False)
+                self.new_link((0, 0, 0), (0, 0, 0), (hinge_diameter, hinge_diameter, length), material=color.GRAY,
+                              is_cylinder=True, name="hinge", parent=link, collision=False)
         if create_handle:
             self._create_handle_automatically(link, collision, rotation, scale, joint_type)
         return link
