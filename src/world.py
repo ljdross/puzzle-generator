@@ -22,6 +22,7 @@ class BlenderWorld:
         self.directory = self._dir_for_output + "/" + self.name
         self.urdf_path = self.directory + "/urdf/" + self.name + ".urdf"
         self.link_shrink = config["link_shrink"]
+        self.scaling = config["scaling"]
         self.export_entity_srdf = config["export_entity_srdf"]
         self.export_mesh_dae = config["export_mesh_dae"]
         self.export_mesh_stl = config["export_mesh_stl"]
@@ -187,7 +188,13 @@ class BlenderWorld:
     def new_link(self, location, rotation, scale, joint_type='fixed', limits=(0, 0), material=None, auto_limit=0,
                  mesh={}, is_cylinder=False, name="", parent=None, create_handle=False, collision=True,
                  joint_axis=(0, 0, 1), hinge_diameter=0):
+        # apply global offset and scaling
         location = calc.tuple_add(location, self.link_offset)
+        location = calc.tuple_scale(location, self.scaling)
+        scale = calc.tuple_scale(scale, self.scaling)
+        if joint_type == 'prismatic':
+            limits = calc.tuple_scale(limits, self.scaling)
+
         if auto_limit != 0:
             if auto_limit < 0:
                 limits = (auto_limit, limits[1])
