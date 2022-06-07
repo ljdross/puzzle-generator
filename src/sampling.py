@@ -676,11 +676,8 @@ class EscapeRoomSampler(PuzzleSampler):
         self.world.initialize(self.floor_size)
 
         # add robot
-        first = self.world.new_link((0, 0, 0.5), (0, 0, 0), (0, 0, 0), 'prismatic', (-6, 6), joint_axis=(1, 0, 0))
-        second = self.world.new_link((0, 0, 0), (0, 0, 0), (0, 0, 0), 'prismatic', (-6, 6), joint_axis=(0, 1, 0),
-                                     parent=first)
-        robot = self.world.new_link((0, 0, 0), (0, 0, 0), (0.75, 1, 1), 'revolute', (-calc.RAD180, calc.RAD180),
-                                    parent=second, mesh=self.robot_mesh)
+        self.world.new_link_2d_plus_rotation((0, 0, 0.5), (0, 0, 0), (0.75, 1, 1), (-6, 6), (-6, 6),
+                                             mesh=self.robot_mesh)
         self.start_state.extend((0, 0, 0))
         self.goal_space.extend(((0, 0), (5, 5)))
         self.goal_space_append_with_adjustment((calc.RAD90, calc.RAD90))
@@ -689,11 +686,8 @@ class EscapeRoomSampler(PuzzleSampler):
 
         # add obstacle
         y = random() * 2 + 1
-        first = self.world.new_link((-0.75, y, 0.25), (0, 0, 0), (0, 0, 0), 'prismatic', (-6, 6), joint_axis=(1, 0, 0))
-        second = self.world.new_link((0, 0, 0), (0, 0, 0), (0, 0, 0), 'prismatic', (-6, 6), joint_axis=(0, 1, 0),
-                                     parent=first)
-        obstacle = self.world.new_link((0, 0, 0), (0, 0, 0), (1.5, 0.5, 0.5), 'revolute', (-calc.RAD180, calc.RAD180),
-                                       parent=second, mesh=self.stick_mesh, material=color.BROWN)
+        self.world.new_link_2d_plus_rotation((-0.75, y, 0.25), (0, 0, 0), (1.5, 0.5, 0.5), (-6, 6), (-6, 6),
+                                             mesh=self.stick_mesh, material=color.BROWN)
         self.start_state.extend((0, 0, 0))
         self.goal_space.extend(((-16, 16), (-16, 16)))
         self.goal_space_append_with_adjustment((-calc.RAD180, calc.RAD180))
@@ -724,11 +718,8 @@ class MoveTwiceSampler(PuzzleSampler):
     def build(self):
         self.world.initialize(self.floor_size)
 
-        first = self.world.new_link((0, 0, 0.5), (0, 0, 0), (0, 0, 0), 'prismatic', (-16, 16), joint_axis=(1, 0, 0))
-        second = self.world.new_link((0, 0, 0), (0, 0, 0), (0, 0, 0), 'prismatic', (-16, 16), joint_axis=(0, 1, 0),
-                                     parent=first)
-        robot = self.world.new_link((0, 0, 0), (0, 0, 0), (0.75, 1, 1), 'revolute', (-calc.RAD180, calc.RAD180),
-                                    parent=second, mesh=self.robot_mesh)
+        self.world.new_link_2d_plus_rotation((0, 0, 0.5), (0, 0, 0), (0.75, 1, 1), (-16, 16), (-16, 16),
+                                             mesh=self.robot_mesh)
 
         start = (0, 0, 0)
         # start = (random() * 3 - 1.5, random() * 1.4 - 0.7, random() * calc.RAD360 - calc.RAD180)
@@ -770,11 +761,8 @@ class MoveNTimesSampler(PuzzleSampler):
         else:
             n = self.n
 
-        first = self.world.new_link((0, 0, 0.25), (0, 0, 0), (0, 0, 0), 'prismatic', (-n, n), joint_axis=(1, 0, 0))
-        second = self.world.new_link((0, 0, 0), (0, 0, 0), (0, 0, 0), 'prismatic', (-n, 0.5), joint_axis=(0, 1, 0),
-                                     parent=first)
-        robot = self.world.new_link((0, 0, 0), (0, 0, 0), (0.375, 0.5, 0.5), 'revolute', (-calc.RAD180, calc.RAD180),
-                                    parent=second, mesh=self.robot_mesh)
+        self.world.new_link_2d_plus_rotation((0, 0, 0.25), (0, 0, 0), (0.375, 0.5, 0.5), (-n, n), (-n, 0.5),
+                                             mesh=self.robot_mesh)
         start = (0, 0, 0)
         self.start_state.extend(start)
         goal = (random() * n * 2 - n, -n, random() * calc.RAD360 - calc.RAD180)

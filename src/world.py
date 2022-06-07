@@ -236,6 +236,19 @@ class BlenderWorld:
             self._create_handle_automatically(link, collision, rotation, scale, joint_type)
         return link
 
+    def new_link_2d_plus_rotation(self, location, rotation, scale, x_limits=(-1, 1), y_limits=(-1, 1),
+                                  revolute_limits=(-calc.RAD180, calc.RAD180), material=None, mesh={},
+                                  is_cylinder=False, parent=None, create_handle=False, collision=True,
+                                  hinge_diameter=0):
+        x_dim = self.new_link(location, (0, 0, 0), (0, 0, 0), 'prismatic', x_limits, joint_axis=(1, 0, 0),
+                              parent=parent)
+        y_dim = self.new_link((0, 0, 0), (0, 0, 0), (0, 0, 0), 'prismatic', y_limits, joint_axis=(0, 1, 0),
+                              parent=x_dim)
+        robot = self.new_link((0, 0, 0), rotation, scale, 'revolute', revolute_limits, material, mesh=mesh,
+                              is_cylinder=is_cylinder, parent=y_dim, create_handle=create_handle, collision=collision,
+                              hinge_diameter=hinge_diameter)
+        return robot
+
     def new_handle(self, parent, location, rotation=(0, 0, 0), height=1, width=0.2, material=None, is_cylinder=False,
                    collision=True):
         shaft = self.new_link(location, rotation, (width, width, height), material=material, is_cylinder=is_cylinder,
