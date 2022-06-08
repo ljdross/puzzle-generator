@@ -14,7 +14,6 @@ world_config = {
     "dir_for_output": "puzzles",                # both absolute and relative paths are allowed
     "link_shrink": 0.005,                       # reduce the size of every link by this value to avoid touching and
                                                 # permanent collision
-    "scaling": 1,
     "export_entity_srdf": True,
     "absolute_path_for_meshes_in_urdf": True,   # generate an absolute path to reference the output meshes from within
                                                 # the urdf if True, else use a relative path

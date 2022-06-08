@@ -22,7 +22,6 @@ class BlenderWorld:
         self.directory = self._dir_for_output + "/" + self.name
         self.urdf_path = self.directory + "/urdf/" + self.name + ".urdf"
         self.link_shrink = config["link_shrink"]
-        self.scaling = config["scaling"]
         self.export_entity_srdf = config["export_entity_srdf"]
         self.export_mesh_dae = config["export_mesh_dae"]
         self.export_mesh_stl = config["export_mesh_stl"]
@@ -36,6 +35,7 @@ class BlenderWorld:
         self.floor = None
         self.movable_links = []
         self.link_offset = (0, 0, 0)
+        self.scaling = 1
         self.contains_mesh = False
         self.link_count = 0
         self.img_count = 0
@@ -189,9 +189,10 @@ class BlenderWorld:
                  mesh={}, is_cylinder=False, name="", parent=None, create_handle=False, collision=True,
                  joint_axis=(0, 0, 1), hinge_diameter=0):
         # apply global offset and scaling
-        location = calc.tuple_add(location, self.link_offset)
+        if not parent:
+            location = calc.tuple_add(location, self.link_offset)
         location = calc.tuple_scale(location, self.scaling)
-        scale = calc.tuple_scale(scale, self.scaling)
+        modified_scale = calc.tuple_scale(scale, self.scaling)
         if joint_type == 'prismatic':
             limits = calc.tuple_scale(limits, self.scaling)
 
@@ -217,7 +218,7 @@ class BlenderWorld:
         else:
             name = str(self.link_count) + "_link_" + str(link_number)
         self.link_count += 1
-        visual = self.create_visual(location, rotation, scale, material, name, parent, mesh, is_cylinder)
+        visual = self.create_visual(location, rotation, modified_scale, material, name, parent, mesh, is_cylinder)
         if joint_type != 'fixed':
             self._rename_links_recursively(parent, link_number, joint_number=1)
             name = str(link_number) + "_joint_0"
@@ -275,20 +276,22 @@ class BlenderWorld:
             self.new_handle(parent, location, (0, 0, 0), height, is_cylinder=True, collision=collision)
 
     def new_door(self, location=(0, 0, 1), rotation=(0, 0, 0), scale=(2, 0.2, 2), limits=(0, calc.RAD90),
-                 cylinder_diameter=0.4, cylinder_material=color.GRAY, handle_material=color.YELLOW, panel_material=None,
+                 cylinder_scaling=2, cylinder_material=color.GRAY, handle_material=color.YELLOW, panel_material=None,
                  name="", top_handle=True, collision=True):
-        door = self.new_link(location, rotation, (cylinder_diameter, cylinder_diameter, scale[2]), 'revolute',
-                             limits, cylinder_material, is_cylinder=True, name=name, collision=collision,
-                             hinge_diameter=None)
+        cylinder_width = scale[1] * cylinder_scaling
+        door = self.new_link(location, rotation, (cylinder_width, cylinder_width, scale[2]), 'revolute', limits,
+                             cylinder_material, is_cylinder=True, name=name, collision=collision, hinge_diameter=None)
         self.new_link((scale[0] / 2, 0, 0), (0, 0, 0), scale, material=panel_material, name="door_panel", parent=door,
                       collision=collision)
+        height = scale[1]
+        width = height / 4
         if top_handle:
-            self.new_link((scale[0] * 0.75, 0, scale[2] / 2 + 0.1), (0, 0, 0), (0.2, 0.05, 0.2),
+            self.new_link((scale[0] * 0.75, 0, (scale[2] + height) / 2), (0, 0, 0), (height, width, height),
                           material=handle_material, name="door_handle", parent=door, collision=collision)
         else:
-            self.new_link((scale[0] * 0.75, scale[1] / 2 + 0.1, 0), (0, 0, 0), (0.05, 0.2, 0.2),
+            self.new_link((scale[0] * 0.75, (scale[1] + height) / 2, 0), (0, 0, 0), (width, height, height),
                           material=handle_material, name="door_handle1", parent=door, collision=collision)
-            self.new_link((scale[0] * 0.75, -scale[1] / 2 - 0.1, 0), (0, 0, 0), (0.05, 0.2, 0.2),
+            self.new_link((scale[0] * 0.75, -(scale[1] + height) / 2, 0), (0, 0, 0), (width, height, height),
                           material=handle_material, name="door_handle2", parent=door, collision=collision)
         return door
 
@@ -384,6 +387,7 @@ class BlenderWorld:
         self.apply_to_subtree(goal_duplicate, new_material, remove_collision=True, zeroize_limits=True)
         bpy.ops.object.select_all(action='DESELECT')
         goal_duplicate.select_set(True)
+        local_translate = calc.tuple_scale(local_translate, self.scaling)
         bpy.ops.transform.translate(value=local_translate, orient_type='LOCAL')
         goal_duplicate.rotation_euler = calc.tuple_add(goal_duplicate.rotation_euler, rotation_offset)
         goal_duplicate.name = "goal"
