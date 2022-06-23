@@ -76,7 +76,8 @@ sampler_config = {
     "iterations": 2,
     "slider_length": 1.4,
     "slider_width": 0.2,
-    "radius_interval": (1, 3),
+    "radius": (1, 1.5, 2, 2.5, 3),  # will be interpreted as a continuous interval if exactly two entries,
+                                    # otherwise tuple of possible radii of which one will be picked randomly
 
     # this part is only required for EscapeRoomSampler, MoveTwiceSampler, MoveNTimesSampler and RoomsSampler
     "stick_mesh": {

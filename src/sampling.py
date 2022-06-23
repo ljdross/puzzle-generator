@@ -584,7 +584,7 @@ class LockboxRandomSampler(PuzzleSampler):
         self.iterations = config["iterations"]
         self.slider_length = config["slider_length"]
         self.slider_width = config["slider_width"]
-        self.radius_interval = config["radius_interval"]
+        self.radius = config["radius"]
         self.previous_direction = ""
         self.available_directions = {
             "N": ["N", "E", "W"],
@@ -600,7 +600,10 @@ class LockboxRandomSampler(PuzzleSampler):
         }
 
     def add_slot_disc_and_slider(self, direction):
-        radius = self.radius_interval[0] + random() * (self.radius_interval[1] - self.radius_interval[0])
+        if len(self.radius) == 2:
+            radius = self.radius[0] + random() * (self.radius[1] - self.radius[0])
+        else:
+            radius = choice(self.radius)
         rotation = self.get_rotation[direction]
 
         offset_start = calc.tuple_scale(calc.DIRECTION_VECTOR_2D[self.previous_direction], radius + 1)
