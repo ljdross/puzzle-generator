@@ -281,8 +281,8 @@ class BlenderWorld:
         cylinder_width = scale[1] * cylinder_scaling
         door = self.new_link(location, rotation, (cylinder_width, cylinder_width, scale[2]), 'revolute', limits,
                              cylinder_material, is_cylinder=True, name=name, collision=collision, hinge_diameter=None)
-        self.new_link((scale[0] / 2, 0, 0), (0, 0, 0), scale, material=panel_material, name="door_panel", parent=door,
-                      collision=collision)
+        self.new_link((scale[0] / 2, 0, 0), (0, 0, 0), (scale[0], scale[1], self.subtract_link_shrink(scale[2])),
+                      material=panel_material, name="door_panel", parent=door, collision=collision)
         height = scale[1]
         width = height / 4
         if top_handle:
