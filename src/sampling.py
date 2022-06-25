@@ -812,3 +812,189 @@ class MoveNTimesSampler(PuzzleSampler):
 
         self.world.export()
         return 0
+
+
+class RoomsSampler(PuzzleSampler):
+    def __init__(self, config, world: BlenderWorld):
+        super().__init__(config, world)
+        if "puzzle_name" in config:
+            world.update_name(config["puzzle_name"])
+        else:
+            world.update_name("rooms")
+        self.robot_mesh = config["robot_mesh"]
+        self.robot_scale = config["robot_scale"]
+        self.number_rooms = config["number_rooms"]
+        self.wall_height = config["wall_height"]
+        self.wall_thickness = config["wall_thickness"]
+        self.door_width = config["door_width"]
+        self.doors = config["doors"]
+        self.doors_target = self.doors
+        self.door_obstacles = config["door_obstacles"]
+        self.door_obstacles_target = self.door_obstacles
+        self.door_obstacle_gap = config["door_obstacle_gap"]
+        self.door_obstacle_mesh = config["door_obstacle_mesh"]
+        self.door_obstacle_scale = config["door_obstacle_scale"]
+        self.occupied_fields = []
+        self.x_limits = (0, 0)
+        self.y_limits = (0, 0)
+        self.direction_vectors = [(0, 1), (1, 0), (0, -1), (-1, 0)]  # N, E, S, W
+        self.offset_rotation = {
+            (0, 1): ((1, 0), calc.RAD180),
+            (1, 0): ((0, -1), calc.RAD90),
+            (0, -1): ((-1, 0), 0),
+            (-1, 0): ((0, 1), -calc.RAD90),
+        }
+
+    def _add_robot(self):
+        # add robot without rotation
+        rotation_limits = (0, 0)
+        self.world.new_link_2d_plus_rotation((0, 0, self.robot_scale[2] / 2), (0, 0, 0), self.robot_scale,
+                                             self.x_limits, self.y_limits, rotation_limits, mesh=self.robot_mesh)
+        print("x_limits:", self.x_limits)
+        print("y_limits:", self.y_limits)
+        self.start_state.append(0)
+        self.start_state.append(0)
+        # self.start_state.append(0)
+
+        goal = self.occupied_fields[self.number_rooms]
+        self.world.create_goal_duplicate((goal[0], goal[1], 0), (0, 0, 0))
+        goal = calc.tuple_scale(goal, self.scaling)
+        self.goal_space_append_with_adjustment((goal[0], goal[0]))
+        self.goal_space_append_with_adjustment((goal[1], goal[1]))
+        # self.goal_space_append_with_adjustment((0, 0))
+
+    def _update_limits(self, point):
+        x = point[0]
+        y = point[1]
+        x_min = self.x_limits[0]
+        x_max = self.x_limits[1]
+        y_min = self.y_limits[0]
+        y_max = self.y_limits[1]
+        if x < x_min:
+            self.x_limits = (x, x_max)
+        elif x > x_max:
+            self.x_limits = (x_min, x)
+        elif y < y_min:
+            self.y_limits = (y, y_max)
+        elif y > y_max:
+            self.y_limits = (y_min, y)
+
+    def _sample_position(self):
+        shuffle(self.direction_vectors)
+        for direction in self.direction_vectors:
+            new_point = calc.tuple_add(self.start_point, direction)
+            if new_point not in self.occupied_fields:
+                self.occupied_fields.append(new_point)
+                self._update_limits(new_point)
+                self.start_point = new_point
+                return 0
+        return 1
+
+    def _place_rooms(self):
+        # TODO: factor out into multiple functions
+        previous_room_direction_inverted = (0, 0)
+        pillar_scale = (self.wall_thickness, self.wall_thickness, self.wall_height)
+        for i in range(self.number_rooms):
+            current = self.occupied_fields[i]
+            next = self.occupied_fields[i + 1]  # this list has self.number_rooms + 1 elements
+            current_inverted = calc.tuple_scale(current, -1)
+            room_direction = calc.tuple_add(next, current_inverted)
+            for direction in self.direction_vectors:
+                direction_scaled = calc.tuple_scale(direction, (1 - self.wall_thickness) / 2)
+
+                # add pillar
+                direction_scaled_rotated = calc.rotate(direction_scaled, calc.RAD90)
+                pillar_offset = calc.tuple_add(direction_scaled, direction_scaled_rotated)
+                pillar_loc = calc.tuple_add(current, pillar_offset)
+                self.world.new_link((pillar_loc[0], pillar_loc[1], self.wall_height / 2), (0, 0, 0), pillar_scale,
+                                    material=color.BLACK, name="pillar_" + str(pillar_loc))
+
+                loc = calc.tuple_add(current, direction_scaled)
+                if direction == room_direction:
+                    wall_length = (1 - self.wall_thickness * 2 - self.door_width) / 2
+                    off = (wall_length + self.door_width) / 2
+                    if direction[0] == 0:  # N or S
+                        scale = (wall_length, self.wall_thickness, self.wall_height)
+                        loc1 = calc.tuple_add(loc, (-off, 0))
+                        loc2 = calc.tuple_add(loc, (off, 0))
+                    else:  # E or W
+                        scale = (self.wall_thickness, wall_length, self.wall_height)
+                        loc1 = calc.tuple_add(loc, (0, -off))
+                        loc2 = calc.tuple_add(loc, (0, off))
+                    self.world.new_link((loc1[0], loc1[1], self.wall_height / 2), (0, 0, 0), scale, material=color.GRAY,
+                                        name="wall_" + str(loc1))
+                    self.world.new_link((loc2[0], loc2[1], self.wall_height / 2), (0, 0, 0), scale, material=color.GRAY,
+                                        name="wall_" + str(loc2))
+
+                    # add door
+                    probability = self.doors_target / (self.number_rooms - i)
+                    if random() < probability:
+                        self.doors_target -= 1
+                        off, rotation = self.offset_rotation[direction]
+                        off = calc.tuple_scale(off, 0.4 * self.door_width)
+                        self.world.new_door((loc[0] + off[0], loc[1] + off[1], self.wall_height / 2), (0, 0, rotation),
+                                            (self.door_width * 0.8, self.wall_thickness, self.wall_height),
+                                            cylinder_scaling=1.1, top_handle=False)
+                        self.start_state.append(0)
+                        self.goal_space_append_with_adjustment((0, calc.RAD90))
+
+                        # add stick
+                        stick_probability = self.door_obstacles_target / (self.doors_target + 1)
+                        if random() < stick_probability:
+                            self.door_obstacles_target -= 1
+                            stick_loc = 0.5 - self.wall_thickness - self.door_obstacle_gap - self.door_obstacle_scale[1] / 2
+                            stick_loc = calc.tuple_add(current, calc.tuple_scale(direction, stick_loc))
+                            # stick_loc = current
+                            if direction[0] == 0:  # N or S
+                                stick_rotation = 0
+                            else:
+                                stick_rotation = calc.RAD90
+                            x_limits = calc.tuple_add(self.x_limits, (current[0], current[0]))
+                            y_limits = calc.tuple_add(self.y_limits, (current[1], current[1]))
+                            x_limits = (-1, 1)
+                            y_limits = (-1, 1)
+                            rotation_limits = (-calc.RAD180, calc.RAD180)
+                            self.world.new_link_2d_plus_rotation((stick_loc[0], stick_loc[1],
+                                                                  self.door_obstacle_scale[2] / 2),
+                                                                 (0, 0, stick_rotation), self.door_obstacle_scale,
+                                                                 x_limits, y_limits, rotation_limits,
+                                                                 mesh=self.door_obstacle_mesh, material=color.BROWN)
+                            self.start_state.append(0)
+                            self.start_state.append(0)
+                            self.start_state.append(0)
+                            self.goal_space_append_with_adjustment(calc.tuple_scale(x_limits, self.scaling))
+                            self.goal_space_append_with_adjustment(calc.tuple_scale(y_limits, self.scaling))
+                            self.goal_space_append_with_adjustment((-calc.RAD180, calc.RAD180))
+
+                elif direction == previous_room_direction_inverted:
+                    pass
+                else:
+                    if direction[0] == 0:  # N or S
+                        scale = (1 - self.wall_thickness * 2, self.wall_thickness, self.wall_height)
+                    else:  # E or W
+                        scale = (self.wall_thickness, 1 - self.wall_thickness * 2, self.wall_height)
+                    self.world.new_link((loc[0], loc[1], self.wall_height / 2), (0, 0, 0), scale, material=color.GRAY,
+                                        name="wall_" + str(loc))
+            previous_room_direction_inverted = calc.tuple_scale(room_direction, -1)
+
+    def _sample_rooms(self):
+        # add first room position
+        self.occupied_fields.append(self.start_point)
+
+        for _ in range(self.number_rooms):
+            result = self._sample_position()
+            if result != 0:
+                print("FAILED TO SAMPLE SEQUENCE!")
+                return result
+        print("FOUND SEQUENCE:", self.occupied_fields)
+        self.x_limits = (self.x_limits[0] - 0.5, self.x_limits[1] + 0.5)
+        self.y_limits = (self.y_limits[0] - 0.5, self.y_limits[1] + 0.5)
+        self._add_robot()
+        self._place_rooms()
+        self.world.export()
+        return 0
+
+    def build(self):
+        self.world.initialize(self.floor_size)
+        self.world.scaling = self.scaling
+        return self._sample_rooms()

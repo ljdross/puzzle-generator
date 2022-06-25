@@ -1,0 +1,326 @@
+<?xml version="1.0"?>
+<!-- created with Phobos 1.0.1 "Capricious Choutengan" -->
+  <robot name="rooms">
+
+    <passive_joint name="goal"/>
+
+    <passive_joint name="link_0_joint_0"/>
+
+    <passive_joint name="link_0_joint_0.001"/>
+
+    <passive_joint name="link_0_joint_1"/>
+
+    <passive_joint name="link_0_joint_1.001"/>
+
+    <passive_joint name="link_0_joint_2"/>
+
+    <passive_joint name="link_1_joint_0"/>
+
+    <passive_joint name="link_2_joint_0"/>
+
+    <passive_joint name="link_3_joint_0"/>
+
+    <passive_joint name="link_3_joint_1"/>
+
+    <passive_joint name="link_3_joint_2"/>
+
+    <passive_joint name="link_fixed_0_floor"/>
+
+    <passive_joint name="link_fixed_10_wall_(0.4625, 0.0)"/>
+
+    <passive_joint name="link_fixed_11_pillar_(-0.4625, 0.4625)"/>
+
+    <passive_joint name="link_fixed_12_wall_(0.0, 0.4625)"/>
+
+    <passive_joint name="link_fixed_13_pillar_(-0.4625, -1.4625)"/>
+
+    <passive_joint name="link_fixed_14_wall_(-0.4625, -1.0)"/>
+
+    <passive_joint name="link_fixed_15_pillar_(0.4625, -1.4625)"/>
+
+    <passive_joint name="link_fixed_16_wall_(-0.3375, -1.4625)"/>
+
+    <passive_joint name="link_fixed_17_wall_(0.3375, -1.4625)"/>
+
+    <passive_joint name="link_fixed_19_hinge"/>
+
+    <passive_joint name="link_fixed_20_door_panel"/>
+
+    <passive_joint name="link_fixed_21_door_handle1"/>
+
+    <passive_joint name="link_fixed_22_door_handle2"/>
+
+    <passive_joint name="link_fixed_23_pillar_(0.4625, -0.5375)"/>
+
+    <passive_joint name="link_fixed_24_wall_(0.4625, -1.0)"/>
+
+    <passive_joint name="link_fixed_25_pillar_(-0.4625, -0.5375)"/>
+
+    <passive_joint name="link_fixed_26_pillar_(-0.4625, -2.4625)"/>
+
+    <passive_joint name="link_fixed_27_wall_(-0.4625, -2.0)"/>
+
+    <passive_joint name="link_fixed_28_pillar_(0.4625, -2.4625)"/>
+
+    <passive_joint name="link_fixed_29_wall_(-0.3375, -2.4625)"/>
+
+    <passive_joint name="link_fixed_30_wall_(0.3375, -2.4625)"/>
+
+    <passive_joint name="link_fixed_31_pillar_(0.4625, -1.5375)"/>
+
+    <passive_joint name="link_fixed_32_wall_(0.4625, -2.0)"/>
+
+    <passive_joint name="link_fixed_33_pillar_(-0.4625, -1.5375)"/>
+
+    <passive_joint name="link_fixed_34_pillar_(-0.4625, -3.4625)"/>
+
+    <passive_joint name="link_fixed_35_wall_(-0.4625, -3.3375)"/>
+
+    <passive_joint name="link_fixed_36_wall_(-0.4625, -2.6625)"/>
+
+    <passive_joint name="link_fixed_38_hinge"/>
+
+    <passive_joint name="link_fixed_39_door_panel"/>
+
+    <passive_joint name="link_fixed_40_door_handle1"/>
+
+    <passive_joint name="link_fixed_41_door_handle2"/>
+
+    <passive_joint name="link_fixed_45_pillar_(0.4625, -3.4625)"/>
+
+    <passive_joint name="link_fixed_46_wall_(0.0, -3.4625)"/>
+
+    <passive_joint name="link_fixed_47_pillar_(0.4625, -2.5375)"/>
+
+    <passive_joint name="link_fixed_48_wall_(0.4625, -3.0)"/>
+
+    <passive_joint name="link_fixed_49_pillar_(-0.4625, -2.5375)"/>
+
+    <passive_joint name="link_fixed_4_pillar_(-0.4625, -0.4625)"/>
+
+    <passive_joint name="link_fixed_5_wall_(-0.4625, 0.0)"/>
+
+    <passive_joint name="link_fixed_6_pillar_(0.4625, -0.4625)"/>
+
+    <passive_joint name="link_fixed_7_wall_(-0.3375, -0.4625)"/>
+
+    <passive_joint name="link_fixed_8_wall_(0.3375, -0.4625)"/>
+
+    <passive_joint name="link_fixed_9_pillar_(0.4625, 0.4625)"/>
+
+    <link_sphere_approximation link="base_link">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="goal">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_0_joint_0">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_0_joint_0.001">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_0_joint_1">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_0_joint_1.001">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_0_joint_2">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_1_joint_0">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_2_joint_0">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_3_joint_0">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_3_joint_1">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_3_joint_2">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_0_floor">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_10_wall_(0.4625, 0.0)">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_11_pillar_(-0.4625, 0.4625)">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_12_wall_(0.0, 0.4625)">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_13_pillar_(-0.4625, -1.4625)">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_14_wall_(-0.4625, -1.0)">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_15_pillar_(0.4625, -1.4625)">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_16_wall_(-0.3375, -1.4625)">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_17_wall_(0.3375, -1.4625)">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_19_hinge">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_20_door_panel">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_21_door_handle1">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_22_door_handle2">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_23_pillar_(0.4625, -0.5375)">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_24_wall_(0.4625, -1.0)">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_25_pillar_(-0.4625, -0.5375)">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_26_pillar_(-0.4625, -2.4625)">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_27_wall_(-0.4625, -2.0)">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_28_pillar_(0.4625, -2.4625)">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_29_wall_(-0.3375, -2.4625)">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_30_wall_(0.3375, -2.4625)">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_31_pillar_(0.4625, -1.5375)">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_32_wall_(0.4625, -2.0)">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_33_pillar_(-0.4625, -1.5375)">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_34_pillar_(-0.4625, -3.4625)">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_35_wall_(-0.4625, -3.3375)">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_36_wall_(-0.4625, -2.6625)">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_38_hinge">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_39_door_panel">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_40_door_handle1">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_41_door_handle2">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_45_pillar_(0.4625, -3.4625)">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_46_wall_(0.0, -3.4625)">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_47_pillar_(0.4625, -2.5375)">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_48_wall_(0.4625, -3.0)">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_49_pillar_(-0.4625, -2.5375)">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_4_pillar_(-0.4625, -0.4625)">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_5_wall_(-0.4625, 0.0)">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_6_pillar_(0.4625, -0.4625)">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_7_wall_(-0.3375, -0.4625)">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_8_wall_(0.3375, -0.4625)">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
+    <link_sphere_approximation link="link_fixed_9_pillar_(0.4625, 0.4625)">
+      <sphere center="0.0 0.0 0.0" radius="0"/>
+    </link_sphere_approximation>
+
