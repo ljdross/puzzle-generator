@@ -259,14 +259,14 @@
       <visual name="visual_box_fixed_17_door_panel">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="3.995 0.195 1.995"/>
+          <box size="3.995 0.195 1.99"/>
         </geometry>
         <material name="red"/>
       </visual>
       <collision name="collision_box_fixed_17_door_panel">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="3.995 0.195 1.995"/>
+          <box size="3.995 0.195 1.99"/>
         </geometry>
       </collision>
     </link>
@@ -331,14 +331,14 @@
       <visual name="visual_box_fixed_3_door_panel">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="1.995 0.195 1.995"/>
+          <box size="1.995 0.195 1.99"/>
         </geometry>
         <material name="green"/>
       </visual>
       <collision name="collision_box_fixed_3_door_panel">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="1.995 0.195 1.995"/>
+          <box size="1.995 0.195 1.99"/>
         </geometry>
       </collision>
     </link>
@@ -352,7 +352,7 @@
       <visual name="visual_box_fixed_3_door_panel.001">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="1.98503 0.19402 1.98503"/>
+          <box size="1.98503 0.19402 1.98005"/>
         </geometry>
         <material name="green_translucent"/>
       </visual>

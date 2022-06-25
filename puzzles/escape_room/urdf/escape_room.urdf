@@ -286,14 +286,14 @@
       <visual name="visual_box_fixed_9_door_panel">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="3.195 0.195 0.995"/>
+          <box size="3.195 0.195 0.99"/>
         </geometry>
         <material name="red"/>
       </visual>
       <collision name="collision_box_fixed_9_door_panel">
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="3.195 0.195 0.995"/>
+          <box size="3.195 0.195 0.99"/>
         </geometry>
       </collision>
     </link>
