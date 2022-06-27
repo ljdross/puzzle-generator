@@ -1,12 +1,39 @@
 # Puzzle Generator
-Python script for Blender's scripting API to generate logic geometric puzzles utilizing the "bpy" library, the [Phobos](https://github.com/dfki-ric/phobos/tree/blender2.9) add-on for Blender and [PyBullet](https://github.com/bulletphysics/bullet3) with [OMPL](https://ompl.kavrakilab.org/core/installation.html).
+Generate synthetic datasets for robot manipulation tasks using procedural content generation (PCG).
+The generator engine is written in Python and utilizes Blender's scripting API together with the
+[Phobos](https://github.com/dfki-ric/phobos/tree/blender2.9)
+add-on.
+
+Generated Puzzles:
+* use PCG
+* are manipulation challenges
+* are generated according to a given config with constraints
+* include stochasticity within those constraints
+* have _interlocking dependencies_ between joints
+* can be used for training or benchmarking an agent/algorithm
+* are URDF files but the output can be anything that is supported by Blender/Phobos
+
+Some of the sampling algorithms need
+[PyBullet](https://github.com/bulletphysics/bullet3)
+with
+[OMPL](https://ompl.kavrakilab.org/core/installation.html)
+for evaluation during the sampling process.
+The others can be used without the installation of PyBullet and OMPL
 
 
-## Install
+## Install (limited)
 - Download and install [Blender 2.93](https://www.blender.org/download)
 - Install the Phobos add-on for Blender from the correct [branch for version 2.93](https://github.com/dfki-ric/phobos/tree/blender2.9)
-- Install [OMPL](https://ompl.kavrakilab.org/core/installation.html) (not required for just creating a custom URDF)
-- Install [PyBullet](https://github.com/bulletphysics/bullet3) (not required for just creating a custom URDF)
+
+Features: create_custom_urdf.py, SimpleSlidersSampler, GridWorldSampler, Lockbox2017Sampler, EscapeRoomSampler, MoveTwiceSampler, MoveNTimesSampler, RoomsSampler
+
+
+## Install (complete)
+The above steps plus:
+- Install [OMPL](https://ompl.kavrakilab.org/core/installation.html)
+- Install [PyBullet](https://github.com/bulletphysics/bullet3)
+
+Features: pybullet_simulation.py, ContinuousSpaceSampler, LockboxRandomSampler
 
 
 ## Run
