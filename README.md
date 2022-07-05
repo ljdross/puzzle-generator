@@ -13,6 +13,13 @@ Generated Puzzles:
 * can be used for training or benchmarking an agent/algorithm
 * are URDF files but the output can be anything that is supported by Blender/Phobos
 
+
+Here is an example of a generated grid world puzzle being solved by a fetch robot.
+The translucent green box marks the goal position for the green link:
+
+[![Link to YouTube Video](https://img.youtube.com/vi/jRAhU_AycYU/0.jpg)](https://youtu.be/jRAhU_AycYU)
+
+
 Some of the sampling algorithms need
 [PyBullet](https://github.com/bulletphysics/bullet3)
 with
