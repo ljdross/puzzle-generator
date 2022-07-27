@@ -60,7 +60,7 @@ def solve(urdf_path="puzzles/simple_sliders/urdf/simple_sliders.urdf", planning_
             cwd=ROBOWFLEX_WORKSPACE + "/devel/lib/robowflex_dart/")
         run(["python3", OMPL_BENCHMARK_PLOTTER + "/ompl_benchmark_plotter.py",
              ROBOWFLEX_WORKSPACE + "/src/robowflex/robowflex_dart/include/io/db_files/" + puzzle_name + ".db",
-             "--min-time", "0.04", "--max-time", str(planning_time)])
+             "--min-time", "0.04", "--max-time", str(planning_time), "-o", puzzle_name + ".pdf"])
         print("benchmark results:")
         print("file://" + path.abspath(ROBOWFLEX_WORKSPACE + "/src/robowflex/robowflex_dart/include/io/db_files"))
         print("file://" + path.abspath(ROBOWFLEX_WORKSPACE + "/src/robowflex/robowflex_dart/include/io/db_files/"
