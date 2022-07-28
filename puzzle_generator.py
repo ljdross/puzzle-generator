@@ -104,12 +104,7 @@ sampler_config = {
     "doors": 2,
     "door_obstacles": 1,
     "door_obstacle_gap": 0.1,
-    "door_obstacle_mesh": {
-        "blend_filepath": "input-meshes/l1_stick.blend",  # both absolute and relative paths are allowed
-        "object_name": "l1_stick",
-        "new_mesh_name": "door_obstacle",
-    },
-    "door_obstacle_scale": (0.45, 0.15, 0.15),
+    "door_obstacle_mesh": None,
 }
 
 # set up world according to world_config

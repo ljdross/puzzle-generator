@@ -833,7 +833,7 @@ class RoomsSampler(PuzzleSampler):
         self.door_obstacles_target = self.door_obstacles
         self.door_obstacle_gap = config["door_obstacle_gap"]
         self.door_obstacle_mesh = config["door_obstacle_mesh"]
-        self.door_obstacle_scale = config["door_obstacle_scale"]
+        self.door_obstacle_scale = (self.wall_thickness * 3, self.wall_thickness, self.wall_thickness)
         self.occupied_fields = []
         self.x_limits = (0, 0)
         self.y_limits = (0, 0)
@@ -896,7 +896,7 @@ class RoomsSampler(PuzzleSampler):
         pillar_scale = (self.wall_thickness, self.wall_thickness, self.wall_height)
         for i in range(self.number_rooms):
             current = self.occupied_fields[i]
-            next = self.occupied_fields[i + 1]  # this list has self.number_rooms + 1 elements
+            next = self.occupied_fields[i + 1]  # this list has self.number_rooms + 1 elements (incl. goal field)
             current_inverted = calc.tuple_scale(current, -1)
             room_direction = calc.tuple_add(next, current_inverted)
             for direction in self.direction_vectors:
@@ -938,27 +938,26 @@ class RoomsSampler(PuzzleSampler):
                         self.start_state.append(0)
                         self.goal_space_append_with_adjustment((0, calc.RAD90))
 
-                        # add stick
-                        stick_probability = self.door_obstacles_target / (self.doors_target + 1)
-                        if random() < stick_probability:
+                        # add door obstacle (d_obstacle)
+                        d_obstacle_probability = self.door_obstacles_target / (self.doors_target + 1)
+                        if random() < d_obstacle_probability:
                             self.door_obstacles_target -= 1
-                            stick_loc = 0.5 - self.wall_thickness - self.door_obstacle_gap - self.door_obstacle_scale[1] / 2
-                            stick_loc = calc.tuple_add(current, calc.tuple_scale(direction, stick_loc))
-                            # stick_loc = current
+                            d_obstacle_loc = 0.5 - self.wall_thickness - self.door_obstacle_gap - self.door_obstacle_scale[1] / 2
+                            d_obstacle_loc = calc.tuple_add(current, calc.tuple_scale(direction, d_obstacle_loc))
                             if direction[0] == 0:  # N or S
-                                stick_rotation = 0
+                                d_obstacle_rotation = 0
                             else:
-                                stick_rotation = calc.RAD90
+                                d_obstacle_rotation = calc.RAD90
                             x_limits = calc.tuple_add(self.x_limits, (current[0], current[0]))
                             y_limits = calc.tuple_add(self.y_limits, (current[1], current[1]))
                             x_limits = (-1, 1)
                             y_limits = (-1, 1)
                             rotation_limits = (-calc.RAD180, calc.RAD180)
-                            self.world.new_link_2d_plus_rotation((stick_loc[0], stick_loc[1],
+                            self.world.new_link_2d_plus_rotation((d_obstacle_loc[0], d_obstacle_loc[1],
                                                                   self.door_obstacle_scale[2] / 2),
-                                                                 (0, 0, stick_rotation), self.door_obstacle_scale,
+                                                                 (0, 0, d_obstacle_rotation), self.door_obstacle_scale,
                                                                  x_limits, y_limits, rotation_limits,
-                                                                 mesh=self.door_obstacle_mesh, material=color.BROWN)
+                                                                 mesh=self.door_obstacle_mesh, material=color.RED)
                             self.start_state.append(0)
                             self.start_state.append(0)
                             self.start_state.append(0)
