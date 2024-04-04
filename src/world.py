@@ -283,16 +283,21 @@ class BlenderWorld:
                              cylinder_material, is_cylinder=True, name=name, collision=collision, hinge_diameter=None)
         self.new_link((scale[0] / 2, 0, 0), (0, 0, 0), (scale[0], scale[1], self.subtract_link_shrink(scale[2])),
                       material=panel_material, name="door_panel", parent=door, collision=collision)
-        height = scale[1]
-        width = height / 4
+        height = scale[2] / 4
+        width = 0.01
+        dist = 0.05
         if top_handle:
             self.new_link((scale[0] * 0.75, 0, (scale[2] + height) / 2), (0, 0, 0), (height, width, height),
                           material=handle_material, name="door_handle", parent=door, collision=collision)
         else:
-            self.new_link((scale[0] * 0.75, (scale[1] + height) / 2, 0), (0, 0, 0), (width, height, height),
+            self.new_link((scale[0] * 0.75, scale[1] / 2 + width / 2 + dist, 0), (0, 0, 0), (width, width, height),
                           material=handle_material, name="door_handle1", parent=door, collision=collision)
-            self.new_link((scale[0] * 0.75, -(scale[1] + height) / 2, 0), (0, 0, 0), (width, height, height),
+            self.new_link((scale[0] * 0.75, (scale[1] + dist) / 2, (width - height) / 2), (0, 0, 0), (width, dist, width),
+                          material=handle_material, name="door_handle1_connector", parent=door, collision=collision)
+            self.new_link((scale[0] * 0.75, -(scale[1] / 2 + width / 2 + dist), 0), (0, 0, 0), (width, width, height),
                           material=handle_material, name="door_handle2", parent=door, collision=collision)
+            self.new_link((scale[0] * 0.75, -(scale[1] + dist) / 2, (width - height) / 2), (0, 0, 0), (width, dist, width),
+                          material=handle_material, name="door_handle2_connector", parent=door, collision=collision)
         return door
 
     def select_with_children(self, object):
