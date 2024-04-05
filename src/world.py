@@ -192,7 +192,7 @@ class BlenderWorld:
         if not parent:
             location = calc.tuple_add(location, self.link_offset)
         location = calc.tuple_scale(location, self.scaling)
-        modified_scale = calc.tuple_scale(scale, self.scaling)
+        scale = calc.tuple_scale(scale, self.scaling)
         if joint_type == 'prismatic':
             limits = calc.tuple_scale(limits, self.scaling)
 
@@ -218,7 +218,7 @@ class BlenderWorld:
         else:
             name = str(self.link_count) + "_link_" + str(link_number)
         self.link_count += 1
-        visual = self.create_visual(location, rotation, modified_scale, material, name, parent, mesh, is_cylinder)
+        visual = self.create_visual(location, rotation, scale, material, name, parent, mesh, is_cylinder)
         if joint_type != 'fixed':
             self._rename_links_recursively(parent, link_number, joint_number=1)
             name = str(link_number) + "_joint_0"
@@ -265,7 +265,8 @@ class BlenderWorld:
                       name="handle_knob", parent=shaft, collision=collision)
 
     def _create_handle_automatically(self, parent, collision, parent_rotation, parent_scale, parent_joint_type,
-                                     height=1):
+                                     height=0.5):
+        parent_scale = calc.tuple_scale(parent_scale, 1 / self.scaling)
         if parent_joint_type == 'prismatic':
             self.new_handle(parent, (0, 0, parent_scale[2] / 2 + height / 2), (0, 0, 0), height, collision=collision)
         else:
@@ -354,7 +355,7 @@ class BlenderWorld:
         if visual_obj:
             bpy.ops.object.select_all(action='DESELECT')
             visual_obj.select_set(True)
-            shape =  bpy.data.objects[visual_obj.name]['geometry/type']
+            shape = bpy.data.objects[visual_obj.name]['geometry/type']
             bpy.ops.phobos.create_collision_objects(property_colltype=shape)
             collision = bpy.context.selected_objects[0]
             collision.location = visual_obj.location
