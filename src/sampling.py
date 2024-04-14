@@ -88,7 +88,8 @@ class SimpleSlidersSampler(PuzzleSampler):
         if "puzzle_name" in config:
             world.update_name(config["puzzle_name"])
         else:
-            world.update_name("simple_sliders")
+            world.update_name("simple_sliders" + str(config["number_prismatic_joints"]))
+        self.scaling = config["scaling"]
         self.gap = config["gap"]
 
     def _create_simple_sliders_puzzle(self):
@@ -97,6 +98,8 @@ class SimpleSlidersSampler(PuzzleSampler):
         (ignore number_revolute_joints).
         """
         scale = (1.8 - 2 * self.gap, 0.2, 0.2)
+        scale = calc.tuple_scale(scale, self.scaling)
+        limits = calc.tuple_scale((0, 1), self.scaling)
         for i in range(self.number_prismatic_joints):
             if i % 2 == 0:
                 location = (i / 2, i / -2, 0.1)
@@ -104,12 +107,13 @@ class SimpleSlidersSampler(PuzzleSampler):
             else:
                 location = ((i - 1) / 2, ((i - 1) / -2) - 1, 0.1)
                 rotation = (0, 0, 0)
-            self.world.new_link(location, rotation, scale, 'prismatic', (0, 1), create_handle=self.create_handle,
+            location = calc.tuple_scale(location, self.scaling)
+            self.world.new_link(location, rotation, scale, 'prismatic', limits, create_handle=self.create_handle,
                                 joint_axis=(1, 0, 0))
             self.goal_space.append((0, 1))
         self.goal_space_narrow(dimension=0)
         self.start_state = [0] * self.number_prismatic_joints
-        self.world.create_goal_duplicate((1, 0, 0))
+        self.world.create_goal_duplicate((1 * self.scaling, 0, 0))
 
     def build(self):
         """Build complete model in Blender and export to URDF. Create only prismatic joints."""
@@ -125,7 +129,7 @@ class GridWorldSampler(PuzzleSampler):
         if "puzzle_name" in config:
             world.update_name(config["puzzle_name"])
         else:
-            world.update_name("grid_world")
+            world.update_name("grid_world" + str(config["seed_for_randomness"]))
         self.allow_clockwise = config["allow_clockwise"]
         self.epsilon = config["epsilon"]
         self.branching_per_revolute_joint = config["branching_per_revolute_joint"]
@@ -339,6 +343,7 @@ class GridWorldSampler(PuzzleSampler):
         self.start_state = [0] * self.total_number_joints
         for _ in range(self.attempts):
             self.world.initialize(self.floor_size)
+            self.world.scaling = self.scaling
             result = self._create_grid_world_puzzle()
             if result == 0:
                 self.world.export()
@@ -353,7 +358,7 @@ class ContinuousSpaceSampler(PuzzleSampler):
         if "puzzle_name" in config:
             world.update_name(config["puzzle_name"])
         else:
-            world.update_name("continuous_space")
+            world.update_name("continuous_space" + str(config["seed_for_randomness"]))
         self.planning_time = config["start_planning_time"]
         self.initial_planning_time = self.planning_time
         self.planning_time_multiplier = config["planning_time_multiplier"]
@@ -579,7 +584,7 @@ class LockboxRandomSampler(PuzzleSampler):
         if "puzzle_name" in config:
             world.update_name(config["puzzle_name"])
         else:
-            world.update_name("lockbox_random")
+            world.update_name("lockbox_random" + str(config["seed_for_randomness"]))
         self.mesh = config["slot_disc_mesh"]
         self.iterations = config["iterations"]
         self.slider_length = config["slider_length"]
@@ -753,7 +758,7 @@ class MoveNTimesSampler(PuzzleSampler):
         if "puzzle_name" in config:
             world.update_name(config["puzzle_name"])
         else:
-            world.update_name("move_n_times")
+            world.update_name("move_n_times" + str(config["n"]))
         self.robot_mesh = config["robot_mesh"]
         self.n = config["n"]
 
@@ -820,7 +825,7 @@ class RoomsSampler(PuzzleSampler):
         if "puzzle_name" in config:
             world.update_name(config["puzzle_name"])
         else:
-            world.update_name("rooms")
+            world.update_name("rooms" + str(config["seed_for_randomness"]))
         self.robot_mesh = config["robot_mesh"]
         self.robot_scale = config["robot_scale"]
         self.number_rooms = config["number_rooms"]
