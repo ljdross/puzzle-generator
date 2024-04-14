@@ -12,7 +12,7 @@ from src import calc
 # output settings and world properties
 world_config = {
     "dir_for_output": "puzzles",                # both absolute and relative paths are allowed
-    "link_shrink": 0.005,                       # reduce the size of every link by this value to avoid touching and
+    "link_shrink": 0.001,                       # reduce the size of every link by this value to avoid touching and
                                                 # permanent collision
     "export_entity_srdf": True,
     "absolute_path_for_meshes_in_urdf": True,   # generate an absolute path to reference the output meshes from within
@@ -25,22 +25,22 @@ world_config = {
                                                 # rendered
                                                 # e.g. no images are being rendered if no tuples are given
         ((0, 0, 30), (0, 0, 0)),                    # top
-        # ((0, -30, 20), (0.96, 0, 0)),               # north
-        # ((-30, 0, 20), (0.96, 0, -calc.RAD90)),     # east
-        # ((0, 30, 20), (0.96, 0, calc.RAD180)),      # south
-        # ((30, 0, 20), (0.96, 0, calc.RAD90)),       # west
-        # ((-30, -30, 20), (0.96, 0, -calc.RAD45)),   # northeast
-        # ((-30, 30, 20), (0.96, 0, -calc.RAD135)),   # southeast
-        # ((30, 30, 20), (0.96, 0, calc.RAD135)),     # southwest
-        # ((30, -30, 20), (0.96, 0, calc.RAD45)),     # northwest
-        )
+        ((0, -30, 20), (0.96, 0, 0)),               # north
+        ((-30, 0, 20), (0.96, 0, -calc.RAD90)),     # east
+        ((0, 30, 20), (0.96, 0, calc.RAD180)),      # south
+        ((30, 0, 20), (0.96, 0, calc.RAD90)),       # west
+        ((-30, -30, 20), (0.96, 0, -calc.RAD45)),   # northeast
+        ((-30, 30, 20), (0.96, 0, -calc.RAD135)),   # southeast
+        ((30, 30, 20), (0.96, 0, calc.RAD135)),     # southwest
+        ((30, -30, 20), (0.96, 0, calc.RAD45)),     # northwest
+    )
 }
 
 sampler_config = {
     # this part of the config is always required
-    "floor_size": 32,
+    "floor_size": 0,
     "scaling": 1,
-    "number_prismatic_joints": 4,
+    "number_prismatic_joints": 3,
     "number_revolute_joints": 2,
     "attempts": 10,
     "seed_for_randomness": 0,  # choose None for pseudorandom
@@ -73,7 +73,7 @@ sampler_config = {
         "object_name": "slot_disc",
         "new_mesh_name": None,
     },
-    "iterations": 2,
+    "iterations": 3,
     "slider_length": 1.4,
     "slider_width": 0.2,
     "radius": (1, 1.5, 2, 2.5, 3),  # will be interpreted as a continuous interval if exactly two entries,
@@ -102,7 +102,7 @@ sampler_config = {
     "wall_thickness": 0.075,
     "door_width": 0.5,
     "doors": 2,
-    "door_obstacles": 1,
+    "door_obstacles": 0,
     "door_obstacle_gap": 0.1,
     "door_obstacle_mesh": None,
 }
@@ -110,43 +110,53 @@ sampler_config = {
 # set up world according to world_config
 world = BlenderWorld(world_config)
 
-sampler = SimpleSlidersSampler(sampler_config, world)
-sampler.build()
-solve(world.urdf_path, sampler.start_state, sampler.goal_space, 1., show_gui=True)
+# sampler_config["number_prismatic_joints"] = 2
+# sampler = SimpleSlidersSampler(sampler_config, world)
+# sampler.build()
+# # solve(world.urdf_path, sampler.start_state, sampler.goal_space, 5., show_gui=True)
+# # robowflex_simulation.solve(world.urdf_path)
 
-sampler = GridWorldSampler(sampler_config, world)
-sampler.build()
-solve(world.urdf_path, sampler.start_state, sampler.goal_space, 1., show_gui=True)
+# for i in range(4):
+#     sampler_config["seed_for_randomness"] = i
+#     sampler = GridWorldSampler(sampler_config, world)
+#     sampler.build()
+# # solve(world.urdf_path, sampler.start_state, sampler.goal_space, 5., show_gui=True)
 
-# sampler_config["number_prismatic_joints"] = 3
+# sampler_config["number_prismatic_joints"] = 2
 # sampler_config["number_revolute_joints"] = 2
-# sampler = ContinuousSpaceSampler(sampler_config, world)
+# for i in range(4):
+#     sampler_config["seed_for_randomness"] = i
+#     sampler = ContinuousSpaceSampler(sampler_config, world)
+#     sampler.build()
+# # solve(world.urdf_path, sampler.start_state, sampler.goal_space, 1., show_gui=True)
+
+# sampler = Lockbox2017Sampler(sampler_config, world)
 # sampler.build()
 # solve(world.urdf_path, sampler.start_state, sampler.goal_space, 1., show_gui=True)
 
-sampler = Lockbox2017Sampler(sampler_config, world)
-sampler.build()
-solve(world.urdf_path, sampler.start_state, sampler.goal_space, 1., show_gui=True)
+# for i in range(4):
+#     sampler_config["seed_for_randomness"] = i
+#     sampler = LockboxRandomSampler(sampler_config, world)
+#     sampler.build()
+# # solve(world.urdf_path, sampler.start_state, sampler.goal_space, 1., show_gui=True)
 
-sampler = LockboxRandomSampler(sampler_config, world)
-sampler.build()
-solve(world.urdf_path, sampler.start_state, sampler.goal_space, 1., show_gui=True)
+# sampler = EscapeRoomSampler(sampler_config, world)
+# sampler.build()
+# solve(world.urdf_path, sampler.start_state, sampler.goal_space, 1., show_gui=True)
 
-sampler = EscapeRoomSampler(sampler_config, world)
-sampler.build()
-solve(world.urdf_path, sampler.start_state, sampler.goal_space, 1., show_gui=True)
+# sampler = MoveTwiceSampler(sampler_config, world)
+# sampler.build()
+# solve(world.urdf_path, sampler.start_state, sampler.goal_space, 1., show_gui=True)
 
-sampler = MoveTwiceSampler(sampler_config, world)
-sampler.build()
-solve(world.urdf_path, sampler.start_state, sampler.goal_space, 1., show_gui=True)
-
-sampler = MoveNTimesSampler(sampler_config, world)
-sampler.build()
-solve(world.urdf_path, sampler.start_state, sampler.goal_space, 1., show_gui=True)
-
-sampler_config["scaling"] = 10
-sampler_config["floor_size"] = 150
-sampler = RoomsSampler(sampler_config, world)
-sampler.build()
-solve(world.urdf_path, sampler.start_state, sampler.goal_space, 60., show_gui=True)
-robowflex_simulation.solve(world.urdf_path, 60, animation=True)
+# sampler = MoveNTimesSampler(sampler_config, world)
+# sampler.build()
+# solve(world.urdf_path, sampler.start_state, sampler.goal_space, 1., show_gui=True)
+#
+# sampler_config["scaling"] = 4
+# # sampler_config["floor_size"] = 150
+# for i in range(4):
+#     sampler_config["seed_for_randomness"] = i
+#     sampler = RoomsSampler(sampler_config, world)
+#     sampler.build()
+# solve(world.urdf_path, sampler.start_state, sampler.goal_space, 60., show_gui=True)
+# # robowflex_simulation.solve(world.urdf_path, 60, animation=True)
