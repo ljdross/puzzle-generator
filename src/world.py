@@ -192,7 +192,7 @@ class BlenderWorld:
         if not parent:
             location = calc.tuple_add(location, self.link_offset)
         location = calc.tuple_scale(location, self.scaling)
-        scale = calc.tuple_scale(scale, self.scaling)
+        modified_scale = calc.tuple_scale(scale, self.scaling)
         if joint_type == 'prismatic':
             limits = calc.tuple_scale(limits, self.scaling)
 
@@ -218,7 +218,7 @@ class BlenderWorld:
         else:
             name = str(self.link_count) + "_link_" + str(link_number)
         self.link_count += 1
-        visual = self.create_visual(location, rotation, scale, material, name, parent, mesh, is_cylinder)
+        visual = self.create_visual(location, rotation, modified_scale, material, name, parent, mesh, is_cylinder)
         if joint_type != 'fixed':
             self._rename_links_recursively(parent, link_number, joint_number=1)
             name = str(link_number) + "_joint_0"
